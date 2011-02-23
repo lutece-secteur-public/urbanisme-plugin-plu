@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  
+  	<bean id="plu.atomeServices"  class="fr.paris.lutece.plugins.plu.business.AtomeServices" >
+        <property name="home">
+            <ref bean="plu.atomeHome" />
+        </property>
+    </bean>  
+  	<bean id="plu.atomeHome"  class="fr.paris.lutece.plugins.plu.business.AtomeHome" >
+        <property name="dao">
+            <ref bean="plu.atomeDAO" />
+        </property>
+	</bean>
+    <bean id="plu.atomeDAO"  class="fr.paris.lutece.plugins.plu.business.AtomeDAO" />
+    
+  
+</beans>

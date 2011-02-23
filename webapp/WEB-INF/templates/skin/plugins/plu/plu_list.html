@@ -1,0 +1,11 @@
+<div id="one-zone-first" class="span-15 prepend-1 append-1 prepend-top">
+	<h2 class="page-title">#i18n{plu.page_plu.pageTitle}</h2>
+	<ul>
+			<#list htmlpages_list as htmlpage >
+				<li><a href="jsp/site/Portal.jsp?page=plu&plu_id=${plu.id}">${plu.id}</a></li>
+			</#list>
+	</ul>
+</div>
+<div id="sidebar" class="span-6 append-1 prepend-top last">
+	${page_tree_menu?if_exists}        
+</div>

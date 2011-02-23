@@ -1,0 +1,23 @@
+<div class="content-box" >
+
+	<h2>#i18n{plu.create_folder.pageSubTitle}</h2>
+	
+	<form method=post action="jsp/admin/plugins/plu/DoCreateFolder.jsp">
+		
+		<p>
+        	<label for="folder_title" >#i18n{plu.create_folder.rowTitle} : </label> 
+        	<input type="text" id="folder_title" name="folder_title" size="60" maxlength="51" tabindex="1" />
+        </p>
+        
+       <p>
+        	<label for="folder_description" >#i18n{plu.create_folder.rowTitleDescription} :</label>  
+        	<input type="text" id="folder_description" name="folder_description" size="60" maxlength="101" tabindex="2" />
+        </p>
+         
+        <p>
+   		  	<input type="submit" value="#i18n{plu.create_folder.buttonValidate}" class="button" />
+        </p>
+ 
+	</form>
+	
+</div>

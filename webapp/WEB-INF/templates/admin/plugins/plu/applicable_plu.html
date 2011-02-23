@@ -1,0 +1,19 @@
+<div class="content-box" >
+
+	<h2>#i18n{plu.applicable_plu.pageSubTitle}</h2>
+	
+	<form method=post action="jsp/admin/plugins/plu/DoApplicablePlu.jsp">
+		
+		<p>
+        	<label for="date_application" >#i18n{plu.applicable_plu.rowTitleDate} : </label> 
+        	<input type="text" id="date_application" name="date_application" size="60" maxlength="51" tabindex="1" />
+        </p>
+        
+        <p>
+        	<input type="hidden" name="id_plu" value="${plu.id}"/>
+   		  	<input type="submit" value="#i18n{plu.applicable_plu.buttonValidate}" class="button" />
+        </p>
+ 
+	</form>
+	
+</div>

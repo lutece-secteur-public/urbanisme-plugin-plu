@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+
+<plug-in>
+
+   <!-- Plugin Informations -->
+   <name>plu</name>
+   <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
+   <version>1</version>
+   <documentation></documentation>
+   <installation></installation>
+   <changes></changes>
+   <user-guide></user-guide>
+   <description>Gestion des PLU</description>
+   <provider>Mairie de Paris</provider>
+   <provider-url>http://lutece.paris.fr</provider-url>
+   <icon-url>images/admin/skin/plugins/plu/</icon-url>
+   <copyright>Copyright 2001-2008 Mairie de Paris</copyright>
+   <db-pool-required>1</db-pool-required>
+<!-- test -->
+	<!-- Page Include Service -->
+    <!-- page-include-services>
+        <page-include-service>
+            <page-include-service-id>plu</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.plugins.plu.web.PluInclude</page-include-service-class>
+        </page-include-service>
+    </page-include-services-->
+    
+    <!--Administration interface parameters-->
+    <admin-features>	
+        <admin-feature>
+            <feature-id>PLU_MANAGEMENT</feature-id>
+            <feature-title>plu.adminFeature.plu_management.name</feature-title>
+            <feature-description>plu.adminFeature.plu_management.description</feature-description>
+            <feature-level>0</feature-level>
+            <feature-url>jsp/admin/plugins/plu/ManagePlu.jsp</feature-url>
+            <feature-icon-url></feature-icon-url>
+       	</admin-feature>
+    </admin-features>
+    
+   <!-- Xpage configuration -->
+   <applications>
+      <application>
+	 <application-id>plu</application-id>
+	 <application-class>fr.paris.lutece.plugins.plu.web.PluApp</application-class>
+      </application>
+   </applications>
+
+	<!-- RBAC Resources -->
+	<!-- rbac-resource-types>
+		<rbac-resource-type>
+			<rbac-resource-type-class>
+				fr.paris.lutece.plugins.plu.services.PluResourceIdService
+			</rbac-resource-type-class>
+		</rbac-resource-type>
+    </rbac-resource-types-->
+
+</plug-in>

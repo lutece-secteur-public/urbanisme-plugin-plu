@@ -1,0 +1,24 @@
+<div class="content-box" >
+
+	<h2>#i18n{plu.modify_atome.pageSubTitle}</h2>
+	
+	<form method=post accept=application/pdf action="jsp/admin/plugins/plu/DoModifyVersion.jsp">
+		
+		<p>
+        	<label for="version_d3" >#i18n{plu.modify_atome.rowTitleDate} :</label>  
+        	<input type="text" id="version_d3" name="version_d3" size="60" maxlength="101" tabindex="1" />
+        </p>
+        
+		<p>
+        	<label for="file" >#i18n{plu.modify_atome.rowTitleFile} : </label> 
+        	<input type="file" id="file" name="file"/>
+        </p>
+
+        <p>
+        	<input type="hidden" name="id_version" value="${version.id}"/>
+   		  	<input type="submit" value="#i18n{plu.modify_atome.buttonValidate}" class="button" />
+        </p>
+ 
+	</form>
+	
+</div>

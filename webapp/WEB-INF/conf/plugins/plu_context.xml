@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  
+  	<bean id="plu.pluServices"  class="fr.paris.lutece.plugins.plu.business.PluServices" >
+        <property name="home">
+            <ref bean="plu.pluHome" />
+        </property>
+    </bean>  
+  	<bean id="plu.pluHome"  class="fr.paris.lutece.plugins.plu.business.PluHome" >
+        <property name="dao">
+            <ref bean="plu.pluDAO" />
+        </property>
+	</bean>
+    <bean id="plu.pluDAO"  class="fr.paris.lutece.plugins.plu.business.PluDAO" />
+    
+  
+</beans>

@@ -1,0 +1,24 @@
+<div class="content-box" >
+
+	<h2>#i18n{plu.modify_folder.pageSubTitle}</h2>
+	
+	<form method=post action="jsp/admin/plugins/plu/DoModifyFolder.jsp">
+		
+		<p>
+        	<label for="title" >#i18n{plu.modify_folder.rowTitleFolder} : </label> 
+        	<input type="text" id="title" name="title" value="${folder.title}" size="60" maxlength="51" tabindex="1" />
+        </p>
+        
+       <p>
+        	<label for="description" >#i18n{plu.modify_folder.rowTitleDescriptionFolder} : </label>  
+        	<input type="text" id="description" name="description" value="${folder.description}" size="60" maxlength="101" tabindex="2" />
+        </p>
+                
+        <p>
+	        <input type="hidden" name="id_folder" value="${folder.id}"/>
+   		  	<input type="submit" value="#i18n{plu.modify_folder.buttonModifyFolder}" class="button" />
+        </p>
+
+	</form>
+	
+</div>

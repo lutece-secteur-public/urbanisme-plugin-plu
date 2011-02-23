@@ -1,0 +1,62 @@
+<div class="content-box" >
+	<table>
+	        <tr>
+	            <th width="20%">#i18n{plu.manage_plu.columnTitleVersion}</th>
+	            <th width="20%">#i18n{plu.manage_plu.columnTitleDate}</th>
+
+	            <th width="10%">#i18n{plu.manage_plu.columnTitleActionApplicable}</th>
+
+	            <th width="10%">#i18n{plu.manage_plu.columnTitleActionTree}</th>
+	            
+	            <th width="10%">#i18n{plu.manage_plu.columnTitleActionIso}</th>
+
+	        	<th width="10%">#i18n{plu.manage_plu.columnTitleActionSite}</th>
+
+	    	</tr>
+	        <#list plu_list as plu>
+	        
+	        <tr>
+	            <td>
+	            	<form method="post" action="jsp/admin/plugins/plu/TreePlu.jsp">
+	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		      			<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="${plu.id}" type="image" />
+			   		</form>
+	            </td>
+	            <td>
+	                ${plu.da}
+	            </td>     
+	            
+	            <td>
+	            	<form method="post" action="jsp/admin/plugins/plu/ApplicablePlu.jsp">
+	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		      			<input src="images/admin/skin/plugins/plu/" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.applicable_plu.applicable}" title="#i18n{plu.applicable_plu.applicable}" type="image" />
+			   		</form>
+	            </td>
+	            
+	            <td>
+	            	<form method="post" action="jsp/admin/plugins/plu/TreePlu.jsp">
+	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		      			<input src="images/admin/skin/plugins/plu/tree.jpeg" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.tree_plu.tree}" title="#i18n{plu.tree_plu.tree}" type="image" />
+			   		</form>
+	            </td>
+	            
+	            <td>
+	            	<form method="post" action="jsp/admin/plugins/plu/IsoPlu.jsp">
+	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		      			<input src="images/admin/skin/plugins/plu/iso.jpeg" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.iso_plu.iso}" title="#i18n{plu.iso_plu.iso}" type="image" />
+			   		</form>
+	            </td>
+	            
+	            <td>
+	            	<form method="post" action="jsp/admin/plugins/plu/SitePlu.jsp">
+	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		      			<input src="images/admin/skin/actions/publish.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.site_plu.site}" title="#i18n{plu.site_plu.site}" type="image" />
+			   		</form>
+	            </td>
+
+	    	</tr>
+	    	</#list>			
+	
+	</table>
+
+</div>
