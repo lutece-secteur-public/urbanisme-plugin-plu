@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.plu.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.Collection;
+import java.util.Date;
 
 
 public class PluServices implements IPluServices
@@ -76,5 +77,10 @@ public class PluServices implements IPluServices
     public Plu findByPrimaryKey( int nKey, Plugin plugin )
     {
         return _home.findByPrimaryKey( nKey );
+    }
+    
+    public Plu findByDaNull( Date date )
+    {
+    	return _home.findByDaNull( date );
     }
 }

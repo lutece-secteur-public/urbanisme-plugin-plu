@@ -33,15 +33,35 @@
  */
 package fr.paris.lutece.plugins.plu.business;
 
+import java.util.Date;
+
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 
 public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
 {
+	private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT id FROM plu_plu WHERE da > ?";
+	
     @Override
     public String getPluginName(  )
     {
         return PluPlugin.PLUGIN_NAME;
+    }
+    
+    public Plu findByDaNull( Date date )
+    {
+    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_DATE );
+    	java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        daoUtil.setDate( 1, sqlDate );
+        daoUtil.executeQuery(  );
+        
+        Plu plu = new Plu(  );
+        while ( daoUtil.next(  ) )
+        {
+        	plu.setId( daoUtil.getInt( 1 ) );
+        }
+    	return plu;
     }
 }

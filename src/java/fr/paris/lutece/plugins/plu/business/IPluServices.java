@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.plu.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.Collection;
+import java.util.Date;
 
 
 public interface IPluServices
@@ -49,4 +50,6 @@ public interface IPluServices
     public Collection<Plu> findAll( Plugin plugin );
 
     public Plu findByPrimaryKey( int nKey, Plugin plugin );
+    
+    public Plu findByDaNull( Date date );
 }

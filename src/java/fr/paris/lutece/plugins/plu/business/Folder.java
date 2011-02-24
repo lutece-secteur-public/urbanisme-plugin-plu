@@ -99,7 +99,7 @@ public class Folder
     }
 
     @OneToOne( fetch = FetchType.LAZY )
-    @JoinColumn( name = "parentFolder" )
+    @JoinColumn( name = "parentFolder", columnDefinition = "INT NOT NULL DEFAULT '0'" )
     public Folder getParentFolder(  )
     {
         return _parentFolder;

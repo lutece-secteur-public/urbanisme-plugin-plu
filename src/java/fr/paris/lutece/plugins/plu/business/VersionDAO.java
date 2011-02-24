@@ -53,9 +53,9 @@ import javax.persistence.criteria.Root;
 
 public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersionDAO
 {
-    private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND (V.d4 > ? OR V.d4 = 0) AND A.folder = ?";
-    private static final String SQL_QUERY_SELECT_ID_BY_D3_D4 = "SELECT V.id FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d3 < ? AND V.d4 > ?";
-    private static final String SQL_QUERY_SELECT_ID_BY_D2 = "SELECT V.id FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 > ?";
+    private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? AND A.folder = ?";
+    private static final String SQL_QUERY_SELECT_ID_BY_D3_D4 = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d3 < ? AND V.d4 > ?";
+    private static final String SQL_QUERY_SELECT_ID_BY_D2 = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 > ?";
     
     @Override
     public String getPluginName(  )
@@ -67,8 +67,9 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     {
         List<Version> versionList = new ArrayList<Version>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_DATE );
-        daoUtil.setDate( 1, (java.sql.Date) date );
-        daoUtil.setDate( 2, (java.sql.Date) date );
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        daoUtil.setDate( 1, sqlDate );
+        daoUtil.setDate( 2, sqlDate );
         daoUtil.setInt( 3, idParent );
         daoUtil.executeQuery(  );
 
@@ -99,15 +100,27 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     {
     	List<Version> versionList = new ArrayList<Version>(  );
     	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ID_BY_D3_D4 );
-        daoUtil.setDate( 1, (java.sql.Date) da );
-        daoUtil.setDate( 2, (java.sql.Date) da );
+    	java.sql.Date sqlDa = new java.sql.Date(da.getTime());
+        daoUtil.setDate( 1, sqlDa );
+        daoUtil.setDate( 2, sqlDa );
         daoUtil.executeQuery(  );
     	
         while ( daoUtil.next(  ) )
         {
-        	Version version = new Version( );
-        	version.setId( daoUtil.getInt( 1 ) );
-        	versionList.add( version );
+        	Atome atome = new Atome(  );
+            atome.setId( daoUtil.getInt( 1 ) );
+            atome.setTitle( daoUtil.getString( 2 ) );
+            atome.setDescription( daoUtil.getString( 3 ) );
+
+            Version version = new Version(  );
+            version.setId( daoUtil.getInt( 4 ) );
+            version.setVersion( daoUtil.getInt( 5 ) );
+            version.setD1( daoUtil.getDate( 6 ) );
+            version.setD2( daoUtil.getDate( 7 ) );
+            version.setD3( daoUtil.getDate( 8 ) );
+            version.setD4( daoUtil.getDate( 9 ) );
+            version.setAtome( atome );
+            versionList.add( version );
         }
         
         daoUtil.free(  );
@@ -120,15 +133,26 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     {
     	List<Version> versionList = new ArrayList<Version>(  );
     	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ID_BY_D2 );
-        daoUtil.setDate( 1, (java.sql.Date) da );
-        daoUtil.setDate( 2, (java.sql.Date) da );
+    	java.sql.Date sqlDa = new java.sql.Date(da.getTime());
+        daoUtil.setDate( 1, sqlDa );
         daoUtil.executeQuery(  );
     	
         while ( daoUtil.next(  ) )
         {
-        	Version version = new Version( );
-        	version.setId( daoUtil.getInt( 1 ) );
-        	versionList.add( version );
+        	Atome atome = new Atome(  );
+            atome.setId( daoUtil.getInt( 1 ) );
+            atome.setTitle( daoUtil.getString( 2 ) );
+            atome.setDescription( daoUtil.getString( 3 ) );
+
+            Version version = new Version(  );
+            version.setId( daoUtil.getInt( 4 ) );
+            version.setVersion( daoUtil.getInt( 5 ) );
+            version.setD1( daoUtil.getDate( 6 ) );
+            version.setD2( daoUtil.getDate( 7 ) );
+            version.setD3( daoUtil.getDate( 8 ) );
+            version.setD4( daoUtil.getDate( 9 ) );
+            version.setAtome( atome );
+            versionList.add( version );
         }
         
         daoUtil.free(  );

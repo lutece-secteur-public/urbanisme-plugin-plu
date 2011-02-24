@@ -55,7 +55,7 @@ import javax.persistence.criteria.Root;
 
 public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderDAO
 {
-    private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT F.id, F.title, F.description, F.parentFolder FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND (V.d4 > ? OR V.d4 = 0) AND F.parentFolder = ?";
+    private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT F.id, F.title, F.description, F.parentFolder FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? AND F.parentFolder = ?";
 
     public String getPluginName(  )
     {
@@ -66,8 +66,9 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     {
         List<Folder> folderList = new ArrayList<Folder>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_DATE );
-        daoUtil.setDate( 1, (java.sql.Date) date );
-        daoUtil.setDate( 2, (java.sql.Date) date );
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        daoUtil.setDate( 1,  sqlDate );
+        daoUtil.setDate( 2, sqlDate );
         daoUtil.setInt( 3, idParent );
         daoUtil.executeQuery(  );
 

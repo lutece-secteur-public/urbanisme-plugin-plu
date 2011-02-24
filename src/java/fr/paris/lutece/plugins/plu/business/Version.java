@@ -95,7 +95,7 @@ public class Version
         _version = version;
     }
 
-    @Column( name = "d1" )
+    @Column( name = "d1", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD1(  )
     {
         return _d1;
@@ -106,7 +106,7 @@ public class Version
         _d1 = d1;
     }
 
-    @Column( name = "d2" )
+    @Column( name = "d2", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD2(  )
     {
         return _d2;
@@ -117,7 +117,7 @@ public class Version
         _d2 = d2;
     }
 
-    @Column( name = "d3" )
+    @Column( name = "d3", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD3(  )
     {
         return _d3;
@@ -128,7 +128,7 @@ public class Version
         _d3 = d3;
     }
 
-    @Column( name = "d4" )
+    @Column( name = "d4", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD4(  )
     {
         return _d4;

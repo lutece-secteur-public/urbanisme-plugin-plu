@@ -76,7 +76,7 @@ public class Plu
         _id = id;
     }
 
-    @Column( name = "dj" )
+    @Column( name = "dj", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getDj(  )
     {
         return _dj;
@@ -87,7 +87,7 @@ public class Plu
         _dj = dj;
     }
 
-    @Column( name = "da" )
+    @Column( name = "da", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getDa(  )
     {
         return _da;

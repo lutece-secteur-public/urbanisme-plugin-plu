@@ -33,9 +33,11 @@
  */
 package fr.paris.lutece.plugins.plu.business;
 
-import fr.paris.lutece.util.jpa.IGenericDAO;
+import java.util.Date;
 
+import fr.paris.lutece.util.jpa.IGenericDAO;
 
 public interface IPluDAO extends IGenericDAO<Integer, Plu>
 {
+	public Plu findByDaNull( Date date );
 }

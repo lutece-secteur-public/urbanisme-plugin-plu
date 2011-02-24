@@ -58,8 +58,11 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -128,6 +131,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String JSP_DO_REMOVE_FOLDER = "jsp/admin/plugins/plu/DoRemoveFolder.jsp";
     int nIdPlu = 1;
     int nIdFolder = 0;
+    String sDateDefault =  "31/12/9999";
 
     //Folder folderSearch = null;
 
@@ -184,28 +188,28 @@ public class PluJspBean extends PluginAdminPageJspBean
     {
     	int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu, getPlugin(  ) );
-        String sDA = request.getParameter( PARAMETER_DATE_APPLICATION );
-        Date da = stringToDate( sDA, "dd/MM/yyyy" );
+        Date da = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
         plu.setDa( da );
+        _pluServices.update(plu, getPlugin());
         
         Collection<Version> versionOldList = _versionServices.findByD3D4(da);
-        
-       /* for(versionOldList as version)
+        for(Version version : versionOldList)
         {
-        	Version versionOld = _folderServices.findByPrimaryKey( plu.getId(  ), getPlugin(  ) );
-        	versionOld.setD4( da - 1 );
-        	_versionServices.update(versionOld, getPlugin());
-        }*/
+        	GregorianCalendar calendar = new GregorianCalendar(); 
+        	calendar.setTime( da );
+        	calendar.add( Calendar.DATE , -1);
+        	Date date = calendar.getTime();
+        	version.setD4( date );
+        	_versionServices.update(version, getPlugin());
+        }
         
         Collection<Version> versionNewList = _versionServices.findByD2(da);
-        
-        /* for(versionNewList as version)
-         {
-         	Version versionNew = _folderServices.findByPrimaryKey( plu.getId(  ), getPlugin(  ) );
-         	versionNew.setD2( da );
-         	_versionServices.update(versionNew, getPlugin());
-         }*/
-    	
+        for(Version version : versionNewList)
+        {
+        	version.setD2( da );
+        	_versionServices.update(version, getPlugin());
+        }
+   	
         return JSP_REDIRECT_TO_MANAGE_PLU;
     }
 
@@ -378,6 +382,8 @@ public class PluJspBean extends PluginAdminPageJspBean
     public String doCreateAtome( HttpServletRequest request )
         throws ParseException
     {
+    	Date dateDefault = stringToDate( sDateDefault, "dd/MM/yyyy" );
+    	
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder, getPlugin(  ) );
 
         Atome atome = new Atome(  );
@@ -391,6 +397,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         Version version = new Version(  );
         version.setVersion( 1 );
         version.setD1( date );
+        version.setD2(dateDefault);
+        version.setD3(dateDefault);
+        version.setD4(dateDefault);
         version.setAtome( atome );
 
         _atomeServices.create( atome, getPlugin(  ) );
@@ -434,20 +443,34 @@ public class PluJspBean extends PluginAdminPageJspBean
     public String doModifyVersion( HttpServletRequest request )
         throws ParseException
     {
+    	String sDate = request.getParameter( PARAMETER_VERSION_D3 );
+        Date date = stringToDate( sDate, "dd/MM/yyyy" );
+        Date dateDefault = stringToDate( sDateDefault, "dd/MM/yyyy" );
+        
+        Plu plu = _pluServices.findByDaNull( date );
+        
+        if( plu.getId() == 0)
+        {
+        	plu.setDj( date );
+        	plu.setDa( dateDefault );
+        	_pluServices.create( plu, getPlugin(  ) );
+        }
+        
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion, getPlugin(  ) );
-        String sDate = request.getParameter( PARAMETER_VERSION_D3 );
-        Date date = stringToDate( sDate, "dd/MM/yyyy" );
         version.setD3( date );
 
         Version version2 = new Version(  );
         version2.setVersion( version.getVersion(  ) + 1 );
         version2.setAtome( version.getAtome(  ) );
         version2.setD1( date );
+        version2.setD2(dateDefault);
+        version2.setD3(dateDefault);
+        version2.setD4(dateDefault);
 
         _versionServices.update( version, getPlugin(  ) );
         _versionServices.create( version2, getPlugin(  ) );
-
+        
         return JSP_REDIRECT_TO_TREE_PLU;
     }
 
