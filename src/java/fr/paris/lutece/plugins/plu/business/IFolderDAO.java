@@ -44,5 +44,5 @@ public interface IFolderDAO extends IGenericDAO<Integer, Folder>
 {
     public List<Folder> findByFilter( FolderFilter filter );
 
-    public List<Folder> findByDateAndParent( Date date, int nIdFolder );
+    public List<Folder> findByDateAndParent( Date date, int idFolderParent );
 }

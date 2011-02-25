@@ -38,7 +38,7 @@ public class FolderFilter
     private Integer _id;
     private String _title;
     private String _description;
-    private Integer _idPF;
+    private Folder _parentFolder;
 
     public Integer get_id(  )
     {
@@ -70,13 +70,13 @@ public class FolderFilter
         this._description = _description;
     }
 
-    public Integer get_idPF(  )
+    public Folder get_parentFolder(  )
     {
-        return _idPF;
+        return _parentFolder;
     }
 
-    public void set_idPf( Integer _idPF )
+    public void set_parentFolder( Folder _parentFolder )
     {
-        this._idPF = _idPF;
+        this._parentFolder = _parentFolder;
     }
 }

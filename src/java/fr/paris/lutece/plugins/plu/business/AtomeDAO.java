@@ -42,10 +42,19 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 
 public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
 {
-    private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT A.id, A.title, A.description, A.folder FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND (V.d4 > ? OR V.d4 = 0) AND A.folder = ?";
+    //private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT A.id, A.title, A.description, A.folder FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? AND A.folder = ?";
 
     @Override
     public String getPluginName(  )
@@ -53,13 +62,43 @@ public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
         return PluPlugin.PLUGIN_NAME;
     }
 
-    public List<Atome> findByDateAndParent( Date date, int nIdFolder )
+    public List<Atome> findByDateAndParent( Date da, int idFolder )
+    {
+        EntityManager em = getEM(  );
+        CriteriaBuilder cb = em.getCriteriaBuilder(  );
+
+        CriteriaQuery<Atome> cq = cb.createQuery( Atome.class );
+
+        Root<Folder> rootFolder = cq.from( Folder.class );
+        Root<Version> rootVersion = cq.from( Version.class );
+        rootVersion.fetch( Version_.atome, JoinType.LEFT ).fetch( Atome_.folder, JoinType.LEFT )
+            .fetch( Folder_.parentFolder, JoinType.LEFT );
+
+        Predicate conditionD2 = cb.lessThanOrEqualTo( rootVersion.get( Version_.d2 ), da );
+        Predicate conditionD4 = cb.greaterThan( rootVersion.get( Version_.d4 ), da );
+        Predicate conditionIdFolder = cb.equal( rootFolder.get( Folder_.id ), idFolder );
+
+        cq.where( conditionD2, conditionD4, conditionIdFolder );
+
+        TypedQuery<Atome> query = em.createQuery( cq );
+
+        try
+        {
+            return query.getResultList(  );
+        }
+        catch ( NoResultException e )
+        {
+            return null;
+        }
+    }
+    /*
+    public List<Atome> findByDateAndParent( Date date, int idFolder )
     {
         List<Atome> atomeList = new ArrayList<Atome>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_DATE );
         daoUtil.setDate( 1, date );
         daoUtil.setDate( 2, date );
-        daoUtil.setInt( 3, nIdFolder );
+        daoUtil.setInt( 3, idFolder );
         daoUtil.executeQuery(  );
 
         while ( daoUtil.next(  ) )
@@ -79,4 +118,5 @@ public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
 
         return atomeList;
     }
+    */
 }

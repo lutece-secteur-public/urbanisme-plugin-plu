@@ -42,5 +42,5 @@ import java.util.List;
 
 public interface IAtomeHome extends IGenericHome<Integer, Atome>
 {
-    public List<Atome> findByDateAndParent( Date date, int nIdFolder );
+    public List<Atome> findByDateAndParent( Date date, int idFolder );
 }

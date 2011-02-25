@@ -42,8 +42,8 @@ import java.util.List;
 
 public class AtomeHome extends AbstractLuteceHome<Integer, Atome, IAtomeDAO> implements IAtomeHome
 {
-    public List<Atome> findByDateAndParent( Date date, int nIdFolder )
+    public List<Atome> findByDateAndParent( Date date, int idFolder )
     {
-        return getDao(  ).findByDateAndParent( date, nIdFolder );
+        return getDao(  ).findByDateAndParent( date, idFolder );
     }
 }

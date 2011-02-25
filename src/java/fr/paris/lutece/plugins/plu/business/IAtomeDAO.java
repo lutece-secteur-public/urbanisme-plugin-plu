@@ -42,5 +42,5 @@ import java.util.List;
 
 public interface IAtomeDAO extends IGenericDAO<Integer, Atome>
 {
-    public List<Atome> findByDateAndParent( Date date, int nIdFolder );
+    public List<Atome> findByDateAndParent( Date date, int idFolder );
 }

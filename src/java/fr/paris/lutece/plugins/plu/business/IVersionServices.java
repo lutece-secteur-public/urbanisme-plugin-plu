@@ -35,9 +35,10 @@ package fr.paris.lutece.plugins.plu.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
+import java.util.Collection;
+
 //import java.sql.Date;
 import java.util.Date;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -53,11 +54,11 @@ public interface IVersionServices
 
     public Version findByPrimaryKey( int nKey, Plugin plugin );
 
-    public List<Version> findByDateAndParent( Date date, int idParent );
+    public List<Version> findByDateAndParent( Date date, int idFolder );
 
     public List<Version> findByD3D4( Date da );
-    
+
     public List<Version> findByD2( Date da );
-    
+
     //public List<Version> findByFilter( VersionFilter filter );
 }

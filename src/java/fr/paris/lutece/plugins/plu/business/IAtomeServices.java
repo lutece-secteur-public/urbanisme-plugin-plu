@@ -53,5 +53,5 @@ public interface IAtomeServices
 
     public Atome findByPrimaryKey( int nKey, Plugin plugin );
 
-    public List<Atome> findByDateAndParent( Date date, int nIdFolder );
+    public List<Atome> findByDateAndParent( Date date, int idFolder );
 }

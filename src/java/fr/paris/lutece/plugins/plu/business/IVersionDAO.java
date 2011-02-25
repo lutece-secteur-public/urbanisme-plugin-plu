@@ -42,10 +42,11 @@ import java.util.List;
 
 public interface IVersionDAO extends IGenericDAO<Integer, Version>
 {
-    public List<Version> findByDateAndParent( Date date, int idParent );
+    public List<Version> findByDateAndParent( Date date, int idFolder );
 
     public List<Version> findByD3D4( Date da );
-    
+
     public List<Version> findByD2( Date da );
+
     //public List<Version> findByFilter( VersionFilter filter );
 }

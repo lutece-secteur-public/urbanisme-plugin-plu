@@ -42,18 +42,19 @@ import java.util.List;
 
 public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDAO> implements IVersionHome
 {
-    public List<Version> findByDateAndParent( Date date, int idParent )
+    public List<Version> findByDateAndParent( Date date, int idFolder )
     {
-        return getDao(  ).findByDateAndParent( date, idParent );
+        return getDao(  ).findByDateAndParent( date, idFolder );
     }
-    
+
     public List<Version> findByD3D4( Date da )
     {
-    	return getDao(  ).findByD3D4( da );
+        return getDao(  ).findByD3D4( da );
     }
+
     public List<Version> findByD2( Date da )
     {
-    	return getDao(  ).findByD2( da );
+        return getDao(  ).findByD2( da );
     }
 
     /*public List<Version> findByFilter( VersionFilter filter )

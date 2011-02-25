@@ -43,7 +43,5 @@ public class Folder_
     public static volatile SingularAttribute<Folder, Integer> id;
     public static volatile SingularAttribute<Folder, String> title;
     public static volatile SingularAttribute<Folder, String> description;
-
-    // public static volatile SingularAttribute<Folder, Folder> fatherFolder;
-    public static volatile SingularAttribute<Folder, Integer> idPF;
+    public static volatile SingularAttribute<Folder, Folder> parentFolder;
 }

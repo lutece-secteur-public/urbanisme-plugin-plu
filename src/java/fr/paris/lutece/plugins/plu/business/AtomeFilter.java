@@ -38,6 +38,7 @@ public class AtomeFilter
     private Integer _id;
     private String _title;
     private String _description;
+    private Folder _folder;
 
     public Integer get_id(  )
     {
@@ -67,5 +68,15 @@ public class AtomeFilter
     public void set_description( String _description )
     {
         this._description = _description;
+    }
+    
+    public Folder get_folder(  )
+    {
+        return _folder;
+    }
+
+    public void set_folder( Folder _folder )
+    {
+        this._folder = _folder;
     }
 }

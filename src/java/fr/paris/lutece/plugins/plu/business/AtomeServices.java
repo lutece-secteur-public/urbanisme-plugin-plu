@@ -84,8 +84,8 @@ public class AtomeServices implements IAtomeServices
         return _home.findByPrimaryKey( nKey );
     }
 
-    public List<Atome> findByDateAndParent( Date date, int nIdFolder )
+    public List<Atome> findByDateAndParent( Date date, int idFolder )
     {
-        return _home.findByDateAndParent( date, nIdFolder );
+        return _home.findByDateAndParent( date, idFolder );
     }
 }

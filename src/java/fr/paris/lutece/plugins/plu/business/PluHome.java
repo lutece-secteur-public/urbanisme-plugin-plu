@@ -33,14 +33,15 @@
  */
 package fr.paris.lutece.plugins.plu.business;
 
+import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
+
 import java.util.Date;
 
-import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
 public class PluHome extends AbstractLuteceHome<Integer, Plu, IPluDAO> implements IPluHome
 {
-	public Plu findByDaNull( Date date )
-	{
-		return getDao(  ).findByDaNull( date );
-	}
+    public Plu findByDaNull( Date date )
+    {
+        return getDao(  ).findByDaNull( date );
+    }
 }

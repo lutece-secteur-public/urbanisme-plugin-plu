@@ -37,9 +37,10 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+
 //import java.sql.Date;
 import java.util.Date;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -89,8 +90,8 @@ public class FolderServices implements IFolderServices
         return _home.findByFilter( filter );
     }
 
-    public List<Folder> findByDateAndParent( Date date, int nIdFolder )
+    public List<Folder> findByDateAndParent( Date date, int idFolderParent )
     {
-        return _home.findByDateAndParent( date, nIdFolder );
+        return _home.findByDateAndParent( date, idFolderParent );
     }
 }

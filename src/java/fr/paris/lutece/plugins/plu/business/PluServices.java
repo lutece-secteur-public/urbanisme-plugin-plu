@@ -78,9 +78,9 @@ public class PluServices implements IPluServices
     {
         return _home.findByPrimaryKey( nKey );
     }
-    
+
     public Plu findByDaNull( Date date )
     {
-    	return _home.findByDaNull( date );
+        return _home.findByDaNull( date );
     }
 }

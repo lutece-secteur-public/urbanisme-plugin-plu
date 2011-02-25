@@ -50,6 +50,6 @@ public interface IPluServices
     public Collection<Plu> findAll( Plugin plugin );
 
     public Plu findByPrimaryKey( int nKey, Plugin plugin );
-    
+
     public Plu findByDaNull( Date date );
 }

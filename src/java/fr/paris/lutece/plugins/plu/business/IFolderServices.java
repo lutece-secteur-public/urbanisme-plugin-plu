@@ -35,9 +35,10 @@ package fr.paris.lutece.plugins.plu.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
+import java.util.Collection;
+
 //import java.sql.Date;
 import java.util.Date;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -55,5 +56,5 @@ public interface IFolderServices
 
     public List<Folder> findByFilter( FolderFilter filter );
 
-    public List<Folder> findByDateAndParent( Date date, int nIdFolder );
+    public List<Folder> findByDateAndParent( Date date, int idFolderParent );
 }

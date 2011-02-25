@@ -47,8 +47,8 @@ public class FolderHome extends AbstractLuteceHome<Integer, Folder, IFolderDAO> 
         return getDao(  ).findByFilter( filter );
     }
 
-    public List<Folder> findByDateAndParent( Date date, int nIdFolder )
+    public List<Folder> findByDateAndParent( Date date, int idFolderParent )
     {
-        return getDao(  ).findByDateAndParent( date, nIdFolder );
+        return getDao(  ).findByDateAndParent( date, idFolderParent );
     }
 }
