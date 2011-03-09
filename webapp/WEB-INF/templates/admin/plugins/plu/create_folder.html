@@ -2,22 +2,41 @@
 
 	<h2>#i18n{plu.create_folder.pageSubTitle}</h2>
 	
-	<form method=post action="jsp/admin/plugins/plu/DoCreateFolder.jsp">
+	<form method=post accept=image action="jsp/admin/plugins/plu/folder/DoCreateFolder.jsp">
+	
+		<p>
+			<label for="id_parent_folder" >#i18n{plu.create_folder.rowTitleParentFolder} : </label>
+			<select name="id_parent_folder">
+				<option value="0">none</option>
+				<#list folder_list as folder>
+     			<option value="${folder.id}">${folder.title}</option>
+     			</#list>
+			</select>
+		</p>
 		
 		<p>
         	<label for="folder_title" >#i18n{plu.create_folder.rowTitle} : </label> 
         	<input type="text" id="folder_title" name="folder_title" size="60" maxlength="51" tabindex="1" />
         </p>
         
-       <p>
+       	<p>
         	<label for="folder_description" >#i18n{plu.create_folder.rowTitleDescription} :</label>  
         	<input type="text" id="folder_description" name="folder_description" size="60" maxlength="101" tabindex="2" />
         </p>
+        
+        <p>
+        	<label for="folder_image" >#i18n{plu.create_folder.rowTitleImage} : </label> 
+        	<input type="file" id="folder_image" name="file"/>
+        </p>
          
         <p>
+        	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" id="button">
+        	<input type="reset" value="#i18n{plu.create_folder.buttonReturn}" class="button" />
+        	</A>
+        	<input type="hidden" name="id_plu" value="${plu.id}"/>
    		  	<input type="submit" value="#i18n{plu.create_folder.buttonValidate}" class="button" />
         </p>
- 
+        
 	</form>
-	
+
 </div>

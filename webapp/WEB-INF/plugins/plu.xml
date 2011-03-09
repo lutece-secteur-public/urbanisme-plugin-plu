@@ -32,7 +32,7 @@
             <feature-title>plu.adminFeature.plu_management.name</feature-title>
             <feature-description>plu.adminFeature.plu_management.description</feature-description>
             <feature-level>0</feature-level>
-            <feature-url>jsp/admin/plugins/plu/ManagePlu.jsp</feature-url>
+            <feature-url>jsp/admin/plugins/plu/plu/ManagePlu.jsp</feature-url>
             <feature-icon-url></feature-icon-url>
        	</admin-feature>
     </admin-features>
@@ -44,6 +44,10 @@
 	 <application-class>fr.paris.lutece.plugins.plu.web.PluApp</application-class>
       </application>
    </applications>
+   
+   <css-stylesheets>
+   	<css-stylesheet>plugin-plu/plugin_plu.css</css-stylesheet>
+   </css-stylesheets>
 
 	<!-- RBAC Resources -->
 	<!-- rbac-resource-types>

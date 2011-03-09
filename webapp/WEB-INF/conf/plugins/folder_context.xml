@@ -3,17 +3,17 @@
 
 <beans>
   
-  	<bean id="plu.folderServices"  class="fr.paris.lutece.plugins.plu.business.FolderServices" >
+  	<bean id="plu.folderServices"  class="fr.paris.lutece.plugins.plu.business.folder.FolderServices" >
         <property name="home">
             <ref bean="plu.folderHome" />
         </property>
     </bean>  
-  	<bean id="plu.folderHome"  class="fr.paris.lutece.plugins.plu.business.FolderHome" >
+  	<bean id="plu.folderHome"  class="fr.paris.lutece.plugins.plu.business.folder.FolderHome" >
         <property name="dao">
             <ref bean="plu.folderDAO" />
         </property>
 	</bean>
-    <bean id="plu.folderDAO"  class="fr.paris.lutece.plugins.plu.business.FolderDAO" />
+    <bean id="plu.folderDAO"  class="fr.paris.lutece.plugins.plu.business.folder.FolderDAO" />
     
   
 </beans>

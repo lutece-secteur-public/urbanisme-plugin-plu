@@ -2,23 +2,44 @@
 
 	<h2>#i18n{plu.modify_folder.pageSubTitle}</h2>
 	
-	<form method=post action="jsp/admin/plugins/plu/DoModifyFolder.jsp">
+	<form method=post accept=image action="jsp/admin/plugins/plu/folder/DoModifyFolder.jsp">
 		
 		<p>
-        	<label for="title" >#i18n{plu.modify_folder.rowTitleFolder} : </label> 
-        	<input type="text" id="title" name="title" value="${folder.title}" size="60" maxlength="51" tabindex="1" />
+			<label for="id_parent_folder" >#i18n{plu.modify_folder.rowTitleParentFolder} : </label>
+			<select name="id_parent_folder">
+				<option value="${one_folder.id}">${one_folder.title}</option>
+				<#list folder_list as folder>
+					<#if folder.id != one_folder.id>
+     				<option value="${folder.id}">${folder.title}</option>
+     				</#if>
+     			</#list>
+			</select>
+		</p>
+		
+		<p>
+        	<label for="folder_title" >#i18n{plu.modify_folder.rowTitleFolder} : </label> 
+        	<input type="text" id="folder_title" name="folder_title" value="${one_folder.title}" size="60" maxlength="51" tabindex="1" />
         </p>
         
-       <p>
-        	<label for="description" >#i18n{plu.modify_folder.rowTitleDescriptionFolder} : </label>  
-        	<input type="text" id="description" name="description" value="${folder.description}" size="60" maxlength="101" tabindex="2" />
+       	<p>
+        	<label for="folder_description" >#i18n{plu.modify_folder.rowTitleDescriptionFolder} : </label>  
+        	<input type="text" id="folder_description" name="folder_description" value="${one_folder.description}" size="60" maxlength="101" tabindex="2" />
+        </p>
+        
+        <p>
+        	<label for="folder_image" >#i18n{plu.modify_folder.rowTitleImage} : </label> 
+        	<input type="file" id="folder_image" name="file"/>
         </p>
                 
         <p>
-	        <input type="hidden" name="id_folder" value="${folder.id}"/>
-   		  	<input type="submit" value="#i18n{plu.modify_folder.buttonModifyFolder}" class="button" />
+        	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" id="button">
+        	<input type="reset" value="#i18n{plu.modify_folder.buttonReturn}" class="button" />
+        	</A>
+        	<input type="hidden" name="id_plu" value="${plu.id}"/>
+	        <input type="hidden" name="id_folder" value="${one_folder.id}"/>
+   		  	<input type="submit" value="#i18n{plu.modify_folder.buttonValidate}" class="button" />
         </p>
-
-	</form>
+        
+ 	</form>
 	
 </div>

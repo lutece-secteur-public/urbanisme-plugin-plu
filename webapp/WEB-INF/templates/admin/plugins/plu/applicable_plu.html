@@ -2,14 +2,23 @@
 
 	<h2>#i18n{plu.applicable_plu.pageSubTitle}</h2>
 	
-	<form method=post action="jsp/admin/plugins/plu/DoApplicablePlu.jsp">
+	<form method=post action="jsp/admin/plugins/plu/plu/DoApplicablePlu.jsp">
 		
 		<p>
-        	<label for="date_application" >#i18n{plu.applicable_plu.rowTitleDate} : </label> 
-        	<input type="text" id="date_application" name="date_application" size="60" maxlength="51" tabindex="1" />
+        	<label for="date_application" >#i18n{plu.applicable_plu.rowTitleDate} : </label>
+        	<input type=text id="date_application" name="date_application" />
+        	<@getDatePicker idField="date_application" language="fr" />
+        </p>
+        	
+        <p>
+        	<label for="cause" >#i18n{plu.applicable_plu.rowTitleCause} :</label>  
+        	<input type="text" id="cause" name="cause" size="60" maxlength="101" tabindex="2" />
         </p>
         
         <p>
+        	<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" id="button">
+        	<input type="submit" value="#i18n{plu.modify_atome.buttonReturn}" class="button" />
+        	</A>
         	<input type="hidden" name="id_plu" value="${plu.id}"/>
    		  	<input type="submit" value="#i18n{plu.applicable_plu.buttonValidate}" class="button" />
         </p>

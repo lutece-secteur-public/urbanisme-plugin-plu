@@ -1,9 +1,44 @@
 <div class="content-box" >
+	<div class="highlight-box">
+		<form method="post" name="" action="jsp/admin/plugins/plu/atome/ViewAtome.jsp"  >
+			<p>
+  			   	<label for="file_title" >#i18n{plu.search_file.rowTitleFile} : </label> 
+        		<input type="text" id="file_title" name="file_title" size="60" maxlength="51" tabindex="1" />
+        	</p>
+        	<p>
+        		<label for="file_format" >#i18n{plu.search_file.rowTitleFormat} :</label>  
+        		<input type="text" id="file_format" name="file_format" size="60" maxlength="51" tabindex="2" />
+        	</p>
+       		<p>
+        		<label for="atome_title" >#i18n{plu.search_file.rowTitleAtome} :</label>  
+        		<input type="text" id="atome_title" name="atome_title" size="60" maxlength="51" tabindex="3" />
+        	</p>
+			<p>
+				<input type="hidden" name="id_plu" value="${plu.id}"/>
+				<input type="hidden" name="id_version" value="${one_version.id}"/>
+		       	<input type="submit" value="#i18n{plu.search_file.buttonSearch}" class="button"/>   
+		    </p>
+		</form>
+	</div>
+	
+	<form method=post accept=image action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${one_version.id}">
+	<p>
+		<label for="nbPage" >#i18n{plu.tree_plu.pageNumber} : </label>
+		<select name="nbPage">
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="30">30</option>
+		</select>
+		<input type="submit" value="#i18n{plu.tree_plu.buttonModify}"/>
+	</p>
+	</form>
+	
 	<table>
 	        <tr>
 	            <th width="20%">#i18n{plu.view_atome.columnTitleName}</th>
 	            <th width="20%">#i18n{plu.view_atome.columnTitleType}</th>
-
+	            <th width="20%">#i18n{plu.view_atome.columnTitleTree}</th>
+	            <th width="10%">#i18n{plu.view_atome.columnTitleActionView}</th>
 	    	</tr>   
 	        
 	        <tr>
@@ -14,7 +49,18 @@
 	            <td>
 	                pdf
 	            </td>
+	            <td>
+	            	PLU : ${plu.id}<br>
+	            	Dossier : ${one_version.atome.folder.title}<br>
+	            	Atome : ${one_version.atome.title}
+	            </td>
+	            <td>
+	           	<form method="post" action="jsp/admin/plugins/plu/atome/.jsp">
+		    		<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" type="image" />
+				</form>
+	        </td>
 	        </tr>
+	            
 	        <tr>
 	            <td>
 	                document 2
@@ -23,12 +69,39 @@
 	            <td>
 	                pdf
 	            </td>
-	        </tr>
-	        
+	            <td>
+	            	PLU : ${plu.id}<br>
+	            	Dossier : ${one_version.atome.folder.title}<br>
+	            	Atome : ${one_version.atome.title}
+	            </td>
+	            <td>
+	           		<form method="post" action="jsp/admin/plugins/plu/atome/.jsp">
+	           			<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" type="image" />
+					</form>
+	        	</td>
+	       </tr>
 	</table>
 	
-	<form method="post"  action="jsp/admin/plugins/plu/TreePlu.jsp">
-		<input type="submit" value="#i18n{plu.view_atome.buttonReturn}" class="button" />
+	<form method=post accept=image action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${one_version.id}">
+	<p>
+		<label for="nbPage" >#i18n{plu.tree_plu.pageNumber} : </label>
+		<select name="nbPage">
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="30">30</option>
+		</select>
+		<input type="submit" value="#i18n{plu.tree_plu.buttonModify}"/>
+	</p>
 	</form>
-	      
+	
 </div>
+
+<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp">
+   	<input type="submit" value="#i18n{plu.tree_plu.buttonListPlu}" class="button" />
+</A>
+<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" id="button">
+   	<input type="submit" value="#i18n{plu.tree_plu.buttonListFolder}" class="button" />
+</A>
+<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}&id_folder=${one_version.atome.folder.id}">
+   	<input type="submit" value="#i18n{plu.tree_plu.buttonListAtome}" class="button" />
+</A>

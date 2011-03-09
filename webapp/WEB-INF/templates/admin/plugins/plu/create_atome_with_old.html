@@ -1,0 +1,65 @@
+<script src='js/jquery.MultiFile.js' type="text/javascript" language="javascript"></script>
+
+<div class="content-box" >
+
+	<h2>#i18n{plu.create_atome.pageSubTitle}</h2>
+	
+	<form method=post accept=image action="jsp/admin/plugins/plu/atome/DoCreateAtome.jsp">
+		
+		<p>
+			<label for="id_folder" >#i18n{plu.create_folder.rowTitleParentFolder} : </label>
+			<select name="id_folder">
+				<option value="${one_atome.folder.id}">${one_atome.folder.title}</option>
+				<#list folder_list as folder>
+					<#if folder.id != one_atome.folder.id>
+     				<option value="${folder.id}">${folder.title}</option>
+     				</#if>
+     			</#list>
+			</select>
+		</p>
+		
+		<p>
+        	<label for="atome_title" >#i18n{plu.create_atome.rowTitle} : </label> 
+        	<input type="text" id="atome_title" name="atome_title" value="${one_atome.title}" size="60" maxlength="51" tabindex="1" />
+        </p>
+        
+       	<p>
+        	<label for="atome_description" >#i18n{plu.create_atome.rowTitleDescription} :</label>  
+        	<input type="text" id="atome_description" name="atome_description" value="${one_atome.description}" size="60" maxlength="101" tabindex="2" />
+        </p>
+        
+        <p>
+        	<label for="atome_image" >#i18n{plu.create_atome.rowTitleImage} : </label> 
+        	<input type="file" id="atome_image" name="file" size="60"/>
+        </p>
+        
+        <p>
+        	<label for="version_d1" >#i18n{plu.create_version.rowTitleD1} :</label>
+        	<input type="text" id="version_d1" name="version_d1" />
+        	<@getDatePicker idField="version_d1" language="fr" />
+        </p>
+        
+        <#if file_list?exists>
+	        <#list file_list as file >
+	        	<p>
+	        		<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
+	        		<input type="text" id="file_title" name="file_title" value="${file.title}" />
+	        		<input type="checkbox" name="files[]" value="${file.title}"/>${file}
+	        	</p>
+	        </#list>
+	    </#if>
+	    
+        <p style="margin-left:31%;">
+        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=atome/CreateAtomeWithOld&id_atome=${one_atome.id}" style="color:blue">Attacher Fichier</A> 
+        </p>
+         
+        <p>
+      		<A href="jsp/admin/plugins/plu/atome/ChoiceCreateAtome.jsp?id_plu=${plu.id}&id_folder=${one_folder.id}" id="button">
+        	<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
+        	</A> 
+   		  	<input type="submit" value="#i18n{plu.create_atome.buttonValidate}" class="button"/>
+        </p>
+        
+	</form>
+	
+</div>

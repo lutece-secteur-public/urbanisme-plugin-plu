@@ -3,17 +3,17 @@
 
 <beans>
   
-  	<bean id="plu.versionServices"  class="fr.paris.lutece.plugins.plu.business.VersionServices" >
+  	<bean id="plu.versionServices"  class="fr.paris.lutece.plugins.plu.business.version.VersionServices" >
         <property name="home">
             <ref bean="plu.versionHome" />
         </property>
     </bean>  
-  	<bean id="plu.versionHome"  class="fr.paris.lutece.plugins.plu.business.VersionHome" >
+  	<bean id="plu.versionHome"  class="fr.paris.lutece.plugins.plu.business.version.VersionHome" >
         <property name="dao">
             <ref bean="plu.versionDAO" />
         </property>
 	</bean>
-    <bean id="plu.versionDAO"  class="fr.paris.lutece.plugins.plu.business.VersionDAO" />
+    <bean id="plu.versionDAO"  class="fr.paris.lutece.plugins.plu.business.version.VersionDAO" />
     
   
 </beans>

@@ -1,0 +1,46 @@
+<link rel="stylesheet" type="text/css" href="plugin-plu/plugin_plu.css" />
+
+<div class="content-box" >
+
+	<h2>#i18n{plu.create_atome.pageSubTitle}</h2>
+	
+	<--enctype="multipart/form-data"-->
+	<form  method=post action="jsp/admin/plugins/plu/${page}.jsp">
+		
+		<#if atome?exists>
+		<p>
+        	<label for="atome_title" >#i18n{plu.create_atome.rowTitle} : </label>
+        	<input value=${one_atome.title} />
+    	</p>
+    	</#if>
+    
+    	<p>
+        	<label for="file_title" >#i18n{plu.join_file.rowTitle} : </label>  
+        	<input type="text" id="file_title" name="file_title" size="60" maxlength="101" tabindex="2" />
+    	</p>
+    
+    	<p>
+        	<label for="file" >#i18n{plu.join_file.rowTitleFile} : </label> 
+    	    <input type="file" id="file" name="file" size="60"/>
+   		</p>
+   	
+   		<p>
+   			
+   			<#if atome?exists>
+   			<A href="jsp/admin/plugins/plu/${page}.jsp?id_atome=${one_atome.id}" id="button">
+   			<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
+        	</A>
+        	<input type="hidden" name="id_atome" value="${one_atome.id}"/>
+        	<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
+   			<#else>
+   			<A href="jsp/admin/plugins/plu/${page}.jsp" id="button">
+   			<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
+        	</A>
+        	<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
+   			</#if>
+        	
+   		</p>
+   		
+	</form>
+
+</div>

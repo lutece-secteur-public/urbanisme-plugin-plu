@@ -1,24 +1,67 @@
+<script src='js/jquery.MultiFile.js' type="text/javascript" language="javascript"></script>
+
 <div class="content-box" >
 
 	<h2>#i18n{plu.modify_atome.pageSubTitle}</h2>
 	
-	<form method=post accept=application/pdf action="jsp/admin/plugins/plu/DoModifyVersion.jsp">
+	<form method=post accept=application/pdf action="jsp/admin/plugins/plu/version/DoModifyVersion.jsp">
 		
 		<p>
-        	<label for="version_d3" >#i18n{plu.modify_atome.rowTitleDate} :</label>  
-        	<input type="text" id="version_d3" name="version_d3" size="60" maxlength="101" tabindex="1" />
+			<label for="id_folder" >#i18n{plu.modify_atome.rowTitleParentFolder} : </label>
+			<select name="id_folder">
+				<option value="${one_version.atome.folder.id}">${one_version.atome.folder.title}</option>
+				<#list folder_list as folder>
+					<#if folder.id != one_version.atome.folder.id>
+     				<option value="${folder.id}">${folder.title}</option>
+     				</#if>
+     			</#list>
+			</select>
+		</p>
+		
+		<p>
+        	<label for="atome_title" >#i18n{plu.modify_atome.rowTitle} : </label> 
+        	<input type="text" id="atome_title" name="atome_title" value="${one_version.atome.title}" size="60" maxlength="51" tabindex="1" />
         </p>
         
+       	<p>
+        	<label for="atome_description" >#i18n{plu.modify_atome.rowTitleDescription} :</label>  
+        	<input type="text" id="atome_description" name="atome_description" value="${one_version.atome.description}" size="60" maxlength="101" tabindex="2" />
+        </p>
+        
+        <p>
+        	<label for="atome_image" >#i18n{plu.modify_atome.rowTitleImage} : </label> 
+        	<input type="file" id="atome_image" name="file"/>
+        </p>
+              
 		<p>
-        	<label for="file" >#i18n{plu.modify_atome.rowTitleFile} : </label> 
-        	<input type="file" id="file" name="file"/>
+        	<label for="version_d3" >#i18n{plu.modify_version.rowTitleD3} :</label>
+        	<input type=text id="version_d3" name="version_d3" />
+        	<@getDatePicker idField="version_d3" language="fr" />
+        </p>
+        
+        <#if file_list?exists>
+	        <#list file_list as file >
+	        	<p>
+	        		<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
+	        		<input type="text" id="file_title" name="file_title" value="${file.title}" />
+	        		<input type="checkbox" name="files[]" value="${file.title}"/>${file}
+	        	</p>
+	        </#list>
+	    </#if>
+	    
+        <p style="margin-left:31%;">
+        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=version/ModifyVersion&id_atome=${one_version.atome.id}" style="color:blue">Attacher Fichier</A> 
         </p>
 
         <p>
-        	<input type="hidden" name="id_version" value="${version.id}"/>
+        	<A href="jsp/admin/plugins/plu/atome/ChoiceModifyAtome.jsp?id_version=${one_version.id}&id_plu=${plu.id}" id="button">
+        	<input type="reset" value="#i18n{plu.modify_atome.buttonReturn}" class="button" />
+        	</A> 
+        	<input type="hidden" name="id_plu" value="${plu.id}"/>
+        	<input type="hidden" name="id_version" value="${one_version.id}"/>
    		  	<input type="submit" value="#i18n{plu.modify_atome.buttonValidate}" class="button" />
         </p>
- 
+        
 	</form>
-	
+
 </div>

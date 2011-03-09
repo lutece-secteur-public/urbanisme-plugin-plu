@@ -1,0 +1,40 @@
+<div class="content-box" >
+	<table>
+		<tr>
+	    	<th width="20%">#i18n{plu.choice_modify_atome.columnTitleChoiceClassic}</th>
+	        <th width="20%">#i18n{plu.choice_modify_atome.columnTitleChoiceAssociate}</th>
+	        <th width="20%">#i18n{plu.choice_modify_atome.columnTitleChoiceBurst}</th>
+	   	</tr>
+	    		
+	    <tr>
+	    	<td>
+	        	<form method="post" action="jsp/admin/plugins/plu/version/ModifyVersion.jsp">
+	            	<input type="hidden" name="id_plu" value="${plu.id}"/>
+	            	<input type="hidden" name="id_version" value="${one_version.id}"/>
+		      		<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="Classique" type="image" />
+			   	</form>
+			</td>
+			<td>
+				<form method="post" action="jsp/admin/plugins/plu/version/AssociateVersion.jsp">
+					<input type="hidden" name="id_plu" value="${plu.id}"/>
+	          		<input type="hidden" name="id_version" value="${one_version.id}"/>
+		    		<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="Associer" type="image" />
+				</form>
+			</td>
+			<td>
+				<form method="post" action="jsp/admin/plugins/plu/version/BurstVersion.jsp">
+	          		<input type="hidden" name="id_plu" value="${plu.id}"/>
+	           		<input type="hidden" name="id_version" value="${one_version.id}"/>
+		    		<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="Eclater" type="image" />
+				</form>
+			</td>
+		</tr>	    
+	</table>
+	
+	<p>
+		<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}&id_folder=${one_version.atome.folder.id}">
+   			<input type="submit" value="#i18n{plu.modify_atome.buttonReturn}" class="button" />
+		</A>
+	</p>
+
+</div>

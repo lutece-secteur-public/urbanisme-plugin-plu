@@ -1,0 +1,38 @@
+<div class="content-box" >
+	<table>
+	        <tr>
+	            <th width="20%">#i18n{plu.create_atome.columnTitleChoiceNew}</th>
+	            <th width="20%">#i18n{plu.create_atome.columnTitleChoiceOld}</th>
+	    	</tr>
+	    	
+	    	
+	       	<tr>
+	            <td>
+	            	<form method="post" action="jsp/admin/plugins/plu/atome/CreateAtome.jsp">
+	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
+	            		<input type="hidden" name="id_folder" value="${one_folder.id}"/>
+		      			<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="Nouveau Atome" type="image" />
+			   		</form>
+			   	</td>
+			   	<td>
+			   		<form method="post" action="jsp/admin/plugins/plu/atome/CreateAtomeWithOld.jsp">
+			   			<input type="hidden" name="id_plu" value="${plu.id}"/>
+			   			<input type="hidden" name="id_folder" value="${one_folder.id}"/>
+			        	<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="Ancien Atome: " type="image">
+			        	<select name="id_atome">
+							<#list atome_list as atome>
+     						<option value="${atome.id}">${atome.title}</option>
+     						</#list>
+						</select>
+			    	</form>
+			    </td>
+	        </tr>
+	</table>
+	
+	<p>
+		<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}&id_folder=${one_folder.id}">
+   			<input type="submit" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
+		</A>
+	</p>
+	
+</div>

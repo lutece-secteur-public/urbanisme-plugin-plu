@@ -3,17 +3,17 @@
 
 <beans>
   
-  	<bean id="plu.atomeServices"  class="fr.paris.lutece.plugins.plu.business.AtomeServices" >
+  	<bean id="plu.atomeServices"  class="fr.paris.lutece.plugins.plu.business.atome.AtomeServices" >
         <property name="home">
             <ref bean="plu.atomeHome" />
         </property>
     </bean>  
-  	<bean id="plu.atomeHome"  class="fr.paris.lutece.plugins.plu.business.AtomeHome" >
+  	<bean id="plu.atomeHome"  class="fr.paris.lutece.plugins.plu.business.atome.AtomeHome" >
         <property name="dao">
             <ref bean="plu.atomeDAO" />
         </property>
 	</bean>
-    <bean id="plu.atomeDAO"  class="fr.paris.lutece.plugins.plu.business.AtomeDAO" />
+    <bean id="plu.atomeDAO"  class="fr.paris.lutece.plugins.plu.business.atome.AtomeDAO" />
     
   
 </beans>

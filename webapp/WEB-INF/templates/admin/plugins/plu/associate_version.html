@@ -1,0 +1,46 @@
+<script src='js/jquery.MultiFile.js' type="text/javascript" language="javascript"></script>
+
+<div class="content-box" >
+
+	<h2>#i18n{plu.modify_atome.pageSubTitle}</h2>
+	
+	<form method=post action="jsp/admin/plugins/plu/version/DoAssociateVersion.jsp">
+		
+		<p>
+        	<label for="atome_title" >#i18n{plu.associate_version.rowTitle} : </label>
+        	<select name="id_version">
+				<option value="0">none</option>
+				<#list version_list as version >
+					<#if version.id != one_version.id>
+     					<option value="${version.id}">${version.atome.title}</option>
+     				</#if>
+     			</#list>
+			</select>
+        </p>
+        
+        <p>
+			<label for="id_folder" >#i18n{plu.associate_version.rowTitleParentFolder} : </label>
+			<select name="id_folder">
+				<option value="${one_version.atome.folder.id}">${one_version.atome.folder.title}</option>
+				<#list folder_list as folder>
+					<#if folder.id != one_version.atome.folder.id>
+     				<option value="${folder.id}">${folder.title}</option>
+     				</#if>
+     			</#list>
+			</select>
+			<A href="jsp/admin/plugins/plu/version/AssociateVersion.jsp?id_version=${one_version.id}" id="button">
+        	<input type="submit" value="#i18n{plu.associate_version.buttonRefresh}" class="button" />
+        	</A>
+		</p>
+
+        <p>
+        	<A href="jsp/admin/plugins/plu/atome/ChoiceModifyAtome.jsp?id_version=${one_version.id}&id_plu=${plu.id}" id="button">
+        	<input type="reset" value="#i18n{plu.modify_atome.buttonReturn}" class="button" />
+        	</A> 
+        	<input type="hidden" name="id_version" value="${one_version.id}"/>
+   		  	<input type="submit" value="#i18n{plu.modify_atome.buttonValidate}" class="button" />
+        </p>
+        
+	</form>
+
+</div>
