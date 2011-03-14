@@ -47,6 +47,10 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 
+/**
+ * This class represents business object Plu
+ * @author vLopez
+ */
 @Entity
 @Table( name = "plu_plu" )
 public class Plu
@@ -61,6 +65,10 @@ public class Plu
     private Date _dj;
     private Date _da;
 
+    /**
+     * Returns the identifier of this plu
+     * @return the plu identifier
+     */
     @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
@@ -70,28 +78,48 @@ public class Plu
         return _id;
     }
 
+    /**
+     * Sets the identifier of the plu to the specified integer
+     * @param id the new identifier
+     */
     public void setId( int id )
     {
         _id = id;
     }
 
+    /**
+     * Returns the dj of this plu
+     * @return the plu dj
+     */
     @Column( name = "dj", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getDj(  )
     {
         return _dj;
     }
 
+    /**
+     * Sets the dj of the plu to the specified date
+     * @param dj the new dj
+     */
     public void setDj( Date dj )
     {
         _dj = dj;
     }
 
+    /**
+     * Returns the da of this plu
+     * @return the plu da
+     */
     @Column( name = "da", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getDa(  )
     {
         return _da;
     }
 
+    /**
+     * Sets the da of the plu to the specified date
+     * @param da the new da
+     */
     public void setDa( Date da )
     {
         _da = da;

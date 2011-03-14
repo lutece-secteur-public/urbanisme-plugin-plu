@@ -40,18 +40,38 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * This class provides instances management methods (create, find, ...) for Version objects
+ * @author vLopez
+ */
 public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDAO> implements IVersionHome
 {
+    /**
+    * Returns a list of version objects
+    * @param date The date for the query
+    * @param idFolder The folder identifier
+    * @return A list of version
+    */
     public List<Version> findByDateAndParent( Date date, int idFolder )
     {
         return getDao(  ).findByDateAndParent( date, idFolder );
     }
 
+    /**
+     * Returns a list of version objects
+     * @param date The date for the query
+     * @return A list of version
+     */
     public List<Version> findByD3D4( Date da )
     {
         return getDao(  ).findByD3D4( da );
     }
 
+    /**
+     * Returns a list of version objects
+     * @param date The date for the query
+     * @return A list of version
+     */
     public List<Version> findByD2( Date da )
     {
         return getDao(  ).findByD2( da );

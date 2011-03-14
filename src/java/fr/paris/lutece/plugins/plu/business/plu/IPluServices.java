@@ -51,5 +51,5 @@ public interface IPluServices
 
     public Plu findByPrimaryKey( int nKey, Plugin plugin );
 
-    public Plu findByDaNull( Date date );
+    public Plu findByDa( Date date );
 }

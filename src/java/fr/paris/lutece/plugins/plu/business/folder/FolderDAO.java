@@ -56,10 +56,17 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 
+/**
+ * This class provides Data Access methods for Folder objects
+ * @author vLopez
+ */
 public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderDAO
 {
     private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT DISTINCT F.id, F.title, F.description, F.parentFolder FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? ";
 
+    /**
+     * @return the plugin name
+     */
     public String getPluginName(  )
     {
         return PluPlugin.PLUGIN_NAME;
@@ -99,6 +106,13 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
             }
         }
         */
+
+    /**
+     * Load the list of folder
+     *
+     * @param date The date for the query
+     * @return The list of the Folder
+     */
     public List<Folder> findByDate( Date date )
     {
         List<Folder> folderList = new ArrayList<Folder>(  );
@@ -126,6 +140,11 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         return folderList;
     }
 
+    /**
+     * Find folder list by filter
+     * @param filter the filter
+     * @return the folder list
+     */
     public List<Folder> findByFilter( FolderFilter filter )
     {
         EntityManager em = getEM(  );
@@ -144,6 +163,13 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         return query.getResultList(  );
     }
 
+    /**
+     * Build the criteria query from the filter
+     * @param filter the filter
+     * @param root the folder root
+     * @param query the criteria query
+     * @param builder the criteria builder
+     */
     private void buildCriteriaQuery( FolderFilter filter, Root<Folder> root, CriteriaQuery<Folder> cq,
         CriteriaBuilder cb )
     {

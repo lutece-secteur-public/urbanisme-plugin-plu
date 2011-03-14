@@ -36,6 +36,10 @@ package fr.paris.lutece.plugins.plu.business.file;
 import fr.paris.lutece.util.jpa.IGenericHome;
 
 
+/**
+ * IFileHome the file home interface
+ * @author vLopez
+ */
 public interface IFileHome extends IGenericHome<Integer, File>
 {
 }

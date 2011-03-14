@@ -33,6 +33,11 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
+
+/**
+ * FolderFilter
+ * @author vLopez
+ */
 public class FolderFilter
 {
     private Integer _id;
@@ -40,41 +45,73 @@ public class FolderFilter
     private String _description;
     private Folder _parentFolder;
 
+    /**
+     * Get the folder id filtered
+     * @return the folder id
+     */
     public Integer get_id(  )
     {
         return _id;
     }
 
+    /**
+     * Set the folder id to filter
+     * @param _id the folder id
+     */
     public void set_id( Integer _id )
     {
         this._id = _id;
     }
 
+    /**
+     * Get the folder title filtered
+     * @return the folder title
+     */
     public String get_title(  )
     {
         return _title;
     }
 
+    /**
+     * Set the folder title to filter
+     * @param _title the folder title
+     */
     public void set_title( String _title )
     {
         this._title = _title;
     }
 
+    /**
+     * Get the folder description filtered
+     * @return the folder description
+     */
     public String get_description(  )
     {
         return _description;
     }
 
+    /**
+     * Set the folder description to filter
+     * @param _description the folder description
+     */
     public void set_description( String _description )
     {
         this._description = _description;
     }
 
+    /**
+     * Get the parent folder filtered
+     * @return the parent folder
+     */
     public Folder get_parentFolder(  )
     {
         return _parentFolder;
     }
 
+    /**
+    * Set the parent folder to filter
+    * @param _parentFolder the parent folder
+    */
     public void set_parentFolder( Folder _parentFolder )
     {
         this._parentFolder = _parentFolder;

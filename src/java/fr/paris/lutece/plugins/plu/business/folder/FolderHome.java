@@ -40,13 +40,27 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * This class provides instances management methods (create, find, ...) for Folder objects
+ * @author vLopez
+ */
 public class FolderHome extends AbstractLuteceHome<Integer, Folder, IFolderDAO> implements IFolderHome
 {
+    /**
+     * Finds by filter
+     * @param filter the filter
+     * @return the folder list
+     */
     public List<Folder> findByFilter( FolderFilter filter )
     {
         return getDao(  ).findByFilter( filter );
     }
 
+    /**
+     * Returns a list of folder objects
+     * @param date The date for the query
+     * @return the folder list
+     */
     public List<Folder> findByDate( Date date )
     {
         return getDao(  ).findByDate( date );

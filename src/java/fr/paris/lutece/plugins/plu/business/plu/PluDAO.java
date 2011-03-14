@@ -45,10 +45,17 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 
 
+/**
+ * This class provides Data Access methods for Plu objects
+ * @author vLopez
+ */
 public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
 {
     private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT id FROM plu_plu WHERE da > ?";
 
+    /**
+     * @return the plugin name
+     */
     @Override
     public String getPluginName(  )
     {
@@ -80,7 +87,14 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
             }
         }
         */
-    public Plu findByDaNull( Date date )
+
+    /**
+     * Load the list of plu
+     *
+     * @param date The date for the query
+     * @return The list of the Plu
+     */
+    public Plu findByDa( Date date )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_DATE );
         java.sql.Date sqlDate = new java.sql.Date( date.getTime(  ) );

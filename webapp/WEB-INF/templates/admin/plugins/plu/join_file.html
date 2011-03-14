@@ -4,8 +4,8 @@
 
 	<h2>#i18n{plu.create_atome.pageSubTitle}</h2>
 	
-	<--enctype="multipart/form-data"-->
-	<form  method=post action="jsp/admin/plugins/plu/${page}.jsp">
+	<-- -->
+	<form enctype="multipart/form-data" method=post action="jsp/admin/plugins/plu/${page}.jsp">
 		
 		<#if atome?exists>
 		<p>
@@ -26,17 +26,43 @@
    	
    		<p>
    			
-   			<#if atome?exists>
-   			<A href="jsp/admin/plugins/plu/${page}.jsp?id_atome=${one_atome.id}" id="button">
-   			<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
-        	</A>
-        	<input type="hidden" name="id_atome" value="${one_atome.id}"/>
-        	<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
+   			<#if one_atome?exists>
+   				<#if one_folder?exists>
+   					<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${plu.id}&id_atome=${one_atome.id}&id_folder=${one_folder.id}" style="text-decoration:none" id="button">
+   						<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
+        			</A>
+        			<input type="hidden" name="id_atome" value="${one_atome.id}"/>
+        			<input type="hidden" name="id_plu" value="${plu.id}"/>
+        			<input type="hidden" name="id_folder" value="${one_folder.id}"/>
+        			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
+        		</#if>
+        		<#if one_version?exists>
+   					<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${plu.id}&id_atome=${one_atome.id}&id_version=${one_version.id}" style="text-decoration:none" id="button">
+   						<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
+        			</A>
+        			<input type="hidden" name="id_atome" value="${one_atome.id}"/>
+        			<input type="hidden" name="id_plu" value="${plu.id}"/>
+        			<input type="hidden" name="id_version" value="${one_version.id}"/>
+        			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
+        		</#if>
    			<#else>
-   			<A href="jsp/admin/plugins/plu/${page}.jsp" id="button">
-   			<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
-        	</A>
-        	<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
+   				<#if one_folder?exists>
+   					<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${plu.id}&id_folder=${one_folder.id}" style="text-decoration:none" id="button">
+   						<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
+        			</A>
+        			<input type="hidden" name="id_plu" value="${plu.id}"/>
+        			<input type="hidden" name="id_folder" value="${one_folder.id}"/>
+        			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
+   				</#if>
+   				<#if one_version?exists>
+   					<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${plu.id}&id_version=${one_version.id}" style="text-decoration:none" id="button">
+   						<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
+        			</A>
+        			<input type="hidden" name="id_plu" value="${plu.id}"/>
+        			<input type="hidden" name="id_version" value="${one_version.id}"/>
+        			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
+   				</#if>
+   				
    			</#if>
         	
    		</p>

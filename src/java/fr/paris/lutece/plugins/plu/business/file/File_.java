@@ -41,6 +41,10 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 
+/**
+ * File_ the metamodel for file
+ * @author vLopez
+ */
 @StaticMetamodel( value = Folder.class )
 public class File_
 {

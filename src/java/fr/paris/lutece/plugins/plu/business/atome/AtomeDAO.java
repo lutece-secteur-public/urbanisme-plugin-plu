@@ -53,10 +53,17 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 
+/**
+ * This class provides Data Access methods for Atome objects
+ * @author vLopez
+ */
 public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
 {
     private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT A.id, A.title, A.description, A.folder FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? AND A.folder = ?";
 
+    /**
+     * @return the plugin name
+     */
     @Override
     public String getPluginName(  )
     {
@@ -94,6 +101,14 @@ public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
             }
         }
         */
+
+    /**
+     * Load the list of atome
+     *
+     * @param date The date for the query
+     * @param idFolder The folder identifier
+     * @return The list of the Atome
+     */
     public List<Atome> findByDateAndParent( Date date, int idFolder )
     {
         List<Atome> atomeList = new ArrayList<Atome>(  );

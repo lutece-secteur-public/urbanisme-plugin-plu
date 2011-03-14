@@ -50,6 +50,10 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 
+/**
+ * This class represents business object File
+ * @author vLopez
+ */
 @Entity
 @Table( name = "plu_file" )
 public class File
@@ -63,9 +67,13 @@ public class File
     private int _id;
     private String _title;
     private String _mimeType;
-    private PhysicalFile _file;
+    private byte[] _file;
     private Version _version;
 
+    /**
+     * Returns the identifier of this file
+     * @return the file identifier
+     */
     @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
@@ -75,46 +83,70 @@ public class File
         return _id;
     }
 
+    /**
+     * Sets the identifier of the file to the specified integer
+     * @param id the new identifier
+     */
     public void setId( int id )
     {
         _id = id;
     }
 
+    /**
+     * Returns the title of this file
+     * @return the file title
+     */
     @Column( name = "title" )
     public String getTitle(  )
     {
         return _title;
     }
 
+    /**
+     * Sets the title of the file to the specified string
+     * @param title the new title
+     */
     public void setTitle( String title )
     {
         _title = title;
     }
 
+    /**
+     * Returns the mime type of this file
+     * @return the file mime type
+     */
     @Column( name = "mimeType" )
     public String getMimeType(  )
     {
         return _mimeType;
     }
 
+    /**
+     * Sets the mime type of the file to the specified string
+     * @param mimeType the new mime type
+     */
     public void setMimeType( String mimeType )
     {
         _mimeType = mimeType;
     }
 
-    /*  @Lob
-      @Column( name = "file")
-      public PhysicalFile getFile(  )
-      {
-          return _file;
-      }
+    @Lob
+    @Column( name = "file")
+    public byte[] getFile(  )
+    {
+    	return _file;
+    }
     
+    public void setFile( byte[] file )
+    {
+        _file = file;
+    }
     
-      public void setFile( PhysicalFile file )
-      {
-          _file = file;
-      }
-      */
+
+    /**
+     * Returns the version of this file
+     * @return the file version
+     */
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "version" )
     public Version getVersion(  )
@@ -122,6 +154,10 @@ public class File
         return _version;
     }
 
+    /**
+     * Sets the version of the file to the specified Folder
+     * @param version the new version
+     */
     public void setVersion( Version version )
     {
         _version = version;

@@ -40,7 +40,17 @@ import java.sql.Date;
 import java.util.List;
 
 
+/**
+ * IAtomeHome the atome home interface
+ * @author vLopez
+ */
 public interface IAtomeHome extends IGenericHome<Integer, Atome>
 {
+    /**
+    * Returns a list of atome objects
+    * @param date The date for the query
+    * @param idFolder The folder identifier
+    * @return A list of atome
+    */
     public List<Atome> findByDateAndParent( Date date, int idFolder );
 }

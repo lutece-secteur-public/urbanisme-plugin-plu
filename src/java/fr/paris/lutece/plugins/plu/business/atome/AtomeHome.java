@@ -40,8 +40,18 @@ import java.sql.Date;
 import java.util.List;
 
 
+/**
+ * This class provides instances management methods (create, find, ...) for Atome objects
+ * @author vLopez
+ */
 public class AtomeHome extends AbstractLuteceHome<Integer, Atome, IAtomeDAO> implements IAtomeHome
 {
+    /**
+    * Returns a list of atome objects
+    * @param date The date for the query
+    * @param idFolder The folder identifier
+    * @return A list of atome
+    */
     public List<Atome> findByDateAndParent( Date date, int idFolder )
     {
         return getDao(  ).findByDateAndParent( date, idFolder );

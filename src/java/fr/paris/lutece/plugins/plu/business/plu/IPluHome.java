@@ -38,7 +38,16 @@ import fr.paris.lutece.util.jpa.IGenericHome;
 import java.util.Date;
 
 
+/**
+ * IPluHome the plu home interface
+ * @author vLopez
+ */
 public interface IPluHome extends IGenericHome<Integer, Plu>
 {
-    public Plu findByDaNull( Date date );
+    /**
+    * Returns a list of plu objects
+    * @param date The date for the query
+    * @return A list of plu
+    */
+    public Plu findByDa( Date date );
 }

@@ -40,12 +40,32 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * versionInterface
+ * @author vLopez
+ */
 public interface IVersionDAO extends IGenericDAO<Integer, Version>
 {
+    /**
+    * Load the list of version with valid date and idFolder
+    * @param date The date for the query
+    * @param idFolder The folder identifier
+    * @return The list of the Version
+    */
     public List<Version> findByDateAndParent( Date date, int idFolder );
 
+    /**
+     * Load the list of version with valid date
+     * @param date The date for the query
+     * @return The list of the Version
+     */
     public List<Version> findByD3D4( Date da );
 
+    /**
+     * Load the list of version with valid date
+     * @param date The date for the query
+     * @return The list of the Version
+     */
     public List<Version> findByD2( Date da );
 
     //public List<Version> findByFilter( VersionFilter filter );

@@ -51,6 +51,10 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 
+/**
+ * This class represents business object Version
+ * @author vLopez
+ */
 @Entity
 @Table( name = "plu_version" )
 public class Version
@@ -69,6 +73,10 @@ public class Version
     private Date _d4;
     private Atome _atome;
 
+    /**
+     * Returns the identifier of this version
+     * @return the version identifier
+     */
     @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
@@ -78,66 +86,114 @@ public class Version
         return _id;
     }
 
+    /**
+     * Sets the identifier of the version to the specified integer
+     * @param id the new identifier
+     */
     public void setId( int id )
     {
         _id = id;
     }
 
+    /**
+     * Returns the version of this version
+     * @return the version version
+     */
     @Column( name = "version" )
     public int getVersion(  )
     {
         return _version;
     }
 
+    /**
+     * Sets the version of the version to the specified integer
+     * @param version the new version
+     */
     public void setVersion( int version )
     {
         _version = version;
     }
 
+    /**
+     * Returns the d1 of this version
+     * @return the version d1
+     */
     @Column( name = "d1", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD1(  )
     {
         return _d1;
     }
 
+    /**
+     * Sets the d1 of the version to the specified date
+     * @param d1 the new d1
+     */
     public void setD1( Date d1 )
     {
         _d1 = d1;
     }
 
+    /**
+     * Returns the d2 of this version
+     * @return the version d2
+     */
     @Column( name = "d2", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD2(  )
     {
         return _d2;
     }
 
+    /**
+     * Sets the d2 of the version to the specified date
+     * @param d1 the new d2
+     */
     public void setD2( Date d2 )
     {
         _d2 = d2;
     }
 
+    /**
+     * Returns the d3 of this version
+     * @return the version d3
+     */
     @Column( name = "d3", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD3(  )
     {
         return _d3;
     }
 
+    /**
+     * Sets the d3 of the version to the specified date
+     * @param d1 the new d3
+     */
     public void setD3( Date d3 )
     {
         _d3 = d3;
     }
 
+    /**
+     * Returns the d4 of this version
+     * @return the version d4
+     */
     @Column( name = "d4", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD4(  )
     {
         return _d4;
     }
 
+    /**
+     * Sets the d4 of the version to the specified date
+     * @param d1 the new d4
+     */
     public void setD4( Date d4 )
     {
         _d4 = d4;
     }
 
+    /**
+     * Returns the atome of this version
+     * @return the version atome
+     */
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "atome" )
     public Atome getAtome(  )
@@ -145,6 +201,10 @@ public class Version
         return _atome;
     }
 
+    /**
+     * Sets the atome of the version to the specified Atome
+     * @param atome the new atome
+     */
     public void setAtome( Atome atome )
     {
         _atome = atome;

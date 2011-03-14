@@ -43,11 +43,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 
+/**
+ * This class represents business object Atome
+ * @author vLopez
+ */
 @Entity
 @Table( name = "plu_atome" )
 public class Atome
@@ -61,8 +66,13 @@ public class Atome
     private int _id;
     private String _title;
     private String _description;
+    private byte[] _img;
     private Folder _folder;
 
+    /**
+     * Returns the identifier of this atome
+     * @return the atome identifier
+     */
     @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
@@ -72,33 +82,57 @@ public class Atome
         return _id;
     }
 
+    /**
+     * Sets the identifier of the atome to the specified integer
+     * @param id the new identifier
+     */
     public void setId( int id )
     {
         _id = id;
     }
 
+    /**
+     * Returns the title of this atome
+     * @return the atome title
+     */
     @Column( name = "title" )
     public String getTitle(  )
     {
         return _title;
     }
 
+    /**
+     * Sets the title of the atome to the specified string
+     * @param title the new title
+     */
     public void setTitle( String title )
     {
         _title = title;
     }
 
+    /**
+     * Returns the description of this atome
+     * @return the atome description
+     */
     @Column( name = "description" )
     public String getDescription(  )
     {
         return _description;
     }
 
+    /**
+     * Sets the description of the atome to the specified string
+     * @param description the new description
+     */
     public void setDescription( String description )
     {
         _description = description;
     }
 
+    /**
+     * Returns the folder of this atome
+     * @return the atome folder
+     */
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "folder" )
     public Folder getFolder(  )
@@ -106,8 +140,24 @@ public class Atome
         return _folder;
     }
 
+    /**
+     * Sets the folder of the atome to the specified Folder
+     * @param folder the new folder
+     */
     public void setFolder( Folder folder )
     {
         _folder = folder;
     }
+    
+    @Lob
+    @Column ( name = "image" )
+    public byte[] getImg( )
+	{
+		return _img;		
+	}
+    
+	public void setImg(byte[] img)
+	{
+		_img = img;		
+	}
 }

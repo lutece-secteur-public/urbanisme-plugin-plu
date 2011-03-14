@@ -40,12 +40,32 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * IVersionHome the version home interface
+ * @author vLopez
+ */
 public interface IVersionHome extends IGenericHome<Integer, Version>
 {
+    /**
+    * Returns a list of version objects
+    * @param date The date for the query
+    * @param idFolder The folder identifier
+    * @return A list of version
+    */
     public List<Version> findByDateAndParent( Date date, int idFolder );
 
+    /**
+     * Returns a list of version objects
+     * @param date The date for the query
+     * @return A list of version
+     */
     public List<Version> findByD3D4( Date da );
 
+    /**
+     * Returns a list of version objects
+     * @param date The date for the query
+     * @return A list of version
+     */
     public List<Version> findByD2( Date da );
 
     //public List<Version> findByFilter( VersionFilter filter );

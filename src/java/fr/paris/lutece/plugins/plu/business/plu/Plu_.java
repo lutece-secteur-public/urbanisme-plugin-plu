@@ -39,6 +39,10 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 
+/**
+ * Plu_ the metamodel for plu
+ * @author vLopez
+ */
 @StaticMetamodel( value = Plu.class )
 public class Plu_
 {

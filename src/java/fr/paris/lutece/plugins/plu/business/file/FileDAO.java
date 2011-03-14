@@ -37,8 +37,15 @@ import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
 
+/**
+ * This class provides Data Access methods for File objects
+ * @author vLopez
+ */
 public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
 {
+    /**
+    * @return the plugin name
+    */
     @Override
     public String getPluginName(  )
     {

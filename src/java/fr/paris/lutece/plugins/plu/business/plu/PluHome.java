@@ -38,10 +38,19 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 import java.util.Date;
 
 
+/**
+ * This class provides instances management methods (create, find, ...) for Plu objects
+ * @author vLopez
+ */
 public class PluHome extends AbstractLuteceHome<Integer, Plu, IPluDAO> implements IPluHome
 {
-    public Plu findByDaNull( Date date )
+    /**
+    * Returns a list of plu objects
+    * @param date The date for the query
+    * @return A list of plu
+    */
+    public Plu findByDa( Date date )
     {
-        return getDao(  ).findByDaNull( date );
+        return getDao(  ).findByDa( date );
     }
 }

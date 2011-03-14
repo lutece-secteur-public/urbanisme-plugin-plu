@@ -33,7 +33,13 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+
 import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,11 +48,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+import org.apache.commons.fileupload.FileItem;
+import org.hibernate.Hibernate;
 
+
+/**
+ * This class represents business object Folder
+ * @author vLopez
+ */
 @Entity
 @Table( name = "plu_folder" )
 public class Folder
@@ -60,8 +74,13 @@ public class Folder
     private int _id;
     private String _title;
     private String _description;
+    private byte[] _img;
     private Folder _parentFolder;
 
+    /**
+     * Returns the identifier of this folder
+     * @return the folder identifier
+     */
     @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
@@ -71,33 +90,58 @@ public class Folder
         return _id;
     }
 
+    /**
+     * Sets the identifier of the folder to the specified integer
+     * @param id the new identifier
+     */
     public void setId( int id )
     {
         _id = id;
     }
 
+    /**
+     * Returns the title of this folder
+     * @return the folder title
+     */
     @Column( name = "title" )
     public String getTitle(  )
     {
         return _title;
     }
 
+    /**
+     * Sets the title of the folder to the specified string
+     * @param title the new title
+     */
     public void setTitle( String title )
     {
         _title = title;
     }
 
+    /**
+     * Returns the description of this folder
+     * @return the folder description
+     */
     @Column( name = "description" )
     public String getDescription(  )
     {
         return _description;
     }
 
+    /**
+     * Sets the description of the folder to the specified string
+     * @param description the new description
+     */
     public void setDescription( String description )
     {
         _description = description;
     }
 
+       
+    /**
+     * Returns the parent folder of this folder
+     * @return the parent folder
+     */
     @OneToOne( fetch = FetchType.LAZY )
     @JoinColumn( name = "parentFolder", columnDefinition = "INT NOT NULL DEFAULT '0'" )
     public Folder getParentFolder(  )
@@ -105,8 +149,51 @@ public class Folder
         return _parentFolder;
     }
 
+    /**
+     * Sets the parent folder of the folder to the specified Folder
+     * @param parentFolder the new parent folder
+     */
     public void setParentFolder( Folder parentFolder )
     {
         _parentFolder = parentFolder;
     }
+
+	@Lob
+    @Column ( name = "image" )
+    public byte[] getImg( )
+	{
+		return _img;		
+	}
+    
+	public void setImg(byte[] img)
+	{
+		_img = img;		
+	}
+	
+	/**
+	 * Returns the photo Input Stream.
+	 * @return InputStream 
+	 * @throws SQLException e
+	 */
+/*	public InputStream getPhotoContent() throws SQLException
+	{
+		if (getImg() == null)
+		{
+			return null;
+		}
+		
+		return getImg().getBinaryStream();
+	}
+	
+	/**
+	 * 
+	 * @param sourceStream - Photo source input stream
+	 * @throws IOException e
+	 */
+/*	public void setPhotoContent(InputStream sourceStream) throws IOException
+	{
+		Blob createBlob = Hibernate.createBlob(sourceStream);
+		setImg(createBlob);
+	}
+*/
 }

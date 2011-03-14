@@ -39,6 +39,10 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 
+/**
+ * Atome_ the metamodel for atome
+ * @author vLopez
+ */
 @StaticMetamodel( value = Atome.class )
 public class Atome_
 {

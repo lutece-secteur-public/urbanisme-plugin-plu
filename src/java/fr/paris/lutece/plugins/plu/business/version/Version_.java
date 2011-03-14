@@ -41,6 +41,10 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 
+/**
+ * Version_ the metamodel for version
+ * @author vLopez
+ */
 @StaticMetamodel( value = Version.class )
 public class Version_
 {

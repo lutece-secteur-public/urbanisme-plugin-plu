@@ -40,9 +40,23 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * folderInterface
+ * @author vLopez
+ */
 public interface IFolderDAO extends IGenericDAO<Integer, Folder>
 {
+    /**
+     * Finds by filter
+     * @param filter the filter
+     * @return the folder list
+     */
     public List<Folder> findByFilter( FolderFilter filter );
 
+    /**
+     * Load the list of folder with valid date
+     * @param date The date for the query
+     * @return The list of the Folder
+     */
     public List<Folder> findByDate( Date date );
 }

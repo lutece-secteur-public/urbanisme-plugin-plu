@@ -1,3 +1,5 @@
+<#include "/admin/util/editor/editor.html" />
+
 <div class="content-box" >
 
 	<h2>#i18n{plu.modify_folder.pageSubTitle}</h2>
@@ -17,22 +19,28 @@
 		</p>
 		
 		<p>
-        	<label for="folder_title" >#i18n{plu.modify_folder.rowTitleFolder} : </label> 
-        	<input type="text" id="folder_title" name="folder_title" value="${one_folder.title}" size="60" maxlength="51" tabindex="1" />
-        </p>
-        
-       	<p>
-        	<label for="folder_description" >#i18n{plu.modify_folder.rowTitleDescriptionFolder} : </label>  
-        	<input type="text" id="folder_description" name="folder_description" value="${one_folder.description}" size="60" maxlength="101" tabindex="2" />
+	       	<label for="folder_title" >#i18n{plu.modify_folder.rowTitleFolder} : </label> 
+    	   	<input type="text" id="folder_title" name="folder_title" value="${one_folder.title}" size="60" maxlength="51" tabindex="1" />
         </p>
         
         <p>
         	<label for="folder_image" >#i18n{plu.modify_folder.rowTitleImage} : </label> 
         	<input type="file" id="folder_image" name="file"/>
         </p>
+        
+        <p>
+        	<label for="folder_description" >#i18n{plu.modify_folder.rowTitleDescriptionFolder} : </label>  
+        </p>
+       	<p>
+	       	<div id="richtext" class="editor">
+	        	<textarea id="folder_description" class="richtext" name="folder_description" style="width:80%;" rows="15" cols="90">
+    	    		${one_folder.description}
+    	    	</textarea>
+        	</div>
+        </p>
                 
         <p>
-        	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" id="button">
+        	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" style="text-decoration:none" id="button">
         	<input type="reset" value="#i18n{plu.modify_folder.buttonReturn}" class="button" />
         	</A>
         	<input type="hidden" name="id_plu" value="${plu.id}"/>
@@ -43,3 +51,5 @@
  	</form>
 	
 </div>
+
+<@initEditor />

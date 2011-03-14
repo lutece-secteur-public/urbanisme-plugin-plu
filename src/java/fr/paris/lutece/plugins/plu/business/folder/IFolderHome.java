@@ -40,9 +40,23 @@ import java.util.Date;
 import java.util.List;
 
 
+/**
+ * IFolderHome the folder home interface
+ * @author vLopez
+ */
 public interface IFolderHome extends IGenericHome<Integer, Folder>
 {
+    /**
+     * Finds by filter
+     * @param filter the filter
+     * @return the folder list
+     */
     public List<Folder> findByFilter( FolderFilter filter );
 
+    /**
+     * Returns a list of folder objects
+     * @param date The date for the query
+     * @return the folder list
+     */
     public List<Folder> findByDate( Date date );
 }

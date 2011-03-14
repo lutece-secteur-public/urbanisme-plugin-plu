@@ -1,13 +1,14 @@
 <script src='js/jquery.MultiFile.js' type="text/javascript" language="javascript"></script>
+<#include "/admin/util/editor/editor.html" />
 
 <div class="content-box" >
 
 	<h2>#i18n{plu.create_atome.pageSubTitle}</h2>
 	
-	<form method=post accept=image action="jsp/admin/plugins/plu/atome/DoCreateAtome.jsp">
+	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/atome/DoCreateAtome.jsp">
 		
 		<p>
-			<label for="id_folder" >#i18n{plu.create_folder.rowTitleParentFolder} : </label>
+			<label for="id_folder" >#i18n{plu.create_atome.rowTitleParentFolder} : </label>
 			<select name="id_folder">
 				<option value="0">none</option>
 				<#list folder_list as folder>
@@ -21,40 +22,44 @@
         	<input type="text" id="atome_title" name="atome_title" size="60" maxlength="51" tabindex="1" />
         </p>
         
-       	<p>
-        	<label for="atome_description" >#i18n{plu.create_atome.rowTitleDescription} :</label>  
-        	<input type="text" id="atome_description" name="atome_description" size="60" maxlength="101" tabindex="2" />
+        <p>
+        	<label for="version_d1" >#i18n{plu.create_version.rowTitleD1} :</label>
+        	<input id="version_d1" name="version_d1" value="${date?date}" disabled="disabled"/>
         </p>
         
         <p>
         	<label for="atome_image" >#i18n{plu.create_atome.rowTitleImage} : </label> 
-        	<input type="file" id="atome_image" name="file" size="60"/>
-        </p>
-        
-        <p>
-        	<label for="version_d1" >#i18n{plu.create_version.rowTitleD1} :</label>
-        	<input type="text" id="version_d1" name="version_d1" />
-        	<@getDatePicker idField="version_d1" language="fr" />
+        	<input type="file" id="atome_image" name="atome_image" size="60"/>
         </p>
         
         <#if file_list?exists && file_list?size&gt;0 >
 	        <#list file_list as file >
 	        	<p>
 	        		<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
-	        		<input type="text" id="file_title" name="file_title" value="${file.title}" />
-	        		<input type="checkbox" name="files[]" value="${file.title}"/>${file}
+	        		<input type="text" id="file_title" name="file_title" size="60" value="${file.title}" />
+	        		<input type="checkbox" name="checkbox" checked/>${name}
 	        	</p>
 	        </#list>
 	    </#if>
 	    
         <p style="margin-left:31%;">
-        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=atome/CreateAtome" style="color:blue">Attacher Fichier
-        	<input type="hidden" name="atome_title" value="atome_title"/>
+        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=atome/CreateAtome&id_plu=${plu.id}&id_folder=${one_folder.id}" style="color:blue">
+        		Attacher Fichier
         	</A> 
+        </p>
+        
+        <p>
+        	<label for="atome_description" >#i18n{plu.create_atome.rowTitleDescription} :</label>
+        </p>
+       	<p>
+	       	<div id="richtext" class="editor">
+        		<textarea id="atome_description" class="richtext" name="atome_description" style="width:80%;" rows="15" cols="90">
+        		</textarea>
+    	    </div>
         </p>
          
         <p>
-        	<A href="jsp/admin/plugins/plu/atome/ChoiceCreateAtome.jsp?id_plu=${plu.id}&id_folder=${one_folder.id}" id="button">
+        	<A href="jsp/admin/plugins/plu/atome/ChoiceCreateAtome.jsp?id_plu=${plu.id}&id_folder=${one_folder.id}" style="text-decoration:none" id="button">
         	<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
         	</A> 
         	<input type="hidden" name="id_plu" value="${plu.id}"/>
@@ -64,3 +69,5 @@
 	</form>
 
 </div>
+
+<@initEditor />

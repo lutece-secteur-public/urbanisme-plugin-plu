@@ -21,16 +21,21 @@
 		</form>
 	</div>
 	
-	<form method=post accept=image action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${one_version.id}">
-	<p>
-		<label for="nbPage" >#i18n{plu.tree_plu.pageNumber} : </label>
-		<select name="nbPage">
-			<option value="10">10</option>
-			<option value="20">20</option>
-			<option value="30">30</option>
+	<form method="post" rm action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${one_version.id}">
+	<@pagination paginator=paginator />
+
+		<!-- Number of contact per page selector -->
+		#i18n{plu.tree_plu.pageNumber} :
+		<select name="items_per_page">
+			<#list [ "10" , "20" , "30" , "50" ] as nb>
+			<#if nb_items_per_page = nb >
+			<option selected="selected" value="${nb}">${nb}</option>
+			<#else>
+			<option value="${nb}">${nb}</option>
+			</#if>
+			</#list>
 		</select>
-		<input type="submit" value="#i18n{plu.tree_plu.buttonModify}"/>
-	</p>
+    	<input type="submit" value="#i18n{plu.tree_plu.buttonModify}" />
 	</form>
 	
 	<table>
@@ -58,7 +63,7 @@
 	           	<form method="post" action="jsp/admin/plugins/plu/atome/.jsp">
 		    		<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" type="image" />
 				</form>
-	        </td>
+	        	</td>
 	        </tr>
 	            
 	        <tr>
@@ -82,26 +87,31 @@
 	       </tr>
 	</table>
 	
-	<form method=post accept=image action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${one_version.id}">
-	<p>
-		<label for="nbPage" >#i18n{plu.tree_plu.pageNumber} : </label>
-		<select name="nbPage">
-			<option value="10">10</option>
-			<option value="20">20</option>
-			<option value="30">30</option>
+	<form method="post" rm action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${one_version.id}">
+	<@pagination paginator=paginator />
+
+		<!-- Number of contact per page selector -->
+		#i18n{plu.tree_plu.pageNumber} :
+		<select name="items_per_page">
+			<#list [ "10" , "20" , "30" , "50" ] as nb>
+			<#if nb_items_per_page = nb >
+			<option selected="selected" value="${nb}">${nb}</option>
+			<#else>
+			<option value="${nb}">${nb}</option>
+			</#if>
+			</#list>
 		</select>
-		<input type="submit" value="#i18n{plu.tree_plu.buttonModify}"/>
-	</p>
+    	<input type="submit" value="#i18n{plu.tree_plu.buttonModify}" />
 	</form>
 	
 </div>
 
-<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp">
+<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none">
    	<input type="submit" value="#i18n{plu.tree_plu.buttonListPlu}" class="button" />
 </A>
-<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" id="button">
+<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" style="text-decoration:none" id="button">
    	<input type="submit" value="#i18n{plu.tree_plu.buttonListFolder}" class="button" />
 </A>
-<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}&id_folder=${one_version.atome.folder.id}">
+<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}&id_folder=${one_version.atome.folder.id}" style="text-decoration:none">
    	<input type="submit" value="#i18n{plu.tree_plu.buttonListAtome}" class="button" />
 </A>

@@ -1,4 +1,5 @@
 <script src='js/jquery.MultiFile.js' type="text/javascript" language="javascript"></script>
+<#include "/admin/util/editor/editor.html" />
 
 <div class="content-box" >
 
@@ -22,21 +23,15 @@
         	<label for="atome_title" >#i18n{plu.modify_atome.rowTitle} : </label> 
         	<input type="text" id="atome_title" name="atome_title" value="${one_version.atome.title}" size="60" maxlength="51" tabindex="1" />
         </p>
-        
-       	<p>
-        	<label for="atome_description" >#i18n{plu.modify_atome.rowTitleDescription} :</label>  
-        	<input type="text" id="atome_description" name="atome_description" value="${one_version.atome.description}" size="60" maxlength="101" tabindex="2" />
+              
+		<p>
+        	<label for="version_d3" >#i18n{plu.modify_version.rowTitleD3} :</label>
+        	<input type=text id="version_d3" name="version_d3" value="${date?date}" disabled="disabled"/>
         </p>
         
         <p>
         	<label for="atome_image" >#i18n{plu.modify_atome.rowTitleImage} : </label> 
         	<input type="file" id="atome_image" name="file"/>
-        </p>
-              
-		<p>
-        	<label for="version_d3" >#i18n{plu.modify_version.rowTitleD3} :</label>
-        	<input type=text id="version_d3" name="version_d3" />
-        	<@getDatePicker idField="version_d3" language="fr" />
         </p>
         
         <#if file_list?exists>
@@ -50,11 +45,24 @@
 	    </#if>
 	    
         <p style="margin-left:31%;">
-        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=version/ModifyVersion&id_atome=${one_version.atome.id}" style="color:blue">Attacher Fichier</A> 
+        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=version/ModifyVersion&id_atome=${one_version.atome.id}&id_plu=${plu.id}&id_version=${one_version.id}" style="color:blue">
+        		Attacher Fichier
+        	</A> 
         </p>
-
+	    
         <p>
-        	<A href="jsp/admin/plugins/plu/atome/ChoiceModifyAtome.jsp?id_version=${one_version.id}&id_plu=${plu.id}" id="button">
+        	<label for="atome_description" >#i18n{plu.modify_atome.rowTitleDescription} :</label>
+        </p>
+       	<p>
+	       	<div id="richtext" class="editor">
+    	    	<textarea id="atome_description" class="richtext" name="atome_description" style="width:80%;" rows="15" cols="90">
+        			${one_version.atome.description}
+        		</textarea>
+        	</div>
+        </p>
+        
+        <p>
+        	<A href="jsp/admin/plugins/plu/atome/ChoiceModifyAtome.jsp?id_version=${one_version.id}&id_plu=${plu.id}" style="text-decoration:none" id="button">
         	<input type="reset" value="#i18n{plu.modify_atome.buttonReturn}" class="button" />
         	</A> 
         	<input type="hidden" name="id_plu" value="${plu.id}"/>
@@ -65,3 +73,5 @@
 	</form>
 
 </div>
+
+<@initEditor />

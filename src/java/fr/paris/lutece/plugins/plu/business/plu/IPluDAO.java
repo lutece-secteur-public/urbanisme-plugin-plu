@@ -38,7 +38,16 @@ import fr.paris.lutece.util.jpa.IGenericDAO;
 import java.util.Date;
 
 
+/**
+ * pluInterface
+ * @author vLopez
+ */
 public interface IPluDAO extends IGenericDAO<Integer, Plu>
 {
-    public Plu findByDaNull( Date date );
+    /**
+    * Load the list of plu with valid date
+    * @param date The date for the query
+    * @return The list of the Plu
+    */
+    public Plu findByDa( Date date );
 }

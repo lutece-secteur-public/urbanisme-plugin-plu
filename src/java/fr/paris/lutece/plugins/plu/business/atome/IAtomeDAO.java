@@ -40,7 +40,17 @@ import java.sql.Date;
 import java.util.List;
 
 
+/**
+ * atomeInterface
+ * @author vLopez
+ */
 public interface IAtomeDAO extends IGenericDAO<Integer, Atome>
 {
+    /**
+     * Load the list of atome with valid date and idFolder
+     * @param date The date for the query
+     * @param idFolder The folder identifier
+     * @return The list of the Atome
+     */
     public List<Atome> findByDateAndParent( Date date, int idFolder );
 }

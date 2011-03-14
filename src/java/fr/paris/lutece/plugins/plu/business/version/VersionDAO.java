@@ -55,12 +55,19 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 
+/**
+ * This class provides Data Access methods for Version objects
+ * @author vLopez
+ */
 public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersionDAO
 {
-    private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? AND A.folder = ?";
+    private static final String SQL_QUERY_SELECT_BY_DATE_AND_PARENT = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? AND A.folder = ?";
     private static final String SQL_QUERY_SELECT_ID_BY_D3_D4 = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) WHERE V.d3 < ? AND V.d4 > ?";
-    private static final String SQL_QUERY_SELECT_ID_BY_D2 = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) WHERE V.d1 < ? AND V.d3 > ?";
+    private static final String SQL_QUERY_SELECT_ID_BY_D2 = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) WHERE V.d1 < ? AND V.d2 > ? AND V.d3 > ?";
 
+    /**
+     * @return the plugin name
+     */
     @Override
     public String getPluginName(  )
     {
@@ -97,12 +104,19 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
                 return null;
             }
         }
-    
         */
+
+    /**
+     * Load the list of version
+     *
+     * @param date The date for the query
+     * @param idFolder The folder identifier
+     * @return The list of the Version
+     */
     public List<Version> findByDateAndParent( Date date, int idFolder )
     {
         List<Version> versionList = new ArrayList<Version>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_DATE );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_DATE_AND_PARENT );
         java.sql.Date sqlDate = new java.sql.Date( date.getTime(  ) );
         daoUtil.setDate( 1, sqlDate );
         daoUtil.setDate( 2, sqlDate );
@@ -159,8 +173,14 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
             return null;
         }
     }
-    
     */
+
+    /**
+     * Load the list of version
+     *
+     * @param date The date for the query
+     * @return The list of the Version
+     */
     public List<Version> findByD3D4( Date da )
     {
         List<Version> versionList = new ArrayList<Version>(  );
@@ -219,8 +239,14 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
             return null;
         }
     }
-    
     */
+
+    /**
+     * Load the list of version
+     *
+     * @param date The date for the query
+     * @return The list of the Version
+     */
     public List<Version> findByD2( Date da )
     {
         List<Version> versionList = new ArrayList<Version>(  );
@@ -228,6 +254,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
         java.sql.Date sqlDa = new java.sql.Date( da.getTime(  ) );
         daoUtil.setDate( 1, sqlDa );
         daoUtil.setDate( 2, sqlDa );
+        daoUtil.setDate( 3, sqlDa );
         daoUtil.executeQuery(  );
 
         while ( daoUtil.next(  ) )

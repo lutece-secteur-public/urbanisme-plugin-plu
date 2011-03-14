@@ -36,6 +36,10 @@ package fr.paris.lutece.plugins.plu.business.file;
 import fr.paris.lutece.util.jpa.IGenericDAO;
 
 
+/**
+ * fileInterface
+ * @author vLopez
+ */
 public interface IFileDAO extends IGenericDAO<Integer, File>
 {
 }

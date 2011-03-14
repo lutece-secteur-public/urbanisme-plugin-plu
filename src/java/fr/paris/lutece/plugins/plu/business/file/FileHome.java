@@ -36,6 +36,10 @@ package fr.paris.lutece.plugins.plu.business.file;
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
 
+/**
+ * This class provides instances management methods (create, find, ...) for File objects
+ * @author vLopez
+ */
 public class FileHome extends AbstractLuteceHome<Integer, File, IFileDAO> implements IFileHome
 {
 }

@@ -36,6 +36,10 @@ package fr.paris.lutece.plugins.plu.business.atome;
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 
 
+/**
+ * AtomeFilter
+ * @author vLopez
+ */
 public class AtomeFilter
 {
     private Integer _id;
@@ -43,41 +47,73 @@ public class AtomeFilter
     private String _description;
     private Folder _folder;
 
+    /**
+     * Get the atome id filtered
+     * @return the atome id
+     */
     public Integer get_id(  )
     {
         return _id;
     }
 
+    /**
+     * Set the atome id to filter
+     * @param _id the atome id
+     */
     public void set_id( Integer _id )
     {
         this._id = _id;
     }
 
+    /**
+     * Get the atome title filtered
+     * @return the atome title
+     */
     public String get_title(  )
     {
         return _title;
     }
 
+    /**
+     * Set the atome title to filter
+     * @param _title the atome title
+     */
     public void set_title( String _title )
     {
         this._title = _title;
     }
 
+    /**
+     * Get the atome description filtered
+     * @return the atome description
+     */
     public String get_description(  )
     {
         return _description;
     }
 
+    /**
+     * Set the atome description to filter
+     * @param _description the atome description
+     */
     public void set_description( String _description )
     {
         this._description = _description;
     }
 
+    /**
+     * Get the atome folder filtered
+     * @return the atome folder
+     */
     public Folder get_folder(  )
     {
         return _folder;
     }
 
+    /**
+     * Set the atome folder to filter
+     * @param _folder the atome folder
+     */
     public void set_folder( Folder _folder )
     {
         this._folder = _folder;
