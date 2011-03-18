@@ -88,4 +88,9 @@ public class AtomeServices implements IAtomeServices
     {
         return _home.findByDateAndParent( date, idFolder );
     }
+
+	public int findMaxId()
+	{
+		return _home.findMaxId(  );
+	}
 }

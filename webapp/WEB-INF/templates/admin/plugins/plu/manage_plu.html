@@ -2,8 +2,9 @@
 	<table>
 	        <tr>
 	            <th width="20%">#i18n{plu.manage_plu.columnTitleVersion}</th>
-	            <th width="20%">#i18n{plu.manage_plu.columnTitleDate}</th>
-
+	            <th width="20%">#i18n{plu.manage_plu.columnTitleDJ}</th>
+	            <th width="20%">#i18n{plu.manage_plu.columnTitleDA}</th>
+				
 	            <th width="10%">#i18n{plu.manage_plu.columnTitleActionApplicable}</th>
 	            <th width="10%">#i18n{plu.manage_plu.columnTitleActionTree}</th>
 	            <th width="10%">#i18n{plu.manage_plu.columnTitleActionIso}</th>
@@ -18,6 +19,9 @@
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
 		      			<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="${plu.id}" type="image" />
 			   		</form>
+	            </td>
+	            <td>
+	            	${plu.dj}
 	            </td>
 	            <td>
 	            <#if plu.da < "31/12/9999"?datetime("dd/MM/yyyy") >

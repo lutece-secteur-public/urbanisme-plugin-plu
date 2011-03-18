@@ -42,6 +42,8 @@ import fr.paris.lutece.plugins.plu.business.folder.FolderFilter;
 import fr.paris.lutece.plugins.plu.business.folder.IFolderServices;
 import fr.paris.lutece.plugins.plu.business.plu.IPluServices;
 import fr.paris.lutece.plugins.plu.business.plu.Plu;
+import fr.paris.lutece.plugins.plu.business.type.ITypeServices;
+import fr.paris.lutece.plugins.plu.business.type.Type;
 import fr.paris.lutece.plugins.plu.business.version.IVersionServices;
 import fr.paris.lutece.plugins.plu.business.version.Version;
 import fr.paris.lutece.plugins.plu.business.version.VersionFilter;
@@ -114,6 +116,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
     //Markers
     private static final String MARK_LIST_PLU_LIST = "plu_list";
+    private static final String MARK_LIST_TYPE_LIST = "type_list";
     private static final String MARK_LIST_FOLDER_LIST = "folder_list";
     private static final String MARK_LIST_ATOME_LIST = "atome_list";
     private static final String MARK_LIST_VERSION_LIST = "version_list";
@@ -126,6 +129,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_PAGINATOR = "paginator";
+    private static final String MARK_DATE = "date";
 
     // Messages
     private static final String MESSAGE_CONFIRM_ISO_PLU = "plu.message.confirmIsoPlu";
@@ -136,6 +140,9 @@ public class PluJspBean extends PluginAdminPageJspBean
     // parameters
     private static final String PARAMETER_PLU_ID = "id_plu";
     private static final String PARAMETER_PLU_VERSION = "version";
+    private static final String PARAMETER_PLU_TYPE = "id_type";
+    private static final String PARAMETER_PLU_CAUSE = "cause";
+    private static final String PARAMETER_PLU_REFERENCE = "reference";
     private static final String PARAMETER_ID_PLU_LIST = "plu_list_id";
     private static final String PARAMETER_FOLDER_ID = "id_folder";
     private static final String PARAMETER_ID_FOLDER_LIST = "folder_list_id";
@@ -145,6 +152,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_FOLDER_IMAGE = "folder_image";
     private static final String PARAMETER_CHOICE_ATOME = "choice";
     private static final String PARAMETER_ATOME_ID = "id_atome";
+    private static final String PARAMETER_ATOME_NAME = "atome_name";
     private static final String PARAMETER_ATOME_TITLE = "atome_title";
     private static final String PARAMETER_ATOME_DESCRIPTION = "atome_description";
     private static final String PARAMETER_ATOME_IMAGE = "atome_image";
@@ -153,11 +161,12 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_VERSION_D3 = "version_d3";
     private static final String PARAMETER_DATE_APPLICATION = "date_application";
     private static final String PARAMETER_FILE_TITLE = "file_title";
+    private static final String PARAMETER_FILE_CHECK = "file_check";
     private static final String PARAMETER_FILE = "file";
     private static final String PARAMETER_PAGE_INDEX = "page_index";
 
     // Jsp Definition
-    private static final String JSP_REDIRECT_TO_MANAGE_PLU = "jsp/admin/plugins/plu/plu/ManagePlu.jsp";
+    private static final String JSP_REDIRECT_TO_MANAGE_PLU = "../plu/ManagePlu.jsp";
     private static final String JSP_REDIRECT_TO_TREE_PLU = "../plu/TreePlu.jsp";
     private static final String JSP_REDIRECT_TO_CHOICE_CREATE_ATOME = "../atome/ChoiceCreateAtome.jsp";
     private static final String JSP_DO_ISO_PLU = "jsp/admin/plugins/plu/plu/DoIsoPlu.jsp";
@@ -175,6 +184,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private IVersionServices _versionServices;
     private IPluServices _pluServices;
     private IFileServices _fileServices;
+    private ITypeServices _typeServices;
 
     //int nIdFolder = 0;
     String sDateDefault = "31/12/9999";
@@ -192,6 +202,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         _atomeServices = (IAtomeServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.atomeServices" );
         _versionServices = (IVersionServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
                 "plu.versionServices" );
+        _fileServices = (IFileServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.fileServices" );
+        _typeServices = (ITypeServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.typeServices");
     }
 
     public String getManagePlu( HttpServletRequest request )
@@ -216,9 +228,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu, getPlugin(  ) );
+        
+        Collection<Type> typeList = _typeServices.findAll( getPlugin(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU, plu );
+        model.put( MARK_LIST_TYPE_LIST, typeList );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_APPLICABLE_PLU, getLocale(  ), model );
 
@@ -233,6 +248,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         Date da = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
         plu.setDa( da );
         _pluServices.update( plu, getPlugin(  ) );
+        
+        int nIdType = Integer.parseInt( request.getParameter( PARAMETER_PLU_TYPE ) );
+        Type type = _typeServices.findByPrimaryKey( nIdType, getPlugin(  ) );
+        int nIdPlu2 = nIdPlu - 1;
+        Plu plu2 = _pluServices.findByPrimaryKey( nIdPlu2 , getPlugin(  ) );
+        plu2.setType( type );
+        plu2.setCause( request.getParameter( PARAMETER_PLU_CAUSE ) );
+        plu2.setReference( request.getParameter( PARAMETER_PLU_REFERENCE ) );
+        _pluServices.update( plu2, getPlugin(  ) );
 
         Collection<Version> versionOldList = _versionServices.findByD3D4( da );
 
@@ -424,16 +448,19 @@ public class PluJspBean extends PluginAdminPageJspBean
         folder.setDescription( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
         folder.setParentFolder( parentFolder );
         
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_IMAGE  );
-        /*String name = fileItem.getName();
-        String contentType = fileItem.getContentType();
-        String fieldName = fileItem.getFieldName();
-        Long size = fileItem.getSize();*/
-        
-        PhysicalFile physicalFile = new PhysicalFile(  );
-        physicalFile.setValue( fileItem.get(  ) );
-        folder.setImg(physicalFile.getValue());
+        if( request instanceof MultipartHttpServletRequest )
+        {
+	        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	        FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_IMAGE  );
+	        /*String name = fileItem.getName();
+	        String contentType = fileItem.getContentType();
+	        String fieldName = fileItem.getFieldName();
+	        Long size = fileItem.getSize();*/
+	        
+	        PhysicalFile physicalFile = new PhysicalFile(  );
+	        physicalFile.setValue( fileItem.get(  ) );
+	        folder.setImg(physicalFile.getValue());
+        }
 
 
         _folderServices.create( folder, getPlugin(  ) );
@@ -480,7 +507,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder, getPlugin(  ) );
-
+        
         Collection<Folder> folderList = _folderServices.findAll( getPlugin(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -508,6 +535,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         folder.setTitle( request.getParameter( PARAMETER_FOLDER_TITLE ) );
         folder.setDescription( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
         folder.setParentFolder( parentFolder );
+        
+        if( request instanceof MultipartHttpServletRequest )
+        {
+	        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	        FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_IMAGE  );
+	        PhysicalFile physicalFile = new PhysicalFile(  );
+	        physicalFile.setValue( fileItem.get(  ) );
+	        folder.setImg(physicalFile.getValue());
+        }
 
         _folderServices.update( folder, getPlugin(  ) );
 
@@ -558,34 +594,31 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale(  ) );
-        model.put( "date", date );
+        model.put( MARK_DATE, date );
 
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        
-        FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
-        
-        if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null ) && ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
+        if ( request instanceof MultipartHttpServletRequest )
         {
-            File file = new File(  );
-            PhysicalFile physicalFile = new PhysicalFile(  );
-            physicalFile.setValue( fileItem.get(  ) );
-            file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-            file.setFile( physicalFile.getValue(  ) );
-            file.setMimeType( fileItem.getContentType(  ) );
-            //file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
-            fileList.add(file);
-            
-            model.put( "name", fileItem.getName());
+	        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	        
+	        FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
+	        
+	        if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null ) && ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
+	        {
+	            File file = new File(  );
+	            PhysicalFile physicalFile = new PhysicalFile(  );
+	            physicalFile.setValue( fileItem.get(  ) );
+	            String name = fileItem.getName(  );
+	            String type = name.substring( name.lastIndexOf( "." ) );
+	            file.setName( name );
+	            file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
+	            file.setFile( physicalFile.getValue(  ) );
+	            file.setMimeType( type );
+	            file.setSize( fileItem.getSize(  ) );
+	            //file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
+	            fileList.add(file);
+	        }
         }
-        /*
-        if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null ) &&
-                ( request.getParameter( PARAMETER_FILE ) != null ) )
-        {
-            File file = new File(  );
-            file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-            fileList.add( file );
-        }
-         */
+
         if ( fileList != null )
         {
             model.put( MARK_LIST_FILE_LIST, fileList );
@@ -607,10 +640,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder, getPlugin(  ) );
-
+        
         int nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_ID ) );
         Atome atome = _atomeServices.findByPrimaryKey( nIdAtome, getPlugin(  ) );
 
+        fileList.addAll( _fileServices.findByAtome( nIdAtome ) );
+        
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU, plu );
         model.put( MARK_FOLDER, folder );
@@ -618,14 +653,28 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_ATOME, atome );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale(  ) );
-        model.put( "date", date );
+        model.put( MARK_DATE, date );
 
-        if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null ) &&
-                ( request.getParameter( PARAMETER_FILE ) != null ) )
+        if ( request instanceof MultipartHttpServletRequest )
         {
-            File file = new File(  );
-            file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-            fileList.add( file );
+	        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	        
+	        FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
+	        
+	        if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null ) && ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
+	        {
+	            File file = new File(  );
+	            PhysicalFile physicalFile = new PhysicalFile(  );
+	            physicalFile.setValue( fileItem.get(  ) );
+	            String name = fileItem.getName(  );
+	            String type = name.substring( name.lastIndexOf( "." ) );
+	            file.setName( name );
+	            file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
+	            file.setFile( physicalFile.getValue(  ) );
+	            file.setMimeType( type );
+	            file.setSize( fileItem.getSize(  ) );
+	            fileList.add(file);
+	        }
         }
 
         if ( fileList != null )
@@ -643,26 +692,28 @@ public class PluJspBean extends PluginAdminPageJspBean
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu, getPlugin(  ) );
-
-        Date dateDefault = stringToDate( sDateDefault, "dd/MM/yyyy" );
-
+        
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder, getPlugin(  ) );
 
         Atome atome = new Atome(  );
-        //atomeTitle = request.getParameter( PARAMETER_ATOME_TITLE );
+        atome.setName( request.getParameter( PARAMETER_ATOME_NAME ) );
         atome.setTitle( request.getParameter( PARAMETER_ATOME_TITLE ) );
         atome.setDescription( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
         atome.setFolder( folder );
         
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        FileItem fileItem = multipartRequest.getFile( PARAMETER_ATOME_IMAGE  );
-        
-        PhysicalFile physicalFile = new PhysicalFile(  );
-        physicalFile.setValue( fileItem.get(  ) );
-        atome.setImg(physicalFile.getValue());
+        if ( request instanceof MultipartHttpServletRequest )
+        {
+	        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	        FileItem fileItem = multipartRequest.getFile( PARAMETER_ATOME_IMAGE  );
+	        
+	        PhysicalFile physicalFile = new PhysicalFile(  );
+	        physicalFile.setValue( fileItem.get(  ) );
+	        atome.setImg(physicalFile.getValue());
+        }
 
         Date date = new Date(  );
+        Date dateDefault = stringToDate( sDateDefault, "dd/MM/yyyy" );
 
         Plu newPlu = _pluServices.findByDa( date );
 
@@ -681,20 +732,26 @@ public class PluJspBean extends PluginAdminPageJspBean
         version.setD4( dateDefault );
         version.setAtome( atome );
 
-        for ( File file : fileList )
-        {   
-            //si checkbox de name="file.title" à la value!=1
-            //	créer le fichier
-            File file2 = new File(  );
-            file2.setTitle( file.getTitle(  ) );
-            file2.setMimeType( file.getMimeType(  ) );
-            file2.setFile( file.getFile(  ) );
-            file2.setVersion( version );
-            _fileServices.create( file2, getPlugin(  ) );
-        }
-        
         _atomeServices.create( atome, getPlugin(  ) );
         _versionServices.create( version, getPlugin(  ) );
+        
+        String[] check = request.getParameterValues( PARAMETER_FILE_CHECK );
+        int i = 0;
+        
+        for ( File file : fileList )
+        {
+        	for ( int j = 0; j < check.length; ++j )
+        	{
+        		int c = Integer.parseInt( check[j] ); 
+        		if( c == i )
+        		{
+        			file.setVersion( version );
+        			_fileServices.create( file, getPlugin(  ) );
+        		}
+        	}
+        	
+        	i++;
+        }
 
         return JSP_REDIRECT_TO_CHOICE_CREATE_ATOME + "?id_plu=" + plu.getId(  ) + "&id_folder=" + folder.getId(  );
     }
@@ -716,6 +773,8 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion, getPlugin(  ) );
+        
+        Collection<File> fileList = _fileServices.findByVersion( nIdVersion );
 
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_RESULT_PER_PAGE, 10 );
@@ -731,7 +790,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_LIST_FILE_LIST, paginator.getPageItems(  ) );
-
+        model.put(MARK_LIST_FILE_LIST, fileList);
         model.put( MARK_PLU, plu );
         model.put( MARK_VERSION, version );
 
@@ -774,6 +833,8 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion, getPlugin(  ) );
+        
+        fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU, plu );
@@ -781,14 +842,28 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale(  ) );
-        model.put( "date", date );
+        model.put( MARK_DATE, date );
 
-        if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null ) &&
-                ( request.getParameter( PARAMETER_FILE ) != null ) )
+        if ( request instanceof MultipartHttpServletRequest )
         {
-            File file = new File(  );
-            file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-            fileList.add( file );
+	        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	        
+	        FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
+	        
+	        if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null ) && ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
+	        {
+	            File file = new File(  );
+	            PhysicalFile physicalFile = new PhysicalFile(  );
+	            physicalFile.setValue( fileItem.get(  ) );
+	            String name = fileItem.getName(  );
+	            String type = name.substring( name.lastIndexOf( "." ) );
+	            file.setName( name );
+	            file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
+	            file.setFile( physicalFile.getValue(  ) );
+	            file.setMimeType( type );
+	            file.setSize( fileItem.getSize(  ) );
+	            fileList.add(file);
+	        }
         }
 
         if ( fileList != null )
@@ -811,16 +886,27 @@ public class PluJspBean extends PluginAdminPageJspBean
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder, getPlugin(  ) );
 
         Atome atome = new Atome(  );
+        atome.setId( Integer.parseInt( request.getParameter( PARAMETER_ATOME_ID ) ) );
+        atome.setName( request.getParameter( PARAMETER_ATOME_NAME ) );
         atome.setTitle( request.getParameter( PARAMETER_ATOME_TITLE ) );
         atome.setDescription( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
         atome.setFolder( folder );
+        
+        if( request instanceof MultipartHttpServletRequest )
+        {
+	        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	        FileItem fileItem = multipartRequest.getFile( PARAMETER_ATOME_IMAGE  );
+	        
+	        PhysicalFile physicalFile = new PhysicalFile(  );
+	        physicalFile.setValue( fileItem.get(  ) );
+	        atome.setImg(physicalFile.getValue());
+        }
 
         _atomeServices.update( atome, getPlugin(  ) );
 
-        String sDate = request.getParameter( PARAMETER_VERSION_D3 );
-        Date date = stringToDate( sDate, "dd/MM/yyyy" );
+        Date date = new Date (  );
         Date dateDefault = stringToDate( sDateDefault, "dd/MM/yyyy" );
-
+        
         Plu NewPlu = _pluServices.findByDa( date );
 
         if ( NewPlu.getId(  ) == 0 )
@@ -832,19 +918,62 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion, getPlugin(  ) );
-        version.setD3( date );
-
-        Version version2 = new Version(  );
-        version2.setVersion( version.getVersion(  ) + 1 );
-        version2.setAtome( version.getAtome(  ) );
-        version2.setD1( date );
-        version2.setD2( dateDefault );
-        version2.setD3( dateDefault );
-        version2.setD4( dateDefault );
-
-        _versionServices.update( version, getPlugin(  ) );
-        _versionServices.create( version2, getPlugin(  ) );
-
+        
+        if( version.getD2() != dateDefault )
+        {
+	        version.setD3( date );
+	        
+	        Version version2 = new Version(  );
+	        version2.setVersion( version.getVersion(  ) + 1 );
+	        version2.setAtome( atome );
+	        version2.setD1( date );
+	        version2.setD2( dateDefault );
+	        version2.setD3( dateDefault );
+	        version2.setD4( dateDefault );
+	        
+	        _versionServices.update( version, getPlugin(  ) );
+	        _versionServices.create( version2, getPlugin(  ) );
+	        
+	        String[] check = request.getParameterValues( PARAMETER_FILE_CHECK );
+	        int i = 0;
+	        
+	        for ( File file : fileList )
+	        {
+	        	for ( int j = 0; j < check.length; ++j )
+	        	{
+	        		int c = Integer.parseInt( check[j] ); 
+	        		if( c == i )
+	        		{
+	        			file.setVersion( version2 );
+	        			_fileServices.create( file, getPlugin(  ) );
+	        		}
+	        	}
+	        	
+	        	i++;
+	        }
+        }
+        else
+        {
+        	String[] check = request.getParameterValues( PARAMETER_FILE_CHECK );
+            int i = 0;
+            
+            for ( File file : fileList )
+            {
+            	for ( int j = 0; j < check.length; ++j )
+            	{
+            		int c = Integer.parseInt( check[j] ); 
+            		if( c == i )
+            		{
+            			file.setVersion( version );
+            			_fileServices.create( file, getPlugin(  ) );
+            		}
+            	}
+            	
+            	i++;
+            }
+        }
+        
+        
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId(  ) + "&id_folder=" + folder.getId(  );
     }
 
@@ -903,7 +1032,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_VERSION, version );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale(  ) );
-        model.put( "date", date );
+        model.put( MARK_DATE, date );
 
         if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null ) &&
                 ( request.getParameter( PARAMETER_FILE ) != null ) )

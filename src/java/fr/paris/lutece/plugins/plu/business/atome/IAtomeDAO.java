@@ -53,4 +53,6 @@ public interface IAtomeDAO extends IGenericDAO<Integer, Atome>
      * @return The list of the Atome
      */
     public List<Atome> findByDateAndParent( Date date, int idFolder );
+
+	public int findMaxId();
 }

@@ -4,7 +4,7 @@
 
 	<h2>#i18n{plu.modify_folder.pageSubTitle}</h2>
 	
-	<form method=post accept=image action="jsp/admin/plugins/plu/folder/DoModifyFolder.jsp">
+	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/DoModifyFolder.jsp">
 		
 		<p>
 			<label for="id_parent_folder" >#i18n{plu.modify_folder.rowTitleParentFolder} : </label>
@@ -25,7 +25,7 @@
         
         <p>
         	<label for="folder_image" >#i18n{plu.modify_folder.rowTitleImage} : </label> 
-        	<input type="file" id="folder_image" name="file"/>
+        	<input type="file" id="folder_image" name="folder_image" />
         </p>
         
         <p>

@@ -64,6 +64,7 @@ public class Atome
     private static final String JPA_COLUMN_NAME = "plu_atome_id";
     public static final String RESOURCE_TYPE = "ATOME_RESOURCE";
     private int _id;
+    private String _name;
     private String _title;
     private String _description;
     private byte[] _img;
@@ -91,6 +92,25 @@ public class Atome
         _id = id;
     }
 
+    /**
+     * Returns the name of this atome
+     * @return the atome name
+     */
+    @Column( name = "name" )
+    public String getName(  )
+    {
+        return _name;
+    }
+
+    /**
+     * Sets the name of the atome to the specified string
+     * @param name the new name
+     */
+    public void setName( String name )
+    {
+        _name = name;
+    }
+    
     /**
      * Returns the title of this atome
      * @return the atome title
@@ -149,6 +169,10 @@ public class Atome
         _folder = folder;
     }
     
+    /**
+     * Returns the image of this atome
+     * @return the atome image
+     */
     @Lob
     @Column ( name = "image" )
     public byte[] getImg( )
@@ -156,6 +180,10 @@ public class Atome
 		return _img;		
 	}
     
+    /**
+     * Sets the image of the atome to the specified byte
+     * @param img the new image
+     */
 	public void setImg(byte[] img)
 	{
 		_img = img;		

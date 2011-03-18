@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.plu.business.file;
 
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.version.Version;
-import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -49,8 +48,10 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class File_
 {
     public static volatile SingularAttribute<File, Integer> id;
+    public static volatile SingularAttribute<File, String> name;
     public static volatile SingularAttribute<File, String> title;
     public static volatile SingularAttribute<File, String> mimeType;
-    public static volatile SingularAttribute<File, PhysicalFile> file;
+    public static volatile SingularAttribute<File, Integer> size;
+    public static volatile SingularAttribute<File, byte[]> file;
     public static volatile SingularAttribute<File, Version> version;
 }

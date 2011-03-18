@@ -9,15 +9,29 @@
         	<input type=text id="date_application" name="date_application" />
         	<@getDatePicker idField="date_application" language="fr" />
         </p>
-        	
+        
+        <p>
+			<label for="id_type" >#i18n{plu.applicable_plu.rowTitleType} : </label>
+			<select name="id_type">
+				<#list type_list as type>
+     			<option value="${type.id}">${type.name}</option>
+     			</#list>
+			</select>
+		</p>
+			
         <p>
         	<label for="cause" >#i18n{plu.applicable_plu.rowTitleCause} :</label>  
-        	<input type="text" id="cause" name="cause" size="60" maxlength="101" tabindex="2" />
+        	<input type="text" id="cause" name="cause" size="60" maxlength="101" />
+        </p>
+        
+        <p>
+        	<label for="reference" >#i18n{plu.applicable_plu.rowTitleReference} :</label>  
+        	<input type="text" id="reference" name="reference" size="60" maxlength="101" />
         </p>
         
         <p>
         	<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none" id="button">
-        	<input type="submit" value="#i18n{plu.modify_atome.buttonReturn}" class="button" />
+        	<input type="reset" value="#i18n{plu.applicable_plu.buttonReturn}" class="button" />
         	</A>
         	<input type="hidden" name="id_plu" value="${plu.id}"/>
    		  	<input type="submit" value="#i18n{plu.applicable_plu.buttonValidate}" class="button" />

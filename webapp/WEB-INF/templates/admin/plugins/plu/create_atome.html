@@ -18,6 +18,11 @@
 		</p>
 		
 		<p>
+        	<label for="atome_name" >#i18n{plu.create_atome.rowTitleName} : </label> 
+        	<input type="text" id="atome_name" name="atome_name" size="60" maxlength="51" tabindex="1" />
+        </p>
+        
+		<p>
         	<label for="atome_title" >#i18n{plu.create_atome.rowTitle} : </label> 
         	<input type="text" id="atome_title" name="atome_title" size="60" maxlength="51" tabindex="1" />
         </p>
@@ -37,7 +42,7 @@
 	        	<p>
 	        		<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
 	        		<input type="text" id="file_title" name="file_title" size="60" value="${file.title}" />
-	        		<input type="checkbox" name="checkbox" checked/>${name}
+	        		<input type="checkbox" name="file_check" value="${file_index}" checked/>${file.name}
 	        	</p>
 	        </#list>
 	    </#if>

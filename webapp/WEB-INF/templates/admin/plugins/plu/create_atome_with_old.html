@@ -5,7 +5,7 @@
 
 	<h2>#i18n{plu.create_atome.pageSubTitle}</h2>
 	
-	<form method=post accept=image action="jsp/admin/plugins/plu/atome/DoCreateAtome.jsp">
+	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/atome/DoCreateAtome.jsp">
 		
 		<p>
 			<label for="id_folder" >#i18n{plu.create_folder.rowTitleParentFolder} : </label>
@@ -20,8 +20,13 @@
 		</p>
 		
 		<p>
+        	<label for="atome_name" >#i18n{plu.create_atome.rowTitleName} : </label> 
+        	<input type="text" id="atome_name" name="atome_name" size="60" maxlength="51" tabindex="1" />
+        </p>
+        
+		<p>
         	<label for="atome_title" >#i18n{plu.create_atome.rowTitle} : </label> 
-        	<input type="text" id="atome_title" name="atome_title" value="${one_atome.title}" size="60" maxlength="51" tabindex="1" />
+        	<input type="text" id="atome_title" name="atome_title" size="60" maxlength="51" tabindex="1" />
         </p>
         
         <p>
@@ -34,12 +39,12 @@
         	<input type="file" id="atome_image" name="atome_image" size="60"/>
         </p>
         
-        <#if file_list?exists>
+        <#if file_list?exists && file_list?size&gt;0 >
 	        <#list file_list as file >
 	        	<p>
 	        		<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
-	        		<input type="text" id="file_title" name="file_title" value="${file.title}" />
-	        		<input type="checkbox" name="files[]" value="${file.title}"/>${file}
+	        		<input type="text" id="file_title" name="file_title" size="60" value="${file.title}" />
+	        		<input type="checkbox" name="file_check" value="${file_index}" checked/>${file.name}
 	        	</p>
 	        </#list>
 	    </#if>
@@ -56,7 +61,6 @@
        	<p>
         	<div id="richtext" class="editor">
         		<textarea id="atome_description" class="richtext" name="atome_description" style="width:80%;" rows="15" cols="90">
-        			${one_atome.description}
         		</textarea>
     	    </div>
         </p>
@@ -64,7 +68,8 @@
         <p>
       		<A href="jsp/admin/plugins/plu/atome/ChoiceCreateAtome.jsp?id_plu=${plu.id}&id_folder=${one_folder.id}" style="text-decoration:none" id="button">
         	<input type="reset" value="#i18n{plu.create_atome.buttonReturn}" class="button" />
-        	</A> 
+        	</A>
+        	<input type="hidden" name="id_plu" value="${plu.id}"/>
    		  	<input type="submit" value="#i18n{plu.create_atome.buttonValidate}" class="button"/>
         </p>
         

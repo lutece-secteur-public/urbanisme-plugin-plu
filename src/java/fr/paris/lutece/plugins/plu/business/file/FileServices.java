@@ -80,4 +80,14 @@ public class FileServices implements IFileServices
     {
         return _home.findByPrimaryKey( nKey );
     }
+
+	public Collection<File> findByVersion(int nIdVersion)
+	{
+		return _home.findByVersion( nIdVersion );
+	}
+	
+	public Collection<File> findByAtome(int nIdAtome)
+	{
+		return _home.findByAtome( nIdAtome );
+	}
 }

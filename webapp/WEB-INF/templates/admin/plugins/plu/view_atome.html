@@ -42,17 +42,20 @@
 	        <tr>
 	            <th width="20%">#i18n{plu.view_atome.columnTitleName}</th>
 	            <th width="20%">#i18n{plu.view_atome.columnTitleType}</th>
+	            <th width="20%">#i18n{plu.view_atome.columnTitleSize}</th>
 	            <th width="20%">#i18n{plu.view_atome.columnTitleTree}</th>
 	            <th width="10%">#i18n{plu.view_atome.columnTitleActionView}</th>
 	    	</tr>   
-	        
+	        <#list file_list as file >
 	        <tr>
 	            <td>
-	                document 1
+	                ${file.title}
 	            </td>
-	            
 	            <td>
-	                pdf
+	                ${file.mimeType}
+	            </td>
+	            <td>
+	                ${file.size}
 	            </td>
 	            <td>
 	            	PLU : ${plu.id}<br>
@@ -65,26 +68,7 @@
 				</form>
 	        	</td>
 	        </tr>
-	            
-	        <tr>
-	            <td>
-	                document 2
-	            </td>
-	            
-	            <td>
-	                pdf
-	            </td>
-	            <td>
-	            	PLU : ${plu.id}<br>
-	            	Dossier : ${one_version.atome.folder.title}<br>
-	            	Atome : ${one_version.atome.title}
-	            </td>
-	            <td>
-	           		<form method="post" action="jsp/admin/plugins/plu/atome/.jsp">
-	           			<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" type="image" />
-					</form>
-	        	</td>
-	       </tr>
+	        </#list>
 	</table>
 	
 	<form method="post" rm action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${one_version.id}">

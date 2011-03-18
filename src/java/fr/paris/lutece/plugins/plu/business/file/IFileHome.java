@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
+import java.util.Collection;
+
 import fr.paris.lutece.util.jpa.IGenericHome;
 
 
@@ -42,4 +44,6 @@ import fr.paris.lutece.util.jpa.IGenericHome;
  */
 public interface IFileHome extends IGenericHome<Integer, File>
 {
+	Collection<File> findByVersion(int nIdVersion);
+	Collection<File> findByAtome(int nIdAtome);
 }

@@ -60,6 +60,7 @@ import javax.persistence.criteria.Root;
 public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
 {
     private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT A.id, A.title, A.description, A.folder FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? AND A.folder = ?";
+    private static final String SQL_QUERY_SELECT_MAX_ID = "SELECT max(id) FROM plu_atome";
 
     /**
      * @return the plugin name
@@ -135,4 +136,21 @@ public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
 
         return atomeList;
     }
+
+	public int findMaxId()
+	{
+		int nId = 0;
+		
+		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MAX_ID );
+		daoUtil.executeQuery(  );
+		
+		while( daoUtil.next(  ) )
+		{
+			nId = daoUtil.getInt( 1 );
+		}
+		
+		daoUtil.free(  );
+		
+		return nId;
+	}
 }

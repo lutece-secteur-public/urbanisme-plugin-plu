@@ -33,13 +33,7 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
-
 import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,8 +47,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-import org.apache.commons.fileupload.FileItem;
-import org.hibernate.Hibernate;
 
 
 /**
@@ -158,6 +150,10 @@ public class Folder
         _parentFolder = parentFolder;
     }
 
+    /**
+     * Returns the image of this folder
+     * @return the folder image
+     */
 	@Lob
     @Column ( name = "image" )
     public byte[] getImg( )
@@ -165,6 +161,10 @@ public class Folder
 		return _img;		
 	}
     
+	/**
+     * Sets the image of the folder to the specified byte
+     * @param img the new image
+     */
 	public void setImg(byte[] img)
 	{
 		_img = img;		

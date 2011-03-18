@@ -61,7 +61,7 @@ import javax.persistence.criteria.Root;
  */
 public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersionDAO
 {
-    private static final String SQL_QUERY_SELECT_BY_DATE_AND_PARENT = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? AND A.folder = ?";
+    private static final String SQL_QUERY_SELECT_BY_DATE_AND_PARENT = "SELECT A.id, A.title, A.name, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? AND A.folder = ?";
     private static final String SQL_QUERY_SELECT_ID_BY_D3_D4 = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) WHERE V.d3 < ? AND V.d4 > ?";
     private static final String SQL_QUERY_SELECT_ID_BY_D2 = "SELECT A.id, A.title, A.description, V.id, V.version, V.d1, V.d2, V.d3, V.d4 FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) WHERE V.d1 < ? AND V.d2 > ? AND V.d3 > ?";
 
@@ -128,15 +128,16 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
             Atome atome = new Atome(  );
             atome.setId( daoUtil.getInt( 1 ) );
             atome.setTitle( daoUtil.getString( 2 ) );
-            atome.setDescription( daoUtil.getString( 3 ) );
+            atome.setName( daoUtil.getString( 3 ) );
+            atome.setDescription( daoUtil.getString( 4 ) );
 
             Version version = new Version(  );
-            version.setId( daoUtil.getInt( 4 ) );
-            version.setVersion( daoUtil.getInt( 5 ) );
-            version.setD1( daoUtil.getDate( 6 ) );
-            version.setD2( daoUtil.getDate( 7 ) );
-            version.setD3( daoUtil.getDate( 8 ) );
-            version.setD4( daoUtil.getDate( 9 ) );
+            version.setId( daoUtil.getInt( 5 ) );
+            version.setVersion( daoUtil.getInt( 6 ) );
+            version.setD1( daoUtil.getDate( 7 ) );
+            version.setD2( daoUtil.getDate( 8 ) );
+            version.setD3( daoUtil.getDate( 9 ) );
+            version.setD4( daoUtil.getDate( 10 ) );
             version.setAtome( atome );
             versionList.add( version );
         }

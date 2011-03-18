@@ -45,7 +45,9 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class Folder_
 {
     public static volatile SingularAttribute<Folder, Integer> id;
+    public static volatile SingularAttribute<Folder, String> name;
     public static volatile SingularAttribute<Folder, String> title;
     public static volatile SingularAttribute<Folder, String> description;
+    public static volatile SingularAttribute<Folder, byte[]> img;
     public static volatile SingularAttribute<Folder, Folder> parentFolder;
 }

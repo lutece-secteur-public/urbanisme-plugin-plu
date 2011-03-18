@@ -33,8 +33,14 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import fr.paris.lutece.plugins.plu.business.version.Version;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**
@@ -43,6 +49,9 @@ import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
  */
 public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
 {
+    private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT F.name, F.title, F.mimeType, F.size, F.file, F.version FROM plu_file F INNER JOIN plu_version V ON (F.version = V.id) WHERE F.version = ?";
+    private static final String SQL_QUERY_SELECT_BY_ATOME = "SELECT F.id, F.name, F.title, F.mimeType, F.size, F.file, F.version FROM plu_file F INNER JOIN plu_version V ON (F.version = V.id) WHERE V.atome = ?";
+    
     /**
     * @return the plugin name
     */
@@ -51,4 +60,60 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
     {
         return PluPlugin.PLUGIN_NAME;
     }
+
+	public Collection<File> findByVersion(int nIdVersion)
+	{
+		List<File> fileList = new ArrayList<File>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_VERSION );
+        daoUtil.setInt( 1, nIdVersion );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            Version version = new Version(  );
+            version.setId( daoUtil.getInt( 6 ) );
+
+            File file = new File(  );
+            //file.setId( daoUtil.getInt( 1 ) );
+            file.setName( daoUtil.getString( 1 ) );
+            file.setTitle( daoUtil.getString( 2 ) );
+            file.setMimeType( daoUtil.getString( 3 ) );
+            file.setSize( daoUtil.getInt( 4 ) );
+            file.setFile( daoUtil.getBytes( 5 ) );
+            file.setVersion( version );
+            fileList.add( file );
+        }
+
+        daoUtil.free(  );
+
+        return fileList;
+	}
+	
+	public Collection<File> findByAtome(int nIdAtome)
+	{
+		List<File> fileList = new ArrayList<File>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ATOME );
+        daoUtil.setInt( 1, nIdAtome );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            Version version = new Version(  );
+            version.setId( daoUtil.getInt( 7 ) );
+
+            File file = new File(  );
+            file.setId( daoUtil.getInt( 1 ) );
+            file.setName( daoUtil.getString( 2 ) );
+            file.setTitle( daoUtil.getString( 3 ) );
+            file.setMimeType( daoUtil.getString( 4 ) );
+            file.setSize( daoUtil.getInt( 5) );
+            file.setFile( daoUtil.getBytes( 6 ) );
+            file.setVersion( version );
+            fileList.add( file );
+        }
+
+        daoUtil.free(  );
+
+        return fileList;
+	}
 }

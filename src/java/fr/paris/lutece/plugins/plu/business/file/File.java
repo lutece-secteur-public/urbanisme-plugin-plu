@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.plu.business.file;
 
 import fr.paris.lutece.plugins.plu.business.version.Version;
 import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,8 +64,10 @@ public class File
     private static final String JPA_COLUMN_NAME = "plu_file_id";
     public static final String RESOURCE_TYPE = "FILE_RESOURCE";
     private int _id;
+    private String _name;
     private String _title;
     private String _mimeType;
+    private long _size;
     private byte[] _file;
     private Version _version;
 
@@ -93,9 +94,24 @@ public class File
     }
 
     /**
-     * Returns the title of this file
-     * @return the file title
+     * Returns the name of this file
+     * @return the file name
      */
+    @Column( name = "name" )
+    public String getName(  )
+    {
+        return _name;
+    }
+
+    /**
+     * Sets the name of the file to the specified string
+     * @param name the new name
+     */
+    public void setName( String name )
+    {
+        _name = name;
+    }
+    
     @Column( name = "title" )
     public String getTitle(  )
     {
@@ -130,6 +146,29 @@ public class File
         _mimeType = mimeType;
     }
 
+    /**
+     * Returns the size of this file
+     * @return the file size
+     */
+    @Column( name = "size" )
+    public long getSize(  )
+    {
+        return _size;
+    }
+
+    /**
+     * Sets the size of the file to the specified long
+     * @param size the new size
+     */
+    public void setSize( long size )
+    {
+        _size = size;
+    }
+    
+    /**
+     * Returns the physical file of this file
+     * @return the physical file
+     */
     @Lob
     @Column( name = "file")
     public byte[] getFile(  )
@@ -137,11 +176,14 @@ public class File
     	return _file;
     }
     
+    /**
+     * Sets the physical file of the file to the specified byte
+     * @param file the new physical file
+     */
     public void setFile( byte[] file )
     {
         _file = file;
     }
-    
 
     /**
      * Returns the version of this file
@@ -155,11 +197,12 @@ public class File
     }
 
     /**
-     * Sets the version of the file to the specified Folder
+     * Sets the version of the file to the specified Version
      * @param version the new version
      */
     public void setVersion( Version version )
     {
         _version = version;
     }
+    
 }

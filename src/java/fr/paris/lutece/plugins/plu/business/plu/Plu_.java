@@ -49,4 +49,5 @@ public class Plu_
     public static volatile SingularAttribute<Plu, Integer> id;
     public static volatile SingularAttribute<Plu, Date> dj;
     public static volatile SingularAttribute<Plu, Date> da;
+    public static volatile SingularAttribute<Plu, String> cause;
 }

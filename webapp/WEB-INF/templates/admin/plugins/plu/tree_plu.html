@@ -64,11 +64,19 @@
 			   	</form>
 	       	</td>
 	        <td>
+	        <#if plu.da < "31/12/9999"?datetime("dd/MM/yyyy") >
 	           	<form method="post" action="jsp/admin/plugins/plu/folder/ModifyFolder.jsp">
+	           		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		    		<input type="hidden" name="id_folder" value="${folder.id}"/>
+			        <input disabled="disabled" src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_folder.modify}" title="#i18n{plu.modify_folder.modify}"  type="image">
+			   	</form>
+			<#else>
+				<form method="post" action="jsp/admin/plugins/plu/folder/ModifyFolder.jsp">
 	           		<input type="hidden" name="id_plu" value="${plu.id}"/>
 		    		<input type="hidden" name="id_folder" value="${folder.id}"/>
 			        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_folder.modify}" title="#i18n{plu.modify_folder.modify}"  type="image">
 			   	</form>
+			</#if>
 			</td>
 	        <td>
 	           	<form method="post" action="jsp/admin/plugins/plu/folder/RemoveFolder.jsp">
@@ -165,6 +173,7 @@
 	<table>
 		<tr>
 	    	<th width="10%">#i18n{plu.tree_plu.columnTitleAtome}</th>
+	        <th width="10%">#i18n{plu.tree_plu.columnTitleNameAtome}</th>
 	        <th width="15%">#i18n{plu.tree_plu.columnTitleDescriptionAtome}</th>
 	        <th width="7%">#i18n{plu.tree_plu.columnTitleVersionAtome}</th>
 	        <th width="7%">#i18n{plu.tree_plu.columnTitleD1}</th>
@@ -184,6 +193,9 @@
 	           		<input type="hidden" name="id_version" value="${version.id}"/>
 		    		<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="${version.atome.title}" type="image" />
 				</form>
+	        </td>
+	        <td>
+	        	${version.atome.name}
 	        </td>
 	        <td>
 	           	${version.atome.description}
