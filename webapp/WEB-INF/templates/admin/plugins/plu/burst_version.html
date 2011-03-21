@@ -5,7 +5,7 @@
 
 	<h2>#i18n{plu.modify_atome.pageSubTitle}</h2>
 	
-	<form method=post accept=image action="jsp/admin/plugins/plu/version/DoBurstVersion.jsp">
+	<form enctype="multipart/form-data" method=post action="jsp/admin/plugins/plu/version/DoBurstVersion.jsp">
 		
 		<p>
 			<label for="id_folder" >#i18n{plu.modify_atome.rowTitleParentFolder} : </label>
@@ -21,12 +21,12 @@
 		
 		<p>
         	<label for="atome_name" >#i18n{plu.create_atome.rowTitleName} : </label> 
-        	<input type="text" id="atome_name" name="atome_name" value="${one_version.atome.name}" size="60" maxlength="51" tabindex="1" />
+        	<input type="text" id="atome_name" name="atome_name" size="60" maxlength="51" tabindex="1" />
         </p>
         
 		<p>
         	<label for="atome_title" >#i18n{plu.create_atome.rowTitle} : </label> 
-        	<input type="text" id="atome_title" name="atome_title" value="${one_version.atome.title}" size="60" maxlength="51" tabindex="1" />
+        	<input type="text" id="atome_title" name="atome_title" size="60" maxlength="51" tabindex="1" />
         </p>
         
         <p>
@@ -41,11 +41,13 @@
         
         <#if file_list?exists>
 	        <#list file_list as file >
-	        	<p>
-	        		<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
-	        		<input type="text" id="file_title" name="file_title" value="${file.title}" />
-	        		<input type="checkbox" name="files[]" value="${file.title}"/>${file}
-	        	</p>
+	        	<#if file?exists>
+	        		<p>
+	        			<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
+	        			<input type="text" id="file_title" name="file_title" size="60" value="${file.title}" />
+	        			<input type="checkbox" name="file_check" value="${file_index}" checked/>${file.name}
+	        		</p>
+	        	</#if>
 	        </#list>
 	    </#if>
 	    
@@ -61,7 +63,6 @@
        	<p>
        		<div id="richtext" class="editor">
 	       		<textarea id="atome_description" class="richtext" name="atome_description" style="width:80%;" rows="15" cols="90">
-    	    		${one_version.atome.description}
     	    	</textarea>
         	</div>
         </p>
@@ -70,6 +71,8 @@
       		<A href="jsp/admin/plugins/plu/atome/ChoiceModifyAtome.jsp?id_version=${one_version.id}&id_plu=${plu.id}" style="text-decoration:none" id="button">
         	<input type="reset" value="#i18n{plu.modify_atome.buttonReturn}" class="button" />
         	</A> 
+        	<input type="hidden" name="id_plu" value="${plu.id}"/>
+        	<input type="hidden" name="id_version" value="${one_version.id}"/>
    		  	<input type="submit" value="#i18n{plu.create_atome.buttonValidate}" class="button"/>
         </p>
         

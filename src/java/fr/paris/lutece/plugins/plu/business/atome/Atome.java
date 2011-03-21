@@ -110,7 +110,7 @@ public class Atome
     {
         _name = name;
     }
-    
+
     /**
      * Returns the title of this atome
      * @return the atome title
@@ -168,24 +168,24 @@ public class Atome
     {
         _folder = folder;
     }
-    
+
     /**
      * Returns the image of this atome
      * @return the atome image
      */
     @Lob
-    @Column ( name = "image" )
-    public byte[] getImg( )
-	{
-		return _img;		
-	}
-    
+    @Column( name = "image" )
+    public byte[] getImg(  )
+    {
+        return _img;
+    }
+
     /**
      * Sets the image of the atome to the specified byte
      * @param img the new image
      */
-	public void setImg(byte[] img)
-	{
-		_img = img;		
-	}
+    public void setImg( byte[] img )
+    {
+        _img = img;
+    }
 }

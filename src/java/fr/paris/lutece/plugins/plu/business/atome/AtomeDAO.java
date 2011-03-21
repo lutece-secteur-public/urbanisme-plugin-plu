@@ -137,20 +137,20 @@ public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
         return atomeList;
     }
 
-	public int findMaxId()
-	{
-		int nId = 0;
-		
-		DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MAX_ID );
-		daoUtil.executeQuery(  );
-		
-		while( daoUtil.next(  ) )
-		{
-			nId = daoUtil.getInt( 1 );
-		}
-		
-		daoUtil.free(  );
-		
-		return nId;
-	}
+    public int findMaxId(  )
+    {
+        int nId = 0;
+
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MAX_ID );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            nId = daoUtil.getInt( 1 );
+        }
+
+        daoUtil.free(  );
+
+        return nId;
+    }
 }

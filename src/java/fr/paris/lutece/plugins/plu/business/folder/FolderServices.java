@@ -94,4 +94,9 @@ public class FolderServices implements IFolderServices
     {
         return _home.findByDate( date );
     }
+
+    public Collection<Folder> findWorkPlu( Date date )
+    {
+        return _home.findWorkPlu( date );
+    }
 }

@@ -107,7 +107,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
         {
             plu.setId( daoUtil.getInt( 1 ) );
         }
-        
+
         daoUtil.free(  );
 
         return plu;

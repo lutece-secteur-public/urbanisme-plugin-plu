@@ -57,8 +57,8 @@ public class AtomeHome extends AbstractLuteceHome<Integer, Atome, IAtomeDAO> imp
         return getDao(  ).findByDateAndParent( date, idFolder );
     }
 
-	public int findMaxId()
-	{
-		return getDao(  ).findMaxId(  );
-	}
+    public int findMaxId(  )
+    {
+        return getDao(  ).findMaxId(  );
+    }
 }

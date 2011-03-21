@@ -111,7 +111,7 @@ public class File
     {
         _name = name;
     }
-    
+
     @Column( name = "title" )
     public String getTitle(  )
     {
@@ -164,18 +164,18 @@ public class File
     {
         _size = size;
     }
-    
+
     /**
      * Returns the physical file of this file
      * @return the physical file
      */
     @Lob
-    @Column( name = "file")
+    @Column( name = "file" )
     public byte[] getFile(  )
     {
-    	return _file;
+        return _file;
     }
-    
+
     /**
      * Sets the physical file of the file to the specified byte
      * @param file the new physical file
@@ -204,5 +204,4 @@ public class File
     {
         _version = version;
     }
-    
 }

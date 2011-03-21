@@ -97,6 +97,11 @@ public class VersionServices implements IVersionServices
         return _home.findByD2( da );
     }
 
+    public Collection<Version> findWorkPluAndParent( Date date, int idFolder )
+    {
+        return _home.findWorkPluAndParent( date, idFolder );
+    }
+
     /*public List<Version> findByFilter( VersionFilter filter )
     {
         return _home.findByFilter( filter );

@@ -57,4 +57,6 @@ public interface IFolderServices
     public List<Folder> findByFilter( FolderFilter filter );
 
     public List<Folder> findByDate( Date date );
+
+    public Collection<Folder> findWorkPlu( Date date );
 }

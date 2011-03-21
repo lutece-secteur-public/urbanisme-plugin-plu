@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.plu.business.folder;
 import fr.paris.lutece.util.jpa.IGenericHome;
 
 //import java.sql.Date;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -59,4 +60,6 @@ public interface IFolderHome extends IGenericHome<Integer, Folder>
      * @return the folder list
      */
     public List<Folder> findByDate( Date date );
+
+    public Collection<Folder> findWorkPlu( Date date );
 }

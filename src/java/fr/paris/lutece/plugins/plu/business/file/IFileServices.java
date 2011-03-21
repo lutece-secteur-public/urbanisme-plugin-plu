@@ -50,7 +50,7 @@ public interface IFileServices
 
     public File findByPrimaryKey( int nKey, Plugin plugin );
 
-	public Collection<File> findByVersion(int nIdVersion);
-	
-	public Collection<File> findByAtome(int nIdAtome);
+    public Collection<File> findByVersion( int nIdVersion );
+
+    public Collection<File> findByAtome( int nIdAtome );
 }

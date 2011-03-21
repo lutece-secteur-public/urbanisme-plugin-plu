@@ -48,7 +48,6 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 
-
 /**
  * This class represents business object Folder
  * @author vLopez
@@ -129,7 +128,6 @@ public class Folder
         _description = description;
     }
 
-       
     /**
      * Returns the parent folder of this folder
      * @return the parent folder
@@ -154,46 +152,48 @@ public class Folder
      * Returns the image of this folder
      * @return the folder image
      */
-	@Lob
-    @Column ( name = "image" )
-    public byte[] getImg( )
-	{
-		return _img;		
-	}
-    
-	/**
-     * Sets the image of the folder to the specified byte
-     * @param img the new image
+    @Lob
+    @Column( name = "image" )
+    public byte[] getImg(  )
+    {
+        return _img;
+    }
+
+    /**
+    * Sets the image of the folder to the specified byte
+    * @param img the new image
+    */
+    public void setImg( byte[] img )
+    {
+        _img = img;
+    }
+
+    /**
+     * Returns the photo Input Stream.
+     * @return InputStream
+     * @throws SQLException e
      */
-	public void setImg(byte[] img)
-	{
-		_img = img;		
-	}
-	
-	/**
-	 * Returns the photo Input Stream.
-	 * @return InputStream 
-	 * @throws SQLException e
-	 */
-/*	public InputStream getPhotoContent() throws SQLException
-	{
-		if (getImg() == null)
-		{
-			return null;
-		}
-		
-		return getImg().getBinaryStream();
-	}
-	
-	/**
-	 * 
-	 * @param sourceStream - Photo source input stream
-	 * @throws IOException e
-	 */
-/*	public void setPhotoContent(InputStream sourceStream) throws IOException
-	{
-		Blob createBlob = Hibernate.createBlob(sourceStream);
-		setImg(createBlob);
-	}
-*/
+
+    /*        public InputStream getPhotoContent() throws SQLException
+            {
+                    if (getImg() == null)
+                    {
+                            return null;
+                    }
+    
+                    return getImg().getBinaryStream();
+            }
+    
+            /**
+             *
+             * @param sourceStream - Photo source input stream
+             * @throws IOException e
+             */
+
+    /*        public void setPhotoContent(InputStream sourceStream) throws IOException
+            {
+                    Blob createBlob = Hibernate.createBlob(sourceStream);
+                    setImg(createBlob);
+            }
+    */
 }

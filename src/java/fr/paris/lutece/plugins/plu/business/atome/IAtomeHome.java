@@ -54,5 +54,5 @@ public interface IAtomeHome extends IGenericHome<Integer, Atome>
     */
     public List<Atome> findByDateAndParent( Date date, int idFolder );
 
-	public int findMaxId();
+    public int findMaxId(  );
 }

@@ -131,7 +131,7 @@ public class Plu
     {
         _da = da;
     }
-    
+
     /**
      * Returns the cause of this plu
      * @return the plu cause
@@ -150,7 +150,7 @@ public class Plu
     {
         _cause = cause;
     }
-    
+
     /**
      * Returns the type of this plu
      * @return the plu type
@@ -176,17 +176,17 @@ public class Plu
      * @return the plu reference
      */
     @Column( name = "reference" )
-	public String getReference()
-	{
-		return _reference;
-	}
+    public String getReference(  )
+    {
+        return _reference;
+    }
 
-	/**
-     * Sets the reference of the plu to the specified String
-     * @param reference the new reference
-     */
-	public void setReference(String reference)
-	{
-		_reference = reference;
-	}
+    /**
+    * Sets the reference of the plu to the specified String
+    * @param reference the new reference
+    */
+    public void setReference( String reference )
+    {
+        _reference = reference;
+    }
 }

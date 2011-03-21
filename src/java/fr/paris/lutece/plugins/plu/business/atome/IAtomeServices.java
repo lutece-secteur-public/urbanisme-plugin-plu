@@ -55,5 +55,5 @@ public interface IAtomeServices
 
     public List<Atome> findByDateAndParent( Date date, int idFolder );
 
-	public int findMaxId();
+    public int findMaxId(  );
 }

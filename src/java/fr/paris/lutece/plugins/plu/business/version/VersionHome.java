@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.plu.business.version;
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
 //import java.sql.Date;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -75,6 +76,11 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
     public List<Version> findByD2( Date da )
     {
         return getDao(  ).findByD2( da );
+    }
+
+    public Collection<Version> findWorkPluAndParent( Date date, int idFolder )
+    {
+        return getDao(  ).findWorkPluAndParent( date, idFolder );
     }
 
     /*public List<Version> findByFilter( VersionFilter filter )

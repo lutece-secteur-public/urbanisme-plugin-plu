@@ -60,5 +60,7 @@ public interface IVersionServices
 
     public List<Version> findByD2( Date da );
 
+    public Collection<Version> findWorkPluAndParent( Date date, int idFolder );
+
     //public List<Version> findByFilter( VersionFilter filter );
 }

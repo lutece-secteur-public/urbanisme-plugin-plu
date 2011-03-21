@@ -43,6 +43,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.ArrayList;
 
 //import java.sql.Date;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +64,7 @@ import javax.persistence.criteria.Root;
 public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderDAO
 {
     private static final String SQL_QUERY_SELECT_BY_DATE = "SELECT DISTINCT F.id, F.title, F.description, F.parentFolder FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d2 <= ? AND V.d4 > ? ";
+    private static final String SQL_QUERY_SELECT_WORK_PLU = "SELECT DISTINCT F.id, F.title, F.description, F.parentFolder FROM plu_version V INNER JOIN plu_atome A ON (V.atome = A.id) INNER JOIN plu_folder F ON (A.folder = F.id) WHERE V.d1 >= ? ";
 
     /**
      * @return the plugin name
@@ -191,5 +193,31 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
             // add existing predicates to Where clause
             cq.where( listPredicates.toArray( new Predicate[0] ) );
         }
+    }
+
+    public Collection<Folder> findWorkPlu( Date date )
+    {
+        List<Folder> folderList = new ArrayList<Folder>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WORK_PLU );
+        java.sql.Date sqlDate = new java.sql.Date( date.getTime(  ) );
+        daoUtil.setDate( 1, sqlDate );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+            Folder parentFolder = new Folder(  );
+            parentFolder.setId( daoUtil.getInt( 4 ) );
+
+            Folder folder = new Folder(  );
+            folder.setId( daoUtil.getInt( 1 ) );
+            folder.setTitle( daoUtil.getString( 2 ) );
+            folder.setDescription( daoUtil.getString( 3 ) );
+            folder.setParentFolder( parentFolder );
+            folderList.add( folder );
+        }
+
+        daoUtil.free(  );
+
+        return folderList;
     }
 }

@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.plu.business.folder;
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
 //import java.sql.Date;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -64,5 +65,10 @@ public class FolderHome extends AbstractLuteceHome<Integer, Folder, IFolderDAO> 
     public List<Folder> findByDate( Date date )
     {
         return getDao(  ).findByDate( date );
+    }
+
+    public Collection<Folder> findWorkPlu( Date date )
+    {
+        return getDao(  ).findWorkPlu( date );
     }
 }

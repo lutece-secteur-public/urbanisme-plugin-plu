@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
-import java.util.Collection;
-
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
+
+import java.util.Collection;
 
 
 /**
@@ -44,13 +44,13 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
  */
 public class FileHome extends AbstractLuteceHome<Integer, File, IFileDAO> implements IFileHome
 {
-	public Collection<File> findByVersion(int nIdVersion)
-	{
-		return getDao(  ).findByVersion( nIdVersion );
-	}
-	
-	public Collection<File> findByAtome(int nIdAtome)
-	{
-		return getDao(  ).findByAtome( nIdAtome );
-	}
+    public Collection<File> findByVersion( int nIdVersion )
+    {
+        return getDao(  ).findByVersion( nIdVersion );
+    }
+
+    public Collection<File> findByAtome( int nIdAtome )
+    {
+        return getDao(  ).findByAtome( nIdAtome );
+    }
 }

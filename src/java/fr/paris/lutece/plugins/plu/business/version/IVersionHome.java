@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.plu.business.version;
 import fr.paris.lutece.util.jpa.IGenericHome;
 
 //import java.sql.Date;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -67,6 +68,8 @@ public interface IVersionHome extends IGenericHome<Integer, Version>
      * @return A list of version
      */
     public List<Version> findByD2( Date da );
+
+    public Collection<Version> findWorkPluAndParent( Date date, int idFolder );
 
     //public List<Version> findByFilter( VersionFilter filter );
 }

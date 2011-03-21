@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.plu.business.folder;
 import fr.paris.lutece.util.jpa.IGenericDAO;
 
 //import java.sql.Date;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -59,4 +60,6 @@ public interface IFolderDAO extends IGenericDAO<Integer, Folder>
      * @return The list of the Folder
      */
     public List<Folder> findByDate( Date date );
+
+    public Collection<Folder> findWorkPlu( Date date );
 }
