@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.plu.business.plu;
 
 import fr.paris.lutece.util.jpa.IGenericDAO;
 
-import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -44,10 +44,22 @@ import java.util.Date;
  */
 public interface IPluDAO extends IGenericDAO<Integer, Plu>
 {
+	public void create( Plu plu );
+	
     /**
     * Load the list of plu with valid date
     * @param date The date for the query
     * @return The list of the Plu
     */
-    public Plu findByDa( Date date );
+    public Plu findPluApplied(  );
+    
+    public List<Plu> findAll(  );
+    
+    public Plu findByPrimaryKey( int nKey );
+    
+    public Plu findPluWork(  );
+    
+    public void updateApprove( Plu plu );
+    
+    public void updateApplication( Plu plu );
 }

@@ -1,0 +1,93 @@
+<script src='js/jquery.MultiFile.js' type="text/javascript" language="javascript"></script>
+<#include "/admin/util/editor/editor.html" />
+
+<div class="content-box" >
+
+	<h2>#i18n{plu.modify_atome.pageSubTitle}</h2>
+	
+	<form enctype="multipart/form-data" method=post accept=application/pdf action="jsp/admin/plugins/plu/atome/ConfirmModifyAtome.jsp">
+		
+		<p>
+			<label for="id_folder" >#i18n{plu.modify_atome.rowTitleParentFolder} : </label>
+			<select name="id_folder" style="width:331px;">
+				<option value="${one_folder.id}">${one_folder.title}</option>
+				<#list folder_list as folder>
+					<#if folder.id != one_folder.id>
+     				<option value="${folder.id}">${folder.title}</option>
+     				</#if>
+     			</#list>
+			</select>
+		</p>
+		
+		<p>
+        	<label for="atome_name" >#i18n{plu.modify_atome.rowTitleName} : </label> 
+        	<input type="text" id="atome_name" name="atome_name" value="${one_version.atome.name}" size="60" maxlength="51" tabindex="1" />
+        </p>
+        
+		<p>
+        	<label for="atome_title" >#i18n{plu.modify_atome.rowTitle} : </label> 
+        	<input type="text" id="atome_title" name="atome_title" value="${one_version.atome.title}" size="60" maxlength="51" tabindex="1" />
+        </p>
+              
+        <p>
+        	<label for="id_atome" >#i18n{plu.modify_atome.rowTitleId} :</label>
+        	<input type="text" id="id_atome" name="id_atome" value="${one_version.atome.id}" size="30" maxlength="20" tabindex="1" />
+        </p>
+        
+        <p>
+        	<label for="num_version" >#i18n{plu.modify_version.rowTitleVersion} : </label> 
+        	<input type="text" id="num_version" name="num_version" value="${one_version.version}" size="30" maxlength="20" tabindex="1"/>
+        </p>
+        
+		<p>
+        	<label for="version_d1" >#i18n{plu.modify_version.rowTitleD1} :</label>
+        	<input type="text" id="version_d1" name="version_d1" value="${one_version.d1?date}" disabled="disabled"/>
+        </p>
+
+        <p>
+        	<label for="atome_description" >#i18n{plu.modify_atome.rowTitleDescription} :</label>
+        </p>
+       	<p>
+	       	<div id="richtext" class="editor">
+    	    	<textarea id="atome_description" class="richtext" name="atome_description" style="width:80%;" rows="15" cols="90">
+        			${one_version.atome.description}
+        		</textarea>
+        	</div>
+        </p>
+        
+        <fieldset style="width:66%; margin:10px 0 0 17%; border-radius: 11px 11px 11px 11px;">
+			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.modify_atome.rowTitleDocument}</legend>
+			
+	        <#if file_list?exists && file_list?size&gt;0 >
+		        <#list file_list as file >
+		        	<p>
+		        		<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
+		        		<input type="text" id="file_title" name="file_title" size="60" value="${file.title}" />
+		        		<input type="checkbox" name="file_check" value="${file_index}" checked/>${file.name}
+		        	</p>
+		        </#list>
+		    </#if>
+		    
+	        <p style="margin-left:31%;">
+	        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=atome/ModifyAtome&id_atome=${one_version.atome.id}&id_folder=${one_folder.id}&id_plu=${one_plu.id}&id_version=${one_version.id}" style="color:blue">
+	        		#i18n{plu.modify_atome.rowTitleFile}
+	        	</A> 
+	        </p>
+	    
+	    </fieldset>
+        
+        <p>
+        	<A href="jsp/admin/plugins/plu/atome/ConfirmCancelModifyAtome.jsp?id_version=${one_version.id}&id_folder=${one_folder.id}&id_plu=${one_plu.id}&atome_name=${one_version.atome.name}&atome_title=${one_version.atome.title}" style="text-decoration:none" id="button">
+        	#i18n{plu.modify_atome.buttonReturn}
+        	</A> 
+        	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+        	<input type="hidden" name="id_version" value="${one_version.id}"/>
+        	<input type="hidden" name="id_atome_old" value="${one_version.atome.id}"/>
+   		  	<input type="submit" value="#i18n{plu.modify_atome.buttonValidate}" class="button" />
+        </p>
+        
+	</form>
+
+</div>
+
+<@initEditor />

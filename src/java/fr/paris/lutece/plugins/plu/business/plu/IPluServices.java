@@ -33,23 +33,22 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-
-import java.util.Collection;
-import java.util.Date;
+import java.util.List;
 
 
 public interface IPluServices
 {
-    public void create( Plu plu, Plugin plugin );
+    public void create( Plu plu );
 
-    public void remove( Plu plu, Plugin plugin );
+    public List<Plu> findAll(  );
 
-    public void update( Plu plu, Plugin plugin );
+    public Plu findByPrimaryKey( int nKey );
+    
+    public Plu findPluWork(  );
+    
+    public void updateApprove( Plu plu );
+    
+    public void updateApplication( Plu plu );
 
-    public Collection<Plu> findAll( Plugin plugin );
-
-    public Plu findByPrimaryKey( int nKey, Plugin plugin );
-
-    public Plu findByDa( Date date );
+    public Plu findPluApplied(  );
 }

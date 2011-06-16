@@ -33,8 +33,12 @@
  */
 package fr.paris.lutece.plugins.plu.business.type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**
@@ -43,6 +47,9 @@ import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
  */
 public class TypeDAO extends JPALuteceDAO<Integer, Type> implements ITypeDAO
 {
+	private static final String SQL_QUERY_SELECT_BY_KEY = "SELECT * FROM type_acte_juridique WHERE id_type = ?";
+	private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM type_acte_juridique";
+	
     /**
     * @return the plugin name
     */
@@ -50,5 +57,42 @@ public class TypeDAO extends JPALuteceDAO<Integer, Type> implements ITypeDAO
     public String getPluginName(  )
     {
         return PluPlugin.PLUGIN_NAME;
+    }
+    
+    public Type findByPrimaryKey( int nKey )
+    {
+    	Type type = new Type(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_KEY );
+        daoUtil.setInt( 1, nKey );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {;
+        	type.setId( daoUtil.getInt( 1 ) );
+        	type.setName( daoUtil.getString( 2 ) );
+        }
+
+        daoUtil.free(  );
+
+        return type;
+    }
+    
+    public List<Type> findAll(  )
+    {
+    	List<Type> typeList = new ArrayList<Type>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+        	Type type = new Type(  );
+        	type.setId( daoUtil.getInt( 1 ) );
+        	type.setName( daoUtil.getString( 2 ) );
+            typeList.add( type );
+        }
+
+        daoUtil.free(  );
+
+        return typeList;
     }
 }

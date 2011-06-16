@@ -33,30 +33,14 @@
  */
 package fr.paris.lutece.plugins.plu.business.type;
 
-import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-
 
 /**
  * This class represents business object Type
  * @author vLopez
  */
-@Entity
-@Table( name = "plu_type" )
 public class Type
 {
-    /** Sequence name */
-    private static final String JPA_SEQUENCE_NAME = "plu_sequence";
-
     //constantes
-    private static final String JPA_COLUMN_NAME = "plu_type_id";
     public static final String RESOURCE_TYPE = "TYPE_RESOURCE";
     private int _id;
     private String _name;
@@ -65,10 +49,6 @@ public class Type
      * Returns the identifier of this type
      * @return the type identifier
      */
-    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
-    @Id
-    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
-    @Column( name = "id" )
     public int getId(  )
     {
         return _id;
@@ -87,7 +67,6 @@ public class Type
      * Returns the name of this type
      * @return the type name
      */
-    @Column( name = "name" )
     public String getName(  )
     {
         return _name;

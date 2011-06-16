@@ -33,52 +33,29 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
-import fr.paris.lutece.plugins.plu.business.version.Version;
-import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-
 
 /**
  * This class represents business object File
  * @author vLopez
  */
-@Entity
-@Table( name = "plu_file" )
 public class File
 {
-    /** Sequence name */
-    private static final String JPA_SEQUENCE_NAME = "plu_file_sequence";
-
     //constantes
-    private static final String JPA_COLUMN_NAME = "plu_file_id";
-    public static final String RESOURCE_TYPE = "FILE_RESOURCE";
+    public static final String RESOURCE_TYPE = "FICHIER_RESOURCE";
     private int _id;
+    private int _order;
+    private int _version;
     private String _name;
     private String _title;
     private String _mimeType;
-    private long _size;
+    private int _size;
     private byte[] _file;
-    private Version _version;
+    private String _eps;
 
     /**
      * Returns the identifier of this file
      * @return the file identifier
      */
-    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
-    @Id
-    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
-    @Column( name = "id" )
     public int getId(  )
     {
         return _id;
@@ -92,12 +69,47 @@ public class File
     {
         _id = id;
     }
+    
+    /**
+     * Returns the order of this file
+     * @return the file order
+     */
+    public int getOrder(  )
+    {
+        return _order;
+    }
 
+    /**
+     * Sets the order of the file to the specified integer
+     * @param order the new order
+     */
+    public void setOrder( int order )
+    {
+    	_order = order;
+    }
+
+    /**
+     * Returns the identifier version of this file
+     * @return the identifier version
+     */
+    public int getVersion(  )
+    {
+        return _version;
+    }
+
+    /**
+     * Sets the identifier version of the file to the specified integer
+     * @param version the new identifier version
+     */
+    public void setVersion( int version )
+    {
+        _version = version;
+    }
+    
     /**
      * Returns the name of this file
      * @return the file name
      */
-    @Column( name = "name" )
     public String getName(  )
     {
         return _name;
@@ -112,7 +124,10 @@ public class File
         _name = name;
     }
 
-    @Column( name = "title" )
+    /**
+     * Returns the title of this file
+     * @return the file title
+     */
     public String getTitle(  )
     {
         return _title;
@@ -131,7 +146,6 @@ public class File
      * Returns the mime type of this file
      * @return the file mime type
      */
-    @Column( name = "mimeType" )
     public String getMimeType(  )
     {
         return _mimeType;
@@ -150,8 +164,7 @@ public class File
      * Returns the size of this file
      * @return the file size
      */
-    @Column( name = "size" )
-    public long getSize(  )
+    public int getSize(  )
     {
         return _size;
     }
@@ -160,7 +173,7 @@ public class File
      * Sets the size of the file to the specified long
      * @param size the new size
      */
-    public void setSize( long size )
+    public void setSize( int size )
     {
         _size = size;
     }
@@ -169,8 +182,6 @@ public class File
      * Returns the physical file of this file
      * @return the physical file
      */
-    @Lob
-    @Column( name = "file" )
     public byte[] getFile(  )
     {
         return _file;
@@ -186,22 +197,20 @@ public class File
     }
 
     /**
-     * Returns the version of this file
-     * @return the file version
+     * Returns the eps value of this file
+     * @return the file eps value
      */
-    @OneToOne( fetch = FetchType.EAGER )
-    @JoinColumn( name = "version" )
-    public Version getVersion(  )
+    public String getEPS(  )
     {
-        return _version;
+        return _eps;
     }
 
     /**
-     * Sets the version of the file to the specified Version
-     * @param version the new version
+     * Sets the eps value of the file to the specified varchar
+     * @param eps the new eps value
      */
-    public void setVersion( Version version )
+    public void setEPS( String eps )
     {
-        _version = version;
+        _eps = eps;
     }
 }

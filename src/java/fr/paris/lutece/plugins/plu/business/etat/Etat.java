@@ -31,23 +31,53 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.folder;
-
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.StaticMetamodel;
+package fr.paris.lutece.plugins.plu.business.etat;
 
 
 /**
- * Folder_ the metamodel for folder
+ * This class represents business object Etat
  * @author vLopez
  */
-@StaticMetamodel( value = Folder.class )
-public class Folder_
+public class Etat
 {
-    public static volatile SingularAttribute<Folder, Integer> id;
-    public static volatile SingularAttribute<Folder, String> name;
-    public static volatile SingularAttribute<Folder, String> title;
-    public static volatile SingularAttribute<Folder, String> description;
-    public static volatile SingularAttribute<Folder, byte[]> img;
-    public static volatile SingularAttribute<Folder, Folder> parentFolder;
+    //constantes
+    public static final String RESOURCE_TYPE = "ETAT_RESOURCE";
+    private int _id;
+    private String _name;
+
+    /**
+     * Returns the identifier of this etat
+     * @return the etat identifier
+     */
+    public int getId(  )
+    {
+        return _id;
+    }
+
+    /**
+     * Sets the identifier of the etat to the specified integer
+     * @param id the new identifier
+     */
+    public void setId( int id )
+    {
+        _id = id;
+    }
+
+    /**
+     * Returns the name of this etat
+     * @return the etat name
+     */
+    public String getName(  )
+    {
+        return _name;
+    }
+
+    /**
+     * Sets the name of the etat to the specified string
+     * @param name the new name
+     */
+    public void setName( String name )
+    {
+        _name = name;
+    }
 }

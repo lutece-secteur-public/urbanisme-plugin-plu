@@ -1,27 +1,61 @@
+<div style="clear:both;" >
+	<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none">
+		<input type="submit" value="#i18n{plu.manage_plu.buttonListPlu}" class="button" />
+	</A>
+	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0" style="text-decoration:none">
+		<input type="submit" value="#i18n{plu.manage_folder.buttonListFolder}" class="button" />
+	</A>
+	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0&id_folder=0" style="text-decoration:none">
+		<input type="submit" value="#i18n{plu.manage_atome.buttonListAtome}" class="button" />
+	</A>
+</div>
+
 <div class="content-box" >
 	<div class="highlight-box">
 		<form method="post" name="" action="jsp/admin/plugins/plu/atome/ViewAtome.jsp"  >
 			<p>
   			   	<label for="file_title" >#i18n{plu.search_file.rowTitleFile} : </label> 
-        		<input type="text" id="file_title" name="file_title" size="60" maxlength="51" tabindex="1" />
+        		<input type="text" id="file_title" name="file_title" <#if file_title?exists>value="${file_title}"</#if> size="60" maxlength="51" tabindex="1" />
         	</p>
         	<p>
-        		<label for="file_format" >#i18n{plu.search_file.rowTitleFormat} :</label>  
-        		<input type="text" id="file_format" name="file_format" size="60" maxlength="51" tabindex="2" />
+  			   	<label for="file_name" >#i18n{plu.search_file.rowTitleName} : </label> 
+        		<input type="text" id="file_name" name="file_name" <#if file_name?exists>value="${file_name}"</#if> size="60" maxlength="51" tabindex="1" />
+        	</p>
+        	<p>
+	        	<label for="file_format" >#i18n{plu.search_file.rowTitleFormat} : </label>
+				<select name="file_format" style="width:331px;">
+					<#if file_format?exists>
+						<option value="${file_format}">${file_format}</option>
+						<option value="0">none</option>
+						<#list file_list as file >
+							<#if file.mimeType != file_format>
+		     				<option value="${file.mimeType}">${file.mimeType}</option>
+		     				</#if>
+		     			</#list>
+					<#else>
+						<option value="0">none</option>
+						<#list file_list as file >
+		     				<option value="${file.mimeType}">${file.mimeType}</option>
+		     			</#list>
+					</#if>
+				</select>
         	</p>
        		<p>
-        		<label for="atome_title" >#i18n{plu.search_file.rowTitleAtome} :</label>  
-        		<input type="text" id="atome_title" name="atome_title" size="60" maxlength="51" tabindex="3" />
+        		<label for="atome_name" >#i18n{plu.search_file.rowTitleAtome} : </label>  
+        		<input type="text" id="atome_name" name="atome_name" <#if atome_name?exists>value="${atome_name}"</#if> size="60" maxlength="51" tabindex="3" />
         	</p>
 			<p>
-				<input type="hidden" name="id_plu" value="${plu.id}"/>
+				<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 				<input type="hidden" name="id_version" value="${one_version.id}"/>
+				<input type="hidden" name="id_folder" value="${one_folder.id}"/>
 		       	<input type="submit" value="#i18n{plu.search_file.buttonSearch}" class="button"/>   
 		    </p>
 		</form>
 	</div>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${one_version.id}">
+	<form method="post" rm action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${one_version.id}
+	<#if file_title?exists>&file_title=${file_title}</#if><#if file_name?exists>&file_name=${file_name}</#if>
+	<#if file_format?exists>&file_format=${file_format}</#if><#if atome_name?exists>&atome_name=${atome_name}</#if>">
 	<@pagination paginator=paginator />
 
 		<!-- Number of contact per page selector -->
@@ -40,27 +74,21 @@
 	
 	<table>
 	        <tr>
+	        	<th width="20%">#i18n{plu.view_atome.columnTitle}</th>
 	            <th width="20%">#i18n{plu.view_atome.columnTitleName}</th>
 	            <th width="20%">#i18n{plu.view_atome.columnTitleType}</th>
-	            <th width="20%">#i18n{plu.view_atome.columnTitleSize}</th>
-	            <th width="20%">#i18n{plu.view_atome.columnTitleTree}</th>
 	            <th width="10%">#i18n{plu.view_atome.columnTitleActionView}</th>
 	    	</tr>   
 	        <#list file_list as file >
 	        <tr>
-	            <td>
+	        	<td>
 	                ${file.title}
 	            </td>
 	            <td>
+	                ${file.name}
+	            </td>
+	            <td>
 	                ${file.mimeType}
-	            </td>
-	            <td>
-	                ${file.size}
-	            </td>
-	            <td>
-	            	PLU : ${plu.id}<br>
-	            	Dossier : ${one_version.atome.folder.title}<br>
-	            	Atome : ${one_version.atome.title}
 	            </td>
 	            <td>
 	           	<form method="post" action="jsp/admin/plugins/plu/atome/.jsp">
@@ -71,7 +99,9 @@
 	        </#list>
 	</table>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${one_version.id}">
+	<form method="post" rm action="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${one_version.id}
+	<#if file_title?exists>&file_title=${file_title}</#if><#if file_name?exists>&file_name=${file_name}</#if>
+	<#if file_format?exists>&file_format=${file_format}</#if><#if atome_name?exists>&atome_name=${atome_name}</#if>">
 	<@pagination paginator=paginator />
 
 		<!-- Number of contact per page selector -->
@@ -90,12 +120,13 @@
 	
 </div>
 
+
 <A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none">
    	<input type="submit" value="#i18n{plu.tree_plu.buttonListPlu}" class="button" />
 </A>
-<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" style="text-decoration:none" id="button">
+<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}<#if folder_title?exists>&folder_title=${folder_title}</#if>" style="text-decoration:none">
    	<input type="submit" value="#i18n{plu.tree_plu.buttonListFolder}" class="button" />
 </A>
-<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}&id_folder=${one_version.atome.folder.id}" style="text-decoration:none">
+<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}<#if folder_title?exists>&folder_title=${folder_title}/><#elseif atome_title?exists>&atome_name=${atome_name}&atome_title=${atome_title}&num_version=${num_version}&version_d1=${version_d1}&version_d2=${version_d2}&version_d3=${version_d3}&version_d4=${version_d4}</#if>" style="text-decoration:none">
    	<input type="submit" value="#i18n{plu.tree_plu.buttonListAtome}" class="button" />
 </A>

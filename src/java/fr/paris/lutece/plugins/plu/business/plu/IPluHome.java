@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.plu.business.plu;
 
 import fr.paris.lutece.util.jpa.IGenericHome;
 
-import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -44,10 +44,22 @@ import java.util.Date;
  */
 public interface IPluHome extends IGenericHome<Integer, Plu>
 {
+	public void create( Plu plu );
+	
     /**
     * Returns a list of plu objects
     * @param date The date for the query
     * @return A list of plu
     */
-    public Plu findByDa( Date date );
+    public Plu findPluApplied(  );
+    
+    public List<Plu> findAll(  );
+    
+    public Plu findByPrimaryKey( int nKey );
+    
+    public Plu findPluWork(  );
+    
+    public void updateApprove( Plu plu );
+    
+    public void updateApplication( Plu plu );
 }

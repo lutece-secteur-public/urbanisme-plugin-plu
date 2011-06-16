@@ -31,25 +31,49 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.atome;
+package fr.paris.lutece.plugins.plu.business.etat;
 
-import fr.paris.lutece.plugins.plu.business.folder.Folder;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.StaticMetamodel;
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**
- * Atome_ the metamodel for atome
+ * This class provides Data Access methods for Etat objects
  * @author vLopez
  */
-@StaticMetamodel( value = Atome.class )
-public class Atome_
+public class EtatDAO extends JPALuteceDAO<Integer, Etat> implements IEtatDAO
 {
-    public static volatile SingularAttribute<Atome, Integer> id;
-    public static volatile SingularAttribute<Atome, String> name;
-    public static volatile SingularAttribute<Atome, String> title;
-    public static volatile SingularAttribute<Atome, String> description;
-    public static volatile SingularAttribute<Atome, byte[]> img;
-    public static volatile SingularAttribute<Atome, Folder> folder;
+	private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM etat_generation";
+	
+    /**
+    * @return the plugin name
+    */
+    @Override
+    public String getPluginName(  )
+    {
+        return PluPlugin.PLUGIN_NAME;
+    }
+    
+    public List<Etat> findAll(  )
+    {
+    	List<Etat> etatList = new ArrayList<Etat>(  );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
+        daoUtil.executeQuery(  );
+
+        while ( daoUtil.next(  ) )
+        {
+        	Etat etat = new Etat(  );
+        	etat.setId( daoUtil.getInt( 1 ) );
+        	etat.setName( daoUtil.getString( 2 ) );
+        	etatList.add( etat );
+        }
+
+        daoUtil.free(  );
+
+        return etatList;
+    }
 }

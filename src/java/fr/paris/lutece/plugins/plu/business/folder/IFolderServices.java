@@ -33,30 +33,81 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-
-import java.util.Collection;
-
-//import java.sql.Date;
-import java.util.Date;
 import java.util.List;
 
 
 public interface IFolderServices
 {
-    public void create( Folder folder, Plugin plugin );
+	/**
+	 * Create a new folder object
+	 * @param folder the new folder object
+	 */
+	public void create( Folder folder );
 
-    public void remove( Folder folder, Plugin plugin );
+	/**
+	 * Update a folder object
+	 * @param folder the folder object
+	 */
+    public void update( Folder folder );
+    
+    /**
+	 * Remove a folder object
+	 * @param folder the folder object
+	 */
+    public void remove( Folder folder );
+	
+    /**
+	 * Returns a folder object
+	 * @param nKey the folder id
+	 * @return A folder object with the same id
+	 */
+    public Folder findByPrimaryKey( int nKey );
+	
+    /**
+	 * Returns a folder object
+	 * @return The last folder created
+	 */
+	public Folder findLastFolder(  );
+	
+	/**
+	 * Returns a folder object
+	 * @param title the folder title
+	 * @return A folder object with the same title
+	 */
+	public Folder findForTestTitle( String title );
+	
+	/**
+	 * Returns a folder object
+	 * @param nIdAtome the atome id
+	 * @return A folder object associated with the atome id
+	 */
+	public Folder findByAtome( int nIdAtome );
+	
+	/**
+	 * Returns a folder object
+	 * @param nKey the folder id
+	 * @return A folder object which has a child or an atome
+	 */
+	public Folder findForDelete( int nKey );
+	
+	/**
+	 * Returns a list of folder objects
+	 * @param pluId the plu id
+	 * @return A list of folder with the same plu id
+	 */
+	public List<Folder> findByPluId( int pluId );
+	
+	/**
+	 * Returns a list of folder objects
+	 * @param parentId the folder parent id
+	 * @return A list of folder with the same folder parent id
+	 */
+	public List<Folder> findByParent( int parentId );
 
-    public void update( Folder folder, Plugin plugin );
-
-    public Collection<Folder> findAll( Plugin plugin );
-
-    public Folder findByPrimaryKey( int nKey, Plugin plugin );
-
+	/**
+     * Finds by filter
+     * @param filter the filter
+     * @return the folder list
+     */
     public List<Folder> findByFilter( FolderFilter filter );
-
-    public List<Folder> findByDate( Date date );
-
-    public Collection<Folder> findWorkPlu( Date date );
 }

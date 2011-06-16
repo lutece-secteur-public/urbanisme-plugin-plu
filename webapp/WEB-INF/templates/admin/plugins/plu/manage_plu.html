@@ -1,14 +1,31 @@
-<div class="content-box" >
+<div style="clear:both;" >
+	<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none">
+		<input type="submit" value="#i18n{plu.manage_plu.buttonListPlu}" class="button" />
+	</A>
+	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0" style="text-decoration:none">
+		<input type="submit" value="#i18n{plu.manage_folder.buttonListFolder}" class="button" />
+	</A>
+	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0&id_folder=0" style="text-decoration:none">
+		<input type="submit" value="#i18n{plu.manage_atome.buttonListAtome}" class="button" />
+	</A>
+</div>
+
+<div class="content-box" >	
 	<table>
 	        <tr>
-	            <th width="20%">#i18n{plu.manage_plu.columnTitleVersion}</th>
-	            <th width="20%">#i18n{plu.manage_plu.columnTitleDJ}</th>
-	            <th width="20%">#i18n{plu.manage_plu.columnTitleDA}</th>
+	            <th width="5%">#i18n{plu.manage_plu.columnTitleVersion}</th>
+	            <th width="15%">#i18n{plu.manage_plu.columnTitleType}</th>
+	            <th width="15%">#i18n{plu.manage_plu.columnTitleCause}</th>
+	            <th width="10%">#i18n{plu.manage_plu.columnTitleRef}</th>
+	            <th width="10%" style="text-align:center;">#i18n{plu.manage_plu.columnTitleDJ}</th>
+	            <th width="10%" style="text-align:center;">#i18n{plu.manage_plu.columnTitleDA}</th>
+	            <th width="5%" style="text-align:center;">#i18n{plu.manage_plu.columnTitleState}</th>
 				
-	            <th width="10%">#i18n{plu.manage_plu.columnTitleActionApplicable}</th>
-	            <th width="10%">#i18n{plu.manage_plu.columnTitleActionTree}</th>
-	            <th width="10%">#i18n{plu.manage_plu.columnTitleActionIso}</th>
-	        	<th width="10%">#i18n{plu.manage_plu.columnTitleActionSite}</th>
+	            <th width="6%" style="text-align:center;">#i18n{plu.manage_plu.columnTitleActionApplicable}</th>
+	            <th width="6%" style="text-align:center;">#i18n{plu.manage_plu.columnTitleVersionModify}</th>
+	            <th width="6%" style="text-align:center;">#i18n{plu.manage_plu.columnTitleActionTree}</th>
+	            <th width="5%" style="text-align:center;">#i18n{plu.manage_plu.columnTitleActionIsoSite}</th>
+	        	<th width="7%" style="text-align:center;">#i18n{plu.manage_plu.columnTitleStateGeneration}</th>
 
 	    	</tr>
 	        <#list plu_list as plu>
@@ -21,46 +38,110 @@
 			   		</form>
 	            </td>
 	            <td>
-	            	${plu.dj}
+	            <#if type_list?exists>
+	            	<#list type_list as type>
+	            	<#if type.id==plu.type>
+	            		${type.name}
+	            	</#if>
+	            	</#list>
+	            <#else>
+	            	N/A
+	            </#if>
 	            </td>
 	            <td>
-	            <#if plu.da < "31/12/9999"?datetime("dd/MM/yyyy") >
+	            <#if plu.cause?exists >
+	            	${plu.cause}
+	            <#else>
+	            	N/A
+	            </#if>
+	            </td>
+	            <td>
+	            <#if plu.reference?exists >
+	            	${plu.reference}
+	            <#else>
+	            	N/A
+	            </#if>
+	            </td>
+	            <td style="text-align:center;">
+	            <#if plu.dj?exists >
+	            	${plu.dj}
+	            <#else>
+	            	N/A
+	            </#if>
+	            </td>
+	            <td style="text-align:center;">
+	            <#if plu.da?exists >
 	                ${plu.da}
 	            <#else>
 	            	N/A
 	            </#if>
-	            </td>     
-	            
-	            <td>
-	            <#if plu.da < "31/12/9999"?datetime("dd/MM/yyyy") >
-	            	Fait
+	            </td>
+	            <td style="text-align:center;">
+	            <#if plu.id==one_plu_applied.id>
+	            	Appliqué
+	            <#elseif plu.da?exists && plu.dj?exists>
+	            	Archivé
+	            <#elseif plu.dj?exists>
+	            	Approuvé
 	            <#else>
+	            	Travail
+	            </#if>
+	            </td>
+	            
+	            <td style="text-align:center;">
+	            <#if plu.da?exists && plu.dj?exists>
+	            	<img src="images/admin/skin/plugins/plu/appliquer.bmp" />
+	            <#elseif plu.dj?exists>
 	            	<form method="post" action="jsp/admin/plugins/plu/plu/ApplicablePlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/plugins/plu/" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.applicable_plu.applicable}" title="#i18n{plu.applicable_plu.applicable}" type="image" />
+		      			<input src="images/admin/skin/plugins/plu/approuver.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.applicable_plu.applicable}" title="#i18n{plu.applicable_plu.applicable}" type="image" />
+			   		</form>
+			   	<#else>
+			   		<form method="post" action="jsp/admin/plugins/plu/plu/ApprovePlu.jsp">
+	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		      			<input src="images/admin/skin/plugins/plu/" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.approve_plu.approve}" title="#i18n{plu.approve_plu.approve}" type="image" />
 			   		</form>
 			   	</#if>
 	            </td>
-	            
-	            <td>
+	            <td style="text-align:center;">
+	            <#if plu.dj?exists && !plu.da?exists>
+	            	<form method="post" action="jsp/admin/plugins/plu/plu/ModifyPlu.jsp">
+	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		      			<input src="images/admin/skin/plugins/plu/modifier.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_plu.modify}" title="#i18n{plu.modify_plu.modify}" type="image" />
+			   		</form>
+			   	<#elseif plu.dj?exists && plu.da?exists>
+			   		<form method="post" action="jsp/admin/plugins/plu/plu/CorrectPlu.jsp">
+	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		      			<input src="images/admin/skin/plugins/plu/modifier.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_plu.modify}" title="#i18n{plu.modify_plu.modify}" type="image" />
+			   		</form>
+			   	<#else>
+			   		<img disabled="disabled" src="images/admin/skin/plugins/plu/modifier.bmp" />
+			   	</#if>
+	            </td>
+	            <td style="text-align:center;">
 	            	<form method="post" action="jsp/admin/plugins/plu/plu/TreePlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
 		      			<input src="images/admin/skin/plugins/plu/tree.jpeg" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.tree_plu.tree}" title="#i18n{plu.tree_plu.tree}" type="image" />
 			   		</form>
 	            </td>
 	            
-	            <td>
+	            <td style="text-align:center;">
 	            	<form method="post" action="jsp/admin/plugins/plu/plu/IsoPlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/plugins/plu/iso.jpeg" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.iso_plu.iso}" title="#i18n{plu.iso_plu.iso}" type="image" />
+		      			<input src="images/admin/skin/plugins/plu/generer.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.isosite_plu.isosite}" title="#i18n{plu.isosite_plu.isosite}" type="image" />
 			   		</form>
 	            </td>
 	            
-	            <td>
-	            	<form method="post" action="jsp/admin/plugins/plu/plu/SitePlu.jsp">
-	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/actions/publish.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.site_plu.site}" title="#i18n{plu.site_plu.site}" type="image" />
-			   		</form>
+	            <td style="text-align:center;">
+	            <#if etat_list?exists>
+	            	<#list etat_list as etat>
+	            	<#if etat.id==plu.etat>
+	            		${etat.name}
+	            	</#if>
+	            	</#list>
+	            <#else>
+	            	N/A
+	            </#if>
 	            </td>
 
 	    	</tr>

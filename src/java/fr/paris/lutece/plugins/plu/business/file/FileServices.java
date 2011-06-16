@@ -33,11 +33,9 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
+import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collection;
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 
 
 public class FileServices implements IFileServices
@@ -54,40 +52,59 @@ public class FileServices implements IFileServices
         _home = home;
     }
 
-    public void create( File file, Plugin plugin )
+    /**
+	 * Create a new file object
+	 * @param file the new file object
+	 */
+    public void create( File file )
     {
         _home.create( file );
     }
-
-    public void remove( File file, Plugin plugin )
-    {
-        int fileId = file.getId(  );
-        _home.remove( fileId );
-    }
-
-    @Transactional
-    public void update( File file, Plugin plugin )
+    
+    /**
+	 * Update a new file object
+	 * @param file the file object
+	 */
+    public void update( File file )
     {
         _home.update( file );
     }
 
-    public Collection<File> findAll( Plugin plugin )
+    /**
+	 * Remove a new file object
+	 * @param file the file object
+	 */
+    public void remove( File file )
+    {
+        _home.remove( file );
+    }
+
+    /**
+	 * Returns a list of file objects
+	 * @return A list of all file
+	 */
+    public List<File> findAll(  )
     {
         return _home.findAll(  );
     }
-
-    public File findByPrimaryKey( int nKey, Plugin plugin )
-    {
-        return _home.findByPrimaryKey( nKey );
-    }
-
-    public Collection<File> findByVersion( int nIdVersion )
+    /**
+	 * Returns a list of file objects
+	 * @param nIdVersion the version id
+	 * @return A list of file associated with the same version id
+	 */
+    public List<File> findByVersion( int nIdVersion )
     {
         return _home.findByVersion( nIdVersion );
     }
-
-    public Collection<File> findByAtome( int nIdAtome )
+    
+    /**
+     * Finds by filter
+     * @param fileFilter the file filter
+     * @param atomeFilter the atome filter
+     * @return the folder list
+     */
+    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter )
     {
-        return _home.findByAtome( nIdAtome );
+    	return _home.findByFilter( fileFilter, atomeFilter );
     }
 }

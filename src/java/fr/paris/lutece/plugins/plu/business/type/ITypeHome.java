@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.type;
 
+import java.util.List;
+
 import fr.paris.lutece.util.jpa.IGenericHome;
 
 
@@ -42,4 +44,16 @@ import fr.paris.lutece.util.jpa.IGenericHome;
  */
 public interface ITypeHome extends IGenericHome<Integer, Type>
 {
+	/**
+	 * Returns a type object
+	 * @param nKey the type id
+	 * @return A type object with the same id
+	 */
+	public Type findByPrimaryKey( int nKey );
+	
+	/**
+	 * Returns a list of type objects
+	 * @return A list of all type
+	 */
+	public List<Type> findAll(  );
 }

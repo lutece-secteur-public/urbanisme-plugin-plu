@@ -1,0 +1,50 @@
+<div class="content-box" >
+
+	<h2>#i18n{plu.modify_plu.pageSubTitle}</h2>
+	
+	<form method=post action="jsp/admin/plugins/plu/plu/ConfirmModifyPlu.jsp">
+		
+		<p style="color:#989898;">
+        	<label for="id_plu" style="color:#989898;">#i18n{plu.modify_plu.rowTitleId} : </label>
+        	${one_plu.id}
+        </p>
+        
+		<p>
+        	<label for="date_juridique" >#i18n{plu.modify_plu.rowTitleDJ} : </label>
+        	<input type=text id="date_juridique" name="date_juridique" value="${one_plu.dj}" />
+        	<@getDatePicker idField="date_juridique" language="fr" />
+        </p>
+        
+        <p>
+			<label for="id_type" >#i18n{plu.modify_plu.rowTitleType} : </label>
+			<select name="id_type">     			
+     			<option value="${one_type.id}">${one_type.name}</option>
+				<#list type_list as type>
+					<#if type.id != one_type.id>
+ 	    			<option value="${type.id}">${type.name}</option>
+ 	    			</#if>
+     			</#list>
+			</select>
+		</p>
+			
+        <p>
+        	<label for="cause" >#i18n{plu.modify_plu.rowTitleCause} :</label>
+        	<textarea id="cause" name="cause" cols="59" rows="3" style="border: 1px solid rgb(85, 180, 229);" value="${one_plu.cause}">${one_plu.cause}</textarea>
+        </p>
+        
+        <p>
+        	<label for="reference" >#i18n{plu.modify_plu.rowTitleReference} :</label>  
+        	<input type="text" id="reference" name="reference" size="60" maxlength="101" value="${one_plu.reference}" />
+        </p>
+        
+        <p>
+        	<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none" id="button">
+        	#i18n{plu.modify_plu.buttonReturn}
+        	</A>
+        	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+   		  	<input type="submit" value="#i18n{plu.modify_plu.buttonValidate}" class="button" />
+        </p>
+ 
+	</form>
+	
+</div>

@@ -1,0 +1,47 @@
+<div class="content-box" >
+
+	<h2>#i18n{plu.approve_plu.pageSubTitle}</h2>
+	
+	<form method=post action="jsp/admin/plugins/plu/plu/ConfirmApprovePlu.jsp">
+		
+		<p style="color:#989898;">
+        	<label for="id_plu" style="color:#989898;">#i18n{plu.approve_plu.rowTitleId} : </label>
+        	${one_plu.id}
+        </p>
+        
+		<p>
+        	<label for="date_juridique" >#i18n{plu.approve_plu.rowTitleDJ} : </label>
+        	<input type=text id="date_juridique" name="date_juridique" />
+        	<@getDatePicker idField="date_juridique" language="fr" />
+        </p>
+        
+        <p>
+			<label for="id_type" >#i18n{plu.approve_plu.rowTitleType} : </label>
+			<select name="id_type" style="width:331px;">
+				<#list type_list as type>
+     			<option value="${type.id}">${type.name}</option>
+     			</#list>
+			</select>
+		</p>
+			
+        <p>
+        	<label for="cause" >#i18n{plu.approve_plu.rowTitleCause} :</label>
+        	<textarea id="cause" name="cause" cols="59" rows="3" style="border: 1px solid rgb(85, 180, 229);"></textarea>
+        </p>
+        
+        <p>
+        	<label for="reference" >#i18n{plu.approve_plu.rowTitleReference} :</label>  
+        	<input type="text" id="reference" name="reference" size="60" maxlength="101" />
+        </p>
+        
+        <p>
+        	<A href="jsp/admin/plugins/plu/plu/ConfirmCancelApprovePlu.jsp?id_plu=${one_plu.id}" style="text-decoration:none" id="button">
+        	#i18n{plu.approve_plu.buttonReturn}
+        	</A>
+        	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+   		  	<input type="submit" value="#i18n{plu.approve_plu.buttonValidate}" class="button" />
+        </p>
+ 
+	</form>
+	
+</div>

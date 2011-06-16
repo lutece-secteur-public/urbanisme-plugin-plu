@@ -4,14 +4,17 @@
 
 	<h2>#i18n{plu.modify_folder.pageSubTitle}</h2>
 	
-	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/DoModifyFolder.jsp">
+	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/ConfirmModifyFolder.jsp">
 		
 		<p>
 			<label for="id_parent_folder" >#i18n{plu.modify_folder.rowTitleParentFolder} : </label>
 			<select name="id_parent_folder">
-				<option value="${one_folder.id}">${one_folder.title}</option>
+				<#if one_folder_parent.title?has_content>
+					<option value="${one_folder_parent.id}">${one_folder_parent.title}</option>
+				</#if>
+				<option value="0">none</option>
 				<#list folder_list as folder>
-					<#if folder.id != one_folder.id>
+					<#if folder.id != one_folder.id && folder.id != one_folder_parent.id>
      				<option value="${folder.id}">${folder.title}</option>
      				</#if>
      			</#list>
@@ -26,6 +29,9 @@
         <p>
         	<label for="folder_image" >#i18n{plu.modify_folder.rowTitleImage} : </label> 
         	<input type="file" id="folder_image" name="folder_image" />
+        	<#if one_folder.img?exists>
+        		<input type="checkbox" name="image_check" value="true" checked/>${one_folder.title}_IMG.jpg
+        	</#if>
         </p>
         
         <p>
@@ -40,11 +46,12 @@
         </p>
                 
         <p>
-        	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" style="text-decoration:none" id="button">
-        	<input type="reset" value="#i18n{plu.modify_folder.buttonReturn}" class="button" />
+        	<A href="jsp/admin/plugins/plu/folder/ConfirmCancelModifyFolder.jsp?id_plu=${one_plu.id}&folder_title=${one_folder.title}" style="text-decoration:none" id="button">
+        	#i18n{plu.modify_folder.buttonReturn}
         	</A>
-        	<input type="hidden" name="id_plu" value="${plu.id}"/>
+        	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 	        <input type="hidden" name="id_folder" value="${one_folder.id}"/>
+	        <input type="hidden" name="folder_title_old" value="${one_folder.title}"/>
    		  	<input type="submit" value="#i18n{plu.modify_folder.buttonValidate}" class="button" />
         </p>
         

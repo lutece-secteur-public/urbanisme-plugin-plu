@@ -33,10 +33,9 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.util.jpa.IGenericHome;
 
-//import java.sql.Date;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -47,29 +46,88 @@ import java.util.List;
  */
 public interface IVersionHome extends IGenericHome<Integer, Version>
 {
-    /**
-    * Returns a list of version objects
-    * @param date The date for the query
-    * @param idFolder The folder identifier
-    * @return A list of version
-    */
-    public List<Version> findByDateAndParent( Date date, int idFolder );
+	/**
+	 * Create a new version object
+	 * @param version the new version object
+	 */
+    public void create( Version version );
 
     /**
-     * Returns a list of version objects
-     * @param date The date for the query
-     * @return A list of version
+	 * Update a version object
+	 * @param version the version object
+	 */
+    public void update( Version version );
+    
+    /**
+	 * Update a version object
+	 * @param idPlu the plu id
+	 * @param date the approvation date
+	 */
+    public void updateApprove( int idPlu, Date date );
+    
+    /**
+	 * Update a version object
+	 * @param idPlu the plu id
+	 * @param date the application date
+	 */
+    public void updateApplication( int idPlu, Date date );
+    
+    /**
+	 * Update a version object
+	 * @param idPlu the plu id
+	 * @param date the evolution date
+	 */
+    public void updateEvolution( int idPlu, Date date );
+    
+    /**
+	 * Update a version object
+	 * @param idPlu the plu id
+	 * @param date the archivage date
+	 */
+    public void updateArchive( int idPlu, Date date );
+    
+    /**
+	 * Update a version object
+	 * @param nKey the version id
+	 */
+    public void updateForEvolution( int nKey);
+    
+    /**
+	 * Returns an integer
+	 * @param nIdAtome the atome id
+	 * @return A maximum version number
+	 */
+    public int findMaxVersion( int nIdAtome );
+
+    /**
+	 * Returns a version object
+	 * @param nKey the version id
+	 * @return A version object with the id nKey
+	 */
+    public Version findByPrimaryKey( int nKey );
+    
+    /**
+	 * Returns a version object
+	 * @param nIdAtome the atome id
+	 * @param numVersion the version number
+	 * @return A version object associated with the same atome id and version number
+	 */
+    public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion );
+    
+    /**
+	 * Returns a list of version objects
+	 * @param pluId the plu id
+	 * @param nIdFolder the folder id
+	 * @return A list of version associated with the same plu id and folder id
+	 */
+    public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder );
+    
+    /**
+     * Finds by filter
+     * @param filter the filter
+     * @return the version list
      */
-    public List<Version> findByD3D4( Date da );
+    public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );
 
-    /**
-     * Returns a list of version objects
-     * @param date The date for the query
-     * @return A list of version
-     */
-    public List<Version> findByD2( Date da );
-
-    public Collection<Version> findWorkPluAndParent( Date date, int idFolder );
-
-    //public List<Version> findByFilter( VersionFilter filter );
+//  public List<Version> findByDateAndParent( Date date, int idFolder );
 }

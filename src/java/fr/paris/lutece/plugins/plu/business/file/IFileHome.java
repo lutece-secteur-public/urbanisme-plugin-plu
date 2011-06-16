@@ -33,9 +33,10 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.util.jpa.IGenericHome;
 
-import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -44,7 +45,42 @@ import java.util.Collection;
  */
 public interface IFileHome extends IGenericHome<Integer, File>
 {
-    Collection<File> findByVersion( int nIdVersion );
+	/**
+	 * Create a new file object
+	 * @param file the new file object
+	 */
+    public void create( File file );
 
-    Collection<File> findByAtome( int nIdAtome );
+    /**
+	 * Update a new file object
+	 * @param file the file object
+	 */
+    public void update( File file );
+
+    /**
+	 * Remove a new file object
+	 * @param file the file object
+	 */
+    public void remove( File file );
+
+    /**
+	 * Returns a list of file objects
+	 * @return A list of all file
+	 */
+    public List<File> findAll(  );
+
+    /**
+	 * Returns a list of file objects
+	 * @param nIdVersion the version id
+	 * @return A list of file associated with the same version id
+	 */
+    public List<File> findByVersion( int nIdVersion );
+    
+    /**
+     * Finds by filter
+     * @param fileFilter the file filter
+     * @param atomeFilter the atome filter
+     * @return the folder list
+     */
+    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter );
 }

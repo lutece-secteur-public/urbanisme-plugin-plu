@@ -1,0 +1,29 @@
+<#include "/admin/util/editor/editor.html" />
+
+<div class="content-box" >
+
+	<h2>#i18n{plu.create_html.pageSubTitle}</h2>
+	
+	<form method=post action="jsp/admin/plugins/plu/${page}.jsp">
+		    
+    	<p>
+    		<div id="richtext" class="editor">
+        		<textarea id="folder_html" class="richtext" name="folder_html" style="width:80%;" rows="50" cols="90">
+        		<#if folder_html?exists>${folder_html.html}</#if>
+        		</textarea>
+    	    </div>
+    	</p>
+   	
+   		<p>
+   			<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${one_plu.id}" style="text-decoration:none" id="button">
+   				#i18n{plu.create_html.buttonReturn}
+        	</A>
+        	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+        	<input type="submit" value="#i18n{plu.create_html.buttonValidate}" class="button" />
+   		</p>
+   		
+	</form>
+
+</div>
+
+<@initEditor />

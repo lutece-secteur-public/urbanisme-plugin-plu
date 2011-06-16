@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.plu.business.plu;
 
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
-import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -44,13 +44,43 @@ import java.util.Date;
  */
 public class PluHome extends AbstractLuteceHome<Integer, Plu, IPluDAO> implements IPluHome
 {
+	public void create( Plu plu )
+	{
+		getDao(  ).create( plu );
+	}
+	
     /**
     * Returns a list of plu objects
     * @param date The date for the query
     * @return A list of plu
     */
-    public Plu findByDa( Date date )
+    public Plu findPluApplied(  )
     {
-        return getDao(  ).findByDa( date );
+        return getDao(  ).findPluApplied(  );
+    }
+    
+    public List<Plu> findAll(  )
+    {
+    	return getDao(  ).findAll(  );
+    }
+    
+    public Plu findByPrimaryKey( int nKey )
+    {
+        return getDao(  ).findByPrimaryKey( nKey );
+    }
+    
+    public Plu findPluWork(  )
+    {
+    	return getDao(  ).findPluWork(  );
+    }
+    
+    public void updateApprove( Plu plu )
+    {
+    	getDao(  ).updateApprove( plu );
+    }
+    
+    public void updateApplication( Plu plu )
+    {
+    	getDao(  ).updateApplication( plu );
     }
 }

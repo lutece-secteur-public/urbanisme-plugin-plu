@@ -1,8 +1,26 @@
 #button
 {
 	display : inline;
+	-moz-box-sizing: content-box;
+    background: none repeat scroll 0 0 #55B4E5;
+    border-color: #55B4E5;
+    border-radius: 11px 11px 11px 11px;
+    border-style: solid;
+    border-width: 1px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 11px !important;
+    font-weight: bold;
+    line-height: 13px;
+    padding: 3px 8px;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+    
+    border: 1px solid #55B4E5;
+    font-family: Arial,Tahoma,Helvetica,sans-serif;
+    font-size: 100%;
+    margin: 2px;
 }
-
 #choiceNumberLine
 {
 	width : 15%;

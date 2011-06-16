@@ -2,38 +2,46 @@
 
 	<h2>#i18n{plu.applicable_plu.pageSubTitle}</h2>
 	
-	<form method=post action="jsp/admin/plugins/plu/plu/DoApplicablePlu.jsp">
+	<form method=post action="jsp/admin/plugins/plu/plu/ConfirmApplicablePlu.jsp">
 		
+		<p style="color:#989898;">
+        	<label for="id_plu" style="color:#989898;">#i18n{plu.applicable_plu.rowTitleId} : </label>
+        	${one_plu.id}
+        </p>
+        
 		<p>
-        	<label for="date_application" >#i18n{plu.applicable_plu.rowTitleDate} : </label>
+        	<label for="date_juridique" >#i18n{plu.applicable_plu.rowTitleDJ} : </label>
+        	<input type=text id="date_juridique" name="date_juridique" style="color:#989898;" value="${one_plu.dj}" readonly="true"/>
+        </p>
+        
+		<p>
+        	<label for="date_application" >#i18n{plu.applicable_plu.rowTitleDA} : </label>
         	<input type=text id="date_application" name="date_application" />
         	<@getDatePicker idField="date_application" language="fr" />
         </p>
         
         <p>
 			<label for="id_type" >#i18n{plu.applicable_plu.rowTitleType} : </label>
-			<select name="id_type">
-				<#list type_list as type>
-     			<option value="${type.id}">${type.name}</option>
-     			</#list>
+			<select name="id_type" style="color:#989898; width:331px;" readonly="true">
+     			<option value="${one_type.id}">${one_type.name}</option>
 			</select>
 		</p>
 			
         <p>
-        	<label for="cause" >#i18n{plu.applicable_plu.rowTitleCause} :</label>  
-        	<input type="text" id="cause" name="cause" size="60" maxlength="101" />
+        	<label for="cause" >#i18n{plu.applicable_plu.rowTitleCause} :</label>
+        	<textarea id="cause" name="cause" cols="59" rows="3" style="border: 1px solid rgb(85, 180, 229); color:#989898;" value="${one_plu.cause}" readonly="true">${one_plu.cause}</textarea>
         </p>
         
         <p>
         	<label for="reference" >#i18n{plu.applicable_plu.rowTitleReference} :</label>  
-        	<input type="text" id="reference" name="reference" size="60" maxlength="101" />
+        	<input type="text" id="reference" name="reference" style="color:#989898;" size="60" maxlength="101" value="${one_plu.reference}" readonly="true"/>
         </p>
         
         <p>
-        	<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none" id="button">
-        	<input type="reset" value="#i18n{plu.applicable_plu.buttonReturn}" class="button" />
+        	<A href="jsp/admin/plugins/plu/plu/ConfirmCancelApplicablePlu.jsp?id_plu=${one_plu.id}&cause=${one_plu.cause}" style="text-decoration:none" id="button">
+        	#i18n{plu.applicable_plu.buttonReturn}
         	</A>
-        	<input type="hidden" name="id_plu" value="${plu.id}"/>
+        	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
    		  	<input type="submit" value="#i18n{plu.applicable_plu.buttonValidate}" class="button" />
         </p>
  

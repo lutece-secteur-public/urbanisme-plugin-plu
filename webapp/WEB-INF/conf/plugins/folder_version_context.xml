@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  
+  	<bean id="plu.folderVersionServices"  class="fr.paris.lutece.plugins.plu.business.folderVersion.FolderVersionServices" >
+        <property name="home">
+            <ref bean="plu.folderVersionHome" />
+        </property>
+    </bean>  
+  	<bean id="plu.folderVersionHome"  class="fr.paris.lutece.plugins.plu.business.folderVersion.FolderVersionHome" >
+        <property name="dao">
+            <ref bean="plu.folderVersionDAO" />
+        </property>
+	</bean>
+    <bean id="plu.folderVersionDAO"  class="fr.paris.lutece.plugins.plu.business.folderVersion.FolderVersionDAO" />
+    
+  
+</beans>

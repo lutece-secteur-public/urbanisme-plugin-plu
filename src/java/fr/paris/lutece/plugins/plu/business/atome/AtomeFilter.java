@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.plugins.plu.business.atome;
 
-import fr.paris.lutece.plugins.plu.business.folder.Folder;
-
 
 /**
  * AtomeFilter
@@ -42,80 +40,60 @@ import fr.paris.lutece.plugins.plu.business.folder.Folder;
  */
 public class AtomeFilter
 {
-    private Integer _id;
-    private String _title;
-    private String _description;
-    private Folder _folder;
+    private String _name = null;
+    private String _title = null;
 
     /**
-     * Get the atome id filtered
-     * @return the atome id
+     * Get the atome name filtered
+     * @return the atome name
      */
-    public Integer get_id(  )
+    public String get_name(  )
     {
-        return _id;
+        return _name;
     }
 
     /**
-     * Set the atome id to filter
-     * @param _id the atome id
+     * Set the atome name to filter
+     * @param _title the atome name
      */
-    public void set_id( Integer _id )
+    public void set_name( String _name )
     {
-        this._id = _id;
+        this._name = _name;
     }
-
+    
     /**
-     * Get the atome title filtered
-     * @return the atome title
+     *
+     * @return true if the filter contain a name
      */
-    public String get_title(  )
+    public boolean containsName(  )
     {
-        return _title;
+    	return ( _name != null );
     }
-
-    /**
-     * Set the atome title to filter
-     * @param _title the atome title
-     */
-    public void set_title( String _title )
-    {
-        this._title = _title;
-    }
-
-    /**
-     * Get the atome description filtered
-     * @return the atome description
-     */
-    public String get_description(  )
-    {
-        return _description;
-    }
-
-    /**
-     * Set the atome description to filter
-     * @param _description the atome description
-     */
-    public void set_description( String _description )
-    {
-        this._description = _description;
-    }
-
-    /**
-     * Get the atome folder filtered
-     * @return the atome folder
-     */
-    public Folder get_folder(  )
-    {
-        return _folder;
-    }
-
-    /**
-     * Set the atome folder to filter
-     * @param _folder the atome folder
-     */
-    public void set_folder( Folder _folder )
-    {
-        this._folder = _folder;
-    }
+    
+	/**
+	 * Get the atome title filtered
+	 * @return the atome title
+	 */
+	public String get_title(  )
+	{
+		return _title;
+	}
+	
+	/**
+	 * Set the atome title to filter
+	 * @param _title the atome title
+	 */
+	public void set_title( String _title )
+	{
+		this._title = _title;
+	}
+	   
+	/**
+	 *
+	 * @return true if the filter contain a title
+	 */
+	public boolean containsTitle(  )
+	{
+		return ( _title != null );
+	}
 }

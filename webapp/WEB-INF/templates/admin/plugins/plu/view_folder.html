@@ -1,0 +1,58 @@
+<div class="content-box" >
+
+	<h2>#i18n{plu.view_folder.pageSubTitle}</h2>
+	<#if one_folder.html?has_content>
+		${one_folder.html}
+	<#else>
+		<h1 style="margin-left:10px">${one_folder.title}</h1>
+		<br/>
+		<p style="float:left; margin:0 15px 10px 10px">
+			<img src="images/admin/skin/plugins/plu/tree.jpeg"></img>
+		</p>
+		<p style="font-size:12px;">
+			${one_folder.description}
+		</p>
+		<br/>
+		<p style="clear:left; font-size:12px;">
+			Ce document est composé des éléments suivant:
+		</p>
+		<#list version_list as version>
+		<ul>
+		<p style="float:left; margin:0 15px">
+			- ${version.atome.title}.
+		</p>
+		<p>
+			${version.atome.description}
+		</p>
+			<ul style="margin-left:40px">
+			<#list file_list as file>
+				<#if version.id == file.version>
+					o ${file.title} (fichier ${file.mimeType?upper_case})<br/>
+				</#if>
+			</#list>
+			</ul>
+		</ul>
+		</#list>
+		<#if one_folder_parent.id != 0 >
+			<p style="font-size:12px;">
+				Ce document fait partie du document "${one_folder_parent.title} " qui contient aussi les documents suivant:
+			</p>
+			<ul>
+			<#list folder_child_list as child>
+				<#if one_folder.id != child.id>
+					- ${child.title}<br/>
+				</#if>
+			</#list>
+			</ul>
+			<br/>
+		</#if>
+	</#if>
+	
+	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}" style="text-decoration:none">
+   		<input type="submit" value="#i18n{plu.view_folder.buttonClose}" class="button" />
+	</A>
+	<A href="jsp/admin/plugins/plu/folder/ModifyFolder.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}" style="text-decoration:none">
+   		<input type="submit" value="#i18n{plu.view_folder.buttonModify}" class="button" />
+	</A>
+	
+</div>

@@ -1,0 +1,63 @@
+<#include "/admin/util/editor/editor.html" />
+
+<div class="content-box" >
+
+	<h2>#i18n{plu.correct_folder.pageSubTitle}</h2>
+	
+	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/ConfirmCorrectFolder.jsp">
+		
+		<p>
+			<label for="id_parent_folder" >#i18n{plu.correct_folder.rowTitleParentFolder} : </label>
+			<select name="id_parent_folder">
+				<#if one_folder_parent.title?has_content>
+					<option style="color:#989898;" value="${one_folder_parent.id}">${one_folder_parent.title}</option>
+				<#else>
+					<option style="color:#989898;" value="0">none</option>
+				</#if>
+			</select>
+		</p>
+		
+		<p>
+	       	<label for="folder_title" >#i18n{plu.correct_folder.rowTitleFolder} : </label> 
+    	   	<input type="text" id="folder_title" name="folder_title" value="${one_folder.title}" size="60" maxlength="51" tabindex="1" />
+        </p>
+        
+        <p>
+        	<label for="folder_image" >#i18n{plu.correct_folder.rowTitleImage} : </label> 
+        	<input type="file" id="folder_image" name="folder_image" />
+        	<#if one_folder.img?exists>
+        		<input type="checkbox" name="image_check" value="true" checked/>${one_folder.title}_IMG.jpg
+        	</#if>
+        </p>
+        
+        <p>
+        	<label for="description" >#i18n{plu.correct_folder.rowTitleDescription} :</label>
+        	<textarea id="description" name="description" cols="59" rows="3" style="border: 1px solid rgb(85, 180, 229);"></textarea>
+        </p>
+        
+        <p>
+        	<label for="folder_description" >#i18n{plu.correct_folder.rowTitleDescriptionFolder} : </label>  
+        </p>
+       	<p>
+	       	<div id="richtext" class="editor">
+	        	<textarea id="folder_description" class="richtext" name="folder_description" style="width:80%;" rows="15" cols="90">
+    	    		${one_folder.description}
+    	    	</textarea>
+        	</div>
+        </p>
+                
+        <p>
+        	<A href="jsp/admin/plugins/plu/folder/ConfirmCancelCorrectFolder.jsp?id_plu=${one_plu.id}&folder_title=${one_folder.title}" style="text-decoration:none" id="button">
+        	#i18n{plu.correct_folder.buttonReturn}
+        	</A>
+        	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+	        <input type="hidden" name="id_folder" value="${one_folder.id}"/>
+	        <input type="hidden" name="folder_title_old" value="${one_folder.title}"/>
+   		  	<input type="submit" value="#i18n{plu.correct_folder.buttonValidate}" class="button" />
+        </p>
+        
+ 	</form>
+	
+</div>
+
+<@initEditor />

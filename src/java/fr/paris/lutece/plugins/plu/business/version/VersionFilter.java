@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
-import fr.paris.lutece.plugins.plu.business.atome.Atome;
-
 import java.util.Date;
 
 
@@ -44,31 +42,11 @@ import java.util.Date;
  */
 public class VersionFilter
 {
-    private Integer _id;
-    private Integer _version;
-    private Date _d1;
-    private Date _d2;
-    private Date _d3;
-    private Date _d4;
-    private Atome _atome;
-
-    /**
-     * Get the version id filtered
-     * @return the version id
-     */
-    public Integer get_id(  )
-    {
-        return _id;
-    }
-
-    /**
-     * Set the version id to filter
-     * @param _id the version id
-     */
-    public void set_id( Integer _id )
-    {
-        this._id = _id;
-    }
+    private Integer _version = -1;
+    private Date _d1 = null;
+    private Date _d2 = null;
+    private Date _d3 = null;
+    private Date _d4 = null;
 
     /**
      * Get the version version filtered
@@ -86,6 +64,15 @@ public class VersionFilter
     public void set_version( Integer _version )
     {
         this._version = _version;
+    }
+    
+    /**
+     *
+     * @return true if the filter contain a version
+     */
+    public boolean containsVersion(  )
+    {
+    	return ( _version != -1 );
     }
 
     /**
@@ -105,6 +92,15 @@ public class VersionFilter
     {
         this._d1 = _d1;
     }
+    
+    /**
+     *
+     * @return true if the filter contain a d1
+     */
+    public boolean containsD1(  )
+    {
+    	return ( _d1 != null );
+    }
 
     /**
      * Get the version d2 filtered
@@ -122,6 +118,15 @@ public class VersionFilter
     public void set_d2( Date _d2 )
     {
         this._d2 = _d2;
+    }
+    
+    /**
+     *
+     * @return true if the filter contain a d2
+     */
+    public boolean containsD2(  )
+    {
+    	return ( _d2 != null );
     }
 
     /**
@@ -141,6 +146,15 @@ public class VersionFilter
     {
         this._d3 = _d3;
     }
+    
+    /**
+     *
+     * @return true if the filter contain a d3
+     */
+    public boolean containsD3(  )
+    {
+    	return ( _d3 != null );
+    }
 
     /**
      * Get the version d4 filtered
@@ -159,22 +173,13 @@ public class VersionFilter
     {
         this._d4 = _d4;
     }
-
+    
     /**
-     * Get the version atome filtered
-     * @return the version atome
+     *
+     * @return true if the filter contain a d4
      */
-    public Atome get_atome(  )
+    public boolean containsD4(  )
     {
-        return _atome;
-    }
-
-    /**
-     * Set the version atome to filter
-     * @param _atome the version atome
-     */
-    public void set_atome( Atome _atome )
-    {
-        this._atome = _atome;
+    	return ( _d4 != null );
     }
 }

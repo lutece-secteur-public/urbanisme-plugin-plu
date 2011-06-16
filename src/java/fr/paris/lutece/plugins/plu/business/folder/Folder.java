@@ -33,49 +33,27 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
-import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-
 
 /**
  * This class represents business object Folder
  * @author vLopez
  */
-@Entity
-@Table( name = "plu_folder" )
 public class Folder
 {
-    /** Sequence name */
-    private static final String JPA_SEQUENCE_NAME = "plu_folder_sequence";
-
     //constantes
-    private static final String JPA_COLUMN_NAME = "plu_folder_id";
-    public static final String RESOURCE_TYPE = "FOLDER_RESOURCE";
+    public static final String RESOURCE_TYPE = "DOSSIER_RESOURCE";
     private int _id;
+    private int _plu;
+    private int _parentFolder;
     private String _title;
     private String _description;
     private byte[] _img;
-    private Folder _parentFolder;
+    private byte[] _html;
 
     /**
      * Returns the identifier of this folder
      * @return the folder identifier
      */
-    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
-    @Id
-    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
-    @Column( name = "id" )
     public int getId(  )
     {
         return _id;
@@ -91,10 +69,45 @@ public class Folder
     }
 
     /**
+     * Returns the plu of this folder
+     * @return the plu
+     */
+    public int getPlu(  )
+    {
+        return _plu;
+    }
+
+    /**
+     * Sets the plu of the folder to the specified Folder
+     * @param plu the new plu
+     */
+    public void setPlu( int plu )
+    {
+    	_plu = plu;
+    }
+    
+    /**
+     * Returns the parent folder of this folder
+     * @return the parent folder
+     */
+    public int getParentFolder(  )
+    {
+        return _parentFolder;
+    }
+
+    /**
+     * Sets the parent folder of the folder to the specified Folder
+     * @param parentFolder the new parent folder
+     */
+    public void setParentFolder( int parentFolder )
+    {
+        _parentFolder = parentFolder;
+    }
+    
+    /**
      * Returns the title of this folder
      * @return the folder title
      */
-    @Column( name = "title" )
     public String getTitle(  )
     {
         return _title;
@@ -113,7 +126,6 @@ public class Folder
      * Returns the description of this folder
      * @return the folder description
      */
-    @Column( name = "description" )
     public String getDescription(  )
     {
         return _description;
@@ -129,31 +141,9 @@ public class Folder
     }
 
     /**
-     * Returns the parent folder of this folder
-     * @return the parent folder
-     */
-    @OneToOne( fetch = FetchType.LAZY )
-    @JoinColumn( name = "parentFolder", columnDefinition = "INT NOT NULL DEFAULT '0'" )
-    public Folder getParentFolder(  )
-    {
-        return _parentFolder;
-    }
-
-    /**
-     * Sets the parent folder of the folder to the specified Folder
-     * @param parentFolder the new parent folder
-     */
-    public void setParentFolder( Folder parentFolder )
-    {
-        _parentFolder = parentFolder;
-    }
-
-    /**
      * Returns the image of this folder
      * @return the folder image
      */
-    @Lob
-    @Column( name = "image" )
     public byte[] getImg(  )
     {
         return _img;
@@ -167,6 +157,25 @@ public class Folder
     {
         _img = img;
     }
+    
+    /**
+     * Returns the html specific of this folder
+     * @return the folder html specific
+     */
+    public byte[] getHtml(  )
+    {
+        return _html;
+    }
+
+    /**
+    * Sets the html specific of the folder to the specified byte
+    * @param html the new html specific
+    */
+    public void setHtml( byte[] html )
+    {
+        _html = html;
+    }
+    
 
     /**
      * Returns the photo Input Stream.

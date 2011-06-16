@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.type;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
 
@@ -42,4 +44,22 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
  */
 public class TypeHome extends AbstractLuteceHome<Integer, Type, ITypeDAO> implements ITypeHome
 {
+	/**
+	 * Returns a type object
+	 * @param nKey the type id
+	 * @return A type object with the same id
+	 */
+	public Type findByPrimaryKey( int nKey )
+    {
+        return getDao(  ).findByPrimaryKey( nKey );
+    }
+	
+	/**
+	 * Returns a list of type objects
+	 * @return A list of all type
+	 */
+	public List<Type> findAll(  )
+    {
+    	return getDao(  ).findAll(  );
+    }
 }

@@ -1,19 +1,47 @@
+<div style="clear:both;" >
+	<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none">
+		<input type="submit" value="#i18n{plu.manage_plu.buttonListPlu}" class="button" />
+	</A>
+	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0" style="text-decoration:none">
+		<input type="submit" value="#i18n{plu.manage_folder.buttonListFolder}" class="button" />
+	</A>
+	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0&id_folder=0" style="text-decoration:none">
+		<input type="submit" value="#i18n{plu.manage_atome.buttonListAtome}" class="button" />
+	</A>
+</div>
+
 <div class="content-box" >
 	<#if folder_list?exists>
 	<div class="highlight-box">
 		<form method="post" name="" action="jsp/admin/plugins/plu/plu/TreePlu.jsp"  >
 			<p>
   			   	<label for="folder_title" >#i18n{plu.search_folder.rowTitleFolder} : </label> 
-        		<input type="text" id="folder_title" name="folder_title" size="60" maxlength="51" tabindex="1" />
+        		<input type="text" id="folder_title" name="folder_title" <#if folder_title?exists>value="${folder_title}"</#if> size="60" maxlength="60" tabindex="1" />
+        	</p>
+        	<p>
+        		<label for="id_plu" >#i18n{plu.search_folder.rowTitlePlu} : </label>
+					<select name="id_plu" style="width:331px;">
+						<#if one_plu.id != 0>
+						<option value="${one_plu.id}">${one_plu.id}</option>
+						<option value="0">none</option>
+						<#else>
+						<option value="0">none</option>
+						</#if>
+						<#list plu_list as plu>
+							<#if plu.id != one_plu.id>
+			     			<option value="${plu.id}">${plu.id}</option>
+			     			</#if>
+		     			</#list>
+					</select>
         	</p>
 			<p>
-				<input type="hidden" name="id_plu" value="${plu.id}"/>
 		       	<input type="submit" value="#i18n{plu.search_folder.buttonSearch}" class="button"/>   
 		    </p>
 		</form>
 	</div>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}">
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}
+	<#if folder_title?exists>&folder_title=${folder_title}</#if>">
 	<@pagination paginator=paginator />
 
 		<!-- Number of contact per page selector -->
@@ -32,55 +60,65 @@
 	
 	<table>	
 	    <tr>
-	    	<th width="20%">#i18n{plu.tree_plu.columnTitleFolder}</th>
-	        <th width="20%">#i18n{plu.tree_plu.columnTitleDescriptionFolder}</th>
-	        <th width="20%">#i18n{plu.tree_plu.columnTitleTree}</th>
-
-			<th width="10%">#i18n{plu.tree_plu.columnTitleActionViewFolder}</th>
-			<th width="10%">#i18n{plu.tree_plu.columnTitleActionModifyFolder}</th>
-			<th width="10%">#i18n{plu.tree_plu.columnTitleActionDeleteFolder}</th>
+	    	<th width="40%">#i18n{plu.tree_plu.columnTitleFolder}</th>
+	        <th width="10%">#i18n{plu.tree_plu.columnTitleTree}</th>
+	        
+	        <th width="10%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleActionListAtome}</th>
+			<th width="10%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleActionViewFolder}</th>
+			<th width="10%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleActionModifyFolder}</th>
+			<th width="10%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleActionDeleteFolder}</th>
 	    </tr>   
 	        
 	    <#list folder_list as folder >
 	    <tr>
 	    	<td>
 	           	<form method="post" action="jsp/admin/plugins/plu/plu/TreePlu.jsp">
+	           		<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 	           		<input type="hidden" name="id_folder" value="${folder.id}"/>
-	           		<input type="hidden" name="id_plu" value="${plu.id}"/>
+	           		<#if folder_title?exists>
+	           		<input type="hidden" name="folder_title" value="${folder_title}"/>
+	           		</#if>
 		    		<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="${folder.title}" type="image" />
 				</form>
 	        </td>
 	        <td>
-	        	${folder.description}
+	           	#i18n{plu.tree_plu.plu} : ${folder.plu}<br>
 	        </td>
-	        <td>
-	           	#i18n{plu.tree_plu.plu} : ${plu.id}<br>
-	        </td>
-	        <td>
+	        <td style="text-align:center;">
 	            <form method="post" action="jsp/admin/plugins/plu/plu/TreePlu.jsp">
+	            	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 	            	<input type="hidden" name="id_folder" value="${folder.id}"/>
-	            	<input type="hidden" name="id_plu" value="${plu.id}"/>
+	            	<#if folder_title?exists>
+	           		<input type="hidden" name="folder_title" value="${folder_title}"/>
+	           		</#if>
 		      		<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" type="image" />
 			   	</form>
 	       	</td>
-	        <td>
-	        <#if plu.da < "31/12/9999"?datetime("dd/MM/yyyy") >
-	           	<form method="post" action="jsp/admin/plugins/plu/folder/ModifyFolder.jsp">
-	           		<input type="hidden" name="id_plu" value="${plu.id}"/>
+	       	<td style="text-align:center;">
+	       		<form method="post" action="jsp/admin/plugins/plu/folder/ViewFolder.jsp">
+	            	<input type="hidden" name="id_plu" value="${folder.plu}"/>
+	            	<input type="hidden" name="id_folder" value="${folder.id}"/>
+		      		<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" type="image" />
+			   	</form>
+	       	</td>
+	        <td style="text-align:center;">
+	        <#if one_plu.da?exists >
+	           	<form method="post" action="jsp/admin/plugins/plu/folder/CorrectFolder.jsp">
+	           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
 		    		<input type="hidden" name="id_folder" value="${folder.id}"/>
-			        <input disabled="disabled" src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_folder.modify}" title="#i18n{plu.modify_folder.modify}"  type="image">
+			        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.correct_folder.correct}" title="#i18n{plu.correct_folder.correct}"  type="image">
 			   	</form>
 			<#else>
 				<form method="post" action="jsp/admin/plugins/plu/folder/ModifyFolder.jsp">
-	           		<input type="hidden" name="id_plu" value="${plu.id}"/>
+	           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
 		    		<input type="hidden" name="id_folder" value="${folder.id}"/>
 			        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_folder.modify}" title="#i18n{plu.modify_folder.modify}"  type="image">
 			   	</form>
 			</#if>
 			</td>
-	        <td>
+	        <td style="text-align:center;">
 	           	<form method="post" action="jsp/admin/plugins/plu/folder/RemoveFolder.jsp">
-	           		<input type="hidden" name="id_plu" value="${plu.id}"/>
+	           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
 		    		<input type="hidden" name="id_folder" value="${folder.id}"/>
 		    		<input type="hidden" name="folder_title" value="${folder.title}"/>
  			        <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.delete_folder.delete}" title="#i18n{plu.delete_folder.delete}"  type="image">
@@ -90,7 +128,8 @@
 	    </#list>
 	</table>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}">
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}
+	<#if folder_title?exists>&folder_title=${folder_title}</#if>">
 	<@pagination paginator=paginator />
 
 		<!-- Number of contact per page selector -->
@@ -108,7 +147,7 @@
 	</form>
 	
 	<form method="post"  action="jsp/admin/plugins/plu/folder/CreateFolder.jsp">
-		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 		<input type="submit" value="#i18n{plu.tree_plu.buttonAddFolder}" class="button" />
 	</form>
 	</#if>
@@ -118,42 +157,50 @@
 	<div class="highlight-box">
 		<form method="post" name="" action="jsp/admin/plugins/plu/plu/TreePlu.jsp"  >
 			<p>
+  			   	<label for="atome_name" >#i18n{plu.search_atome.rowTitleAtomeName} : </label> 
+        		<input type="text" id="atome_name" name="atome_name" <#if atome_name?exists>value="${atome_name}"</#if> size="60" maxlength="60" tabindex="1" />
+        	</p>
+        	<p>
   			   	<label for="atome_title" >#i18n{plu.search_atome.rowTitleAtome} : </label> 
-        		<input type="text" id="atome_title" name="atome_title" size="60" maxlength="51" tabindex="1" />
+        		<input type="text" id="atome_title" name="atome_title" <#if atome_title?exists>value="${atome_title}"</#if> size="60" maxlength="60" tabindex="1" />
         	</p>
        		<p>
-        		<label for="version_version" >#i18n{plu.search_atome.rowTitleVersion} :</label>  
-        		<input type="text" id="version_version" name="version_version" size="60" maxlength="101" tabindex="2" />
+        		<label for="num_version" >#i18n{plu.search_atome.rowTitleVersion} :</label>  
+        		<input type="text" id="num_version" name="num_version" <#if num_version?exists>value="${num_version}"</#if> size="60" maxlength="101" tabindex="2" />
         	</p>
         	<p>
         		<label for="version_d1" >#i18n{plu.search_atome.rowTitleD1} :</label>
-        		<input type="text" id="version_d1" name="version_d1" />
+        		<input type="text" id="version_d1" name="version_d1" <#if version_d1?exists>value="${version_d1}"</#if> />
         		<@getDatePicker idField="version_d1" language="fr" />
         	</p>
         	<p>
         		<label for="version_d2" >#i18n{plu.search_atome.rowTitleD2} :</label>
-        		<input type="text" id="version_d2" name="version_d2" />
+        		<input type="text" id="version_d2" name="version_d2" <#if version_d2?exists>value="${version_d2}"</#if> />
         		<@getDatePicker idField="version_d2" language="fr" />
         	</p>
         	<p>
         		<label for="version_d3" >#i18n{plu.search_atome.rowTitleD3} :</label>
-        		<input type="text" id="version_d3" name="version_d3" />
+        		<input type="text" id="version_d3" name="version_d3" <#if version_d3?exists>value="${version_d3}"</#if> />
         		<@getDatePicker idField="version_d3" language="fr" />
         	</p>
         	<p>
         		<label for="version_d4" >#i18n{plu.search_atome.rowTitleD4} :</label>
-        		<input type="text" id="version_d4" name="version_d4" />
+        		<input type="text" id="version_d4" name="version_d4" <#if version_d4?exists>value="${version_d4}"</#if> />
         		<@getDatePicker idField="version_d4" language="fr" />
         	</p>
 			<p>
-				<input type="hidden" name="id_plu" value="${plu.id}"/>
+				<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 				<input type="hidden" name="id_folder" value="${one_folder.id}"/>
 		       	<input type="submit" value="#i18n{plu.search_atome.buttonSearch}" class="button"/>   
 		    </p>
 		</form>
 	</div>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}&id_folder=${one_folder.id}">
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}
+	<#if atome_name?exists>&atome_name=${atome_name}</#if><#if atome_title?exists>&atome_title=${atome_title}</#if>
+	<#if num_version?exists>&num_version=${num_version}</#if><#if version_d1?exists>&version_d1=${version_d1}</#if>
+	<#if version_d2?exists>&version_d2=${version_d2}</#if><#if version_d3?exists>&version_d3=${version_d3}</#if>
+	<#if version_d4?exists>&version_d4=${version_d4}</#if>">
 	<@pagination paginator=paginator />
 
 		<!-- Number of contact per page selector -->
@@ -172,85 +219,128 @@
 	
 	<table>
 		<tr>
-	    	<th width="10%">#i18n{plu.tree_plu.columnTitleAtome}</th>
-	        <th width="10%">#i18n{plu.tree_plu.columnTitleNameAtome}</th>
+	    	<th width="15%">#i18n{plu.tree_plu.columnTitleAtome}</th>
 	        <th width="15%">#i18n{plu.tree_plu.columnTitleDescriptionAtome}</th>
-	        <th width="7%">#i18n{plu.tree_plu.columnTitleVersionAtome}</th>
-	        <th width="7%">#i18n{plu.tree_plu.columnTitleD1}</th>
-	        <th width="7%">#i18n{plu.tree_plu.columnTitleD2}</th>
-	        <th width="7%">#i18n{plu.tree_plu.columnTitleD3}</th>
-	        <th width="7%">#i18n{plu.tree_plu.columnTitleD4}</th>
-	        <th width="10%">#i18n{plu.tree_plu.columnTitleTree}</th>
+	        <th width="7%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleVersionAtome}</th>
+	        <th width="7%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleD1}</th>
+	        <th width="7%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleD2}</th>
+	        <th width="7%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleD3}</th>
+	        <th width="7%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleD4}</th>
+<!--	        <th width="10%">#i18n{plu.tree_plu.columnTitleTree}</th>-->
 	        
-	        <th width="12%">#i18n{plu.tree_plu.columnTitleAction}</th>
+	        <th width="11%" style="text-align:center;">#i18n{plu.view_atome.view}</th>
+	        <th width="6%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleActionCorrect}</th>
+	        <th width="6%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleActionModify}</th>
+	        <th width="6%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleActionEvolve}</th>
+	        <th width="6%" style="text-align:center;">#i18n{plu.tree_plu.columnTitleActionArchive}</th>
     	</tr>
 	    	
 	    <#list version_list as version >
 	    <tr>
 	    	<td>
 	           	<form method="post" action="jsp/admin/plugins/plu/atome/ViewAtome.jsp">
-	           		<input type="hidden" name="id_plu" value="${plu.id}"/>
+	           		<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+	           		<input type="hidden" name="id_folder" value="${one_folder.id}"/>
 	           		<input type="hidden" name="id_version" value="${version.id}"/>
+	           		<#if folder_title?exists>
+	           			<input type=hidden name="folder_title" value="${folder_title}"/>
+	           		<#elseif atome_name?exists>
+	           			<input type="hidden" name="atome_name" value="${atome_name}"/>
+	           			<input type="hidden" name="atome_title" value="${atome_title}"/>
+	           			<input type="hidden" name="num_version" value="${num_version}"/>
+	           			<input type="hidden" name="version_d1" value="${version_d1}"/>
+	           			<input type="hidden" name="version_d2" value="${version_d2}"/>
+	           			<input type="hidden" name="version_d3" value="${version_d3}"/>
+	           			<input type="hidden" name="version_d4" value="${version_d4}"/>
+	           		</#if>
 		    		<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="${version.atome.title}" type="image" />
 				</form>
 	        </td>
 	        <td>
-	        	${version.atome.name}
-	        </td>
-	        <td>
 	           	${version.atome.description}
 	        </td>
-	        <td>
+	        <td style="text-align:center;">
 	           	${version.version}
 	        </td>
-	        <td>
-	        	<#if version.d1 < "31/12/9999"?date("dd/MM/yyyy") >
+	        <td style="text-align:center;">
+	        	<#if version.d1?exists >
 	                ${version.d1}
 	            <#else>
 	            	N/A
 	            </#if>
 	        </td>
-	        <td>
-	           	<#if version.d2 < "31/12/9999"?date("dd/MM/yyyy") >
+	        <td style="text-align:center;">
+	           	<#if version.d2?exists >
 	                ${version.d2}
 	            <#else>
 	            	N/A
 	            </#if>
 	        </td>
-	        <td>
-	           	<#if version.d3 < "31/12/9999"?date("dd/MM/yyyy") >
+	        <td style="text-align:center;">
+	           	<#if version.d3?exists >
 	                ${version.d3}
 	            <#else>
 	            	N/A
 	            </#if>
 	        </td>
-	        <td>
-	           	<#if version.d4 < "31/12/9999"?date("dd/MM/yyyy") >
+	        <td style="text-align:center;">
+	           	<#if version.d4?exists >
 	                ${version.d4}
 	            <#else>
 	            	N/A
 	            </#if>
 	        </td>
-	        <td>
-	           	#i18n{plu.tree_plu.plu} : ${plu.id}<br>
-	           	#i18n{plu.tree_plu.folder} : ${one_folder.title}
-	        </td>
-	        <td>
-	        	<A href="jsp/admin/plugins/plu/atome/.jsp?id_plu=${plu.id}&id_version=${version.id}" style="text-decoration:none">
-   					<input src="images/admin/skin/search.png" title="#i18n{plu.view_atome.view}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
-				</A>
-				<A href="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${plu.id}&id_version=${version.id}" style="text-decoration:none">
+	        <td style="text-align:center;">
+	        	<A href="jsp/admin/plugins/plu/atome/ViewAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
    					<input src="images/admin/skin/search.png" title="#i18n{plu.view_file.view}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
 				</A>
-				<A href="jsp/admin/plugins/plu/atome/ChoiceModifyAtome.jsp?id_plu=${plu.id}&id_version=${version.id}" style="text-decoration:none">
-   					<input src="images/admin/skin/actions/modify.png" title="#i18n{plu.modify_version.modify}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
+			</td>
+			<td style="text-align:center;">
+			<#if (version.d2?exists && !version.d3?exists) || version.d4?exists >
+				<A href="jsp/admin/plugins/plu/atome/CorrectAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
+   					<input src="images/admin/skin/actions/correct.png" title="#i18n{plu.correct_atome.correct}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
 				</A>
+			<#else>
+				<img disabled="disabled" src="images/admin/skin/actions/correct.png" title="#i18n{plu.correct_atome.correct}" />
+			</#if>
+			</td>
+			<td style="text-align:center;">
+			<#if version.d1?exists && !version.d2?exists >
+				<A href="jsp/admin/plugins/plu/atome/ModifyAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
+   					<input src="images/admin/skin/actions/modify.png" title="#i18n{plu.modify_atome.modify}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
+				</A>
+			<#else>
+				<img disabled="disabled" src="images/admin/skin/actions/modify.png" title="#i18n{plu.modify_atome.modify}" />
+			</#if>
 	        </td>
+	        <#if version.d2?exists && !version.d3?exists >
+	        <td style="text-align:center;">
+	           	<A href="jsp/admin/plugins/plu/atome/EvolveAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
+   					<input src="images/admin/skin/actions/evolve.png" title="#i18n{plu.evolve_version.evolve}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
+				</A>
+			</td>
+			<td style="text-align:center;">
+	        	<A href="jsp/admin/plugins/plu/atome/ConfirmArchiveAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
+   					<input src="images/admin/skin/actions/archive.png" title="#i18n{plu.archive_version.archive}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
+				</A>
+			</td>
+			<#else>
+			<td style="text-align:center;">
+   				<img disabled="disabled" src="images/admin/skin/actions/evolve.png" title="#i18n{plu.evolve_version.evolve}" />
+			</td>
+			<td style="text-align:center;">
+   				<img disabled="disabled" src="images/admin/skin/actions/archive.png" title="#i18n{plu.archive_version.archive}" />
+			</td>
+			</#if>
 	    </tr>
 	    </#list>				
 	</table>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}&id_folder=${one_folder.id}">
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}
+	<#if atome_name?exists>&atome_name=${atome_name}</#if><#if atome_title?exists>&atome_title=${atome_title}</#if>
+	<#if num_version?exists>&num_version=${num_version}</#if><#if version_d1?exists>&version_d1=${version_d1}</#if>
+	<#if version_d2?exists>&version_d2=${version_d2}</#if><#if version_d3?exists>&version_d3=${version_d3}</#if>
+	<#if version_d4?exists>&version_d4=${version_d4}</#if>">
 	<@pagination paginator=paginator />
 
 		<!-- Number of contact per page selector -->
@@ -268,7 +358,7 @@
 	</form>
 	
 	<form method="post"  action="jsp/admin/plugins/plu/atome/ChoiceCreateAtome.jsp">
-		<input type="hidden" name="id_plu" value="${plu.id}"/>
+		<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 		<input type="hidden" name="id_folder" value="${one_folder.id}"/>
 		<input type="submit" value="#i18n{plu.tree_plu.buttonAddAtome}" class="button" />
 	</form>
@@ -280,7 +370,13 @@
    	<input type="submit" value="#i18n{plu.tree_plu.buttonListPlu}" class="button" />
 </A>
 <#if version_list?exists>
-<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" style="text-decoration:none" id="button">
-   	<input type="submit" value="#i18n{plu.tree_plu.buttonListFolder}" class="button" />
-</A>
+	<#if folder_title?exists>
+		<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&folder_title=${folder_title}" style="text-decoration:none" >
+		   	<input type="submit" value="#i18n{plu.tree_plu.buttonListFolder}" class="button" />
+		</A>
+	<#else>
+		<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}" style="text-decoration:none" >
+		   	<input type="submit" value="#i18n{plu.tree_plu.buttonListFolder}" class="button" />
+		</A>
+	</#if>
 </#if>

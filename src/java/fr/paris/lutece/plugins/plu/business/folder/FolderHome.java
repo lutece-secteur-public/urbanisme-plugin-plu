@@ -35,9 +35,6 @@ package fr.paris.lutece.plugins.plu.business.folder;
 
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
-//import java.sql.Date;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 
@@ -47,7 +44,104 @@ import java.util.List;
  */
 public class FolderHome extends AbstractLuteceHome<Integer, Folder, IFolderDAO> implements IFolderHome
 {
+	/**
+	 * Create a new folder object
+	 * @param folder the new folder object
+	 */
+    public void create( Folder folder )
+    {
+        getDao(  ).create( folder );
+    }
+    
+	/**
+	 * Update a folder object
+	 * @param folder the folder object
+	 */
+    public void update( Folder folder )
+    {
+        getDao(  ).update( folder );
+    }
+    
     /**
+	 * Remove a folder object
+	 * @param folder the folder object
+	 */
+    public void remove( Folder folder )
+    {
+        int folderId = folder.getId(  );
+        getDao(  ).remove( folderId );
+    }
+	
+    /**
+	 * Returns a folder object
+	 * @param nKey the folder id
+	 * @return A folder object with the same id
+	 */
+    public Folder findByPrimaryKey( int nKey )
+    {
+        return getDao(  ).findByPrimaryKey( nKey );
+    }
+	
+    /**
+	 * Returns a folder object
+	 * @return The last folder created
+	 */
+    public Folder findLastFolder(  )
+	{
+		return getDao(  ).findLastFolder(  );
+	}
+	
+	/**
+	 * Returns a folder object
+	 * @param title the folder title
+	 * @return A folder object with the same title
+	 */
+    public Folder findForTestTitle( String title )
+    {
+    	return getDao(  ).findForTestTitle( title );
+    }
+	
+	/**
+	 * Returns a folder object
+	 * @param nIdAtome the atome id
+	 * @return A folder object associated with the atome id
+	 */
+    public Folder findByAtome( int nIdAtome )
+	{
+		return getDao(  ).findByAtome( nIdAtome );
+	}
+	
+	/**
+	 * Returns a folder object
+	 * @param nKey the folder id
+	 * @return A folder object which has a child or an atome
+	 */
+    public Folder findForDelete( int nKey )
+    {
+    	return getDao(  ).findForDelete( nKey );
+    }
+	
+	/**
+	 * Returns a list of folder objects
+	 * @param pluId the plu id
+	 * @return A list of folder with the same plu id
+	 */
+    public List<Folder> findByPluId( int pluId )
+    {
+    	return getDao(  ).findByPluId( pluId );
+    }
+	
+	/**
+	 * Returns a list of folder objects
+	 * @param parentId the folder parent id
+	 * @return A list of folder with the same folder parent id
+	 */
+	public List<Folder> findByParent( int parentId )
+	{
+		return getDao(  ).findByParent( parentId );
+	}
+
+	/**
      * Finds by filter
      * @param filter the filter
      * @return the folder list
@@ -55,20 +149,5 @@ public class FolderHome extends AbstractLuteceHome<Integer, Folder, IFolderDAO> 
     public List<Folder> findByFilter( FolderFilter filter )
     {
         return getDao(  ).findByFilter( filter );
-    }
-
-    /**
-     * Returns a list of folder objects
-     * @param date The date for the query
-     * @return the folder list
-     */
-    public List<Folder> findByDate( Date date )
-    {
-        return getDao(  ).findByDate( date );
-    }
-
-    public Collection<Folder> findWorkPlu( Date date )
-    {
-        return getDao(  ).findWorkPlu( date );
     }
 }

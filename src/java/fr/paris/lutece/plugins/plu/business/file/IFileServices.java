@@ -33,24 +33,49 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
+import java.util.List;
 
-import java.util.Collection;
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 
 
 public interface IFileServices
 {
-    public void create( File file, Plugin plugin );
+	/**
+	 * Create a new file object
+	 * @param file the new file object
+	 */
+    public void create( File file );
 
-    public void remove( File file, Plugin plugin );
+    /**
+	 * Update a new file object
+	 * @param file the file object
+	 */
+    public void update( File file );
 
-    public void update( File file, Plugin plugin );
+    /**
+	 * Remove a new file object
+	 * @param file the file object
+	 */
+    public void remove( File file );
 
-    public Collection<File> findAll( Plugin plugin );
+    /**
+	 * Returns a list of file objects
+	 * @return A list of all file
+	 */
+    public List<File> findAll(  );
 
-    public File findByPrimaryKey( int nKey, Plugin plugin );
-
-    public Collection<File> findByVersion( int nIdVersion );
-
-    public Collection<File> findByAtome( int nIdAtome );
+    /**
+	 * Returns a list of file objects
+	 * @param nIdVersion the version id
+	 * @return A list of file associated with the same version id
+	 */
+    public List<File> findByVersion( int nIdVersion );
+    
+    /**
+     * Finds by filter
+     * @param fileFilter the file filter
+     * @param atomeFilter the atome filter
+     * @return the folder list
+     */
+    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter );
 }

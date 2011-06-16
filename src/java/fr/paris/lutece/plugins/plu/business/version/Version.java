@@ -33,54 +33,32 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
-import fr.paris.lutece.plugins.plu.business.atome.Atome;
-import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-
 //import java.sql.Date;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+import fr.paris.lutece.plugins.plu.business.atome.Atome;
 
 
 /**
  * This class represents business object Version
  * @author vLopez
  */
-@Entity
-@Table( name = "plu_version" )
 public class Version
 {
-    /** Sequence name */
-    private static final String JPA_SEQUENCE_NAME = "plu_version_sequence";
-
     //constantes
-    private static final String JPA_COLUMN_NAME = "plu_version_id";
     public static final String RESOURCE_TYPE = "VERSION_RESOURCE";
     private int _id;
+    private Atome _atome;
     private int _version;
     private Date _d1;
     private Date _d2;
     private Date _d3;
     private Date _d4;
-    private Atome _atome;
 
     /**
      * Returns the identifier of this version
      * @return the version identifier
      */
-    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
-    @Id
-    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
-    @Column( name = "id" )
     public int getId(  )
     {
         return _id;
@@ -96,10 +74,27 @@ public class Version
     }
 
     /**
+     * Returns the atome of this version
+     * @return the version atome
+     */
+    public Atome getAtome(  )
+    {
+        return _atome;
+    }
+
+    /**
+     * Sets the atome of the version to the specified Atome
+     * @param atome the new atome
+     */
+    public void setAtome( Atome atome )
+    {
+        _atome = atome;
+    }
+    
+    /**
      * Returns the version of this version
      * @return the version version
      */
-    @Column( name = "version" )
     public int getVersion(  )
     {
         return _version;
@@ -118,7 +113,6 @@ public class Version
      * Returns the d1 of this version
      * @return the version d1
      */
-    @Column( name = "d1", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD1(  )
     {
         return _d1;
@@ -137,7 +131,6 @@ public class Version
      * Returns the d2 of this version
      * @return the version d2
      */
-    @Column( name = "d2", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD2(  )
     {
         return _d2;
@@ -145,7 +138,7 @@ public class Version
 
     /**
      * Sets the d2 of the version to the specified date
-     * @param d1 the new d2
+     * @param d2 the new d2
      */
     public void setD2( Date d2 )
     {
@@ -156,7 +149,6 @@ public class Version
      * Returns the d3 of this version
      * @return the version d3
      */
-    @Column( name = "d3", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD3(  )
     {
         return _d3;
@@ -164,7 +156,7 @@ public class Version
 
     /**
      * Sets the d3 of the version to the specified date
-     * @param d1 the new d3
+     * @param d3 the new d3
      */
     public void setD3( Date d3 )
     {
@@ -175,7 +167,6 @@ public class Version
      * Returns the d4 of this version
      * @return the version d4
      */
-    @Column( name = "d4", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getD4(  )
     {
         return _d4;
@@ -183,30 +174,11 @@ public class Version
 
     /**
      * Sets the d4 of the version to the specified date
-     * @param d1 the new d4
+     * @param d4 the new d4
      */
     public void setD4( Date d4 )
     {
         _d4 = d4;
     }
 
-    /**
-     * Returns the atome of this version
-     * @return the version atome
-     */
-    @OneToOne( fetch = FetchType.EAGER )
-    @JoinColumn( name = "atome" )
-    public Atome getAtome(  )
-    {
-        return _atome;
-    }
-
-    /**
-     * Sets the atome of the version to the specified Atome
-     * @param atome the new atome
-     */
-    public void setAtome( Atome atome )
-    {
-        _atome = atome;
-    }
 }

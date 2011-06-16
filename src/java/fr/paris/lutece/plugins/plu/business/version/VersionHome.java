@@ -33,10 +33,9 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
-//import java.sql.Date;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -47,44 +46,122 @@ import java.util.List;
  */
 public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDAO> implements IVersionHome
 {
+	/**
+	 * Create a new folder object
+	 * @param folder the new folder object
+	 */
+	public void create( Version version )
+	{
+		getDao(  ).create( version );
+	}
+	
+	/**
+	 * Update a version object
+	 * @param version the version object
+	 */
+	public void update( Version version )
+	{
+		getDao(  ).update( version );
+	}
+    
     /**
-    * Returns a list of version objects
-    * @param date The date for the query
-    * @param idFolder The folder identifier
-    * @return A list of version
-    */
-    public List<Version> findByDateAndParent( Date date, int idFolder )
+     * Update the version objects for the approve
+     * @param idPlu The plu id for the query
+     * @param date The date for the query
+     */
+    public void updateApprove( int idPlu, Date date )
     {
-        return getDao(  ).findByDateAndParent( date, idFolder );
+    	getDao(  ).updateApprove( idPlu, date );
     }
-
+    
+    /**
+     * Update the version objects for the application
+     * @param idPlu The plu id for the query
+     * @param date The date for the query
+     */
+    public void updateApplication( int idPlu, Date date )
+    {
+    	getDao(  ).updateApplication( idPlu, date );
+    }
+    
+    /**
+     * Update the version objects for the evolution
+     * @param idPlu The plu id for the query
+     * @param date The date for the query
+     */
+    public void updateEvolution( int idPlu, Date date )
+    {
+    	getDao(  ).updateEvolution( idPlu, date );
+    }
+    
+    /**
+     * Update the version objects for the archive
+     * @param idPlu The plu id for the query
+     * @param date The date for the query
+     */
+    public void updateArchive( int idPlu, Date date )
+    {
+    	getDao(  ).updateArchive( idPlu, date );
+    }
+    
+    /**
+	 * Update a version object
+	 * @param nKey the version id
+	 */
+    public void updateForEvolution( int nKey)
+    {
+    	getDao(  ).updateForEvolution( nKey );
+    }
+    
+    /**
+     * Returns the largest num version
+     * @param nIdAtome The atome identifier
+     * @return The largest num version
+     */
+    public int findMaxVersion( int nIdAtome )
+    {
+    	return getDao(  ).findMaxVersion( nIdAtome );
+    }
+	
+    /**
+	 * Returns a version object
+	 * @param nKey the version id
+	 * @return A version object with the id nKey
+	 */
+	public Version findByPrimaryKey( int nKey )
+	{
+		return getDao(  ).findByPrimaryKey( nKey );
+	}
+    
     /**
      * Returns a list of version objects
-     * @param date The date for the query
+     * @param nIdAtome The atome identifier
+     * @param numVersion The number version
      * @return A list of version
      */
-    public List<Version> findByD3D4( Date da )
+    public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion )
     {
-        return getDao(  ).findByD3D4( da );
+    	return getDao(  ).findByAtomeAndNumVersion( nIdAtome, numVersion );
+    }
+    
+    /**
+     * Returns a list of version objects
+     * @param nIdPlu The plu identifier
+     * @param nIdFolder The folder identifier
+     * @return A list of version
+     */
+    public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder )
+    {
+    	return getDao(  ).findByPluAndFolder( nIdPlu, nIdFolder );
     }
 
     /**
-     * Returns a list of version objects
-     * @param date The date for the query
-     * @return A list of version
+     * Finds by filter
+     * @param filter the filter
+     * @return the version list
      */
-    public List<Version> findByD2( Date da )
-    {
-        return getDao(  ).findByD2( da );
-    }
-
-    public Collection<Version> findWorkPluAndParent( Date date, int idFolder )
-    {
-        return getDao(  ).findWorkPluAndParent( date, idFolder );
-    }
-
-    /*public List<Version> findByFilter( VersionFilter filter )
-    {
-        return getDao(  ).findByFilter( filter );
-    }*/
+	public List<Version> findByFilter(AtomeFilter atomeFilter, VersionFilter versionFilter)
+	{
+		return getDao( ).findByFilter( atomeFilter, versionFilter );
+	}
 }

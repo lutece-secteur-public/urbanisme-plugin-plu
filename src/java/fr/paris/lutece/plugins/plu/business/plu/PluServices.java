@@ -33,10 +33,7 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-
-import java.util.Collection;
-import java.util.Date;
+import java.util.List;
 
 
 public class PluServices implements IPluServices
@@ -53,34 +50,38 @@ public class PluServices implements IPluServices
         this._home = _home;
     }
 
-    public void create( Plu plu, Plugin plugin )
+    public void create( Plu plu )
     {
         _home.create( plu );
     }
 
-    public void remove( Plu plu, Plugin plugin )
-    {
-        int pluId = plu.getId(  );
-        _home.remove( pluId );
-    }
-
-    public void update( Plu plu, Plugin plugin )
-    {
-        _home.update( plu );
-    }
-
-    public Collection<Plu> findAll( Plugin plugin )
+    public List<Plu> findAll(  )
     {
         return _home.findAll(  );
     }
 
-    public Plu findByPrimaryKey( int nKey, Plugin plugin )
+    public Plu findByPrimaryKey( int nKey )
     {
         return _home.findByPrimaryKey( nKey );
     }
-
-    public Plu findByDa( Date date )
+    
+    public Plu findPluWork(  )
     {
-        return _home.findByDa( date );
+    	return _home.findPluWork(  );
+    }
+
+    public void updateApprove( Plu plu )
+    {
+        _home.updateApprove( plu );
+    }
+    
+    public void updateApplication( Plu plu )
+    {
+        _home.updateApplication( plu );
+    }
+    
+    public Plu findPluApplied(  )
+    {
+        return _home.findPluApplied(  );
     }
 }

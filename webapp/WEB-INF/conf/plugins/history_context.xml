@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  
+  	<bean id="plu.historyServices"  class="fr.paris.lutece.plugins.plu.business.history.HistoryServices" >
+        <property name="home">
+            <ref bean="plu.historyHome" />
+        </property>
+    </bean>  
+  	<bean id="plu.historyHome"  class="fr.paris.lutece.plugins.plu.business.history.HistoryHome" >
+        <property name="dao">
+            <ref bean="plu.historyDAO" />
+        </property>
+	</bean>
+    <bean id="plu.historyDAO"  class="fr.paris.lutece.plugins.plu.business.history.HistoryDAO" />
+        
+</beans>

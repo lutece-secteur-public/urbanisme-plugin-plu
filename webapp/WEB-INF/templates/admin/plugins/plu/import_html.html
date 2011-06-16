@@ -1,0 +1,24 @@
+<link rel="stylesheet" type="text/css" href="plugin-plu/plugin_plu.css" />
+
+<div class="content-box" >
+
+	<h2>#i18n{plu.import_html.pageSubTitle}</h2>
+	
+	<form enctype="multipart/form-data" method=post action="jsp/admin/plugins/plu/${page}.jsp">
+		
+    	<p>
+        	<label for="folder_html" >#i18n{plu.import_html.rowTitleHtml} : </label> 
+    	    <input type="file" id="folder_html" name="folder_html" size="60"/>
+   		</p>
+   	
+   		<p>
+   			<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${one_plu.id}" style="text-decoration:none" id="button">
+   				#i18n{plu.import_html.buttonReturn}
+        	</A>
+        	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+        	<input type="submit" value="#i18n{plu.import_html.buttonValidate}" class="button" />
+   		</p>
+   		
+	</form>
+
+</div>

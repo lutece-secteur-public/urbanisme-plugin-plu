@@ -31,27 +31,29 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.file;
+package fr.paris.lutece.plugins.plu.business.folderVersion;
 
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.version.Version;
+import fr.paris.lutece.portal.service.plugin.Plugin;
 
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.StaticMetamodel;
+import java.util.Collection;
+import java.util.List;
 
 
-/**
- * File_ the metamodel for file
- * @author vLopez
- */
-@StaticMetamodel( value = Folder.class )
-public class File_
+public interface IFolderVersionServices
 {
-    public static volatile SingularAttribute<File, Integer> id;
-    public static volatile SingularAttribute<File, String> name;
-    public static volatile SingularAttribute<File, String> title;
-    public static volatile SingularAttribute<File, String> mimeType;
-    public static volatile SingularAttribute<File, Integer> size;
-    public static volatile SingularAttribute<File, byte[]> file;
-    public static volatile SingularAttribute<File, Version> version;
+	public void create( FolderVersion folderVersion );
+	
+	public void update( FolderVersion folderVersion );
+	
+	public void remove( Folder folder, Version versionOld );
+	
+	public List<FolderVersion> findByFolder( Folder folder );
+	
+	public FolderVersion findByFolderAndVersion( Folder folder, Version version );
+	
+    public Collection<FolderVersion> findAll( Plugin plugin );
+
+    public FolderVersion findByPrimaryKey( int nKey, Plugin plugin );
 }

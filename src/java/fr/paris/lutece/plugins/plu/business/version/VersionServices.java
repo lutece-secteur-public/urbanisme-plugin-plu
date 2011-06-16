@@ -33,13 +33,10 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-
-import java.util.Collection;
-
-//import java.sql.Date;
 import java.util.Date;
 import java.util.List;
+
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 
 
 public class VersionServices implements IVersionServices
@@ -56,54 +53,122 @@ public class VersionServices implements IVersionServices
         this._home = _home;
     }
 
-    public void create( Version version, Plugin plugin )
+    /**
+	 * Create a new folder object
+	 * @param folder the new folder object
+	 */
+	public void create( Version version )
+	{
+		_home.create( version );
+	}
+	
+	/**
+	 * Update a version object
+	 * @param version the version object
+	 */
+	public void update( Version version )
+	{
+		_home.update( version );
+	}
+    
+    /**
+     * Update the version objects for the approve
+     * @param idPlu The plu id for the query
+     * @param date The date for the query
+     */
+    public void updateApprove( int idPlu, Date date )
     {
-        _home.create( version );
+    	_home.updateApprove( idPlu, date );
+    }
+    
+    /**
+     * Update the version objects for the application
+     * @param idPlu The plu id for the query
+     * @param date The date for the query
+     */
+    public void updateApplication( int idPlu, Date date )
+    {
+    	_home.updateApplication( idPlu, date );
+    }
+    
+    /**
+     * Update the version objects for the evolution
+     * @param idPlu The plu id for the query
+     * @param date The date for the query
+     */
+    public void updateEvolution( int idPlu, Date date )
+    {
+    	_home.updateEvolution( idPlu, date );
+    }
+    
+    /**
+     * Update the version objects for the archive
+     * @param idPlu The plu id for the query
+     * @param date The date for the query
+     */
+    public void updateArchive( int idPlu, Date date )
+    {
+    	_home.updateArchive( idPlu, date );
+    }
+    
+    /**
+	 * Update a version object
+	 * @param nKey the version id
+	 */
+    public void updateForEvolution( int nKey)
+    {
+    	_home.updateForEvolution( nKey );
+    }
+    
+    /**
+     * Returns the largest num version
+     * @param nIdAtome The atome identifier
+     * @return The largest num version
+     */
+    public int findMaxVersion( int nIdAtome )
+    {
+    	return _home.findMaxVersion( nIdAtome );
+    }
+	
+    /**
+	 * Returns a version object
+	 * @param nKey the version id
+	 * @return A version object with the id nKey
+	 */
+	public Version findByPrimaryKey( int nKey )
+	{
+		return _home.findByPrimaryKey( nKey );
+	}
+    
+    /**
+     * Returns a list of version objects
+     * @param nIdAtome The atome identifier
+     * @param numVersion The number version
+     * @return A list of version
+     */
+    public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion )
+    {
+    	return _home.findByAtomeAndNumVersion( nIdAtome, numVersion );
+    }
+    
+    /**
+     * Returns a list of version objects
+     * @param nIdPlu The plu identifier
+     * @param nIdFolder The folder identifier
+     * @return A list of version
+     */
+    public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder )
+    {
+    	return _home.findByPluAndFolder( nIdPlu, nIdFolder );
     }
 
-    public void remove( Version version, Plugin plugin )
-    {
-        int versionId = version.getId(  );
-        _home.remove( versionId );
-    }
-
-    public void update( Version version, Plugin plugin )
-    {
-        _home.update( version );
-    }
-
-    public Collection<Version> findAll( Plugin plugin )
-    {
-        return _home.findAll(  );
-    }
-
-    public Version findByPrimaryKey( int nKey, Plugin plugin )
-    {
-        return _home.findByPrimaryKey( nKey );
-    }
-
-    public List<Version> findByDateAndParent( Date date, int idFolder )
-    {
-        return _home.findByDateAndParent( date, idFolder );
-    }
-
-    public List<Version> findByD3D4( Date da )
-    {
-        return _home.findByD3D4( da );
-    }
-
-    public List<Version> findByD2( Date da )
-    {
-        return _home.findByD2( da );
-    }
-
-    public Collection<Version> findWorkPluAndParent( Date date, int idFolder )
-    {
-        return _home.findWorkPluAndParent( date, idFolder );
-    }
-
-    /*public List<Version> findByFilter( VersionFilter filter )
-    {
-        return _home.findByFilter( filter );
-    }*/
+    /**
+     * Finds by filter
+     * @param filter the filter
+     * @return the version list
+     */
+	public List<Version> findByFilter(AtomeFilter atomeFilter, VersionFilter versionFilter)
+	{
+		return _home.findByFilter( atomeFilter, versionFilter );
+	}
 }

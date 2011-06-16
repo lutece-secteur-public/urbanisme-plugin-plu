@@ -4,11 +4,11 @@
 
 	<h2>#i18n{plu.create_folder.pageSubTitle}</h2>
 	
-	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/DoCreateFolder.jsp">
+	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/ConfirmCreateFolder.jsp">
 	
 		<p>
 			<label for="id_parent_folder" >#i18n{plu.create_folder.rowTitleParentFolder} : </label>
-			<select name="id_parent_folder">
+			<select name="id_parent_folder" style="width:331px;">
 				<option value="0">none</option>
 				<#list folder_list as folder>
      			<option value="${folder.id}">${folder.title}</option>
@@ -36,11 +36,35 @@
         	</div>
         </p>
          
+         <fieldset style="width:66%; margin:10px 0 0 17%; border-radius: 11px 11px 11px 11px;">
+			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage}</legend>
+			
+			<p>
+	        	<A href="jsp/admin/plugins/plu/html/CreateHtml.jsp?page=folder/CreateFolder&id_plu=${one_plu.id}" style="color:blue;margin-left:20%;">
+	        		#i18n{plu.create_folder.rowTitleCreateHtml}
+	        	</A>
+	        	<A href="jsp/admin/plugins/plu/html/CreateHtml.jsp?page=folder/CreateFolder&id_plu=${one_plu.id}<#if folder_html?exists>&folder_html=${folder_html}</#if>" style="color:blue;margin-left:10%;">
+	        		#i18n{plu.create_folder.rowTitleModifyHtml}
+	        	</A>
+	        	<A href="jsp/admin/plugins/plu/html/ImportHtml.jsp?page=folder/CreateFolder&id_plu=${one_plu.id}" style="color:blue;margin-left:10%;">
+	        		#i18n{plu.create_folder.rowTitleImportHtml}
+	        	</A>
+	        	<A href="jsp/admin/plugins/plu/html/DuplicateHtml.jsp?page=folder/CreateFolder&id_plu=${one_plu.id}" style="color:blue;margin-left:10%;">
+	        		#i18n{plu.create_folder.rowTitleDuplicateHtml}
+	        	</A>
+	        </p>
+			<#if folder_html?exists>
+		        <p>
+		        	<input type="checkbox" name="html_check" value="true" checked/>nom_dossier-id_dossier.html
+		        </p>
+		    </#if>
+	    </fieldset>
+	    
         <p>
-        	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${plu.id}" style="text-decoration:none" id="button">
-        	<input type="reset" value="#i18n{plu.create_folder.buttonReturn}" class="button" />
+        	<A href="jsp/admin/plugins/plu/folder/ConfirmCancelCreateFolder.jsp?id_plu=${one_plu.id}" style="text-decoration:none" id="button">
+        	#i18n{plu.create_folder.buttonReturn}
         	</A>
-        	<input type="hidden" name="id_plu" value="${plu.id}"/>
+        	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
    		  	<input type="submit" value="#i18n{plu.create_folder.buttonValidate}" class="button" />
         </p>
         

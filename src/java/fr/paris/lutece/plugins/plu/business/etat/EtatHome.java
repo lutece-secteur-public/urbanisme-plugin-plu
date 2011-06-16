@@ -31,28 +31,25 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.version;
+package fr.paris.lutece.plugins.plu.business.etat;
 
-import fr.paris.lutece.plugins.plu.business.atome.Atome;
+import java.util.List;
 
-import java.sql.Date;
-
-import javax.persistence.metamodel.SingularAttribute;
-import javax.persistence.metamodel.StaticMetamodel;
+import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
 
 /**
- * Version_ the metamodel for version
+ * This class provides instances management methods (create, find, ...) for Etat objects
  * @author vLopez
  */
-@StaticMetamodel( value = Version.class )
-public class Version_
+public class EtatHome extends AbstractLuteceHome<Integer, Etat, IEtatDAO> implements IEtatHome
 {
-    public static volatile SingularAttribute<Version, Integer> id;
-    public static volatile SingularAttribute<Version, Integer> version;
-    public static volatile SingularAttribute<Version, Date> d1;
-    public static volatile SingularAttribute<Version, Date> d2;
-    public static volatile SingularAttribute<Version, Date> d3;
-    public static volatile SingularAttribute<Version, Date> d4;
-    public static volatile SingularAttribute<Version, Atome> atome;
+	/**
+	 * Returns a list of etat objects
+	 * @return A list of all etat
+	 */
+	public List<Etat> findAll(  )
+    {
+    	return getDao(  ).findAll(  );
+    }
 }

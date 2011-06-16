@@ -33,13 +33,6 @@
  */
 package fr.paris.lutece.plugins.plu.business.atome;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-
-import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.Date;
-
-import java.util.Collection;
 import java.util.List;
 
 
@@ -57,40 +50,40 @@ public class AtomeServices implements IAtomeServices
         this._home = _home;
     }
 
-    public void create( Atome atome, Plugin plugin )
+    /**
+	 * Create a new atome object
+	 * @param atome the new atome object
+	 */
+    public void create( Atome atome )
     {
         _home.create( atome );
     }
 
-    public void remove( Atome atome, Plugin plugin )
+    /**
+	 * Update an atome object
+	 * @param atome the atome object
+	 */
+    public void update( Atome atome, int nIdAtomeOld )
     {
-        int atomeId = atome.getId(  );
-        _home.remove( atomeId );
+        _home.update( atome, nIdAtomeOld );
     }
 
-    @Transactional
-    public void update( Atome atome, Plugin plugin )
-    {
-        _home.update( atome );
-    }
-
-    public Collection<Atome> findAll( Plugin plugin )
-    {
-        return _home.findAll(  );
-    }
-
-    public Atome findByPrimaryKey( int nKey, Plugin plugin )
+    /**
+	 * Returns an atome object
+	 * @param nKey the atome id
+	 * @return An atome object with the id nKey
+	 */
+    public Atome findByPrimaryKey( int nKey )
     {
         return _home.findByPrimaryKey( nKey );
     }
-
-    public List<Atome> findByDateAndParent( Date date, int idFolder )
+    
+    /**
+	 * Returns a list of atome objects
+	 * @return A list of all atome
+	 */
+    public List<Atome> findAll(  )
     {
-        return _home.findByDateAndParent( date, idFolder );
-    }
-
-    public int findMaxId(  )
-    {
-        return _home.findMaxId(  );
+        return _home.findAll(  );
     }
 }

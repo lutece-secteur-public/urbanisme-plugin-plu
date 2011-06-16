@@ -33,9 +33,7 @@
  */
 package fr.paris.lutece.plugins.plu.business.type;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-
-import java.util.Collection;
+import java.util.List;
 
 
 public class TypeServices implements ITypeServices
@@ -52,13 +50,22 @@ public class TypeServices implements ITypeServices
         this._home = _home;
     }
 
-    public Collection<Type> findAll( Plugin plugin )
-    {
-        return _home.findAll(  );
-    }
-
-    public Type findByPrimaryKey( int nKey, Plugin plugin )
+    /**
+	 * Returns a type object
+	 * @param nKey the type id
+	 * @return A type object with the same id
+	 */
+    public Type findByPrimaryKey( int nKey )
     {
         return _home.findByPrimaryKey( nKey );
+    }
+
+    /**
+	 * Returns a list of type objects
+	 * @return A list of all type
+	 */
+    public List<Type> findAll(  )
+    {
+        return _home.findAll(  );
     }
 }

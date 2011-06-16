@@ -35,8 +35,6 @@ package fr.paris.lutece.plugins.plu.business.atome;
 
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
-import java.sql.Date;
-
 import java.util.List;
 
 
@@ -46,19 +44,40 @@ import java.util.List;
  */
 public class AtomeHome extends AbstractLuteceHome<Integer, Atome, IAtomeDAO> implements IAtomeHome
 {
-    /**
-    * Returns a list of atome objects
-    * @param date The date for the query
-    * @param idFolder The folder identifier
-    * @return A list of atome
-    */
-    public List<Atome> findByDateAndParent( Date date, int idFolder )
-    {
-        return getDao(  ).findByDateAndParent( date, idFolder );
-    }
-
-    public int findMaxId(  )
-    {
-        return getDao(  ).findMaxId(  );
-    }
+	/**
+	 * Create a new atome object
+	 * @param atome the new atome object
+	 */
+	public void create( Atome atome )
+	{
+		getDao(  ).create( atome );
+	}
+	
+	/**
+	 * Update an atome object
+	 * @param atome the atome object
+	 */
+	public void update( Atome atome, int nIdAtomeOld )
+	{
+		getDao(  ).update( atome, nIdAtomeOld );
+	}
+	
+	/**
+	 * Returns an atome object
+	 * @param nKey the atome id
+	 * @return An atome object with the id nKey
+	 */
+	public Atome findByPrimaryKey( int nKey )
+	{
+		return getDao(  ).findByPrimaryKey( nKey );
+	}
+	
+	/**
+	 * Returns a list of atome objects
+	 * @return A list of all atome
+	 */
+	public List<Atome> findAll(  )
+	{
+		return getDao(  ).findAll(  );
+	}
 }

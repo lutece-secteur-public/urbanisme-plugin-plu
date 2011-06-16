@@ -33,34 +33,97 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
 
-import java.util.Collection;
-
-//import java.sql.Date;
 import java.util.Date;
 import java.util.List;
+
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 
 
 public interface IVersionServices
 {
-    public void create( Version version, Plugin plugin );
+	/**
+	 * Create a new version object
+	 * @param version the new version object
+	 */
+    public void create( Version version );
 
-    public void remove( Version version, Plugin plugin );
+    /**
+	 * Update a version object
+	 * @param version the version object
+	 */
+    public void update( Version version );
+    
+    /**
+	 * Update a version object
+	 * @param idPlu the plu id
+	 * @param date the approvation date
+	 */
+    public void updateApprove( int idPlu, Date date );
+    
+    /**
+	 * Update a version object
+	 * @param idPlu the plu id
+	 * @param date the application date
+	 */
+    public void updateApplication( int idPlu, Date date );
+    
+    /**
+	 * Update a version object
+	 * @param idPlu the plu id
+	 * @param date the evolution date
+	 */
+    public void updateEvolution( int idPlu, Date date );
+    
+    /**
+	 * Update a version object
+	 * @param idPlu the plu id
+	 * @param date the archivage date
+	 */
+    public void updateArchive( int idPlu, Date date );
+    
+    /**
+	 * Update a version object
+	 * @param nKey the version id
+	 */
+    public void updateForEvolution( int nKey);
+    
+    /**
+	 * Returns an integer
+	 * @param nIdAtome the atome id
+	 * @return A maximum version number
+	 */
+    public int findMaxVersion( int nIdAtome );
 
-    public void update( Version version, Plugin plugin );
+    /**
+	 * Returns a version object
+	 * @param nKey the version id
+	 * @return A version object with the id nKey
+	 */
+    public Version findByPrimaryKey( int nKey );
+    
+    /**
+	 * Returns a version object
+	 * @param nIdAtome the atome id
+	 * @param numVersion the version number
+	 * @return A version object associated with the same atome id and version number
+	 */
+    public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion );
+    
+    /**
+	 * Returns a list of version objects
+	 * @param pluId the plu id
+	 * @param nIdFolder the folder id
+	 * @return A list of version associated with the same plu id and folder id
+	 */
+    public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder );
+    
+    /**
+     * Finds by filter
+     * @param filter the filter
+     * @return the version list
+     */
+    public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );
 
-    public Collection<Version> findAll( Plugin plugin );
-
-    public Version findByPrimaryKey( int nKey, Plugin plugin );
-
-    public List<Version> findByDateAndParent( Date date, int idFolder );
-
-    public List<Version> findByD3D4( Date da );
-
-    public List<Version> findByD2( Date da );
-
-    public Collection<Version> findWorkPluAndParent( Date date, int idFolder );
-
-    //public List<Version> findByFilter( VersionFilter filter );
+//  public List<Version> findByDateAndParent( Date date, int idFolder );
 }

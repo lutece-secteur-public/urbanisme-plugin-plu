@@ -33,51 +33,24 @@
  */
 package fr.paris.lutece.plugins.plu.business.atome;
 
-import fr.paris.lutece.plugins.plu.business.folder.Folder;
-import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-
 
 /**
  * This class represents business object Atome
  * @author vLopez
  */
-@Entity
-@Table( name = "plu_atome" )
 public class Atome
 {
-    /** Sequence name */
-    private static final String JPA_SEQUENCE_NAME = "plu_atome_sequence";
-
     //constantes
-    private static final String JPA_COLUMN_NAME = "plu_atome_id";
     public static final String RESOURCE_TYPE = "ATOME_RESOURCE";
     private int _id;
     private String _name;
     private String _title;
     private String _description;
-    private byte[] _img;
-    private Folder _folder;
 
     /**
      * Returns the identifier of this atome
      * @return the atome identifier
      */
-    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
-    @Id
-    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
-    @Column( name = "id" )
     public int getId(  )
     {
         return _id;
@@ -96,7 +69,6 @@ public class Atome
      * Returns the name of this atome
      * @return the atome name
      */
-    @Column( name = "name" )
     public String getName(  )
     {
         return _name;
@@ -115,7 +87,6 @@ public class Atome
      * Returns the title of this atome
      * @return the atome title
      */
-    @Column( name = "title" )
     public String getTitle(  )
     {
         return _title;
@@ -134,7 +105,6 @@ public class Atome
      * Returns the description of this atome
      * @return the atome description
      */
-    @Column( name = "description" )
     public String getDescription(  )
     {
         return _description;
@@ -147,45 +117,5 @@ public class Atome
     public void setDescription( String description )
     {
         _description = description;
-    }
-
-    /**
-     * Returns the folder of this atome
-     * @return the atome folder
-     */
-    @OneToOne( fetch = FetchType.EAGER )
-    @JoinColumn( name = "folder" )
-    public Folder getFolder(  )
-    {
-        return _folder;
-    }
-
-    /**
-     * Sets the folder of the atome to the specified Folder
-     * @param folder the new folder
-     */
-    public void setFolder( Folder folder )
-    {
-        _folder = folder;
-    }
-
-    /**
-     * Returns the image of this atome
-     * @return the atome image
-     */
-    @Lob
-    @Column( name = "image" )
-    public byte[] getImg(  )
-    {
-        return _img;
-    }
-
-    /**
-     * Sets the image of the atome to the specified byte
-     * @param img the new image
-     */
-    public void setImg( byte[] img )
-    {
-        _img = img;
     }
 }

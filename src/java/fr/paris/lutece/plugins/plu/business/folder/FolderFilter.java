@@ -40,29 +40,36 @@ package fr.paris.lutece.plugins.plu.business.folder;
  */
 public class FolderFilter
 {
-    private Integer _id;
-    private String _title;
-    private String _description;
-    private Folder _parentFolder;
-
+    private Integer _plu = -1;
+    private String _title = null;
+    
     /**
-     * Get the folder id filtered
-     * @return the folder id
+     * Get the plu id filtered
+     * @return the plu id
      */
-    public Integer get_id(  )
+    public Integer get_plu(  )
     {
-        return _id;
+        return _plu;
     }
 
     /**
-     * Set the folder id to filter
-     * @param _id the folder id
+     * Set the plu id to filter
+     * @param _id the plu id
      */
-    public void set_id( Integer _id )
+    public void set_plu( Integer _plu )
     {
-        this._id = _id;
+        this._plu = _plu;
     }
 
+    /**
+    *
+    * @return true if the filter contain an id plu
+    */
+   public boolean containsPlu(  )
+   {
+       return ( _plu != -1 );
+   }
+   
     /**
      * Get the folder title filtered
      * @return the folder title
@@ -80,40 +87,13 @@ public class FolderFilter
     {
         this._title = _title;
     }
-
+    
     /**
-     * Get the folder description filtered
-     * @return the folder description
-     */
-    public String get_description(  )
-    {
-        return _description;
-    }
-
-    /**
-     * Set the folder description to filter
-     * @param _description the folder description
-     */
-    public void set_description( String _description )
-    {
-        this._description = _description;
-    }
-
-    /**
-     * Get the parent folder filtered
-     * @return the parent folder
-     */
-    public Folder get_parentFolder(  )
-    {
-        return _parentFolder;
-    }
-
-    /**
-    * Set the parent folder to filter
-    * @param _parentFolder the parent folder
+    *
+    * @return true if the filter contain a folder title
     */
-    public void set_parentFolder( Folder _parentFolder )
-    {
-        this._parentFolder = _parentFolder;
-    }
+   public boolean containsTitle(  )
+   {
+       return ( _title != null );
+   }
 }

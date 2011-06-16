@@ -33,53 +33,29 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
-import fr.paris.lutece.plugins.plu.business.type.Type;
-import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-
-//import java.sql.Date;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 
 
 /**
  * This class represents business object Plu
  * @author vLopez
  */
-@Entity
-@Table( name = "plu_plu" )
 public class Plu
 {
-    /** Sequence name */
-    private static final String JPA_SEQUENCE_NAME = "plu_sequence";
-
     //constantes
-    private static final String JPA_COLUMN_NAME = "plu_id";
     public static final String RESOURCE_TYPE = "PLU_RESOURCE";
     private int _id;
+    private int _type;
+    private String _cause;
+    private String _reference;
     private Date _dj;
     private Date _da;
-    private String _cause;
-    private Type _type;
-    private String _reference;
+    private int _etat;
 
     /**
      * Returns the identifier of this plu
      * @return the plu identifier
      */
-    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
-    @Id
-    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
-    @Column( name = "id" )
     public int getId(  )
     {
         return _id;
@@ -95,10 +71,63 @@ public class Plu
     }
 
     /**
+     * Returns the type of this plu
+     * @return the plu type
+     */
+    public int getType(  )
+    {
+        return _type;
+    }
+
+    /**
+     * Sets the type of the plu to the specified integer
+     * @param type the new type
+     */
+    public void setType( int type )
+    {
+        _type = type;
+    }
+    
+    /**
+     * Returns the cause of this plu
+     * @return the plu cause
+     */
+    public String getCause(  )
+    {
+        return _cause;
+    }
+
+    /**
+     * Sets the cause of the plu to the specified string
+     * @param cause the new cause
+     */
+    public void setCause( String cause )
+    {
+        _cause = cause;
+    }
+    
+    /**
+     * Returns the reference of this plu
+     * @return the plu reference
+     */
+    public String getReference(  )
+    {
+        return _reference;
+    }
+
+    /**
+    * Sets the reference of the plu to the specified String
+    * @param reference the new reference
+    */
+    public void setReference( String reference )
+    {
+        _reference = reference;
+    }
+    
+    /**
      * Returns the dj of this plu
      * @return the plu dj
      */
-    @Column( name = "dj", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getDj(  )
     {
         return _dj;
@@ -117,7 +146,6 @@ public class Plu
      * Returns the da of this plu
      * @return the plu da
      */
-    @Column( name = "da", columnDefinition = "DATE NOT NULL DEFAULT '9999-12-31'" )
     public Date getDa(  )
     {
         return _da;
@@ -133,60 +161,20 @@ public class Plu
     }
 
     /**
-     * Returns the cause of this plu
-     * @return the plu cause
+     * Returns the etat of this plu
+     * @return the plu etat
      */
-    @Column( name = "cause" )
-    public String getCause(  )
+    public int getEtat(  )
     {
-        return _cause;
+        return _etat;
     }
 
     /**
-     * Sets the cause of the plu to the specified string
-     * @param cause the new cause
-     */
-    public void setCause( String cause )
-    {
-        _cause = cause;
-    }
-
-    /**
-     * Returns the type of this plu
-     * @return the plu type
-     */
-    @OneToOne( fetch = FetchType.EAGER )
-    @JoinColumn( name = "type" )
-    public Type getType(  )
-    {
-        return _type;
-    }
-
-    /**
-     * Sets the type of the plu to the specified Type
+     * Sets the type of the plu to the specified integer
      * @param type the new type
      */
-    public void setType( Type type )
+    public void setEtat( int etat )
     {
-        _type = type;
-    }
-
-    /**
-     * Returns the reference of this plu
-     * @return the plu reference
-     */
-    @Column( name = "reference" )
-    public String getReference(  )
-    {
-        return _reference;
-    }
-
-    /**
-    * Sets the reference of the plu to the specified String
-    * @param reference the new reference
-    */
-    public void setReference( String reference )
-    {
-        _reference = reference;
+        _etat = etat;
     }
 }

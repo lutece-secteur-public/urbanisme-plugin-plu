@@ -33,9 +33,10 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
-import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -44,13 +45,60 @@ import java.util.Collection;
  */
 public class FileHome extends AbstractLuteceHome<Integer, File, IFileDAO> implements IFileHome
 {
-    public Collection<File> findByVersion( int nIdVersion )
+	/**
+	 * Create a new file object
+	 * @param file the new file object
+	 */
+	public void create( File file )
+	{
+		getDao(  ).create( file );
+	}
+	
+	/**
+	 * Update a new file object
+	 * @param file the file object
+	 */
+	public void update( File file )
+	{
+		getDao(  ).update( file );
+	}
+	
+	/**
+	 * Remove a new file object
+	 * @param file the file object
+	 */
+	public void remove( File file )
+	{
+		getDao(  ).remove( file );
+	}
+	
+	/**
+	 * Returns a list of file objects
+	 * @return A list of all file
+	 */
+	public List<File> findAll(  )
+    {
+        return getDao(  ).findAll(  );
+    }
+	
+	/**
+	 * Returns a list of file objects
+	 * @param nIdVersion the version id
+	 * @return A list of file associated with the same version id
+	 */
+    public List<File> findByVersion( int nIdVersion )
     {
         return getDao(  ).findByVersion( nIdVersion );
     }
-
-    public Collection<File> findByAtome( int nIdAtome )
+    
+    /**
+     * Finds by filter
+     * @param fileFilter the file filter
+     * @param atomeFilter the atome filter
+     * @return the folder list
+     */
+    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter )
     {
-        return getDao(  ).findByAtome( nIdAtome );
+    	return getDao(  ).findByFilter( fileFilter, atomeFilter );
     }
 }
