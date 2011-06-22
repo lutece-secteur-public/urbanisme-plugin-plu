@@ -65,14 +65,14 @@ public class VersionFilter
     {
         this._version = _version;
     }
-    
+
     /**
      *
      * @return true if the filter contain a version
      */
     public boolean containsVersion(  )
     {
-    	return ( _version != -1 );
+        return ( _version != -1 );
     }
 
     /**
@@ -92,14 +92,14 @@ public class VersionFilter
     {
         this._d1 = _d1;
     }
-    
+
     /**
      *
      * @return true if the filter contain a d1
      */
     public boolean containsD1(  )
     {
-    	return ( _d1 != null );
+        return ( _d1 != null );
     }
 
     /**
@@ -119,14 +119,14 @@ public class VersionFilter
     {
         this._d2 = _d2;
     }
-    
+
     /**
      *
      * @return true if the filter contain a d2
      */
     public boolean containsD2(  )
     {
-    	return ( _d2 != null );
+        return ( _d2 != null );
     }
 
     /**
@@ -146,14 +146,14 @@ public class VersionFilter
     {
         this._d3 = _d3;
     }
-    
+
     /**
      *
      * @return true if the filter contain a d3
      */
     public boolean containsD3(  )
     {
-    	return ( _d3 != null );
+        return ( _d3 != null );
     }
 
     /**
@@ -173,13 +173,13 @@ public class VersionFilter
     {
         this._d4 = _d4;
     }
-    
+
     /**
      *
      * @return true if the filter contain a d4
      */
     public boolean containsD4(  )
     {
-    	return ( _d4 != null );
+        return ( _d4 != null );
     }
 }

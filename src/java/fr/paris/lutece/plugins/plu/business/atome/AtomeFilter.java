@@ -60,40 +60,40 @@ public class AtomeFilter
     {
         this._name = _name;
     }
-    
+
     /**
      *
      * @return true if the filter contain a name
      */
     public boolean containsName(  )
     {
-    	return ( _name != null );
+        return ( _name != null );
     }
-    
-	/**
-	 * Get the atome title filtered
-	 * @return the atome title
-	 */
-	public String get_title(  )
-	{
-		return _title;
-	}
-	
-	/**
-	 * Set the atome title to filter
-	 * @param _title the atome title
-	 */
-	public void set_title( String _title )
-	{
-		this._title = _title;
-	}
-	   
-	/**
-	 *
-	 * @return true if the filter contain a title
-	 */
-	public boolean containsTitle(  )
-	{
-		return ( _title != null );
-	}
+
+    /**
+     * Get the atome title filtered
+     * @return the atome title
+     */
+    public String get_title(  )
+    {
+        return _title;
+    }
+
+    /**
+     * Set the atome title to filter
+     * @param _title the atome title
+     */
+    public void set_title( String _title )
+    {
+        this._title = _title;
+    }
+
+    /**
+     *
+     * @return true if the filter contain a title
+     */
+    public boolean containsTitle(  )
+    {
+        return ( _title != null );
+    }
 }

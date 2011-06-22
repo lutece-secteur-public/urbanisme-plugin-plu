@@ -35,15 +35,32 @@ package fr.paris.lutece.plugins.plu.business.folderVersion;
 
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.version.Version;
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 
 /**
  * This class represents business object FolderVersion
  * @author vLopez
  */
+@Entity
+@Table( name = "dossier_version_atome" )
 public class FolderVersion
 {
-    //constantes
+    /** Sequence name */
+    private static final String JPA_SEQUENCE_NAME = "plu_dossier_version_atome_sequence";
+
+    /** Unique value */
+    private static final String JPA_COLUMN_NAME = "plu_dossier_version_atome_id";
+
+    //Constants
     public static final String RESOURCE_TYPE = "DOSSIER_VERSION_RESOURCE";
     private int _id;
     private Version _version;
@@ -53,6 +70,10 @@ public class FolderVersion
      * Returns the identifier of this file
      * @return the file identifier
      */
+    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
+    @Id
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
+    @Column( name = "id_dossier_version" )
     public int getId(  )
     {
         return _id;
@@ -66,11 +87,12 @@ public class FolderVersion
     {
         _id = id;
     }
-    
+
     /**
      * Returns the version of this FolderVersion
      * @return the FolderVersion version
      */
+    @Column( name = "id_version" )
     public Version getVersion(  )
     {
         return _version;
@@ -84,11 +106,12 @@ public class FolderVersion
     {
         _version = version;
     }
-    
+
     /**
      * Returns the folder of this FolderVersion
      * @return the FolderVersion folder
      */
+    @Column( name = "id_dossier" )
     public Folder getFolder(  )
     {
         return _folder;

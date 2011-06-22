@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
+import fr.paris.lutece.portal.service.image.ImageResource;
+
 import java.util.List;
 
 
@@ -45,109 +47,119 @@ public class FolderServices implements IFolderServices
         return _home;
     }
 
-    public void setHome( IFolderHome _home )
+    public void setHome( IFolderHome home )
     {
-        this._home = _home;
+        this._home = home;
     }
 
     /**
-	 * Create a new folder object
-	 * @param folder the new folder object
-	 */
+     * Create a new folder object
+     * @param folder the new folder object
+     */
     public void create( Folder folder )
     {
         _home.create( folder );
     }
-    
-	/**
-	 * Update a folder object
-	 * @param folder the folder object
-	 */
+
+    /**
+     * Update a folder object
+     * @param folder the folder object
+     */
     public void update( Folder folder )
     {
         _home.update( folder );
     }
-    
+
     /**
-	 * Remove a folder object
-	 * @param folder the folder object
-	 */
+     * Remove a folder object
+     * @param folder the folder object
+     */
     public void remove( Folder folder )
     {
         int folderId = folder.getId(  );
         _home.remove( folderId );
     }
-	
+
     /**
-	 * Returns a folder object
-	 * @param nKey the folder id
-	 * @return A folder object with the same id
-	 */
+     * Returns a folder object
+     * @param nKey the folder id
+     * @return A folder object with the same id
+     */
     public Folder findByPrimaryKey( int nKey )
     {
         return _home.findByPrimaryKey( nKey );
     }
-	
+
     /**
-	 * Returns a folder object
-	 * @return The last folder created
-	 */
+     * Returns a folder object
+     * @return The last folder created
+     */
     public Folder findLastFolder(  )
-	{
-		return _home.findLastFolder(  );
-	}
-	
-	/**
-	 * Returns a folder object
-	 * @param title the folder title
-	 * @return A folder object with the same title
-	 */
+    {
+        return _home.findLastFolder(  );
+    }
+
+    /**
+     * Returns a folder object
+     * @param title the folder title
+     * @return A folder object with the same title
+     */
     public Folder findForTestTitle( String title )
     {
-    	return _home.findForTestTitle( title );
+        return _home.findForTestTitle( title );
     }
-	
-	/**
-	 * Returns a folder object
-	 * @param nIdAtome the atome id
-	 * @return A folder object associated with the atome id
-	 */
+
+    /**
+     * Returns a folder object
+     * @param nIdAtome the atome id
+     * @return A folder object associated with the atome id
+     */
     public Folder findByAtome( int nIdAtome )
-	{
-		return _home.findByAtome( nIdAtome );
-	}
-	
-	/**
-	 * Returns a folder object
-	 * @param nKey the folder id
-	 * @return A folder object which has a child or an atome
-	 */
+    {
+        return _home.findByAtome( nIdAtome );
+    }
+
+    /**
+     * Returns a folder object
+     * @param nIdVersion the version id
+     * @return A folder object associated with the version id
+     */
+    public Folder findByVersion( int nIdVersion )
+    {
+        return _home.findByVersion( nIdVersion );
+    }
+
+    /**
+     * Returns a folder object
+     * @param nKey the folder id
+     * @return A folder object which has a child or an atome
+     */
     public Folder findForDelete( int nKey )
     {
-    	return _home.findForDelete( nKey );
+        return _home.findForDelete( nKey );
     }
-	
-	/**
-	 * Returns a list of folder objects
-	 * @param pluId the plu id
-	 * @return A list of folder with the same plu id
-	 */
+
+    /**
+     * Returns a list of folder objects
+     * @param pluId the plu id
+     * @return A list of folder with the same plu id
+     */
     public List<Folder> findByPluId( int pluId )
     {
-    	return _home.findByPluId( pluId );
+        return _home.findByPluId( pluId );
     }
-	
-	/**
-	 * Returns a list of folder objects
-	 * @param parentId the folder parent id
-	 * @return A list of folder with the same folder parent id
-	 */
-	public List<Folder> findByParent( int parentId )
-	{
-		return _home.findByParent( parentId );
-	}
 
-	/**
+    /**
+     * Returns a list of folder objects
+     * @param parentId the folder parent id
+     * @return A list of folder with the same folder parent id
+     */
+    public List<Folder> findByParent( int parentId )
+    {
+        return _home.findByParent( parentId );
+    }
+
+    /**
      * Finds by filter
      * @param filter the filter
      * @return the folder list
@@ -155,5 +167,16 @@ public class FolderServices implements IFolderServices
     public List<Folder> findByFilter( FolderFilter filter )
     {
         return _home.findByFilter( filter );
+    }
+
+    /**
+     * Get the image resource
+     *
+     * @param nIdFolder the folder Id
+     * @return the image resource
+     */
+    public ImageResource getImageResource( int nIdFolder )
+    {
+        return _home.getImageResource( nIdFolder );
     }
 }

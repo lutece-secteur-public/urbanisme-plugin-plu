@@ -35,8 +35,6 @@ package fr.paris.lutece.plugins.plu.business.plu;
 
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
-import java.util.List;
-
 
 /**
  * This class provides instances management methods (create, find, ...) for Plu objects
@@ -44,43 +42,54 @@ import java.util.List;
  */
 public class PluHome extends AbstractLuteceHome<Integer, Plu, IPluDAO> implements IPluHome
 {
-	public void create( Plu plu )
-	{
-		getDao(  ).create( plu );
-	}
-	
+    //    public void create( Plu plu )
+    //    {
+    //        getDao(  ).create( plu );
+    //    }
+    //
+    //    public List<Plu> findAll(  )
+    //    {
+    //        return getDao(  ).findAll(  );
+    //    }
+    //
+    //    public Plu findByPrimaryKey( int nKey )
+    //    {
+    //        return getDao(  ).findByPrimaryKey( nKey );
+    //    }
+
     /**
-    * Returns a list of plu objects
-    * @param date The date for the query
-    * @return A list of plu
-    */
+     * Update a plu object
+     * @param plu the plu object
+     */
+    public void updateApprove( Plu plu )
+    {
+        getDao(  ).updateApprove( plu );
+    }
+
+    /**
+     * Update a plu object
+     * @param plu the plu object
+     */
+    public void updateApplication( Plu plu )
+    {
+        getDao(  ).updateApplication( plu );
+    }
+
+    /**
+     * Returns a plu object
+     * @return A plu object which work
+     */
+    public Plu findPluWork(  )
+    {
+        return getDao(  ).findPluWork(  );
+    }
+
+    /**
+     * Returns a plu object
+     * @return A plu object which is applied
+     */
     public Plu findPluApplied(  )
     {
         return getDao(  ).findPluApplied(  );
-    }
-    
-    public List<Plu> findAll(  )
-    {
-    	return getDao(  ).findAll(  );
-    }
-    
-    public Plu findByPrimaryKey( int nKey )
-    {
-        return getDao(  ).findByPrimaryKey( nKey );
-    }
-    
-    public Plu findPluWork(  )
-    {
-    	return getDao(  ).findPluWork(  );
-    }
-    
-    public void updateApprove( Plu plu )
-    {
-    	getDao(  ).updateApprove( plu );
-    }
-    
-    public void updateApplication( Plu plu )
-    {
-    	getDao(  ).updateApplication( plu );
     }
 }

@@ -35,8 +35,6 @@ package fr.paris.lutece.plugins.plu.business.plu;
 
 import fr.paris.lutece.util.jpa.IGenericDAO;
 
-import java.util.List;
-
 
 /**
  * pluInterface
@@ -44,22 +42,33 @@ import java.util.List;
  */
 public interface IPluDAO extends IGenericDAO<Integer, Plu>
 {
-	public void create( Plu plu );
-	
+    //    public void create( Plu plu );
+    //
+    //    public List<Plu> findAll(  );
+    //
+    //    public Plu findByPrimaryKey( int nKey );
+
     /**
-    * Load the list of plu with valid date
-    * @param date The date for the query
-    * @return The list of the Plu
+    * Update a plu object
+    * @param plu the plu object
     */
-    public Plu findPluApplied(  );
-    
-    public List<Plu> findAll(  );
-    
-    public Plu findByPrimaryKey( int nKey );
-    
-    public Plu findPluWork(  );
-    
     public void updateApprove( Plu plu );
-    
+
+    /**
+     * Update a plu object
+     * @param plu the plu object
+     */
     public void updateApplication( Plu plu );
+
+    /**
+     * Returns a plu object
+     * @return A plu object which work
+     */
+    public Plu findPluWork(  );
+
+    /**
+     * Returns a plu object
+     * @return A plu object which is applied
+     */
+    public Plu findPluApplied(  );
 }

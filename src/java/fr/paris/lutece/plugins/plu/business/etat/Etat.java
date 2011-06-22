@@ -33,14 +33,32 @@
  */
 package fr.paris.lutece.plugins.plu.business.etat;
 
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+
 
 /**
  * This class represents business object Etat
  * @author vLopez
  */
+@Entity
+@Table( name = "etat_generation" )
 public class Etat
 {
-    //constantes
+    /** Sequence name */
+    private static final String JPA_SEQUENCE_NAME = "plu_etat_sequence";
+
+    /** Unique value */
+    private static final String JPA_COLUMN_NAME = "plu_etat_id";
+
+    //Constants
     public static final String RESOURCE_TYPE = "ETAT_RESOURCE";
     private int _id;
     private String _name;
@@ -49,6 +67,10 @@ public class Etat
      * Returns the identifier of this etat
      * @return the etat identifier
      */
+    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
+    @Id
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
+    @Column( name = "id_etat" )
     public int getId(  )
     {
         return _id;
@@ -67,6 +89,7 @@ public class Etat
      * Returns the name of this etat
      * @return the etat name
      */
+    @Column( name = "etat" )
     public String getName(  )
     {
         return _name;

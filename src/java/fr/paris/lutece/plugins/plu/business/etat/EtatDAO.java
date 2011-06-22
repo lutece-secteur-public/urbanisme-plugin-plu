@@ -33,12 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.etat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**
@@ -47,8 +43,8 @@ import fr.paris.lutece.util.sql.DAOUtil;
  */
 public class EtatDAO extends JPALuteceDAO<Integer, Etat> implements IEtatDAO
 {
-	private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM etat_generation";
-	
+    //    private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM etat_generation";
+
     /**
     * @return the plugin name
     */
@@ -57,23 +53,23 @@ public class EtatDAO extends JPALuteceDAO<Integer, Etat> implements IEtatDAO
     {
         return PluPlugin.PLUGIN_NAME;
     }
-    
-    public List<Etat> findAll(  )
-    {
-    	List<Etat> etatList = new ArrayList<Etat>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
-        daoUtil.executeQuery(  );
 
-        while ( daoUtil.next(  ) )
-        {
-        	Etat etat = new Etat(  );
-        	etat.setId( daoUtil.getInt( 1 ) );
-        	etat.setName( daoUtil.getString( 2 ) );
-        	etatList.add( etat );
-        }
-
-        daoUtil.free(  );
-
-        return etatList;
-    }
+    //    public List<Etat> findAll(  )
+    //    {
+    //        List<Etat> etatList = new ArrayList<Etat>(  );
+    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
+    //        daoUtil.executeQuery(  );
+    //
+    //        while ( daoUtil.next(  ) )
+    //        {
+    //            Etat etat = new Etat(  );
+    //            etat.setId( daoUtil.getInt( 1 ) );
+    //            etat.setName( daoUtil.getString( 2 ) );
+    //            etatList.add( etat );
+    //        }
+    //
+    //        daoUtil.free(  );
+    //
+    //        return etatList;
+    //    }
 }

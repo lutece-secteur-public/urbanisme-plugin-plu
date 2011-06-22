@@ -34,7 +34,7 @@
 	            <td>
 	            	<form method="post" action="jsp/admin/plugins/plu/plu/TreePlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="${plu.id}" type="image" />
+		      			<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="${plu.id}" title="#i18n{plu.tree_plu.tree}"  type="image" />
 			   		</form>
 	            </td>
 	            <td>
@@ -112,7 +112,7 @@
 			   	<#elseif plu.dj?exists && plu.da?exists>
 			   		<form method="post" action="jsp/admin/plugins/plu/plu/CorrectPlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/plugins/plu/modifier.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_plu.modify}" title="#i18n{plu.modify_plu.modify}" type="image" />
+		      			<input src="images/admin/skin/plugins/plu/modifier.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.correct_plu.correct}" title="#i18n{plu.correct_plu.correct}" type="image" />
 			   		</form>
 			   	<#else>
 			   		<img disabled="disabled" src="images/admin/skin/plugins/plu/modifier.bmp" />
@@ -124,14 +124,14 @@
 		      			<input src="images/admin/skin/plugins/plu/tree.jpeg" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.tree_plu.tree}" title="#i18n{plu.tree_plu.tree}" type="image" />
 			   		</form>
 	            </td>
-	            
 	            <td style="text-align:center;">
+	            <#if plu.da?exists>
 	            	<form method="post" action="jsp/admin/plugins/plu/plu/IsoPlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
 		      			<input src="images/admin/skin/plugins/plu/generer.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.isosite_plu.isosite}" title="#i18n{plu.isosite_plu.isosite}" type="image" />
 			   		</form>
+	            </#if>
 	            </td>
-	            
 	            <td style="text-align:center;">
 	            <#if etat_list?exists>
 	            	<#list etat_list as etat>

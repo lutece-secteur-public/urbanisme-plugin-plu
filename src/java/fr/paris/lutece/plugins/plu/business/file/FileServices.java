@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
-import java.util.List;
-
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
+
+import java.util.List;
 
 
 public class FileServices implements IFileServices
@@ -53,50 +53,60 @@ public class FileServices implements IFileServices
     }
 
     /**
-	 * Create a new file object
-	 * @param file the new file object
-	 */
+     * Create a new file object
+     * @param file the new file object
+     */
     public void create( File file )
     {
         _home.create( file );
     }
-    
+
     /**
-	 * Update a new file object
-	 * @param file the file object
-	 */
+     * Update a new file object
+     * @param file the file object
+     */
     public void update( File file )
     {
         _home.update( file );
     }
 
     /**
-	 * Remove a new file object
-	 * @param file the file object
-	 */
+     * Remove a new file object
+     * @param file the file object
+     */
     public void remove( File file )
     {
         _home.remove( file );
     }
 
     /**
-	 * Returns a list of file objects
-	 * @return A list of all file
-	 */
+     * Returns a list of file objects
+     * @return A list of all file
+     */
     public List<File> findAll(  )
     {
         return _home.findAll(  );
     }
+
     /**
-	 * Returns a list of file objects
-	 * @param nIdVersion the version id
-	 * @return A list of file associated with the same version id
-	 */
+     * Returns a list of file objects
+     * @return A list of all mime type file
+     */
+    public List<File> findAllMimeType(  )
+    {
+        return _home.findAllMimeType(  );
+    }
+
+    /**
+     * Returns a list of file objects
+     * @param nIdVersion the version id
+     * @return A list of file associated with the same version id
+     */
     public List<File> findByVersion( int nIdVersion )
     {
         return _home.findByVersion( nIdVersion );
     }
-    
+
     /**
      * Finds by filter
      * @param fileFilter the file filter
@@ -105,6 +115,6 @@ public class FileServices implements IFileServices
      */
     public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter )
     {
-    	return _home.findByFilter( fileFilter, atomeFilter );
+        return _home.findByFilter( fileFilter, atomeFilter );
     }
 }

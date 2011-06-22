@@ -46,88 +46,86 @@ import java.util.List;
  */
 public interface IVersionHome extends IGenericHome<Integer, Version>
 {
-	/**
-	 * Create a new version object
-	 * @param version the new version object
-	 */
-    public void create( Version version );
+    //    /**
+    //     * Create a new version object
+    //     * @param version the new version object
+    //     */
+    //    public void create( Version version );
+    //
+    //    /**
+    //     * Update a version object
+    //     * @param version the version object
+    //     */
+    //    public void update( Version version );
 
     /**
-	 * Update a version object
-	 * @param version the version object
-	 */
-    public void update( Version version );
-    
-    /**
-	 * Update a version object
-	 * @param idPlu the plu id
-	 * @param date the approvation date
-	 */
+     * Update a version object
+     * @param idPlu the plu id
+     * @param date the approvation date
+     */
     public void updateApprove( int idPlu, Date date );
-    
+
     /**
-	 * Update a version object
-	 * @param idPlu the plu id
-	 * @param date the application date
-	 */
+     * Update a version object
+     * @param idPlu the plu id
+     * @param date the application date
+     */
     public void updateApplication( int idPlu, Date date );
-    
+
     /**
-	 * Update a version object
-	 * @param idPlu the plu id
-	 * @param date the evolution date
-	 */
+     * Update a version object
+     * @param idPlu the plu id
+     * @param date the evolution date
+     */
     public void updateEvolution( int idPlu, Date date );
-    
+
     /**
-	 * Update a version object
-	 * @param idPlu the plu id
-	 * @param date the archivage date
-	 */
+     * Update a version object
+     * @param idPlu the plu id
+     * @param date the archivage date
+     */
     public void updateArchive( int idPlu, Date date );
-    
+
     /**
-	 * Update a version object
-	 * @param nKey the version id
-	 */
-    public void updateForEvolution( int nKey);
-    
+     * Update a version object
+     * @param nKey the version id
+     */
+    public void updateForEvolution( int nKey );
+
     /**
-	 * Returns an integer
-	 * @param nIdAtome the atome id
-	 * @return A maximum version number
-	 */
+     * Returns an integer
+     * @param nIdAtome the atome id
+     * @return A maximum version number
+     */
     public int findMaxVersion( int nIdAtome );
 
+    //    /**
+    //     * Returns a version object
+    //     * @param nKey the version id
+    //     * @return A version object with the id nKey
+    //     */
+    //    public Version findByPrimaryKey( int nKey );
+
     /**
-	 * Returns a version object
-	 * @param nKey the version id
-	 * @return A version object with the id nKey
-	 */
-    public Version findByPrimaryKey( int nKey );
-    
-    /**
-	 * Returns a version object
-	 * @param nIdAtome the atome id
-	 * @param numVersion the version number
-	 * @return A version object associated with the same atome id and version number
-	 */
+     * Returns a version object
+     * @param nIdAtome the atome id
+     * @param numVersion the version number
+     * @return A version object associated with the same atome id and version number
+     */
     public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion );
-    
+
     /**
-	 * Returns a list of version objects
-	 * @param pluId the plu id
-	 * @param nIdFolder the folder id
-	 * @return A list of version associated with the same plu id and folder id
-	 */
+     * Returns a list of version objects
+     * @param pluId the plu id
+     * @param nIdFolder the folder id
+     * @return A list of version associated with the same plu id and folder id
+     */
     public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder );
-    
+
     /**
      * Finds by filter
      * @param filter the filter
      * @return the version list
      */
     public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );
-
-//  public List<Version> findByDateAndParent( Date date, int idFolder );
 }

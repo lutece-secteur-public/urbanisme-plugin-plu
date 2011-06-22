@@ -6,33 +6,37 @@
 	<#else>
 		<h1 style="margin-left:10px">${one_folder.title}</h1>
 		<br/>
-		<p style="float:left; margin:0 15px 10px 10px">
-			<img src="images/admin/skin/plugins/plu/tree.jpeg"></img>
-		</p>
+		<#if one_folder.img?has_content>
+			<p style="float:left; margin:0 15px 10px 10px">
+				<img src="image?resource_type=folder_image&id=${one_folder.id}" alt="#i18n{plu.view_folder.image}"/>
+			</p>
+		</#if>
 		<p style="font-size:12px;">
 			${one_folder.description}
 		</p>
 		<br/>
-		<p style="clear:left; font-size:12px;">
-			Ce document est composé des éléments suivant:
-		</p>
-		<#list version_list as version>
-		<ul>
-		<p style="float:left; margin:0 15px">
-			- ${version.atome.title}.
-		</p>
-		<p>
-			${version.atome.description}
-		</p>
-			<ul style="margin-left:40px">
-			<#list file_list as file>
-				<#if version.id == file.version>
-					o ${file.title} (fichier ${file.mimeType?upper_case})<br/>
-				</#if>
-			</#list>
+		<#if version_list?has_content>
+			<p style="clear:left; font-size:12px;">
+				Ce document est composé des éléments suivant:
+			</p>
+			<#list version_list as version>
+			<ul>
+			<p style="float:left; margin:0 15px">
+				- ${version.atome.title}.
+			</p>
+			<p>
+				${version.atome.description}
+			</p>
+				<ul style="margin-left:40px">
+				<#list file_list as file>
+					<#if version.id == file.version>
+						o ${file.title} (fichier ${file.mimeType?upper_case})<br/>
+					</#if>
+				</#list>
+				</ul>
 			</ul>
-		</ul>
-		</#list>
+			</#list>
+		</#if>
 		<#if one_folder_parent.id != 0 >
 			<p style="font-size:12px;">
 				Ce document fait partie du document "${one_folder_parent.title} " qui contient aussi les documents suivant:

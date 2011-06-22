@@ -33,14 +33,20 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 
 /**
  * This class represents business object File
  * @author vLopez
  */
+@Entity
+@Table( name = "fichier" )
 public class File
 {
-    //constantes
+    //Constants
     public static final String RESOURCE_TYPE = "FICHIER_RESOURCE";
     private int _id;
     private int _order;
@@ -56,6 +62,7 @@ public class File
      * Returns the identifier of this file
      * @return the file identifier
      */
+    @Column( name = "id_atome" )
     public int getId(  )
     {
         return _id;
@@ -69,11 +76,12 @@ public class File
     {
         _id = id;
     }
-    
+
     /**
      * Returns the order of this file
      * @return the file order
      */
+    @Column( name = "ordre_fichier" )
     public int getOrder(  )
     {
         return _order;
@@ -85,13 +93,14 @@ public class File
      */
     public void setOrder( int order )
     {
-    	_order = order;
+        _order = order;
     }
 
     /**
      * Returns the identifier version of this file
      * @return the identifier version
      */
+    @Column( name = "id_version_atome" )
     public int getVersion(  )
     {
         return _version;
@@ -105,11 +114,12 @@ public class File
     {
         _version = version;
     }
-    
+
     /**
      * Returns the name of this file
      * @return the file name
      */
+    @Column( name = "nom_fichier" )
     public String getName(  )
     {
         return _name;
@@ -128,6 +138,7 @@ public class File
      * Returns the title of this file
      * @return the file title
      */
+    @Column( name = "titre_fichier" )
     public String getTitle(  )
     {
         return _title;
@@ -146,6 +157,7 @@ public class File
      * Returns the mime type of this file
      * @return the file mime type
      */
+    @Column( name = "format" )
     public String getMimeType(  )
     {
         return _mimeType;
@@ -164,6 +176,7 @@ public class File
      * Returns the size of this file
      * @return the file size
      */
+    @Column( name = "taille" )
     public int getSize(  )
     {
         return _size;
@@ -182,6 +195,7 @@ public class File
      * Returns the physical file of this file
      * @return the physical file
      */
+    @Column( name = "fichier" )
     public byte[] getFile(  )
     {
         return _file;
@@ -200,6 +214,7 @@ public class File
      * Returns the eps value of this file
      * @return the file eps value
      */
+    @Column( name = "est_eps" )
     public String getEPS(  )
     {
         return _eps;

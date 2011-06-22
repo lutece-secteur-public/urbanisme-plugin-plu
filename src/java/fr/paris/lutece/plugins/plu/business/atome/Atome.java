@@ -33,14 +33,21 @@
  */
 package fr.paris.lutece.plugins.plu.business.atome;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 
 /**
  * This class represents business object Atome
  * @author vLopez
  */
+@Entity
+@Table( name = "atome" )
 public class Atome
 {
-    //constantes
+    //Constants
     public static final String RESOURCE_TYPE = "ATOME_RESOURCE";
     private int _id;
     private String _name;
@@ -51,6 +58,8 @@ public class Atome
      * Returns the identifier of this atome
      * @return the atome identifier
      */
+    @Id
+    @Column( name = "id_atome" )
     public int getId(  )
     {
         return _id;
@@ -69,6 +78,7 @@ public class Atome
      * Returns the name of this atome
      * @return the atome name
      */
+    @Column( name = "nom" )
     public String getName(  )
     {
         return _name;
@@ -87,6 +97,7 @@ public class Atome
      * Returns the title of this atome
      * @return the atome title
      */
+    @Column( name = "titre" )
     public String getTitle(  )
     {
         return _title;
@@ -105,6 +116,7 @@ public class Atome
      * Returns the description of this atome
      * @return the atome description
      */
+    @Column( name = "description" )
     public String getDescription(  )
     {
         return _description;

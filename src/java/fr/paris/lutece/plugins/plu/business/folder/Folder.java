@@ -33,14 +33,32 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+
 
 /**
  * This class represents business object Folder
  * @author vLopez
  */
+@Entity
+@Table( name = "dossier" )
 public class Folder
 {
-    //constantes
+    /** Sequence name */
+    private static final String JPA_SEQUENCE_NAME = "plu_dossier_sequence";
+
+    /** Unique value */
+    private static final String JPA_COLUMN_NAME = "plu_dossier_id";
+
+    //Constants
     public static final String RESOURCE_TYPE = "DOSSIER_RESOURCE";
     private int _id;
     private int _plu;
@@ -54,6 +72,10 @@ public class Folder
      * Returns the identifier of this folder
      * @return the folder identifier
      */
+    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
+    @Id
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
+    @Column( name = "id_dossier" )
     public int getId(  )
     {
         return _id;
@@ -72,6 +94,7 @@ public class Folder
      * Returns the plu of this folder
      * @return the plu
      */
+    @Column( name = "id_plu" )
     public int getPlu(  )
     {
         return _plu;
@@ -83,13 +106,14 @@ public class Folder
      */
     public void setPlu( int plu )
     {
-    	_plu = plu;
+        _plu = plu;
     }
-    
+
     /**
      * Returns the parent folder of this folder
      * @return the parent folder
      */
+    @Column( name = "id_dossier_parent" )
     public int getParentFolder(  )
     {
         return _parentFolder;
@@ -103,11 +127,12 @@ public class Folder
     {
         _parentFolder = parentFolder;
     }
-    
+
     /**
      * Returns the title of this folder
      * @return the folder title
      */
+    @Column( name = "titre" )
     public String getTitle(  )
     {
         return _title;
@@ -126,6 +151,7 @@ public class Folder
      * Returns the description of this folder
      * @return the folder description
      */
+    @Column( name = "description" )
     public String getDescription(  )
     {
         return _description;
@@ -144,6 +170,7 @@ public class Folder
      * Returns the image of this folder
      * @return the folder image
      */
+    @Column( name = "image" )
     public byte[] getImg(  )
     {
         return _img;
@@ -157,11 +184,12 @@ public class Folder
     {
         _img = img;
     }
-    
+
     /**
      * Returns the html specific of this folder
      * @return the folder html specific
      */
+    @Column( name = "html_specifique" )
     public byte[] getHtml(  )
     {
         return _html;
@@ -175,7 +203,6 @@ public class Folder
     {
         _html = html;
     }
-    
 
     /**
      * Returns the photo Input Stream.

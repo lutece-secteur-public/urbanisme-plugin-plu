@@ -45,37 +45,43 @@ import java.util.List;
  */
 public interface IFileDAO extends IGenericDAO<Integer, File>
 {
-	/**
-	 * Create a new file object
-	 * @param file the new file object
-	 */
-    public void create( File file );
+    //    /**
+    //     * Create a new file object
+    //     * @param file the new file object
+    //     */
+    //    public void create( File file );
+    //
+    //    /**
+    //         * Update a new file object
+    //         * @param file the file object
+    //         */
+    //    public void update( File file );
 
     /**
-	 * Update a new file object
-	 * @param file the file object
-	 */
-    public void update( File file );
-
-    /**
-	 * Remove a new file object
-	 * @param file the file object
-	 */
+     * Remove a new file object
+     * @param file the file object
+     */
     public void remove( File file );
 
     /**
-	 * Returns a list of file objects
-	 * @return A list of all file
-	 */
+     * Returns a list of file objects
+     * @return A list of all file
+     */
     public List<File> findAll(  );
 
     /**
-	 * Returns a list of file objects
-	 * @param nIdVersion the version id
-	 * @return A list of file associated with the same version id
-	 */
+     * Returns a list of file objects
+     * @return A list of all mime type file
+     */
+    public List<File> findAllMimeType(  );
+
+    /**
+     * Returns a list of file objects
+     * @param nIdVersion the version id
+     * @return A list of file associated with the same version id
+     */
     public List<File> findByVersion( int nIdVersion );
-    
+
     /**
      * Finds by filter
      * @param fileFilter the file filter

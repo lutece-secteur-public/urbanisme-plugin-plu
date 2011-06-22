@@ -42,7 +42,7 @@ public class FolderFilter
 {
     private Integer _plu = -1;
     private String _title = null;
-    
+
     /**
      * Get the plu id filtered
      * @return the plu id
@@ -65,11 +65,11 @@ public class FolderFilter
     *
     * @return true if the filter contain an id plu
     */
-   public boolean containsPlu(  )
-   {
-       return ( _plu != -1 );
-   }
-   
+    public boolean containsPlu(  )
+    {
+        return ( _plu != -1 );
+    }
+
     /**
      * Get the folder title filtered
      * @return the folder title
@@ -87,13 +87,13 @@ public class FolderFilter
     {
         this._title = _title;
     }
-    
+
     /**
     *
     * @return true if the filter contain a folder title
     */
-   public boolean containsTitle(  )
-   {
-       return ( _title != null );
-   }
+    public boolean containsTitle(  )
+    {
+        return ( _title != null );
+    }
 }

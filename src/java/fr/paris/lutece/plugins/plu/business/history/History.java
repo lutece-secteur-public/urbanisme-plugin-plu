@@ -33,16 +33,34 @@
  */
 package fr.paris.lutece.plugins.plu.business.history;
 
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 
 /**
  * This class represents business object History
  * @author vLopez
  */
+@Entity
+@Table( name = "historique" )
 public class History
 {
-    //constantes
+    /** Sequence name */
+    private static final String JPA_SEQUENCE_NAME = "plu_historique_sequence";
+
+    /** Unique value */
+    private static final String JPA_COLUMN_NAME = "plu_historique_id";
+
+    //Constants
     public static final String RESOURCE_TYPE = "HISTORY_RESOURCE";
     private int _id;
     private int _plu;
@@ -55,6 +73,10 @@ public class History
      * Returns the identifier of this history
      * @return the history identifier
      */
+    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
+    @Id
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
+    @Column( name = "id_histo" )
     public int getId(  )
     {
         return _id;
@@ -68,11 +90,12 @@ public class History
     {
         _id = id;
     }
-    
+
     /**
      * Returns the identifier of the plu
      * @return the plu identifier
      */
+    @Column( name = "id_plu" )
     public int getPlu(  )
     {
         return _plu;
@@ -80,17 +103,18 @@ public class History
 
     /**
      * Sets the identifier of the plu to the specified integer
-     * @param id the new plu identifier
+     * @param plu the new plu identifier
      */
     public void setPlu( int plu )
     {
-    	_plu = plu;
+        _plu = plu;
     }
-    
+
     /**
      * Returns the identifier of the folder
      * @return the folder identifier
      */
+    @Column( name = "id_dossier" )
     public int getFolder(  )
     {
         return _folder;
@@ -98,17 +122,18 @@ public class History
 
     /**
      * Sets the identifier of the folder to the specified integer
-     * @param id the new folder identifier
+     * @param folder the new folder identifier
      */
     public void setFolder( int folder )
     {
-    	_folder = folder;
+        _folder = folder;
     }
-    
+
     /**
      * Returns the identifier of the atome
      * @return the atome identifier
      */
+    @Column( name = "id_atome" )
     public int getAtome(  )
     {
         return _atome;
@@ -116,17 +141,18 @@ public class History
 
     /**
      * Sets the identifier of the atome to the specified integer
-     * @param id the new atome identifier
+     * @param atome the new atome identifier
      */
     public void setAtome( int atome )
     {
-    	_atome = atome;
+        _atome = atome;
     }
 
     /**
      * Returns the dc of this history
      * @return the history dc
      */
+    @Column( name = "date_correction" )
     public Date getDc(  )
     {
         return _dc;
@@ -138,24 +164,25 @@ public class History
      */
     public void setDc( Date dc )
     {
-    	_dc = dc;
+        _dc = dc;
     }
-    
+
     /**
      * Returns the name of this history
      * @return the history name
      */
+    @Column( name = "description" )
     public String getDescription(  )
     {
         return _description;
     }
 
     /**
-     * Sets the name of the history to the specified string
-     * @param name the new name
+     * Sets the description of the history to the specified string
+     * @param description the new description
      */
     public void setDescription( String description )
     {
-    	_description = description;
+        _description = description;
     }
 }

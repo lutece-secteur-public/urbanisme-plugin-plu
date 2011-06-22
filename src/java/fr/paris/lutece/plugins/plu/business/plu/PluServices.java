@@ -36,6 +36,10 @@ package fr.paris.lutece.plugins.plu.business.plu;
 import java.util.List;
 
 
+/**
+ * PluServices
+ * @author vLopez
+ */
 public class PluServices implements IPluServices
 {
     IPluHome _home;
@@ -50,36 +54,65 @@ public class PluServices implements IPluServices
         this._home = _home;
     }
 
+    /**
+     * Create a new plu object
+     * @param plu the new plu object
+     */
     public void create( Plu plu )
     {
         _home.create( plu );
     }
 
+    /**
+     * Returns a list of plu objects
+     * @return A list of all plu
+     */
     public List<Plu> findAll(  )
     {
         return _home.findAll(  );
     }
 
+    /**
+     * Returns a plu object
+     * @param nKey the plu id
+     * @return A plu object with the same id
+     */
     public Plu findByPrimaryKey( int nKey )
     {
         return _home.findByPrimaryKey( nKey );
     }
-    
-    public Plu findPluWork(  )
-    {
-    	return _home.findPluWork(  );
-    }
 
+    /**
+     * Update a plu object
+     * @param plu the plu object
+     */
     public void updateApprove( Plu plu )
     {
         _home.updateApprove( plu );
     }
-    
+
+    /**
+     * Update a plu object
+     * @param plu the plu object
+     */
     public void updateApplication( Plu plu )
     {
         _home.updateApplication( plu );
     }
-    
+
+    /**
+     * Returns a plu object
+     * @return A plu object which work
+     */
+    public Plu findPluWork(  )
+    {
+        return _home.findPluWork(  );
+    }
+
+    /**
+     * Returns a plu object
+     * @return A plu object which is applied
+     */
     public Plu findPluApplied(  )
     {
         return _home.findPluApplied(  );

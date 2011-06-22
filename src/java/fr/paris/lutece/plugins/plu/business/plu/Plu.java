@@ -33,16 +33,34 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 
 /**
  * This class represents business object Plu
  * @author vLopez
  */
+@Entity
+@Table( name = "plu" )
 public class Plu
 {
-    //constantes
+    /** Sequence name */
+    private static final String JPA_SEQUENCE_NAME = "plu_sequence";
+
+    /** Unique value */
+    private static final String JPA_COLUMN_NAME = "plu_id";
+
+    //Constants
     public static final String RESOURCE_TYPE = "PLU_RESOURCE";
     private int _id;
     private int _type;
@@ -50,12 +68,17 @@ public class Plu
     private String _reference;
     private Date _dj;
     private Date _da;
+    private Date _dg;
     private int _etat;
 
     /**
      * Returns the identifier of this plu
      * @return the plu identifier
      */
+    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
+    @Id
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
+    @Column( name = "id_plu" )
     public int getId(  )
     {
         return _id;
@@ -74,6 +97,7 @@ public class Plu
      * Returns the type of this plu
      * @return the plu type
      */
+    @Column( name = "id_type_acte_juridique" )
     public int getType(  )
     {
         return _type;
@@ -87,11 +111,12 @@ public class Plu
     {
         _type = type;
     }
-    
+
     /**
      * Returns the cause of this plu
      * @return the plu cause
      */
+    @Column( name = "nom_acte_juridique" )
     public String getCause(  )
     {
         return _cause;
@@ -105,11 +130,12 @@ public class Plu
     {
         _cause = cause;
     }
-    
+
     /**
      * Returns the reference of this plu
      * @return the plu reference
      */
+    @Column( name = "ref_deliberation" )
     public String getReference(  )
     {
         return _reference;
@@ -123,11 +149,12 @@ public class Plu
     {
         _reference = reference;
     }
-    
+
     /**
      * Returns the dj of this plu
      * @return the plu dj
      */
+    @Column( name = "dj" )
     public Date getDj(  )
     {
         return _dj;
@@ -146,9 +173,29 @@ public class Plu
      * Returns the da of this plu
      * @return the plu da
      */
+    @Column( name = "da" )
     public Date getDa(  )
     {
         return _da;
+    }
+
+    /**
+     * Sets the date generation of the plu to the specified date
+     * @param dg the new date generation
+     */
+    public void setDg( Date dg )
+    {
+        _dg = dg;
+    }
+
+    /**
+     * Returns the date generation of this plu
+     * @return the plu dg
+     */
+    @Column( name = "date_generation" )
+    public Date getDg(  )
+    {
+        return _dg;
     }
 
     /**
@@ -164,6 +211,7 @@ public class Plu
      * Returns the etat of this plu
      * @return the plu etat
      */
+    @Column( name = "id_etat_generation" )
     public int getEtat(  )
     {
         return _etat;

@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.plugins.plu.business.etat;
 
-import java.util.List;
-
 import fr.paris.lutece.util.jpa.IGenericDAO;
 
 
@@ -44,9 +42,9 @@ import fr.paris.lutece.util.jpa.IGenericDAO;
  */
 public interface IEtatDAO extends IGenericDAO<Integer, Etat>
 {
-	/**
-	 * Returns a list of etat objects
-	 * @return A list of all etat
-	 */
-	public List<Etat> findAll(  );
+    //    /**
+    //     * Returns a list of etat objects
+    //     * @return A list of all etat
+    //     */
+    //    public List<Etat> findAll(  );
 }

@@ -46,24 +46,24 @@ import java.util.List;
  */
 public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDAO> implements IVersionHome
 {
-	/**
-	 * Create a new folder object
-	 * @param folder the new folder object
-	 */
-	public void create( Version version )
-	{
-		getDao(  ).create( version );
-	}
-	
-	/**
-	 * Update a version object
-	 * @param version the version object
-	 */
-	public void update( Version version )
-	{
-		getDao(  ).update( version );
-	}
-    
+    //    /**
+    //     * Create a new folder object
+    //     * @param folder the new folder object
+    //     */
+    //    public void create( Version version )
+    //    {
+    //        getDao(  ).create( version );
+    //    }
+    //
+    //    /**
+    //     * Update a version object
+    //     * @param version the version object
+    //     */
+    //    public void update( Version version )
+    //    {
+    //        getDao(  ).update( version );
+    //    }
+
     /**
      * Update the version objects for the approve
      * @param idPlu The plu id for the query
@@ -71,9 +71,9 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
      */
     public void updateApprove( int idPlu, Date date )
     {
-    	getDao(  ).updateApprove( idPlu, date );
+        getDao(  ).updateApprove( idPlu, date );
     }
-    
+
     /**
      * Update the version objects for the application
      * @param idPlu The plu id for the query
@@ -81,9 +81,9 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
      */
     public void updateApplication( int idPlu, Date date )
     {
-    	getDao(  ).updateApplication( idPlu, date );
+        getDao(  ).updateApplication( idPlu, date );
     }
-    
+
     /**
      * Update the version objects for the evolution
      * @param idPlu The plu id for the query
@@ -91,9 +91,9 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
      */
     public void updateEvolution( int idPlu, Date date )
     {
-    	getDao(  ).updateEvolution( idPlu, date );
+        getDao(  ).updateEvolution( idPlu, date );
     }
-    
+
     /**
      * Update the version objects for the archive
      * @param idPlu The plu id for the query
@@ -101,18 +101,18 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
      */
     public void updateArchive( int idPlu, Date date )
     {
-    	getDao(  ).updateArchive( idPlu, date );
+        getDao(  ).updateArchive( idPlu, date );
     }
-    
+
     /**
-	 * Update a version object
-	 * @param nKey the version id
-	 */
-    public void updateForEvolution( int nKey)
+     * Update a version object
+     * @param nKey the version id
+     */
+    public void updateForEvolution( int nKey )
     {
-    	getDao(  ).updateForEvolution( nKey );
+        getDao(  ).updateForEvolution( nKey );
     }
-    
+
     /**
      * Returns the largest num version
      * @param nIdAtome The atome identifier
@@ -120,19 +120,19 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
      */
     public int findMaxVersion( int nIdAtome )
     {
-    	return getDao(  ).findMaxVersion( nIdAtome );
+        return getDao(  ).findMaxVersion( nIdAtome );
     }
-	
-    /**
-	 * Returns a version object
-	 * @param nKey the version id
-	 * @return A version object with the id nKey
-	 */
-	public Version findByPrimaryKey( int nKey )
-	{
-		return getDao(  ).findByPrimaryKey( nKey );
-	}
-    
+
+    //    /**
+    //     * Returns a version object
+    //     * @param nKey the version id
+    //     * @return A version object with the id nKey
+    //     */
+    //    public Version findByPrimaryKey( int nKey )
+    //    {
+    //        return getDao(  ).findByPrimaryKey( nKey );
+    //    }
+
     /**
      * Returns a list of version objects
      * @param nIdAtome The atome identifier
@@ -141,9 +141,9 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
      */
     public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion )
     {
-    	return getDao(  ).findByAtomeAndNumVersion( nIdAtome, numVersion );
+        return getDao(  ).findByAtomeAndNumVersion( nIdAtome, numVersion );
     }
-    
+
     /**
      * Returns a list of version objects
      * @param nIdPlu The plu identifier
@@ -152,7 +152,7 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
      */
     public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder )
     {
-    	return getDao(  ).findByPluAndFolder( nIdPlu, nIdFolder );
+        return getDao(  ).findByPluAndFolder( nIdPlu, nIdFolder );
     }
 
     /**
@@ -160,8 +160,8 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
      * @param filter the filter
      * @return the version list
      */
-	public List<Version> findByFilter(AtomeFilter atomeFilter, VersionFilter versionFilter)
-	{
-		return getDao( ).findByFilter( atomeFilter, versionFilter );
-	}
+    public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter )
+    {
+        return getDao(  ).findByFilter( atomeFilter, versionFilter );
+    }
 }

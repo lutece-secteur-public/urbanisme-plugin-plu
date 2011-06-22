@@ -25,16 +25,18 @@
 	        	<label for="file_format" >#i18n{plu.search_file.rowTitleFormat} : </label>
 				<select name="file_format" style="width:331px;">
 					<#if file_format?exists>
+						<#if file_format != "0" >
 						<option value="${file_format}">${file_format}</option>
+						</#if>
 						<option value="0">none</option>
-						<#list file_list as file >
+						<#list file_all_format as file >
 							<#if file.mimeType != file_format>
 		     				<option value="${file.mimeType}">${file.mimeType}</option>
 		     				</#if>
 		     			</#list>
 					<#else>
 						<option value="0">none</option>
-						<#list file_list as file >
+						<#list file_all_format as file >
 		     				<option value="${file.mimeType}">${file.mimeType}</option>
 		     			</#list>
 					</#if>

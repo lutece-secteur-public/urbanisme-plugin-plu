@@ -31,64 +31,83 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.atome;
+package fr.paris.lutece.plugins.plu.services;
 
-import java.util.List;
+import fr.paris.lutece.plugins.plu.business.folder.IFolderServices;
+import fr.paris.lutece.portal.service.image.ImageResource;
+import fr.paris.lutece.portal.service.image.ImageResourceManager;
+import fr.paris.lutece.portal.service.image.ImageResourceProvider;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 
 /**
- * AtomeServices
+ * PluImgProvider
  * @author vLopez
  */
-public class AtomeServices implements IAtomeServices
+public class PluImgProvider implements ImageResourceProvider
 {
-    IAtomeHome _home;
+    private static final String IMAGE_RESOURCE_TYPE_ID = "folder_image";
+    private static PluImgProvider _singleton;
+    private IFolderServices _folderServices;
 
-    public IAtomeHome getHome(  )
+    /**
+     * Constructor
+     */
+    private PluImgProvider(  )
     {
-        return _home;
-    }
-
-    public void setHome( IAtomeHome _home )
-    {
-        this._home = _home;
+        _folderServices = (IFolderServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
+                "plu.folderServices" );
     }
 
     /**
-     * Create a new atome object
-     * @param atome the new atome object
+     * Get the instance of {@link PluImgProvider}
+     *
+     * @return a {@link PluImgProvider}
      */
-    public void create( Atome atome )
+    public static synchronized PluImgProvider getInstance(  )
     {
-        _home.create( atome );
+        if ( _singleton == null )
+        {
+            _singleton = new PluImgProvider(  );
+        }
+
+        return _singleton;
     }
 
     /**
-     * Update an atome object
-     * @param atome the atome object
-     * @param nIdAtomeOld the old id atome
+     * Init the provider
      */
-    public void update( Atome atome, int nIdAtomeOld )
+    public void init(  )
     {
-        _home.update( atome, nIdAtomeOld );
+        register(  );
     }
 
     /**
-     * Returns an atome object
-     * @param nKey the atome id
-     * @return An atome object with the id nKey
+     * Register the provider to the manager
      */
-    public Atome findByPrimaryKey( int nKey )
+    public void register(  )
     {
-        return _home.findByPrimaryKey( nKey );
+        ImageResourceManager.registerProvider( this );
     }
 
     /**
-     * Returns a list of atome objects
-     * @return A list of all atome
+     * Returns the resource type Id
+     *
+     * @return The resource type Id
      */
-    public List<Atome> findAll(  )
+    public String getResourceTypeId(  )
     {
-        return _home.findAll(  );
+        return IMAGE_RESOURCE_TYPE_ID;
+    }
+
+    /**
+     * Get the image resource given a Folder Id
+     *
+     * @param nIdFolder the Id of the folder
+     * @return an {@link ImageResource}
+     */
+    public ImageResource getImageResource( int nIdFolder )
+    {
+        return _folderServices.getImageResource( nIdFolder );
     }
 }

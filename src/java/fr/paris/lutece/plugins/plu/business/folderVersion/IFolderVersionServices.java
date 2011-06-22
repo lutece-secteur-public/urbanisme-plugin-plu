@@ -35,25 +35,46 @@ package fr.paris.lutece.plugins.plu.business.folderVersion;
 
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.version.Version;
-import fr.paris.lutece.portal.service.plugin.Plugin;
 
-import java.util.Collection;
 import java.util.List;
 
 
+/**
+ * IFolderVersionServices
+ * @author vLopez
+ */
 public interface IFolderVersionServices
 {
-	public void create( FolderVersion folderVersion );
-	
-	public void update( FolderVersion folderVersion );
-	
-	public void remove( Folder folder, Version versionOld );
-	
-	public List<FolderVersion> findByFolder( Folder folder );
-	
-	public FolderVersion findByFolderAndVersion( Folder folder, Version version );
-	
-    public Collection<FolderVersion> findAll( Plugin plugin );
+    /**
+    * Create a new folderVersion object
+    * @param folderVersion the new folderVersion object
+    */
+    public void create( FolderVersion folderVersion );
 
-    public FolderVersion findByPrimaryKey( int nKey, Plugin plugin );
+    /**
+     * Update a folderVersion object
+     * @param folderVersion the folderVersion object
+     */
+    public void update( FolderVersion folderVersion );
+
+    /**
+     * Remove a folderVersion object
+     * @param folderVersion the folderVersion object
+     */
+    public void remove( FolderVersion folderVersion );
+
+    /**
+     * Returns a list of folderVersion objects
+     * @param folder the folder associated
+     * @return A list of folderVersion associated with the folder
+     */
+    public List<FolderVersion> findByFolder( Folder folder );
+
+    /**
+     * Returns a folderVersion object
+     * @param folder the folder associated
+     * @param version the version associated
+     * @return A folderVersion object associated with the folder and the version
+     */
+    public FolderVersion findByFolderAndVersion( Folder folder, Version version );
 }

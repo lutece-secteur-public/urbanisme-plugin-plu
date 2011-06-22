@@ -36,6 +36,10 @@ package fr.paris.lutece.plugins.plu.business.etat;
 import java.util.List;
 
 
+/**
+ * EtatServices
+ * @author vLopez
+ */
 public class EtatServices implements IEtatServices
 {
     IEtatHome _home;
@@ -51,9 +55,9 @@ public class EtatServices implements IEtatServices
     }
 
     /**
-	 * Returns a list of etat objects
-	 * @return A list of all etat
-	 */
+     * Returns a list of etat objects
+     * @return A list of all etat
+     */
     public List<Etat> findAll(  )
     {
         return _home.findAll(  );

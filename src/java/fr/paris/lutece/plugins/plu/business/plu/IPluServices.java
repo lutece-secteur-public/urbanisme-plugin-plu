@@ -36,19 +36,52 @@ package fr.paris.lutece.plugins.plu.business.plu;
 import java.util.List;
 
 
+/**
+ * IPluServices the plu services interface
+ * @author vLopez
+ */
 public interface IPluServices
 {
+    /**
+    * Create a new plu object
+    * @param plu the new plu object
+    */
     public void create( Plu plu );
 
+    /**
+     * Returns a list of plu objects
+     * @return A list of all plu
+     */
     public List<Plu> findAll(  );
 
+    /**
+     * Returns a plu object
+     * @param nKey the plu id
+     * @return A plu object with the same id
+     */
     public Plu findByPrimaryKey( int nKey );
-    
-    public Plu findPluWork(  );
-    
+
+    /**
+     * Update a plu object
+     * @param plu the plu object
+     */
     public void updateApprove( Plu plu );
-    
+
+    /**
+     * Update a plu object
+     * @param plu the plu object
+     */
     public void updateApplication( Plu plu );
 
+    /**
+     * Returns a plu object
+     * @return A plu object which work
+     */
+    public Plu findPluWork(  );
+
+    /**
+     * Returns a plu object
+     * @return A plu object which is applied
+     */
     public Plu findPluApplied(  );
 }

@@ -33,26 +33,37 @@
  */
 package fr.paris.lutece.plugins.plu.business.folderVersion;
 
-import java.util.List;
-
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.version.Version;
 import fr.paris.lutece.util.jpa.IGenericHome;
 
+import java.util.List;
+
 
 /**
- * IEtatHome the folderVersion home interface
+ * IFolderVersionHome the folderVersion home interface
  * @author vLopez
  */
 public interface IFolderVersionHome extends IGenericHome<Integer, FolderVersion>
 {
-	public void create( FolderVersion folderVersion );
-	
-	public void update( FolderVersion folderVersion );
-	
-	public void remove( Folder folder, Version versionOld );
-	
-	public List<FolderVersion> findByFolder( Folder folder );
-	
-	public FolderVersion findByFolderAndVersion( Folder folder, Version version );
+    //    public void create( FolderVersion folderVersion );
+    //
+    //    public void update( FolderVersion folderVersion );
+    //
+    //    public void remove( Folder folder, Version versionOld );
+
+    /**
+    * Returns a list of folderVersion objects
+    * @param folder the folder associated
+    * @return A list of folderVersion associated with the folder
+    */
+    public List<FolderVersion> findByFolder( Folder folder );
+
+    /**
+     * Returns a folderVersion object
+     * @param folder the folder associated
+     * @param version the version associated
+     * @return A folderVersion object associated with the folder and the version
+     */
+    public FolderVersion findByFolderAndVersion( Folder folder, Version version );
 }

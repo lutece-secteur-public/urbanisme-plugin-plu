@@ -36,7 +36,19 @@ package fr.paris.lutece.plugins.plu.services;
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 
 
+/**
+ * PluPlugin
+ * @author vLopez
+ */
 public class PluPlugin extends PluginDefaultImplementation
 {
     public static final String PLUGIN_NAME = "plu";
+
+    /**
+     * Initialize the PluImgProvider
+     */
+    public void init(  )
+    {
+        PluImgProvider.getInstance(  ).init(  );
+    }
 }

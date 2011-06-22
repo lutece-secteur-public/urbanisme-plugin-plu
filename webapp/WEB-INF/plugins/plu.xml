@@ -4,7 +4,7 @@
 
    <!-- Plugin Informations -->
    <name>plu</name>
-   <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
+   <class>fr.paris.lutece.plugins.plu.services.PluPlugin</class>
    <version>1</version>
    <documentation></documentation>
    <installation></installation>

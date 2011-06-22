@@ -91,30 +91,32 @@
 	            	<#if folder_title?exists>
 	           		<input type="hidden" name="folder_title" value="${folder_title}"/>
 	           		</#if>
-		      		<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" type="image" />
+		      		<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.tree_folder.tree}" title="#i18n{plu.tree_folder.tree}" type="image" />
 			   	</form>
 	       	</td>
 	       	<td style="text-align:center;">
 	       		<form method="post" action="jsp/admin/plugins/plu/folder/ViewFolder.jsp">
 	            	<input type="hidden" name="id_plu" value="${folder.plu}"/>
 	            	<input type="hidden" name="id_folder" value="${folder.id}"/>
-		      		<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" type="image" />
+		      		<input src="images/admin/skin/search.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.view_folder.view}${folder.id}" title="#i18n{plu.view_folder.view}${folder.id}" type="image" />
 			   	</form>
 	       	</td>
 	        <td style="text-align:center;">
-	        <#if one_plu.da?exists >
-	           	<form method="post" action="jsp/admin/plugins/plu/folder/CorrectFolder.jsp">
-	           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
-		    		<input type="hidden" name="id_folder" value="${folder.id}"/>
-			        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.correct_folder.correct}" title="#i18n{plu.correct_folder.correct}"  type="image">
-			   	</form>
-			<#else>
-				<form method="post" action="jsp/admin/plugins/plu/folder/ModifyFolder.jsp">
-	           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
-		    		<input type="hidden" name="id_folder" value="${folder.id}"/>
-			        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_folder.modify}" title="#i18n{plu.modify_folder.modify}"  type="image">
-			   	</form>
-			</#if>
+	        <#list plu_list as plu>
+		        <#if plu.id==folder.plu && plu.da?exists >
+		           	<form method="post" action="jsp/admin/plugins/plu/folder/CorrectFolder.jsp">
+		           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
+			    		<input type="hidden" name="id_folder" value="${folder.id}"/>
+				        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.correct_folder.correct}" title="#i18n{plu.correct_folder.correct}"  type="image">
+				   	</form>
+				<#elseif plu.id==folder.plu >
+					<form method="post" action="jsp/admin/plugins/plu/folder/ModifyFolder.jsp">
+		           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
+			    		<input type="hidden" name="id_folder" value="${folder.id}"/>
+				        <input src="images/admin/skin/actions/modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_folder.modify}" title="#i18n{plu.modify_folder.modify}"  type="image">
+				   	</form>
+				</#if>
+			</#list>
 			</td>
 	        <td style="text-align:center;">
 	           	<form method="post" action="jsp/admin/plugins/plu/folder/RemoveFolder.jsp">
@@ -166,7 +168,7 @@
         	</p>
        		<p>
         		<label for="num_version" >#i18n{plu.search_atome.rowTitleVersion} :</label>  
-        		<input type="text" id="num_version" name="num_version" <#if num_version?exists>value="${num_version}"</#if> size="60" maxlength="101" tabindex="2" />
+        		<input type="text" id="num_version" name="num_version" <#if num_version?exists><#assign res="${num_version}"?matches("[0-9]+?")><#if res>value="${num_version}"</#if></#if> size="60" maxlength="101" tabindex="2" />
         	</p>
         	<p>
         		<label for="version_d1" >#i18n{plu.search_atome.rowTitleD1} :</label>
@@ -305,7 +307,7 @@
 			</#if>
 			</td>
 			<td style="text-align:center;">
-			<#if version.d1?exists && !version.d2?exists >
+			<#if !version.d2?exists >
 				<A href="jsp/admin/plugins/plu/atome/ModifyAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
    					<input src="images/admin/skin/actions/modify.png" title="#i18n{plu.modify_atome.modify}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
 				</A>

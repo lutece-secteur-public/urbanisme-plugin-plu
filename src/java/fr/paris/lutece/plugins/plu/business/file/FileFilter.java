@@ -40,10 +40,10 @@ package fr.paris.lutece.plugins.plu.business.file;
  */
 public class FileFilter
 {
-	private String _name = null;
+    private String _name = null;
     private String _title = null;
     private String _mimeType = null;
-    
+
     /**
      * Get the file name filtered
      * @return the file name
@@ -61,16 +61,16 @@ public class FileFilter
     {
         this._name = _name;
     }
-    
+
     /**
      *
      * @return true if the filter contain a file name
      */
     public boolean containsName(  )
-   	{
-       return ( _name != null );
-   	}
-   
+    {
+        return ( _name != null );
+    }
+
     /**
      * Get the file title filtered
      * @return the file title
@@ -88,40 +88,40 @@ public class FileFilter
     {
         this._title = _title;
     }
-    
+
     /**
      *
      * @return true if the filter contain a file title
      */
     public boolean containsTitle(  )
-   	{
-	   return ( _title != null );
-   	}
-   
-   /**
-    * Get the file mime type filtered
-    * @return the file mime type
-    */
-   public String get_mimeType(  )
-   {
-       return _mimeType;
-   }
+    {
+        return ( _title != null );
+    }
 
-   /**
-    * Set the file mime type to filter
-    * @param _mimeType the file mime type
-    */
-   public void set_mimeType( String _mimeType )
-   {
-       this._mimeType = _mimeType;
-   }
-   
-   /**
-    *
-   	* @return true if the filter contain a file mime type
-   	*/
-   public boolean containsMimeType(  )
-  	{
-	  return ( _mimeType != null );
-  	}
+    /**
+     * Get the file mime type filtered
+     * @return the file mime type
+     */
+    public String get_mimeType(  )
+    {
+        return _mimeType;
+    }
+
+    /**
+     * Set the file mime type to filter
+     * @param _mimeType the file mime type
+     */
+    public void set_mimeType( String _mimeType )
+    {
+        this._mimeType = _mimeType;
+    }
+
+    /**
+     *
+            * @return true if the filter contain a file mime type
+            */
+    public boolean containsMimeType(  )
+    {
+        return ( _mimeType != null );
+    }
 }

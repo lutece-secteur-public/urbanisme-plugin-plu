@@ -35,12 +35,14 @@ package fr.paris.lutece.plugins.plu.business.folderVersion;
 
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.version.Version;
-import fr.paris.lutece.portal.service.plugin.Plugin;
 
-import java.util.Collection;
 import java.util.List;
 
 
+/**
+ * FolderVersionServices
+ * @author vLopez
+ */
 public class FolderVersionServices implements IFolderVersionServices
 {
     IFolderVersionHome _home;
@@ -54,39 +56,53 @@ public class FolderVersionServices implements IFolderVersionServices
     {
         this._home = _home;
     }
-    
+
+    /**
+    * Create a new folderVersion object
+    * @param folderVersion the new folderVersion object
+    */
     public void create( FolderVersion folderVersion )
     {
-    	_home.create( folderVersion );
+        _home.create( folderVersion );
     }
 
+    /**
+     * Update a folderVersion object
+     * @param folderVersion the folderVersion object
+     */
     public void update( FolderVersion folderVersion )
     {
-    	_home.update( folderVersion );
-    }
-	
-	public void remove( Folder folder, Version versionOld )
-	{
-		_home.remove( folder, versionOld );
-	}
-    
-    public List<FolderVersion> findByFolder( Folder folder )
-    {
-    	return _home.findByFolder( folder );
-    }
-	
-	public FolderVersion findByFolderAndVersion( Folder folder, Version version )
-	{
-		return _home.findByFolderAndVersion( folder, version );
-	}
-	
-    public Collection<FolderVersion> findAll( Plugin plugin )
-    {
-        return _home.findAll(  );
+        _home.update( folderVersion );
     }
 
-    public FolderVersion findByPrimaryKey( int nKey, Plugin plugin )
+    /**
+     * Remove a folderVersion object
+     * @param folderVersion the folderVersion object
+     */
+    public void remove( FolderVersion folderVersion )
     {
-        return _home.findByPrimaryKey( nKey );
+        int nIdFolderVersion = folderVersion.getId(  );
+        _home.remove( nIdFolderVersion );
+    }
+
+    /**
+     * Returns a list of folderVersion objects
+     * @param folder the folder associated
+     * @return A list of folderVersion associated with the folder
+     */
+    public List<FolderVersion> findByFolder( Folder folder )
+    {
+        return _home.findByFolder( folder );
+    }
+
+    /**
+     * Returns a folderVersion object
+     * @param folder the folder associated
+     * @param version the version associated
+     * @return A folderVersion object associated with the folder and the version
+     */
+    public FolderVersion findByFolderAndVersion( Folder folder, Version version )
+    {
+        return _home.findByFolderAndVersion( folder, version );
     }
 }

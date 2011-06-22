@@ -33,19 +33,36 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
+import fr.paris.lutece.plugins.plu.business.atome.Atome;
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
 //import java.sql.Date;
 import java.util.Date;
 
-import fr.paris.lutece.plugins.plu.business.atome.Atome;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 
 /**
  * This class represents business object Version
  * @author vLopez
  */
+@Entity
+@Table( name = "version_atome" )
 public class Version
 {
-    //constantes
+    /** Sequence name */
+    private static final String JPA_SEQUENCE_NAME = "plu_version_atome_sequence";
+
+    /** Unique value */
+    private static final String JPA_COLUMN_NAME = "plu_version_atome_id";
+
+    //Constants
     public static final String RESOURCE_TYPE = "VERSION_RESOURCE";
     private int _id;
     private Atome _atome;
@@ -59,6 +76,10 @@ public class Version
      * Returns the identifier of this version
      * @return the version identifier
      */
+    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
+    @Id
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
+    @Column( name = "id_version" )
     public int getId(  )
     {
         return _id;
@@ -77,6 +98,7 @@ public class Version
      * Returns the atome of this version
      * @return the version atome
      */
+    @Column( name = "id_atome" )
     public Atome getAtome(  )
     {
         return _atome;
@@ -90,11 +112,12 @@ public class Version
     {
         _atome = atome;
     }
-    
+
     /**
      * Returns the version of this version
      * @return the version version
      */
+    @Column( name = "num_version" )
     public int getVersion(  )
     {
         return _version;
@@ -113,6 +136,7 @@ public class Version
      * Returns the d1 of this version
      * @return the version d1
      */
+    @Column( name = "date_approbation" )
     public Date getD1(  )
     {
         return _d1;
@@ -131,6 +155,7 @@ public class Version
      * Returns the d2 of this version
      * @return the version d2
      */
+    @Column( name = "date_application" )
     public Date getD2(  )
     {
         return _d2;
@@ -149,6 +174,7 @@ public class Version
      * Returns the d3 of this version
      * @return the version d3
      */
+    @Column( name = "date_evolution" )
     public Date getD3(  )
     {
         return _d3;
@@ -167,6 +193,7 @@ public class Version
      * Returns the d4 of this version
      * @return the version d4
      */
+    @Column( name = "date_archivage" )
     public Date getD4(  )
     {
         return _d4;
@@ -180,5 +207,4 @@ public class Version
     {
         _d4 = d4;
     }
-
 }

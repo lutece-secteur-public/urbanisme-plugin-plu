@@ -33,14 +33,16 @@
  */
 package fr.paris.lutece.plugins.plu.business.etat;
 
-import java.util.List;
 
-
+/**
+ * IEtatServices the etat services interface
+ * @author vLopez
+ */
 public interface IEtatServices
 {
-	/**
-	 * Returns a list of etat objects
-	 * @return A list of all etat
-	 */
-    public List<Etat> findAll(  );
+    //    /**
+    //     * Returns a list of etat objects
+    //     * @return A list of all etat
+    //     */
+    //    public List<Etat> findAll(  );
 }

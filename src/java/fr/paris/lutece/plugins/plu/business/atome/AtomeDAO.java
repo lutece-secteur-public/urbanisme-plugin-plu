@@ -37,9 +37,6 @@ import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 import fr.paris.lutece.util.sql.DAOUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * This class provides Data Access methods for Atome objects
@@ -47,10 +44,11 @@ import java.util.List;
  */
 public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
 {
-	private static final String SQL_QUERY_CREATE = "INSERT INTO atome VALUE (?, ?, ?, ?)";
-	private static final String SQL_QUERY_UPDATE = "UPDATE atome SET id_atome = ?, nom = ?, titre = ?, description = ? WHERE id_atome = ?";
-	private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM atome";
-	private static final String SQL_QUERY_SELECT_BY_KEY = "SELECT * FROM atome WHERE id_atome = ?";
+    //    private static final String SQL_QUERY_CREATE = "INSERT INTO atome VALUE (?, ?, ?, ?)";
+    private static final String SQL_QUERY_UPDATE = "UPDATE atome SET id_atome = ?, nom = ?, titre = ?, description = ? WHERE id_atome = ?";
+
+    //    private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM atome";
+    //    private static final String SQL_QUERY_SELECT_BY_KEY = "SELECT * FROM atome WHERE id_atome = ?";
 
     /**
      * @return the plugin name
@@ -61,101 +59,118 @@ public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
         return PluPlugin.PLUGIN_NAME;
     }
 
-    public void create( Atome atome )
-    {
-    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CREATE );
-        daoUtil.setInt( 1, atome.getId(  ) );
-        daoUtil.setString( 2, atome.getName(  ) );
-        daoUtil.setString( 3, atome.getTitle(  ) );
-        daoUtil.setString( 4, atome.getDescription(  ) );
-        daoUtil.executeUpdate(  );
-        
-        daoUtil.free(  );
-    }
-    
+    //    /**
+    //     * Create a new atome object
+    //     * @param atome the new atome object
+    //     */
+    //    public void create( Atome atome )
+    //    {
+    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CREATE );
+    //        daoUtil.setInt( 1, atome.getId(  ) );
+    //        daoUtil.setString( 2, atome.getName(  ) );
+    //        daoUtil.setString( 3, atome.getTitle(  ) );
+    //        daoUtil.setString( 4, atome.getDescription(  ) );
+    //        daoUtil.executeUpdate(  );
+    //
+    //        daoUtil.free(  );
+    //    }
+    //
+    /**
+     * Update an atome object
+     * @param atome the atome object
+     * @param nIdAtomeOld the old id atome
+     */
     public void update( Atome atome, int nIdAtomeOld )
     {
-    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
         daoUtil.setInt( 1, atome.getId(  ) );
         daoUtil.setString( 2, atome.getName(  ) );
         daoUtil.setString( 3, atome.getTitle(  ) );
         daoUtil.setString( 4, atome.getDescription(  ) );
         daoUtil.setInt( 5, nIdAtomeOld );
         daoUtil.executeUpdate(  );
-        
+
         daoUtil.free(  );
     }
-    
-    public Atome findByPrimaryKey( int nKey )
-    {
-        Atome atome = new Atome(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_KEY );
-        daoUtil.setInt( 1, nKey );
-        daoUtil.executeQuery(  );
 
-        while ( daoUtil.next(  ) )
-        {
-            atome.setId( daoUtil.getInt( 1 ) );
-            atome.setName( daoUtil.getString( 2 ) );
-            atome.setTitle( daoUtil.getString( 3 ) );
-            atome.setDescription( daoUtil.getString( 4 ) );
-        }
+    //
+    //    /**
+    //     * Returns an atome object
+    //     * @param nKey the atome id
+    //     * @return An atome object with the id nKey
+    //     */
+    //    public Atome findByPrimaryKey( int nKey )
+    //    {
+    //        Atome atome = new Atome(  );
+    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_KEY );
+    //        daoUtil.setInt( 1, nKey );
+    //        daoUtil.executeQuery(  );
+    //
+    //        while ( daoUtil.next(  ) )
+    //        {
+    //            atome.setId( daoUtil.getInt( 1 ) );
+    //            atome.setName( daoUtil.getString( 2 ) );
+    //            atome.setTitle( daoUtil.getString( 3 ) );
+    //            atome.setDescription( daoUtil.getString( 4 ) );
+    //        }
+    //
+    //        daoUtil.free(  );
+    //
+    //        return atome;
+    //    }
+    //
+    //    /**
+    //     * Returns a list of atome objects
+    //     * @return A list of all atome
+    //     */
+    //    public List<Atome> findAll(  )
+    //    {
+    //        List<Atome> atomeList = new ArrayList<Atome>(  );
+    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
+    //        daoUtil.executeQuery(  );
+    //
+    //        while ( daoUtil.next(  ) )
+    //        {
+    //            Atome atome = new Atome(  );
+    //            atome.setId( daoUtil.getInt( 1 ) );
+    //            atome.setName( daoUtil.getString( 2 ) );
+    //            atome.setTitle( daoUtil.getString( 3 ) );
+    //            atome.setDescription( daoUtil.getString( 4 ) );
+    //            atomeList.add( atome );
+    //        }
+    //
+    //        daoUtil.free(  );
+    //
+    //        return atomeList;
+    //    }
 
-        daoUtil.free(  );
-
-        return atome;
-    }
-    
-
-	
-	public List<Atome> findAll(  )
-	{
-		List<Atome> atomeList = new ArrayList<Atome>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-        	Atome atome = new Atome(  );
-            atome.setId( daoUtil.getInt( 1 ) );
-            atome.setName( daoUtil.getString( 2 ) );
-            atome.setTitle( daoUtil.getString( 3 ) );
-            atome.setDescription( daoUtil.getString( 4 ) );
-            atomeList.add( atome );
-        }
-
-        daoUtil.free(  );
-
-        return atomeList;
-	}
-    
-//    public List<Atome> findByDateAndParent( Date da, int idFolder )
-//    {
-//        EntityManager em = getEM(  );
-//        CriteriaBuilder cb = em.getCriteriaBuilder(  );
-//
-//        CriteriaQuery<Atome> cq = cb.createQuery( Atome.class );
-//
-//        Root<Folder> rootFolder = cq.from( Folder.class );
-//        Root<Version> rootVersion = cq.from( Version.class );
-//        rootVersion.fetch( Version_.atome, JoinType.LEFT ).fetch( Atome_.folder, JoinType.LEFT )
-//            .fetch( Folder_.parentFolder, JoinType.LEFT );
-//
-//        Predicate conditionD2 = cb.lessThanOrEqualTo( rootVersion.get( Version_.d2 ), da );
-//        Predicate conditionD4 = cb.greaterThan( rootVersion.get( Version_.d4 ), da );
-//        Predicate conditionIdFolder = cb.equal( rootFolder.get( Folder_.id ), idFolder );
-//
-//        cq.where( conditionD2, conditionD4, conditionIdFolder );
-//
-//        TypedQuery<Atome> query = em.createQuery( cq );
-//
-//        try
-//        {
-//            return query.getResultList(  );
-//        }
-//        catch ( NoResultException e )
-//        {
-//            return null;
-//        }
-//    }
+    //    public List<Atome> findByDateAndParent( Date da, int idFolder )
+    //    {
+    //        EntityManager em = getEM(  );
+    //        CriteriaBuilder cb = em.getCriteriaBuilder(  );
+    //
+    //        CriteriaQuery<Atome> cq = cb.createQuery( Atome.class );
+    //
+    //        Root<Folder> rootFolder = cq.from( Folder.class );
+    //        Root<Version> rootVersion = cq.from( Version.class );
+    //        rootVersion.fetch( Version_.atome, JoinType.LEFT ).fetch( Atome_.folder, JoinType.LEFT )
+    //            .fetch( Folder_.parentFolder, JoinType.LEFT );
+    //
+    //        Predicate conditionD2 = cb.lessThanOrEqualTo( rootVersion.get( Version_.d2 ), da );
+    //        Predicate conditionD4 = cb.greaterThan( rootVersion.get( Version_.d4 ), da );
+    //        Predicate conditionIdFolder = cb.equal( rootFolder.get( Folder_.id ), idFolder );
+    //
+    //        cq.where( conditionD2, conditionD4, conditionIdFolder );
+    //
+    //        TypedQuery<Atome> query = em.createQuery( cq );
+    //
+    //        try
+    //        {
+    //            return query.getResultList(  );
+    //        }
+    //        catch ( NoResultException e )
+    //        {
+    //            return null;
+    //        }
+    //    }
 }

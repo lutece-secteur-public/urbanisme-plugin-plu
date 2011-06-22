@@ -33,12 +33,16 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
+
 import java.util.Date;
 import java.util.List;
 
-import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 
-
+/**
+ * VersionServices
+ * @author vLopez
+ */
 public class VersionServices implements IVersionServices
 {
     IVersionHome _home;
@@ -54,23 +58,23 @@ public class VersionServices implements IVersionServices
     }
 
     /**
-	 * Create a new folder object
-	 * @param folder the new folder object
-	 */
-	public void create( Version version )
-	{
-		_home.create( version );
-	}
-	
-	/**
-	 * Update a version object
-	 * @param version the version object
-	 */
-	public void update( Version version )
-	{
-		_home.update( version );
-	}
-    
+     * Create a new folder object
+     * @param folder the new folder object
+     */
+    public void create( Version version )
+    {
+        _home.create( version );
+    }
+
+    /**
+     * Update a version object
+     * @param version the version object
+     */
+    public void update( Version version )
+    {
+        _home.update( version );
+    }
+
     /**
      * Update the version objects for the approve
      * @param idPlu The plu id for the query
@@ -78,9 +82,9 @@ public class VersionServices implements IVersionServices
      */
     public void updateApprove( int idPlu, Date date )
     {
-    	_home.updateApprove( idPlu, date );
+        _home.updateApprove( idPlu, date );
     }
-    
+
     /**
      * Update the version objects for the application
      * @param idPlu The plu id for the query
@@ -88,9 +92,9 @@ public class VersionServices implements IVersionServices
      */
     public void updateApplication( int idPlu, Date date )
     {
-    	_home.updateApplication( idPlu, date );
+        _home.updateApplication( idPlu, date );
     }
-    
+
     /**
      * Update the version objects for the evolution
      * @param idPlu The plu id for the query
@@ -98,9 +102,9 @@ public class VersionServices implements IVersionServices
      */
     public void updateEvolution( int idPlu, Date date )
     {
-    	_home.updateEvolution( idPlu, date );
+        _home.updateEvolution( idPlu, date );
     }
-    
+
     /**
      * Update the version objects for the archive
      * @param idPlu The plu id for the query
@@ -108,18 +112,18 @@ public class VersionServices implements IVersionServices
      */
     public void updateArchive( int idPlu, Date date )
     {
-    	_home.updateArchive( idPlu, date );
+        _home.updateArchive( idPlu, date );
     }
-    
+
     /**
-	 * Update a version object
-	 * @param nKey the version id
-	 */
-    public void updateForEvolution( int nKey)
+     * Update a version object
+     * @param nKey the version id
+     */
+    public void updateForEvolution( int nKey )
     {
-    	_home.updateForEvolution( nKey );
+        _home.updateForEvolution( nKey );
     }
-    
+
     /**
      * Returns the largest num version
      * @param nIdAtome The atome identifier
@@ -127,19 +131,19 @@ public class VersionServices implements IVersionServices
      */
     public int findMaxVersion( int nIdAtome )
     {
-    	return _home.findMaxVersion( nIdAtome );
+        return _home.findMaxVersion( nIdAtome );
     }
-	
+
     /**
-	 * Returns a version object
-	 * @param nKey the version id
-	 * @return A version object with the id nKey
-	 */
-	public Version findByPrimaryKey( int nKey )
-	{
-		return _home.findByPrimaryKey( nKey );
-	}
-    
+     * Returns a version object
+     * @param nKey the version id
+     * @return A version object with the id nKey
+     */
+    public Version findByPrimaryKey( int nKey )
+    {
+        return _home.findByPrimaryKey( nKey );
+    }
+
     /**
      * Returns a list of version objects
      * @param nIdAtome The atome identifier
@@ -148,9 +152,9 @@ public class VersionServices implements IVersionServices
      */
     public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion )
     {
-    	return _home.findByAtomeAndNumVersion( nIdAtome, numVersion );
+        return _home.findByAtomeAndNumVersion( nIdAtome, numVersion );
     }
-    
+
     /**
      * Returns a list of version objects
      * @param nIdPlu The plu identifier
@@ -159,7 +163,7 @@ public class VersionServices implements IVersionServices
      */
     public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder )
     {
-    	return _home.findByPluAndFolder( nIdPlu, nIdFolder );
+        return _home.findByPluAndFolder( nIdPlu, nIdFolder );
     }
 
     /**
@@ -167,8 +171,8 @@ public class VersionServices implements IVersionServices
      * @param filter the filter
      * @return the version list
      */
-	public List<Version> findByFilter(AtomeFilter atomeFilter, VersionFilter versionFilter)
-	{
-		return _home.findByFilter( atomeFilter, versionFilter );
-	}
+    public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter )
+    {
+        return _home.findByFilter( atomeFilter, versionFilter );
+    }
 }

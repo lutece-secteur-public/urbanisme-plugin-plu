@@ -45,52 +45,61 @@ import java.util.List;
  */
 public class FileHome extends AbstractLuteceHome<Integer, File, IFileDAO> implements IFileHome
 {
-	/**
-	 * Create a new file object
-	 * @param file the new file object
-	 */
-	public void create( File file )
-	{
-		getDao(  ).create( file );
-	}
-	
-	/**
-	 * Update a new file object
-	 * @param file the file object
-	 */
-	public void update( File file )
-	{
-		getDao(  ).update( file );
-	}
-	
-	/**
-	 * Remove a new file object
-	 * @param file the file object
-	 */
-	public void remove( File file )
-	{
-		getDao(  ).remove( file );
-	}
-	
-	/**
-	 * Returns a list of file objects
-	 * @return A list of all file
-	 */
-	public List<File> findAll(  )
+    //    /**
+    //     * Create a new file object
+    //     * @param file the new file object
+    //     */
+    //    public void create( File file )
+    //    {
+    //        getDao(  ).create( file );
+    //    }
+    //
+    //    /**
+    //     * Update a new file object
+    //     * @param file the file object
+    //     */
+    //    public void update( File file )
+    //    {
+    //        getDao(  ).update( file );
+    //    }
+
+    /**
+     * Remove a new file object
+     * @param file the file object
+     */
+    public void remove( File file )
+    {
+        getDao(  ).remove( file );
+    }
+
+    /**
+     * Returns a list of file objects
+     * @return A list of all file
+     */
+    public List<File> findAll(  )
     {
         return getDao(  ).findAll(  );
     }
-	
-	/**
-	 * Returns a list of file objects
-	 * @param nIdVersion the version id
-	 * @return A list of file associated with the same version id
-	 */
+
+    /**
+     * Returns a list of file objects
+     * @return A list of all mime type file
+     */
+    public List<File> findAllMimeType(  )
+    {
+        return getDao(  ).findAllMimeType(  );
+    }
+
+    /**
+     * Returns a list of file objects
+     * @param nIdVersion the version id
+     * @return A list of file associated with the same version id
+     */
     public List<File> findByVersion( int nIdVersion )
     {
         return getDao(  ).findByVersion( nIdVersion );
     }
-    
+
     /**
      * Finds by filter
      * @param fileFilter the file filter
@@ -99,6 +108,6 @@ public class FileHome extends AbstractLuteceHome<Integer, File, IFileDAO> implem
      */
     public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter )
     {
-    	return getDao(  ).findByFilter( fileFilter, atomeFilter );
+        return getDao(  ).findByFilter( fileFilter, atomeFilter );
     }
 }
