@@ -37,11 +37,17 @@ public class HistoryServices implements IHistoryServices
 {
     IHistoryHome _home;
 
+    /**
+	 * @return the _home
+	 */
     public IHistoryHome getHome(  )
     {
         return _home;
     }
 
+	/**
+	 * @param home the _home to set
+	 */
     public void setHome( IHistoryHome _home )
     {
         this._home = _home;

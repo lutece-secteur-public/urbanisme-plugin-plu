@@ -44,11 +44,17 @@ public class AtomeServices implements IAtomeServices
 {
     IAtomeHome _home;
 
+    /**
+	 * @return the _home
+	 */
     public IAtomeHome getHome(  )
     {
         return _home;
     }
 
+	/**
+	 * @param home the _home to set
+	 */
     public void setHome( IAtomeHome _home )
     {
         this._home = _home;

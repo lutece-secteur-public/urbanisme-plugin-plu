@@ -39,9 +39,12 @@ import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
@@ -92,7 +95,8 @@ public class FolderVersion
      * Returns the version of this FolderVersion
      * @return the FolderVersion version
      */
-    @Column( name = "id_version" )
+    @OneToOne( fetch = FetchType.LAZY )
+    @JoinColumn( name="id_version", referencedColumnName="id_version" )
     public Version getVersion(  )
     {
         return _version;
@@ -111,7 +115,8 @@ public class FolderVersion
      * Returns the folder of this FolderVersion
      * @return the FolderVersion folder
      */
-    @Column( name = "id_dossier" )
+    @OneToOne( fetch = FetchType.LAZY )
+    @JoinColumn( name="id_dossier", referencedColumnName="id_dossier" )
     public Folder getFolder(  )
     {
         return _folder;

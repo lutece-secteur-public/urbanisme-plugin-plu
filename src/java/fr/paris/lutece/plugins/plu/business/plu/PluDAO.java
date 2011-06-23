@@ -45,7 +45,7 @@ import fr.paris.lutece.util.sql.DAOUtil;
 public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
 {
     //    private static final String SQL_QUERY_CREATE = "INSERT INTO plu VALUE ()";
-    //    private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM plu";
+	//    private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM plu";
     //    private static final String SQL_QUERY_SELECT_BY_KEY = "SELECT * FROM plu WHERE id_plu = ?";
     private static final String SQL_QUERY_SELECT_PLU_APPLIED = "SELECT id_plu FROM plu WHERE id_plu=(SELECT max(id_plu) FROM plu)-1";
     private static final String SQL_QUERY_SELECT_PLU_WORK = "SELECT id_plu FROM plu WHERE dj IS NULL AND da IS NULL";
@@ -122,7 +122,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
         java.sql.Date sqlDj = new java.sql.Date( plu.getDj(  ).getTime(  ) );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_APPROVE );
-        daoUtil.setInt( 1, plu.getType(  ) );
+        daoUtil.setInt( 1, plu.getType(  ).getId(  ) );
         daoUtil.setString( 2, plu.getCause(  ) );
         daoUtil.setString( 3, plu.getReference(  ) );
         daoUtil.setDate( 4, sqlDj );

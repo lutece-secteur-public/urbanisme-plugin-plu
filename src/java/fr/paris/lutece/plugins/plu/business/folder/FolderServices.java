@@ -42,11 +42,17 @@ public class FolderServices implements IFolderServices
 {
     IFolderHome _home;
 
+    /**
+	 * @return the _home
+	 */
     public IFolderHome getHome(  )
     {
         return _home;
     }
 
+	/**
+	 * @param home the _home to set
+	 */
     public void setHome( IFolderHome home )
     {
         this._home = home;

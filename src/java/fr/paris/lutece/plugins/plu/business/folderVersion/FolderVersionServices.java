@@ -47,11 +47,17 @@ public class FolderVersionServices implements IFolderVersionServices
 {
     IFolderVersionHome _home;
 
+    /**
+	 * @return the _home
+	 */
     public IFolderVersionHome getHome(  )
     {
         return _home;
     }
 
+	/**
+	 * @param home the _home to set
+	 */
     public void setHome( IFolderVersionHome _home )
     {
         this._home = _home;

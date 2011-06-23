@@ -44,11 +44,17 @@ public class PluServices implements IPluServices
 {
     IPluHome _home;
 
+    /**
+	 * @return the _home
+	 */
     public IPluHome getHome(  )
     {
         return _home;
     }
-
+    
+	/**
+	 * @param home the _home to set
+	 */
     public void setHome( IPluHome _home )
     {
         this._home = _home;

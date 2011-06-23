@@ -42,11 +42,17 @@ public class FileServices implements IFileServices
 {
     IFileHome _home;
 
+    /**
+	 * @return the _home
+	 */
     public IFileHome getHome(  )
     {
         return _home;
     }
 
+	/**
+	 * @param home the _home to set
+	 */
     public void setHome( IFileHome home )
     {
         _home = home;

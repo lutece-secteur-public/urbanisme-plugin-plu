@@ -33,15 +33,20 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
+import fr.paris.lutece.plugins.plu.business.etat.Etat;
+import fr.paris.lutece.plugins.plu.business.type.Type;
 import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
 
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
@@ -63,13 +68,13 @@ public class Plu
     //Constants
     public static final String RESOURCE_TYPE = "PLU_RESOURCE";
     private int _id;
-    private int _type;
+    private Type _type;
     private String _cause;
     private String _reference;
     private Date _dj;
     private Date _da;
     private Date _dg;
-    private int _etat;
+    private Etat _etat;
 
     /**
      * Returns the identifier of this plu
@@ -97,8 +102,9 @@ public class Plu
      * Returns the type of this plu
      * @return the plu type
      */
-    @Column( name = "id_type_acte_juridique" )
-    public int getType(  )
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name="id_type_acte_juridique" )
+    public Type getType(  )
     {
         return _type;
     }
@@ -107,7 +113,7 @@ public class Plu
      * Sets the type of the plu to the specified integer
      * @param type the new type
      */
-    public void setType( int type )
+    public void setType( Type type )
     {
         _type = type;
     }
@@ -211,8 +217,9 @@ public class Plu
      * Returns the etat of this plu
      * @return the plu etat
      */
-    @Column( name = "id_etat_generation" )
-    public int getEtat(  )
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name="id_etat_generation" )
+    public Etat getEtat(  )
     {
         return _etat;
     }
@@ -221,7 +228,7 @@ public class Plu
      * Sets the type of the plu to the specified integer
      * @param type the new type
      */
-    public void setEtat( int etat )
+    public void setEtat( Etat etat )
     {
         _etat = etat;
     }

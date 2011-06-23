@@ -36,8 +36,6 @@ package fr.paris.lutece.plugins.plu.web;
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.plugins.plu.business.atome.IAtomeServices;
-import fr.paris.lutece.plugins.plu.business.etat.Etat;
-import fr.paris.lutece.plugins.plu.business.etat.IEtatServices;
 import fr.paris.lutece.plugins.plu.business.file.File;
 import fr.paris.lutece.plugins.plu.business.file.FileFilter;
 import fr.paris.lutece.plugins.plu.business.file.IFileServices;
@@ -84,7 +82,6 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,7 +97,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PROPERTY_PAGE_TITLE_APPLICABLE_PLU = "plu.applicable_plu.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_PLU = "plu.modify_plu.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CORRECT_PLU = "plu.correct_plu.pageTitle";
-    private static final String PROPERTY_PAGE_TITLE_TREE_PLU = "plu.tree_plu.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_TREE_FOLDER = "plu.tree_folder.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_FOLDER = "plu.create_folder.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_FOLDER = "plu.modify_folder.pageTitle";
@@ -130,12 +126,9 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String TEMPLATE_CREATE_ATOME = "/admin/plugins/plu/create_atome.html";
     private static final String TEMPLATE_CREATE_ATOME_WITH_OLD = "/admin/plugins/plu/create_atome_with_old.html";
     private static final String TEMPLATE_VIEW_ATOME = "/admin/plugins/plu/view_atome.html";
-    private static final String TEMPLATE_CHOICE_MODIFY_ATOME = "/admin/plugins/plu/choice_modify_atome.html";
     private static final String TEMPLATE_MODIFY_ATOME = "/admin/plugins/plu/modify_atome.html";
     private static final String TEMPLATE_CORRECT_ATOME = "/admin/plugins/plu/correct_atome.html";
     private static final String TEMPLATE_EVOLVE_ATOME = "/admin/plugins/plu/evolve_atome.html";
-    private static final String TEMPLATE_ASSOCIATE_VERSION = "/admin/plugins/plu/associate_version.html";
-    private static final String TEMPLATE_BURST_VERSION = "/admin/plugins/plu/burst_version.html";
     private static final String TEMPLATE_JOIN_FILE = "/admin/plugins/plu/join_file.html";
     private static final String TEMPLATE_CREATE_HTML = "/admin/plugins/plu/create_html.html";
     private static final String TEMPLATE_IMPORT_HTML = "/admin/plugins/plu/import_html.html";
@@ -144,7 +137,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     //Markers
     private static final String MARK_LIST_PLU_LIST = "plu_list";
     private static final String MARK_LIST_TYPE_LIST = "type_list";
-    private static final String MARK_LIST_ETAT_LIST = "etat_list";
     private static final String MARK_LIST_FOLDER_LIST = "folder_list";
     private static final String MARK_LIST_FOLDER_CHILD_LIST = "folder_child_list";
     private static final String MARK_LIST_ATOME_LIST = "atome_list";
@@ -158,7 +150,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MARK_FOLDER = "one_folder";
     private static final String MARK_FOLDER_PARENT = "one_folder_parent";
     private static final String MARK_HTML = "folder_html";
-    private static final String MARK_IMAGE = "folder_image";
     private static final String MARK_ATOME = "one_atome";
     private static final String MARK_VERSION = "one_version";
     private static final String MARK_NEW_VERSION = "new_version";
@@ -209,7 +200,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MESSAGE_ERROR_ATOME_CREATE_TITLE = "plu.message.errorAtomeCreateTitle";
     private static final String MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION = "plu.message.errorAtomeCreateNumVersion";
     private static final String MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_SUP = "plu.message.errorAtomeCreateNumVersionSup";
-    private static final String MESSAGE_ERROR_BURST = "plu.message.errorBurst";
 
     // parameters
     private static final String PARAMETER_PLU_ID = "id_plu";
@@ -218,7 +208,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_PLU_REFERENCE = "reference";
     private static final String PARAMETER_PLU_LIST_ID = "plu_list_id";
     private static final String PARAMETER_FOLDER_ID = "id_folder";
-    private static final String PARAMETER_FOLDER_LIST_ID = "folder_list_id";
     private static final String PARAMETER_FOLDER_TITLE = "folder_title";
     private static final String PARAMETER_FOLDER_TITLE_OLD = "folder_title_old";
     private static final String PARAMETER_FOLDER_DESCRIPTION = "folder_description";
@@ -253,7 +242,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String JSP_REDIRECT_TO_MANAGE_PLU = "../plu/ManagePlu.jsp";
     private static final String JSP_REDIRECT_TO_TREE_PLU = "../plu/TreePlu.jsp";
     private static final String JSP_REDIRECT_TO_CHOICE_CREATE_ATOME = "../atome/ChoiceCreateAtome.jsp";
-    private static final String JSP_REDIRECT_TO_BURST_VERSION = "jsp/admin/plugins/plu/version/BurstVersion.jsp";
     private static final String JSP_MANAGE_PLU = "jsp/admin/plugins/plu/plu/ManagePlu.jsp";
     private static final String JSP_TREE_PLU = "jsp/admin/plugins/plu/plu/TreePlu.jsp";
     private static final String JSP_CHOICE_CREATE_ATOME = "jsp/admin/plugins/plu/atome/ChoiceCreateAtome.jsp";
@@ -281,25 +269,22 @@ public class PluJspBean extends PluginAdminPageJspBean
     private int _nItemsPerPage;
     private IPluServices _pluServices;
     private ITypeServices _typeServices;
-    private IEtatServices _etatServices;
     private IHistoryServices _historyServices;
     private IFolderServices _folderServices;
     private IAtomeServices _atomeServices;
     private IVersionServices _versionServices;
     private IFolderVersionServices _folderVersionServices;
     private IFileServices _fileServices;
-    String sDateDefault = "31/12/9999";
+    
     List<File> fileList = new ArrayList<File>(  );
     Folder folderHtml = new Folder(  );
     Folder folderImage = new Folder(  );
-    int[] idFile = null;
 
     public PluJspBean(  )
     {
         super(  );
         _pluServices = (IPluServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.pluServices" );
         _typeServices = (ITypeServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.typeServices" );
-        _etatServices = (IEtatServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.etatServices" );
         _historyServices = (IHistoryServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
                 "plu.historyServices" );
         _folderServices = (IFolderServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
@@ -318,15 +303,10 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Plu plu = _pluServices.findPluApplied(  );
         List<Plu> pluList = _pluServices.findAll(  );
-
-        //        List<Type> typeList = _typeServices.findAll(  );
-        //        List<Etat> etatList = _etatServices.findAll(  );
+        
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU_APPLIED, plu );
         model.put( MARK_LIST_PLU_LIST, pluList );
-
-        //        model.put( MARK_LIST_TYPE_LIST, typeList );
-        //        model.put( MARK_LIST_ETAT_LIST, etatList );
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PLU, getLocale(  ), model );
 
         return getAdminPage( templateList.getHtml(  ) );
@@ -339,8 +319,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
 
-        List<Type> typeList = new ArrayList<Type>(  );
-        typeList = _typeServices.findAll(  );
+        List<Type> typeList = _typeServices.findAll(  );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU, plu );
@@ -398,7 +377,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
 
         int nIdType = Integer.parseInt( request.getParameter( PARAMETER_PLU_TYPE ) );
-        plu.setType( nIdType );
+        Type type = _typeServices.findByPrimaryKey( nIdType );
+        plu.setType( type );
         plu.setCause( request.getParameter( PARAMETER_PLU_CAUSE ) );
         plu.setReference( request.getParameter( PARAMETER_PLU_REFERENCE ) );
 
@@ -418,7 +398,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
 
-        Type type = _typeServices.findByPrimaryKey( plu.getType(  ) );
+        Type type = _typeServices.findByPrimaryKey( plu.getType(  ).getId(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU, plu );
@@ -548,10 +528,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
 
-        Type type = _typeServices.findByPrimaryKey( plu.getType(  ) );
+        Type type = _typeServices.findByPrimaryKey( plu.getType(  ).getId(  ) );
 
-        List<Type> typeList = new ArrayList<Type>(  );
-        typeList = _typeServices.findAll(  );
+        List<Type> typeList = _typeServices.findAll(  );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU, plu );
@@ -591,7 +570,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
 
         int nIdType = Integer.parseInt( request.getParameter( PARAMETER_PLU_TYPE ) );
-        plu.setType( nIdType );
+        Type type = _typeServices.findByPrimaryKey( nIdType );
+        plu.setType( type );
         plu.setCause( request.getParameter( PARAMETER_PLU_CAUSE ) );
         plu.setReference( request.getParameter( PARAMETER_PLU_REFERENCE ) );
 
@@ -609,10 +589,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
 
-        Type type = _typeServices.findByPrimaryKey( plu.getType(  ) );
+        Type type = _typeServices.findByPrimaryKey( plu.getType(  ).getId(  ) );
 
-        List<Type> typeList = new ArrayList<Type>(  );
-        typeList = _typeServices.findAll(  );
+        List<Type> typeList = _typeServices.findAll(  );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU, plu );
@@ -652,7 +631,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
 
         int nIdType = Integer.parseInt( request.getParameter( PARAMETER_PLU_TYPE ) );
-        plu.setType( nIdType );
+        Type type = _typeServices.findByPrimaryKey( nIdType );
+        plu.setType( type );
         plu.setCause( request.getParameter( PARAMETER_PLU_CAUSE ) );
         plu.setReference( request.getParameter( PARAMETER_PLU_REFERENCE ) );
         _pluServices.updateApprove( plu );
@@ -711,6 +691,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
 
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
+        if( plu == null )
+        {
+        	plu = new Plu(  );
+        	plu.setId( 0 );
+        }
         List<Plu> pluList = _pluServices.findAll(  );
 
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );

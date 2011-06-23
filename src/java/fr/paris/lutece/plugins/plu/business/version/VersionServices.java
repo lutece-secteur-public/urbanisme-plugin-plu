@@ -47,11 +47,17 @@ public class VersionServices implements IVersionServices
 {
     IVersionHome _home;
 
+    /**
+	 * @return the _home
+	 */
     public IVersionHome getHome(  )
     {
         return _home;
     }
-
+    
+	/**
+	 * @param home the _home to set
+	 */
     public void setHome( IVersionHome _home )
     {
         this._home = _home;

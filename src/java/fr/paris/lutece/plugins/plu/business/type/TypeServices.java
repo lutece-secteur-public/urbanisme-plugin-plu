@@ -44,12 +44,18 @@ public class TypeServices implements ITypeServices
 {
     ITypeHome _home;
 
+    /**
+	 * @return the _home
+	 */
     public ITypeHome getHome(  )
     {
         return _home;
     }
-
-    public void setHome( ITypeHome _home )
+    
+	/**
+	 * @param home the _home to set
+	 */
+	public void setHome( ITypeHome _home )
     {
         this._home = _home;
     }

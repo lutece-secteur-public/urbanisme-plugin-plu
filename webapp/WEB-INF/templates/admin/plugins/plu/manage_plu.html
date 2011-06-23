@@ -38,12 +38,8 @@
 			   		</form>
 	            </td>
 	            <td>
-	            <#if type_list?exists>
-	            	<#list type_list as type>
-	            	<#if type.id==plu.type>
-	            		${type.name}
-	            	</#if>
-	            	</#list>
+	            <#if plu.type?exists>
+	            	${plu.type.name}
 	            <#else>
 	            	N/A
 	            </#if>
@@ -133,12 +129,8 @@
 	            </#if>
 	            </td>
 	            <td style="text-align:center;">
-	            <#if etat_list?exists>
-	            	<#list etat_list as etat>
-	            	<#if etat.id==plu.etat>
-	            		${etat.name}
-	            	</#if>
-	            	</#list>
+	            <#if plu.etat?exists>
+	            	${plu.etat.name}
 	            <#else>
 	            	N/A
 	            </#if>

@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.plu.business.file;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 
@@ -62,6 +63,7 @@ public class File
      * Returns the identifier of this file
      * @return the file identifier
      */
+    @Id
     @Column( name = "id_atome" )
     public int getId(  )
     {
