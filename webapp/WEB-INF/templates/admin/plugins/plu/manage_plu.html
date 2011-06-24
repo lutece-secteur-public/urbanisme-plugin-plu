@@ -86,11 +86,11 @@
 	            
 	            <td style="text-align:center;">
 	            <#if plu.da?exists && plu.dj?exists>
-	            	<img src="images/admin/skin/plugins/plu/appliquer.bmp" />
+	            	<img src="images/admin/skin/plugins/plu/plu_apply.png" />
 	            <#elseif plu.dj?exists>
 	            	<form method="post" action="jsp/admin/plugins/plu/plu/ApplicablePlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/plugins/plu/approuver.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.applicable_plu.applicable}" title="#i18n{plu.applicable_plu.applicable}" type="image" />
+		      			<input src="images/admin/skin/plugins/plu/plu_approve.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.applicable_plu.applicable}" title="#i18n{plu.applicable_plu.applicable}" type="image" />
 			   		</form>
 			   	<#else>
 			   		<form method="post" action="jsp/admin/plugins/plu/plu/ApprovePlu.jsp">
@@ -103,29 +103,31 @@
 	            <#if plu.dj?exists && !plu.da?exists>
 	            	<form method="post" action="jsp/admin/plugins/plu/plu/ModifyPlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/plugins/plu/modifier.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_plu.modify}" title="#i18n{plu.modify_plu.modify}" type="image" />
+		      			<input src="images/admin/skin/plugins/plu/plu_modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_plu.modify}" title="#i18n{plu.modify_plu.modify}" type="image" />
 			   		</form>
 			   	<#elseif plu.dj?exists && plu.da?exists>
 			   		<form method="post" action="jsp/admin/plugins/plu/plu/CorrectPlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/plugins/plu/modifier.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.correct_plu.correct}" title="#i18n{plu.correct_plu.correct}" type="image" />
+		      			<input src="images/admin/skin/plugins/plu/plu_modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.correct_plu.correct}" title="#i18n{plu.correct_plu.correct}" type="image" />
 			   		</form>
 			   	<#else>
-			   		<img disabled="disabled" src="images/admin/skin/plugins/plu/modifier.bmp" />
+			   		<img src="images/admin/skin/plugins/plu/modifier.bmp" style="opacity:0.4;filter:alpha(opacity=40)"/>
 			   	</#if>
 	            </td>
 	            <td style="text-align:center;">
 	            	<form method="post" action="jsp/admin/plugins/plu/plu/TreePlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/plugins/plu/tree.jpeg" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.tree_plu.tree}" title="#i18n{plu.tree_plu.tree}" type="image" />
+		      			<input src="images/admin/skin/plugins/plu/plu_tree.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.tree_plu.tree}" title="#i18n{plu.tree_plu.tree}" type="image" />
 			   		</form>
 	            </td>
 	            <td style="text-align:center;">
 	            <#if plu.da?exists>
 	            	<form method="post" action="jsp/admin/plugins/plu/plu/IsoPlu.jsp">
 	            		<input type="hidden" name="id_plu" value="${plu.id}"/>
-		      			<input src="images/admin/skin/plugins/plu/generer.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.isosite_plu.isosite}" title="#i18n{plu.isosite_plu.isosite}" type="image" />
+		      			<input src="images/admin/skin/plugins/plu/plu_generate.bmp" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.isosite_plu.isosite}" title="#i18n{plu.isosite_plu.isosite}" type="image" />
 			   		</form>
+			   	<#else>
+			   		<img src="images/admin/skin/plugins/plu/plu_generate.bmp" style="opacity:0.4;filter:alpha(opacity=40)" alt="#i18n{plu.isosite_plu.isosite}" title="#i18n{plu.isosite_plu.isosite}"/>
 	            </#if>
 	            </td>
 	            <td style="text-align:center;">

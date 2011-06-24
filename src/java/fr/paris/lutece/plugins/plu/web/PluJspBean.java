@@ -190,6 +190,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MESSAGE_ERROR_REQUIRED_FIELD = "plu.message.errorRequiredfield";
     private static final String MESSAGE_ERROR_FOLDER_CREATE = "plu.message.errorFolderCreate";
     private static final String MESSAGE_ERROR_FOLDER_DELETE = "plu.message.errorFolderDelete";
+    private static final String MESSAGE_ERROR_FOLDER_IMAGE_TYPE = "plu.message.errorFolderImageType";
     private static final String MESSAGE_ERROR_FILE_CREATE_SIZE = "plu.message.errorFileCreateSize";
     private static final String MESSAGE_ERROR_FILE_CREATE_NAME = "plu.message.errorFileCreateName";
     private static final String MESSAGE_ERROR_FILE_CREATE_TITLE = "plu.message.errorFileCreateTitle";
@@ -714,6 +715,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
 
             Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
+            if( folder == null )
+            {
+            	folder = new Folder(  );
+            	folder.setId( 0 );
+            }
             model.put( MARK_FOLDER, folder );
 
             if ( request.getParameter( PARAMETER_FOLDER_TITLE ) != null )
@@ -906,20 +912,16 @@ public class PluJspBean extends PluginAdminPageJspBean
 
     public String getCreateFolder( HttpServletRequest request )
     {
+    	 setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_FOLDER );
+    	 
         Plu plu = _pluServices.findPluWork(  );
 
         if ( plu.getId(  ) == 0 )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_PLU_WORK, AdminMessage.TYPE_STOP );
         }
-
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_FOLDER );
-
-        int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
-        plu = _pluServices.findByPrimaryKey( nIdPlu );
-
-        Plu pluWork = _pluServices.findPluWork(  );
-        Collection<Folder> folderList = _folderServices.findByPluId( pluWork.getId(  ) );
+        
+        Collection<Folder> folderList = _folderServices.findByPluId( plu.getId(  ) );
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU, plu );
@@ -1017,9 +1019,20 @@ public class PluJspBean extends PluginAdminPageJspBean
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_IMAGE );
 
-            PhysicalFile physicalFile = new PhysicalFile(  );
-            physicalFile.setValue( fileItem.get(  ) );
-            folderImage.setImg( physicalFile.getValue(  ) );
+            if( fileItem.getSize(  ) >  0 )
+            {
+	            String name = fileItem.getName(  );
+	            String type = name.substring( name.lastIndexOf( "." ) );
+	            if( !type.equals(".jpg") && !type.equals(".pgn") && !type.equals(".gif") )
+	            {
+	            	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, AdminMessage.TYPE_STOP );
+	            }
+	            
+	            PhysicalFile physicalFile = new PhysicalFile(  );
+	            physicalFile.setValue( fileItem.get(  ) );
+	            
+	            folderImage.setImg( physicalFile.getValue(  ) );
+            }
         }
 
         return AdminMessageService.getMessageUrl( (MultipartHttpServletRequest) request, MESSAGE_CONFIRM_CREATE_FOLDER,
@@ -1032,20 +1045,16 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int idParentFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
 
-        Plu plu = _pluServices.findPluWork(  );
-
         Folder folder = new Folder(  );
-        folder.setPlu( plu.getId(  ) );
+        folder.setPlu( nIdPlu );
         folder.setParentFolder( idParentFolder );
         folder.setTitle( request.getParameter( PARAMETER_FOLDER_TITLE ) );
         folder.setDescription( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
-        folder.setImg( folderImage.getImg(  ) );
-
-        if ( !"true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
+        if( folderImage.getImg(  ) != null )
         {
-            folder.setHtml( null );
+        	folder.setImg( folderImage.getImg(  ) );
         }
-        else
+        if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
         {
             folder.setHtml( folderHtml.getHtml(  ) );
         }
@@ -1055,7 +1064,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + nIdPlu;
     }
 
-    public String getConfirmRemoveFolder( HttpServletRequest request ) //throws AccessDeniedException
+    public String getConfirmRemoveFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
 
@@ -1204,6 +1213,13 @@ public class PluJspBean extends PluginAdminPageJspBean
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_IMAGE );
 
+            String name = fileItem.getName(  );
+            String type = name.substring( name.lastIndexOf( "." ) );
+            if( !type.equals(".jpg") && !type.equals(".pgn") && !type.equals(".gif") )
+            {
+            	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, AdminMessage.TYPE_STOP );
+            }
+            
             PhysicalFile physicalFile = new PhysicalFile(  );
             physicalFile.setValue( fileItem.get(  ) );
             folderImage.setImg( physicalFile.getValue(  ) );
@@ -1351,6 +1367,13 @@ public class PluJspBean extends PluginAdminPageJspBean
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_IMAGE );
 
+            String name = fileItem.getName(  );
+            String type = name.substring( name.lastIndexOf( "." ) );
+            if( !type.equals(".jpg") && !type.equals(".pgn") && !type.equals(".gif") )
+            {
+            	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, AdminMessage.TYPE_STOP );
+            }
+            
             PhysicalFile physicalFile = new PhysicalFile(  );
             physicalFile.setValue( fileItem.get(  ) );
             folderImage.setImg( physicalFile.getValue(  ) );
@@ -1441,11 +1464,13 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_ATOME );
 
-        int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
-        plu = _pluServices.findByPrimaryKey( nIdPlu );
-
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
+        if ( folder == null )
+        {
+        	folder = new Folder(  );
+            folder.setId( 0 );
+        }
 
         List<Atome> atomeList = _atomeServices.findAll(  );
 
@@ -1470,6 +1495,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
+        if ( folder == null )
+        {
+        	folder = new Folder(  );
+            folder.setId( 0 );
+        }
 
         Collection<Folder> folderList = _folderServices.findByPluId( nIdPlu );
 
@@ -1487,15 +1517,24 @@ public class PluJspBean extends PluginAdminPageJspBean
             FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
 
             if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null ) &&
+            		( request.getParameter( PARAMETER_FILE_NAME ) != null ) &&
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
+                for( File fileTest : fileList )
+                {
+                	if( fileTest.getTitle(  ).equals( request.getParameter( PARAMETER_FILE_TITLE ) ) )
+                	{
+                		return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE, AdminMessage.TYPE_STOP );
+                	}
+                }
+                
                 File file = new File(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
 
                 String name = fileItem.getName(  );
                 String type = name.substring( name.lastIndexOf( "." ) );
-                file.setName( name );
+                file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
                 file.setFile( physicalFile.getValue(  ) );
                 file.setMimeType( type );
@@ -1556,6 +1595,14 @@ public class PluJspBean extends PluginAdminPageJspBean
                 physicalFile.setValue( fileItem.get(  ) );
 
                 String name = fileItem.getName(  );
+                for( File fileTest : fileList )
+                {
+                	if( fileTest.getName(  ).equals( name ) )
+                	{
+                		return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME, AdminMessage.TYPE_STOP );
+                	}
+                }
+                
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
@@ -1840,6 +1887,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
+        if( plu == null )
+        {
+        	plu = new Plu(  );
+        	plu.setId( 0 );
+        }
 
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
@@ -2028,8 +2080,16 @@ public class PluJspBean extends PluginAdminPageJspBean
                 physicalFile.setValue( fileItem.get(  ) );
 
                 String name = fileItem.getName(  );
+                for( File fileTest : fileList )
+                {
+                	if( fileTest.getName(  ).equals( name ) )
+                	{
+                		return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME, AdminMessage.TYPE_STOP );
+                	}
+                }
+                
                 String type = name.substring( name.lastIndexOf( "." ) );
-                file.setName( name );
+                file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
                 file.setFile( physicalFile.getValue(  ) );
                 file.setMimeType( type );
@@ -2270,8 +2330,16 @@ public class PluJspBean extends PluginAdminPageJspBean
                 physicalFile.setValue( fileItem.get(  ) );
 
                 String name = fileItem.getName(  );
+                for( File fileTest : fileList )
+                {
+                	if( fileTest.getName(  ).equals( name ) )
+                	{
+                		return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME, AdminMessage.TYPE_STOP );
+                	}
+                }
+                
                 String type = name.substring( name.lastIndexOf( "." ) );
-                file.setName( name );
+                file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
                 file.setFile( physicalFile.getValue(  ) );
                 file.setMimeType( type );
@@ -2458,8 +2526,16 @@ public class PluJspBean extends PluginAdminPageJspBean
                 physicalFile.setValue( fileItem.get(  ) );
 
                 String name = fileItem.getName(  );
+                for( File fileTest : fileList )
+                {
+                	if( fileTest.getName(  ).equals( name ) )
+                	{
+                		return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME, AdminMessage.TYPE_STOP );
+                	}
+                }
+                
                 String type = name.substring( name.lastIndexOf( "." ) );
-                file.setName( name );
+                file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
                 file.setFile( physicalFile.getValue(  ) );
                 file.setMimeType( type );
