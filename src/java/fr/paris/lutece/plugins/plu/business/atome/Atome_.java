@@ -31,65 +31,21 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.file;
+package fr.paris.lutece.plugins.plu.business.atome;
 
-import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
-import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
-
-import java.util.List;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
 
 
 /**
- * This class provides instances management methods (create, find, ...) for File objects
+ * Atome_ the metamodel for atome
  * @author vLopez
  */
-public class FileHome extends AbstractLuteceHome<Integer, File, IFileDAO> implements IFileHome
+@StaticMetamodel( value = Atome.class )
+public class Atome_
 {
-    /**
-     * Remove a new file object
-     * @param file the file object
-     */
-    public void remove( File file )
-    {
-        getDao(  ).remove( file );
-    }
-
-    /**
-     * Returns a list of file objects
-     * @return A list of all file
-     */
-    public List<File> findAll(  )
-    {
-        return getDao(  ).findAll(  );
-    }
-
-    /**
-     * Returns a list of file objects
-     * @return A list of all mime type file
-     */
-    public List<File> findAllMimeType(  )
-    {
-        return getDao(  ).findAllMimeType(  );
-    }
-
-    /**
-     * Returns a list of file objects
-     * @param nIdVersion the version id
-     * @return A list of file associated with the same version id
-     */
-    public List<File> findByVersion( int nIdVersion )
-    {
-        return getDao(  ).findByVersion( nIdVersion );
-    }
-
-    /**
-     * Finds by filter
-     * @param fileFilter the file filter
-     * @param atomeFilter the atome filter
-     * @return the folder list
-     */
-    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter )
-    {
-        return getDao(  ).findByFilter( fileFilter, atomeFilter );
-    }
+    public static volatile SingularAttribute<Atome, Integer> id;
+    public static volatile SingularAttribute<Atome, String> name;
+    public static volatile SingularAttribute<Atome, String> title;
+    public static volatile SingularAttribute<Atome, String> description;
 }

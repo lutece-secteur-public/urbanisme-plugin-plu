@@ -68,15 +68,25 @@ public class AtomeServices implements IAtomeServices
     {
         _home.create( atome );
     }
+    
+    /**
+     * remove an atome object
+     * @param atome the atome object
+     */
+    public void remove( Atome atome )
+    {
+    	int nIdAtome = atome.getId(  );
+    	_home.remove( nIdAtome );
+    }
 
     /**
      * Update an atome object
      * @param atome the atome object
      * @param nIdAtomeOld the old id atome
      */
-    public void update( Atome atome, int nIdAtomeOld )
+    public void update( Atome atome )
     {
-        _home.update( atome, nIdAtomeOld );
+        _home.update( atome );
     }
 
     /**

@@ -62,9 +62,9 @@ public class FolderFilter
     }
 
     /**
-    *
-    * @return true if the filter contain an id plu
-    */
+     *
+     * @return true if the filter contain an id plu
+     */
     public boolean containsPlu(  )
     {
         return ( _plu != -1 );
@@ -89,9 +89,9 @@ public class FolderFilter
     }
 
     /**
-    *
-    * @return true if the filter contain a folder title
-    */
+     *
+     * @return true if the filter contain a folder title
+     */
     public boolean containsTitle(  )
     {
         return ( _title != null );

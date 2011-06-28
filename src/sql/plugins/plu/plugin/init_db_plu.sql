@@ -17,3 +17,11 @@ insert into `etat_generation`(`id_etat`,`etat`) values (2,'En cours');
 insert into `etat_generation`(`id_etat`,`etat`) values (3,'OK');
 insert into `etat_generation`(`id_etat`,`etat`) values (4,'KO/A relancer');
 insert into `etat_generation`(`id_etat`,`etat`) values (5,'A relancer');
+
+/*==============================================================*/
+/* Init des données plu séqences								*/
+/*==============================================================*/
+insert into `plu_sequences` (`sequence_name`,`next_val`) values ('plu_dossier_id',521):
+insert into `plu_sequences` (`sequence_name`,`next_val`) values ('plu_id',21);
+insert into `plu_sequences` (`sequence_name`,`next_val`) values ('plu_version_atome_id',801);
+insert into `plu_sequences` (`sequence_name`,`next_val`) values ('plu_dossier_version_atome_id',5757);

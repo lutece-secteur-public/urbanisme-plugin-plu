@@ -118,8 +118,8 @@ public class FileFilter
 
     /**
      *
-            * @return true if the filter contain a file mime type
-            */
+     * @return true if the filter contain a file mime type
+     */
     public boolean containsMimeType(  )
     {
         return ( _mimeType != null );

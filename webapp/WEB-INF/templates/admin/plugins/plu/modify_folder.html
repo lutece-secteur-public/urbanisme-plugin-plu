@@ -9,7 +9,7 @@
 		<p>
 			<label for="id_parent_folder" >#i18n{plu.modify_folder.rowTitleParentFolder} : </label>
 			<select name="id_parent_folder">
-				<#if one_folder_parent.title?has_content>
+				<#if one_folder_parent?has_content>
 					<option value="${one_folder_parent.id}">${one_folder_parent.title}</option>
 				</#if>
 				<option value="0">none</option>

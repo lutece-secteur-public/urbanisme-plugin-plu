@@ -45,18 +45,6 @@ import java.util.List;
  */
 public interface IFileDAO extends IGenericDAO<Integer, File>
 {
-    //    /**
-    //     * Create a new file object
-    //     * @param file the new file object
-    //     */
-    //    public void create( File file );
-    //
-    //    /**
-    //         * Update a new file object
-    //         * @param file the file object
-    //         */
-    //    public void update( File file );
-
     /**
      * Remove a new file object
      * @param file the file object

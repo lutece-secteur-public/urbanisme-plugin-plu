@@ -21,6 +21,21 @@ drop table if exists dossier;
 
 drop table if exists plu;
 
+drop table if exists plu_sequences;
+
+/*==============================================================*/
+/* Table : plu_sequences										*/
+/*==============================================================*/
+create table plu_sequences
+(
+  sequence_name		 			varchar(255)		default null,
+  next_val						int(11) 			default null,
+)
+comment = "table de séquence"
+engine = innodb
+default charset=utf8 collate=utf8_unicode_ci
+row_format = dynamic;
+
 /*==============================================================*/
 /* Table : atome                                                */
 /*==============================================================*/

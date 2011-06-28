@@ -43,8 +43,6 @@ import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
  */
 public class EtatDAO extends JPALuteceDAO<Integer, Etat> implements IEtatDAO
 {
-    //    private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM etat_generation";
-
     /**
     * @return the plugin name
     */
@@ -54,22 +52,4 @@ public class EtatDAO extends JPALuteceDAO<Integer, Etat> implements IEtatDAO
         return PluPlugin.PLUGIN_NAME;
     }
 
-    //    public List<Etat> findAll(  )
-    //    {
-    //        List<Etat> etatList = new ArrayList<Etat>(  );
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
-    //        daoUtil.executeQuery(  );
-    //
-    //        while ( daoUtil.next(  ) )
-    //        {
-    //            Etat etat = new Etat(  );
-    //            etat.setId( daoUtil.getInt( 1 ) );
-    //            etat.setName( daoUtil.getString( 2 ) );
-    //            etatList.add( etat );
-    //        }
-    //
-    //        daoUtil.free(  );
-    //
-    //        return etatList;
-    //    }
 }

@@ -42,30 +42,5 @@ import fr.paris.lutece.util.jpa.IGenericDAO;
  */
 public interface IAtomeDAO extends IGenericDAO<Integer, Atome>
 {
-    //    /**
-    //     * Create a new atome object
-    //     * @param atome the new atome object
-    //     */
-    //    public void create( Atome atome );
-    //
-    /**
-     * Update an atome object
-     * @param atome the atome object
-     * @param nIdAtomeOld the old id atome
-     */
-    public void update( Atome atome, int nIdAtomeOld );
-
-    //
-    //    /**
-    //     * Returns an atome object
-    //     * @param nKey the atome id
-    //     * @return An atome object with the id nKey
-    //     */
-    //    public Atome findByPrimaryKey( int nKey );
-    //
-    //    /**
-    //     * Returns a list of atome objects
-    //     * @return A list of all atome
-    //     */
-    //    public List<Atome> findAll(  );
+    
 }

@@ -42,6 +42,9 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 
 /**
  * This class provides Data Access methods for Folder objects
@@ -49,21 +52,19 @@ import java.util.List;
  */
 public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderDAO
 {
-    //    private static final String SQL_QUERY_CREATE = "INSERT INTO dossier (id_plu, id_dossier_parent, titre, description, image, html_specifique) VALUE (?, ?, ?, ?, ?, ?)";
-    //    private static final String SQL_QUERY_REMOVE = "DELETE FROM dossier WHERE id_dossier = ?";
-    //    private static final String SQL_QUERY_UPDATE = "UPDATE dossier SET id_dossier_parent = ?, titre = ?, description = ?, image = ?, html_specifique = ? WHERE id_dossier = ?";
-    //    private static final String SQL_QUERY_SELECT_BY_KEY = "SELECT * FROM dossier WHERE id_dossier = ?";
-    private static final String SQL_QUERY_SELECT_LAST_FOLDER = "SELECT * FROM dossier WHERE id_dossier = ( SELECT max(id_dossier) FROM dossier )";
-    private static final String SQL_QUERY_SELECT_BY_TITLE = "SELECT * FROM dossier WHERE titre = ?";
-    private static final String SQL_QUERY_SELECT_BY_ATOME = "SELECT * FROM dossier D INNER JOIN dossier_version_atome DVA ON (D.id_dossier = DVA.id_dossier) INNER JOIN version_atome VA ON (DVA.id_version = VA.id_version) WHERE num_version = (SELECT max(num_version) FROM version_atome WHERE id_atome = ?)";
-    private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT * FROM dossier D INNER JOIN dossier_version_atome DVA ON (D.id_dossier = DVA.id_dossier) WHERE DVA.id_version = ?";
-    private static final String SQL_QUERY_SELECT_FOR_DELETE = "SELECT * FROM dossier D LEFT OUTER JOIN dossier_version_atome DVA ON (D.id_dossier=DVA.id_dossier) WHERE D.id_dossier_parent = ? OR DVA.id_dossier = ?";
-    private static final String SQL_QUERY_SELECT_BY_PLU_ID = "SELECT * FROM dossier WHERE id_plu = ? ORDER BY id_dossier_parent";
-    private static final String SQL_QUERY_SELECT_BY_PARENT = "SELECT * FROM dossier WHERE id_dossier_parent = ?";
-    private static final String SQL_QUERY_SELECT_ALL = "SELECT * FROM dossier";
-    private static final String SQL_FILTER_ID_PLU = "id_plu = ?";
-    private static final String SQL_FILTER_TITLE = "titre = ?";
-    private static final String SQL_QUERY_SELECT_IMAGE = "SELECT image FROM dossier WHERE id_dossier = ?";
+	private static final String SQL_QUERY_SELECT_LAST_FOLDER = "SELECT f FROM Folder f WHERE f.id = ( SELECT MAX(f.id) FROM Folder f )";
+    private static final String SQL_QUERY_SELECT_BY_TITLE = "SELECT f FROM Folder f WHERE f.title = :title";
+    private static final String SQL_QUERY_SELECT_BY_ATOME = "SELECT f FROM FolderVersion fv JOIN fv.folder f JOIN fv.version v WHERE v.version = (SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome )";
+
+    private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.version.id = :idVersion";
+    private static final String SQL_QUERY_SELECT_FOR_DELETE = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE f.parentFolder = :idParentFolder OR fv.folder.id = :idFolder";
+    private static final String SQL_QUERY_SELECT_BY_PLU_ID = "SELECT f FROM Folder f WHERE f.plu = :idPlu ORDER BY f.parentFolder";
+    private static final String SQL_QUERY_SELECT_BY_PARENT = "SELECT f FROM Folder f WHERE f.parentFolder = :idParentFolder";
+    private static final String SQL_QUERY_SELECT_ALL = "SELECT f FROM Folder f";
+    private static final String SQL_FILTER_ID_PLU = "f.plu = :idPlu";
+    private static final String SQL_FILTER_TITLE = "f.title = :title";
+//    private static final String SQL_QUERY_SELECT_IMAGE = "SELECT f.img FROM Folder f WHERE f.id = :idFolder";
+    private static final String SQL_QUERY_SELECT_IMAGE = "SELECT d.image FROM dossier d WHERE d.id_dossier = ?";
 
     /**
      * @return the plugin name
@@ -73,229 +74,224 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         return PluPlugin.PLUGIN_NAME;
     }
 
-    //    public void create( Folder folder )
-    //    {
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CREATE );
-    //        daoUtil.setInt( 1, folder.getPlu(  ) );
-    //        daoUtil.setInt( 2, folder.getParentFolder(  ) );
-    //        daoUtil.setString( 3, folder.getTitle(  ) );
-    //        daoUtil.setString( 4, folder.getDescription(  ) );
-    //        daoUtil.setBytes( 5, folder.getImg(  ) );
-    //        daoUtil.setBytes( 6, folder.getHtml(  ) );
-    //        daoUtil.executeUpdate(  );
-    //
-    //        daoUtil.free(  );
-    //    }
-    //
-    //    public void update( Folder folder )
-    //    {
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-    //        daoUtil.setInt( 1, folder.getParentFolder(  ) );
-    //        daoUtil.setString( 2, folder.getTitle(  ) );
-    //        daoUtil.setString( 3, folder.getDescription(  ) );
-    //        daoUtil.setBytes( 4, folder.getImg(  ) );
-    //        daoUtil.setBytes( 5, folder.getHtml(  ) );
-    //        daoUtil.setInt( 6, folder.getId(  ) );
-    //
-    //        daoUtil.executeUpdate(  );
-    //
-    //        daoUtil.free(  );
-    //    }
-    //
-    //    public void remove( int nKey )
-    //    {
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_REMOVE );
-    //        daoUtil.setInt( 1, nKey );
-    //        daoUtil.executeUpdate(  );
-    //
-    //        daoUtil.free(  );
-    //    }
-    //
-    //    public Folder findByPrimaryKey( int nKey )
-    //    {
-    //        Folder folder = new Folder(  );
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_KEY );
-    //        daoUtil.setInt( 1, nKey );
-    //        daoUtil.executeQuery(  );
-    //
-    //        while ( daoUtil.next(  ) )
-    //        {
-    //            folder.setId( daoUtil.getInt( 1 ) );
-    //            folder.setPlu( daoUtil.getInt( 2 ) );
-    //            folder.setParentFolder( daoUtil.getInt( 3 ) );
-    //            folder.setTitle( daoUtil.getString( 4 ) );
-    //            folder.setDescription( daoUtil.getString( 5 ) );
-    //            folder.setImg( daoUtil.getBytes( 6 ) );
-    //            folder.setHtml( daoUtil.getBytes( 7 ) );
-    //        }
-    //
-    //        daoUtil.free(  );
-    //
-    //        return folder;
-    //    }
     public Folder findLastFolder(  )
     {
-        Folder folder = new Folder(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LAST_FOLDER );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            folder.setId( daoUtil.getInt( 1 ) );
-            folder.setPlu( daoUtil.getInt( 2 ) );
-            folder.setParentFolder( daoUtil.getInt( 3 ) );
-            folder.setTitle( daoUtil.getString( 4 ) );
-            folder.setDescription( daoUtil.getString( 5 ) );
-            folder.setImg( daoUtil.getBytes( 6 ) );
-            folder.setHtml( daoUtil.getBytes( 7 ) );
-        }
-
-        daoUtil.free(  );
-
-        return folder;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_LAST_FOLDER );
+    	Folder folder = (Folder) q.getSingleResult(  );
+    	
+    	return folder;
+    	
+//        Folder folder = new Folder(  );
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LAST_FOLDER );
+//        daoUtil.executeQuery(  );
+//
+//        while ( daoUtil.next(  ) )
+//        {
+//            folder.setId( daoUtil.getInt( 1 ) );
+//            folder.setPlu( daoUtil.getInt( 2 ) );
+//            folder.setParentFolder( daoUtil.getInt( 3 ) );
+//            folder.setTitle( daoUtil.getString( 4 ) );
+//            folder.setDescription( daoUtil.getString( 5 ) );
+//            folder.setImg( daoUtil.getBytes( 6 ) );
+//            folder.setHtml( daoUtil.getBytes( 7 ) );
+//        }
+//
+//        daoUtil.free(  );
+//
+//        return folder;
     }
 
     public Folder findForTestTitle( String title )
     {
-        Folder folder = new Folder(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_TITLE );
-        daoUtil.setString( 1, title );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            folder.setId( daoUtil.getInt( 1 ) );
-            folder.setPlu( daoUtil.getInt( 2 ) );
-            folder.setParentFolder( daoUtil.getInt( 3 ) );
-            folder.setTitle( daoUtil.getString( 4 ) );
-            folder.setDescription( daoUtil.getString( 5 ) );
-            folder.setImg( daoUtil.getBytes( 6 ) );
-            folder.setHtml( daoUtil.getBytes( 7 ) );
-        }
-
-        daoUtil.free(  );
-
-        return folder;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_TITLE );
+    	q.setParameter( "title", title );
+    	Folder folder = (Folder) q.getSingleResult(  );
+    	
+    	return folder;
+    	
+//        Folder folder = new Folder(  );
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_TITLE );
+//        daoUtil.setString( 1, title );
+//        daoUtil.executeQuery(  );
+//
+//        while ( daoUtil.next(  ) )
+//        {
+//            folder.setId( daoUtil.getInt( 1 ) );
+//            folder.setPlu( daoUtil.getInt( 2 ) );
+//            folder.setParentFolder( daoUtil.getInt( 3 ) );
+//            folder.setTitle( daoUtil.getString( 4 ) );
+//            folder.setDescription( daoUtil.getString( 5 ) );
+//            folder.setImg( daoUtil.getBytes( 6 ) );
+//            folder.setHtml( daoUtil.getBytes( 7 ) );
+//        }
+//
+//        daoUtil.free(  );
+//
+//        return folder;
     }
 
     public Folder findByAtome( int nIdAtome )
     {
-        Folder folder = new Folder(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ATOME );
-        daoUtil.setInt( 1, nIdAtome );
-        daoUtil.executeQuery(  );
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_ATOME );
+    	q.setParameter( "idAtome", nIdAtome );
+    	Folder folder = (Folder) q.getSingleResult(  );
+    	
+    	return folder;
+    	
+//        Folder folder = new Folder(  );
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ATOME );
+//        daoUtil.setInt( 1, nIdAtome );
+//        daoUtil.executeQuery(  );
 
-        while ( daoUtil.next(  ) )
-        {
-            folder.setId( daoUtil.getInt( 1 ) );
-            folder.setPlu( daoUtil.getInt( 2 ) );
-            folder.setParentFolder( daoUtil.getInt( 3 ) );
-            folder.setTitle( daoUtil.getString( 4 ) );
-            folder.setDescription( daoUtil.getString( 5 ) );
-            folder.setImg( daoUtil.getBytes( 6 ) );
-            folder.setHtml( daoUtil.getBytes( 7 ) );
-        }
-
-        daoUtil.free(  );
-
-        return folder;
+//        while ( daoUtil.next(  ) )
+//        {
+//            folder.setId( daoUtil.getInt( 1 ) );
+//            folder.setPlu( daoUtil.getInt( 2 ) );
+//            folder.setParentFolder( daoUtil.getInt( 3 ) );
+//            folder.setTitle( daoUtil.getString( 4 ) );
+//            folder.setDescription( daoUtil.getString( 5 ) );
+//            folder.setImg( daoUtil.getBytes( 6 ) );
+//            folder.setHtml( daoUtil.getBytes( 7 ) );
+//        }
+//
+//        daoUtil.free(  );
+//
+//        return folder;
     }
 
     public Folder findByVersion( int nIdVersion )
     {
-        Folder folder = new Folder(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_VERSION );
-        daoUtil.setInt( 1, nIdVersion );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            folder.setId( daoUtil.getInt( 1 ) );
-            folder.setPlu( daoUtil.getInt( 2 ) );
-            folder.setParentFolder( daoUtil.getInt( 3 ) );
-            folder.setTitle( daoUtil.getString( 4 ) );
-            folder.setDescription( daoUtil.getString( 5 ) );
-            folder.setImg( daoUtil.getBytes( 6 ) );
-            folder.setHtml( daoUtil.getBytes( 7 ) );
-        }
-
-        daoUtil.free(  );
-
-        return folder;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION );
+    	q.setParameter( "idVersion", nIdVersion );
+    	
+    	List<Folder> folderList = (List<Folder>) q.getResultList(  );
+    	
+    	Folder folder = folderList.get( 0 );
+    	
+    	return folder;
+    	
+//        Folder folder = new Folder(  );
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_VERSION );
+//        daoUtil.setInt( 1, nIdVersion );
+//        daoUtil.executeQuery(  );
+//
+//        while ( daoUtil.next(  ) )
+//        {
+//            folder.setId( daoUtil.getInt( 1 ) );
+//            folder.setPlu( daoUtil.getInt( 2 ) );
+//            folder.setParentFolder( daoUtil.getInt( 3 ) );
+//            folder.setTitle( daoUtil.getString( 4 ) );
+//            folder.setDescription( daoUtil.getString( 5 ) );
+//            folder.setImg( daoUtil.getBytes( 6 ) );
+//            folder.setHtml( daoUtil.getBytes( 7 ) );
+//        }
+//
+//        daoUtil.free(  );
+//
+//        return folder;
     }
 
     public Folder findForDelete( int nKey )
     {
-        Folder folder = new Folder(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_FOR_DELETE );
-        daoUtil.setInt( 1, nKey );
-        daoUtil.setInt( 2, nKey );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            folder.setId( daoUtil.getInt( 1 ) );
-            folder.setPlu( daoUtil.getInt( 2 ) );
-            folder.setParentFolder( daoUtil.getInt( 3 ) );
-            folder.setTitle( daoUtil.getString( 4 ) );
-            folder.setDescription( daoUtil.getString( 5 ) );
-            folder.setImg( daoUtil.getBytes( 6 ) );
-            folder.setHtml( daoUtil.getBytes( 7 ) );
-        }
-
-        daoUtil.free(  );
-
-        return folder;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE );
+    	q.setParameter( "idParentFolder", nKey );
+    	q.setParameter( "idFolder", nKey );
+    	
+    	Folder folder = (Folder) q.getSingleResult(  );
+    	
+    	return folder;
+    	
+//        Folder folder = new Folder(  );
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_FOR_DELETE );
+//        daoUtil.setInt( 1, nKey );
+//        daoUtil.setInt( 2, nKey );
+//        daoUtil.executeQuery(  );
+//
+//        while ( daoUtil.next(  ) )
+//        {
+//            folder.setId( daoUtil.getInt( 1 ) );
+//            folder.setPlu( daoUtil.getInt( 2 ) );
+//            folder.setParentFolder( daoUtil.getInt( 3 ) );
+//            folder.setTitle( daoUtil.getString( 4 ) );
+//            folder.setDescription( daoUtil.getString( 5 ) );
+//            folder.setImg( daoUtil.getBytes( 6 ) );
+//            folder.setHtml( daoUtil.getBytes( 7 ) );
+//        }
+//
+//        daoUtil.free(  );
+//
+//        return folder;
     }
 
     public List<Folder> findByPluId( int pluId )
     {
-        List<Folder> folderList = new ArrayList<Folder>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PLU_ID );
-        daoUtil.setInt( 1, pluId );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            Folder folder = new Folder(  );
-            folder.setId( daoUtil.getInt( 1 ) );
-            folder.setPlu( daoUtil.getInt( 2 ) );
-            folder.setParentFolder( daoUtil.getInt( 3 ) );
-            folder.setTitle( daoUtil.getString( 4 ) );
-            folder.setDescription( daoUtil.getString( 5 ) );
-            folder.setImg( daoUtil.getBytes( 6 ) );
-            folder.setHtml( daoUtil.getBytes( 7 ) );
-            folderList.add( folder );
-        }
-
-        daoUtil.free(  );
-
-        return folderList;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_ID );
+    	q.setParameter( "idPlu", pluId );
+    	
+    	List<Folder> folderList = q.getResultList(  );
+    	
+    	return folderList;
+    	
+//        List<Folder> folderList = new ArrayList<Folder>(  );
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PLU_ID );
+//        daoUtil.setInt( 1, pluId );
+//        daoUtil.executeQuery(  );
+//
+//        while ( daoUtil.next(  ) )
+//        {
+//            Folder folder = new Folder(  );
+//            folder.setId( daoUtil.getInt( 1 ) );
+//            folder.setPlu( daoUtil.getInt( 2 ) );
+//            folder.setParentFolder( daoUtil.getInt( 3 ) );
+//            folder.setTitle( daoUtil.getString( 4 ) );
+//            folder.setDescription( daoUtil.getString( 5 ) );
+//            folder.setImg( daoUtil.getBytes( 6 ) );
+//            folder.setHtml( daoUtil.getBytes( 7 ) );
+//            folderList.add( folder );
+//        }
+//
+//        daoUtil.free(  );
+//
+//        return folderList;
     }
 
     public List<Folder> findByParent( int parentId )
     {
-        List<Folder> folderList = new ArrayList<Folder>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PARENT );
-        daoUtil.setInt( 1, parentId );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            Folder folder = new Folder(  );
-            folder.setId( daoUtil.getInt( 1 ) );
-            folder.setPlu( daoUtil.getInt( 2 ) );
-            folder.setParentFolder( daoUtil.getInt( 3 ) );
-            folder.setTitle( daoUtil.getString( 4 ) );
-            folder.setDescription( daoUtil.getString( 5 ) );
-            folder.setImg( daoUtil.getBytes( 6 ) );
-            folder.setHtml( daoUtil.getBytes( 7 ) );
-            folderList.add( folder );
-        }
-
-        daoUtil.free(  );
-
-        return folderList;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_PARENT );
+    	q.setParameter( "idParentFolder", parentId );
+    	
+    	List<Folder> folderList = q.getResultList(  );
+    	
+    	return folderList;
+    	
+//        List<Folder> folderList = new ArrayList<Folder>(  );
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PARENT );
+//        daoUtil.setInt( 1, parentId );
+//        daoUtil.executeQuery(  );
+//
+//        while ( daoUtil.next(  ) )
+//        {
+//            Folder folder = new Folder(  );
+//            folder.setId( daoUtil.getInt( 1 ) );
+//            folder.setPlu( daoUtil.getInt( 2 ) );
+//            folder.setParentFolder( daoUtil.getInt( 3 ) );
+//            folder.setTitle( daoUtil.getString( 4 ) );
+//            folder.setDescription( daoUtil.getString( 5 ) );
+//            folder.setImg( daoUtil.getBytes( 6 ) );
+//            folder.setHtml( daoUtil.getBytes( 7 ) );
+//            folderList.add( folder );
+//        }
+//
+//        daoUtil.free(  );
+//
+//        return folderList;
     }
 
     public List<Folder> findByFilter( FolderFilter filter )
@@ -315,43 +311,58 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 
         String strSQL = PluUtils.buildRequetteWithFilter( SQL_QUERY_SELECT_ALL, listStrFilter );
 
-        DAOUtil daoUtil = new DAOUtil( strSQL );
-        int nIndex = 1;
+        EntityManager em = getEM(  );
+    	Query q = em.createQuery( strSQL );
+//        DAOUtil daoUtil = new DAOUtil( strSQL );
+//        int nIndex = 1;
 
         if ( filter.containsPlu(  ) )
         {
-            daoUtil.setInt( nIndex, filter.get_plu(  ) );
-            nIndex++;
+        	q.setParameter( "idPlu", filter.get_plu(  ) );
+//            daoUtil.setInt( nIndex, filter.get_plu(  ) );
+//            nIndex++;
         }
 
         if ( filter.containsTitle(  ) )
         {
-            daoUtil.setString( nIndex, filter.get_title(  ) );
-            nIndex++;
+        	q.setParameter( "title", filter.get_title(  ) );
+//            daoUtil.setString( nIndex, filter.get_title(  ) );
+//            nIndex++;
         }
 
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            Folder folder = new Folder(  );
-            folder.setId( daoUtil.getInt( 1 ) );
-            folder.setPlu( daoUtil.getInt( 2 ) );
-            folder.setParentFolder( daoUtil.getInt( 3 ) );
-            folder.setTitle( daoUtil.getString( 4 ) );
-            folder.setDescription( daoUtil.getString( 5 ) );
-            folder.setImg( daoUtil.getBytes( 6 ) );
-            folder.setHtml( daoUtil.getBytes( 7 ) );
-            folderList.add( folder );
-        }
-
-        daoUtil.free(  );
+        folderList = q.getResultList(  );
+        
+//        daoUtil.executeQuery(  );
+//
+//        while ( daoUtil.next(  ) )
+//        {
+//            Folder folder = new Folder(  );
+//            folder.setId( daoUtil.getInt( 1 ) );
+//            folder.setPlu( daoUtil.getInt( 2 ) );
+//            folder.setParentFolder( daoUtil.getInt( 3 ) );
+//            folder.setTitle( daoUtil.getString( 4 ) );
+//            folder.setDescription( daoUtil.getString( 5 ) );
+//            folder.setImg( daoUtil.getBytes( 6 ) );
+//            folder.setHtml( daoUtil.getBytes( 7 ) );
+//            folderList.add( folder );
+//        }
+//
+//        daoUtil.free(  );
 
         return folderList;
     }
 
     public ImageResource getImageResource( int nIdFolder )
     {
+//    	EntityManager em = getEM(  );
+//    	Query q = em.createQuery( SQL_QUERY_SELECT_IMAGE );
+//    	q.setParameter( "idFolder", nIdFolder );
+//    	
+//    	ImageResource image = null;
+//    	image = (ImageResource) q.getSingleResult(  );
+//    	
+//    	return image;
+    	
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_IMAGE );
         daoUtil.setInt( 1, nIdFolder );
         daoUtil.executeQuery(  );

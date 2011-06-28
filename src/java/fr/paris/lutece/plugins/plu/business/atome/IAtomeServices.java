@@ -45,10 +45,16 @@ public interface IAtomeServices
     public void create( Atome atome );
 
     /**
+     * remove an atome object
+     * @param atome the atome object
+     */
+    public void remove( Atome atome );
+    
+    /**
      * Update an atome object
      * @param atome the atome object
      */
-    public void update( Atome atome, int nIdAtomeOld );
+    public void update( Atome atome );
 
     /**
      * Returns an atome object

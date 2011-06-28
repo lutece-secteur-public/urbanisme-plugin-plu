@@ -42,9 +42,5 @@ import fr.paris.lutece.util.jpa.IGenericHome;
  */
 public interface IEtatHome extends IGenericHome<Integer, Etat>
 {
-    //    /**
-    //     * Returns a list of etat objects
-    //     * @return A list of all etat
-    //     */
-    //    public List<Etat> findAll(  );
+    
 }

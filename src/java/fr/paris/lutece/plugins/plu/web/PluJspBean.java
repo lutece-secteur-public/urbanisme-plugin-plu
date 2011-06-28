@@ -2214,13 +2214,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         String atomeDescription = request.getParameter( PARAMETER_ATOME_DESCRIPTION );
 
         int nIdAtomeOld = Integer.parseInt( request.getParameter( PARAMETER_ATOME_OLD_ID ) );
-        Atome atome = _atomeServices.findByPrimaryKey( nIdAtomeOld );
+        Atome atomeOld = _atomeServices.findByPrimaryKey( nIdAtomeOld );
+        _atomeServices.remove( atomeOld );
 
+        Atome atome = new Atome(  );
         atome.setId( nIdAtome );
         atome.setName( atomeName );
         atome.setTitle( atomeTitle );
         atome.setDescription( atomeDescription );
-        _atomeServices.update( atome, nIdAtomeOld );
+        _atomeServices.create( atome );
 
         int numVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_NUM ) );
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
@@ -2298,6 +2300,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
+        if( plu == null )
+        {
+        	plu = new Plu(  );
+        	plu.setId( 0 );
+        }
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
@@ -2441,9 +2448,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     public String doCorrectAtome( HttpServletRequest request )
         throws ParseException
     {
-        int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
-        Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
-
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
 
@@ -2454,7 +2458,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         atome.setTitle( atomeTitle );
         atome.setDescription( atomeDescription );
-        _atomeServices.update( atome, nIdAtome );
+        _atomeServices.update( atome );
 
         String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE );
         int j = 0;
@@ -2471,7 +2475,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
 
         History history = new History(  );
-        history.setPlu( nIdPlu );
+        history.setPlu( folder.getPlu( ) );
         history.setFolder( nIdFolder );
         history.setAtome( nIdAtome );
 
@@ -2480,7 +2484,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         history.setDescription( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
         _historyServices.create( history );
 
-        return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId(  ) + "&id_folder=" + folder.getId(  );
+        return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + folder.getPlu( ) + "&id_folder=" + folder.getId(  );
     }
 
     public String getEvolveAtome( HttpServletRequest request )

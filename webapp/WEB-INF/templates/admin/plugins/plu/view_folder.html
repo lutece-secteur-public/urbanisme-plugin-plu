@@ -37,7 +37,7 @@
 			</ul>
 			</#list>
 		</#if>
-		<#if one_folder_parent.id != 0 >
+		<#if one_folder_parent?exists >
 			<p style="font-size:12px;">
 				Ce document fait partie du document "${one_folder_parent.title} " qui contient aussi les documents suivant:
 			</p>

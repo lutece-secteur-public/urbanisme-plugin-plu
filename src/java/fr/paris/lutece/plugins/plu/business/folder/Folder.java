@@ -203,33 +203,4 @@ public class Folder
     {
         _html = html;
     }
-
-    /**
-     * Returns the photo Input Stream.
-     * @return InputStream
-     * @throws SQLException e
-     */
-
-    /*        public InputStream getPhotoContent() throws SQLException
-            {
-                    if (getImg() == null)
-                    {
-                            return null;
-                    }
-    
-                    return getImg().getBinaryStream();
-            }
-    
-            /**
-             *
-             * @param sourceStream - Photo source input stream
-             * @throws IOException e
-             */
-
-    /*        public void setPhotoContent(InputStream sourceStream) throws IOException
-            {
-                    Blob createBlob = Hibernate.createBlob(sourceStream);
-                    setImg(createBlob);
-            }
-    */
 }

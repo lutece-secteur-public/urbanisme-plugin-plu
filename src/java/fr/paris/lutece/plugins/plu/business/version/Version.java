@@ -101,7 +101,7 @@ public class Version
      * Returns the atome of this version
      * @return the version atome
      */
-    @OneToOne( fetch = FetchType.LAZY )
+    @OneToOne( fetch = FetchType.EAGER)
     @JoinColumn( name="id_atome", referencedColumnName="id_atome" )
     public Atome getAtome(  )
     {

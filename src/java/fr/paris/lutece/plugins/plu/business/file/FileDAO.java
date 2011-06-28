@@ -49,10 +49,8 @@ import java.util.List;
  */
 public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
 {
-    //    private static final String SQL_QUERY_CREATE = "INSERT INTO fichier VALUE (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM fichier WHERE id_atome = ? AND ordre_fichier = ? AND id_version_atome = ?";
 
-    //    private static final String SQL_QUERY_UPDATE = "UPDATE fichier SET titre_fichier = ? WHERE id_atome = ? AND ordre_fichier = ? AND id_version_atome = ?";
     private static final String SQL_QUERY_SELECT_ALL = "SELECT id_atome, ordre_fichier, id_version_atome, nom_fichier, titre_fichier, format, est_eps, taille FROM fichier";
     private static final String SQL_QUERY_SELECT_ALL_FORMAT = "SELECT format FROM fichier GROUP BY format";
     private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT id_atome, ordre_fichier, id_version_atome, nom_fichier, titre_fichier, format, est_eps, taille FROM fichier WHERE id_version_atome = ?";
@@ -71,22 +69,6 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         return PluPlugin.PLUGIN_NAME;
     }
 
-    //    public void create( File file )
-    //    {
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CREATE );
-    //        daoUtil.setInt( 1, file.getId(  ) );
-    //        daoUtil.setInt( 2, file.getOrder(  ) );
-    //        daoUtil.setInt( 3, file.getVersion(  ) );
-    //        daoUtil.setString( 4, file.getName(  ) );
-    //        daoUtil.setString( 5, file.getTitle(  ) );
-    //        daoUtil.setString( 6, file.getMimeType(  ) );
-    //        daoUtil.setBytes( 7, file.getFile(  ) );
-    //        daoUtil.setInt( 8, file.getSize(  ) );
-    //        daoUtil.setString( 9, file.getEPS(  ) );
-    //        daoUtil.executeUpdate(  );
-    //
-    //        daoUtil.free(  );
-    //    }
     public void remove( File file )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -98,18 +80,6 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         daoUtil.free(  );
     }
 
-    //
-    //    public void update( File file )
-    //    {
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-    //        daoUtil.setString( 1, file.getTitle(  ) );
-    //        daoUtil.setInt( 2, file.getId(  ) );
-    //        daoUtil.setInt( 3, file.getOrder(  ) );
-    //        daoUtil.setInt( 4, file.getVersion(  ) );
-    //        daoUtil.executeUpdate(  );
-    //
-    //        daoUtil.free(  );
-    //    }
     public List<File> findAll(  )
     {
         List<File> fileList = new ArrayList<File>(  );

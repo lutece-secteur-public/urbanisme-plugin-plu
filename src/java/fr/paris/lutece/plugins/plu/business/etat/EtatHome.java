@@ -42,12 +42,5 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
  */
 public class EtatHome extends AbstractLuteceHome<Integer, Etat, IEtatDAO> implements IEtatHome
 {
-    //    /**
-    //     * Returns a list of etat objects
-    //     * @return A list of all etat
-    //     */
-    //    public List<Etat> findAll(  )
-    //    {
-    //        return getDao(  ).findAll(  );
-    //    }
+    
 }
