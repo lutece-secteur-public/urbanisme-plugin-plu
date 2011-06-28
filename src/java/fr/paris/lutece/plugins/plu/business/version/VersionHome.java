@@ -46,24 +46,6 @@ import java.util.List;
  */
 public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDAO> implements IVersionHome
 {
-    //    /**
-    //     * Create a new folder object
-    //     * @param folder the new folder object
-    //     */
-    //    public void create( Version version )
-    //    {
-    //        getDao(  ).create( version );
-    //    }
-    //
-    //    /**
-    //     * Update a version object
-    //     * @param version the version object
-    //     */
-    //    public void update( Version version )
-    //    {
-    //        getDao(  ).update( version );
-    //    }
-
     /**
      * Update the version objects for the approve
      * @param idPlu The plu id for the query
@@ -122,16 +104,6 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
     {
         return getDao(  ).findMaxVersion( nIdAtome );
     }
-
-    //    /**
-    //     * Returns a version object
-    //     * @param nKey the version id
-    //     * @return A version object with the id nKey
-    //     */
-    //    public Version findByPrimaryKey( int nKey )
-    //    {
-    //        return getDao(  ).findByPrimaryKey( nKey );
-    //    }
 
     /**
      * Returns a list of version objects

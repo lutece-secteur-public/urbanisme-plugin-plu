@@ -42,16 +42,5 @@ import fr.paris.lutece.util.jpa.IGenericDAO;
  */
 public interface ITypeDAO extends IGenericDAO<Integer, Type>
 {
-    //    /**
-    //     * Returns a type object
-    //     * @param nKey the type id
-    //     * @return A type object with the same id
-    //     */
-    //    public Type findByPrimaryKey( int nKey );
-    //
-    //    /**
-    //     * Returns a list of type objects
-    //     * @return A list of all type
-    //     */
-    //    public List<Type> findAll(  );
+
 }

@@ -70,6 +70,15 @@ public class PluServices implements IPluServices
     }
 
     /**
+     * Update a plu object
+     * @param plu the plu object
+     */
+    public void update( Plu plu )
+    {
+    	_home.update( plu );
+    }
+    
+    /**
      * Returns a list of plu objects
      * @return A list of all plu
      */
@@ -86,24 +95,6 @@ public class PluServices implements IPluServices
     public Plu findByPrimaryKey( int nKey )
     {
         return _home.findByPrimaryKey( nKey );
-    }
-
-    /**
-     * Update a plu object
-     * @param plu the plu object
-     */
-    public void updateApprove( Plu plu )
-    {
-        _home.updateApprove( plu );
-    }
-
-    /**
-     * Update a plu object
-     * @param plu the plu object
-     */
-    public void updateApplication( Plu plu )
-    {
-        _home.updateApplication( plu );
     }
 
     /**

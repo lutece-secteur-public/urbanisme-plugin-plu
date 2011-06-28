@@ -43,10 +43,16 @@ import java.util.List;
 public interface IPluServices
 {
     /**
-    * Create a new plu object
-    * @param plu the new plu object
-    */
+     * Create a new plu object
+     * @param plu the new plu object
+     */
     public void create( Plu plu );
+    
+    /**
+     * Update a plu object
+     * @param plu the plu object
+     */
+    public void update( Plu plu );
 
     /**
      * Returns a list of plu objects
@@ -60,18 +66,6 @@ public interface IPluServices
      * @return A plu object with the same id
      */
     public Plu findByPrimaryKey( int nKey );
-
-    /**
-     * Update a plu object
-     * @param plu the plu object
-     */
-    public void updateApprove( Plu plu );
-
-    /**
-     * Update a plu object
-     * @param plu the plu object
-     */
-    public void updateApplication( Plu plu );
 
     /**
      * Returns a plu object

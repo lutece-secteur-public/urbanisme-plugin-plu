@@ -385,7 +385,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Date dj = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
         plu.setDj( dj );
-        _pluServices.updateApprove( plu );
+        _pluServices.update( plu );
 
         _versionServices.updateApprove( nIdPlu, dj );
 
@@ -464,7 +464,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         Date da = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
 
         plu.setDa( da );
-        _pluServices.updateApplication( plu );
+        _pluServices.update( plu );
 
         _versionServices.updateApplication( nIdPlu, da );
 
@@ -578,7 +578,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Date dj = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
         plu.setDj( dj );
-        _pluServices.updateApprove( plu );
+        _pluServices.update( plu );
 
         return JSP_REDIRECT_TO_MANAGE_PLU;
     }
@@ -636,7 +636,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         plu.setType( type );
         plu.setCause( request.getParameter( PARAMETER_PLU_CAUSE ) );
         plu.setReference( request.getParameter( PARAMETER_PLU_REFERENCE ) );
-        _pluServices.updateApprove( plu );
+        _pluServices.update( plu );
 
         History history = new History(  );
         history.setPlu( nIdPlu );

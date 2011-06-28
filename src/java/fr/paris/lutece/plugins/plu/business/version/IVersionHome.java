@@ -46,18 +46,6 @@ import java.util.List;
  */
 public interface IVersionHome extends IGenericHome<Integer, Version>
 {
-    //    /**
-    //     * Create a new version object
-    //     * @param version the new version object
-    //     */
-    //    public void create( Version version );
-    //
-    //    /**
-    //     * Update a version object
-    //     * @param version the version object
-    //     */
-    //    public void update( Version version );
-
     /**
      * Update a version object
      * @param idPlu the plu id
@@ -98,13 +86,6 @@ public interface IVersionHome extends IGenericHome<Integer, Version>
      * @return A maximum version number
      */
     public int findMaxVersion( int nIdAtome );
-
-    //    /**
-    //     * Returns a version object
-    //     * @param nKey the version id
-    //     * @return A version object with the id nKey
-    //     */
-    //    public Version findByPrimaryKey( int nKey );
 
     /**
      * Returns a version object

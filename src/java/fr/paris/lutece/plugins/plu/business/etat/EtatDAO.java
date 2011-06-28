@@ -44,8 +44,8 @@ import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 public class EtatDAO extends JPALuteceDAO<Integer, Etat> implements IEtatDAO
 {
     /**
-    * @return the plugin name
-    */
+     * @return the plugin name
+     */
     @Override
     public String getPluginName(  )
     {

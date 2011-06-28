@@ -42,9 +42,9 @@ import java.util.List;
  */
 public interface IEtatServices
 {
-        /**
-         * Returns a list of etat objects
-         * @return A list of all etat
-         */
-        public List<Etat> findAll(  );
+    /**
+     * Returns a list of etat objects
+     * @return A list of all etat
+     */
+    public List<Etat> findAll(  );
 }

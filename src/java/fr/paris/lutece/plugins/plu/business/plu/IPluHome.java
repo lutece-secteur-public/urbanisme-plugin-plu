@@ -42,24 +42,6 @@ import fr.paris.lutece.util.jpa.IGenericHome;
  */
 public interface IPluHome extends IGenericHome<Integer, Plu>
 {
-    //    public void create( Plu plu );
-    //
-    //    public List<Plu> findAll(  );
-    //
-    //    public Plu findByPrimaryKey( int nKey );
-
-    /**
-    * Update a plu object
-    * @param plu the plu object
-    */
-    public void updateApprove( Plu plu );
-
-    /**
-     * Update a plu object
-     * @param plu the plu object
-     */
-    public void updateApplication( Plu plu );
-
     /**
      * Returns a plu object
      * @return A plu object which work

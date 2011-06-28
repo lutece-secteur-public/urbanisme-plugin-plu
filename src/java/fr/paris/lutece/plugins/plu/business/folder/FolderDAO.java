@@ -74,11 +74,18 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         return PluPlugin.PLUGIN_NAME;
     }
 
+    /**
+     * Returns a folder object
+     * @return The last folder created
+     */
     public Folder findLastFolder(  )
     {
     	EntityManager em = getEM(  );
     	Query q = em.createQuery( SQL_QUERY_SELECT_LAST_FOLDER );
+    	
     	Folder folder = (Folder) q.getSingleResult(  );
+
+    	em.close(  );
     	
     	return folder;
     	
@@ -102,12 +109,20 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 //        return folder;
     }
 
+    /**
+     * Returns a folder object
+     * @param title the folder title
+     * @return A folder object with the same title
+     */
     public Folder findForTestTitle( String title )
     {
     	EntityManager em = getEM(  );
     	Query q = em.createQuery( SQL_QUERY_SELECT_BY_TITLE );
     	q.setParameter( "title", title );
+    	
     	Folder folder = (Folder) q.getSingleResult(  );
+
+    	em.close(  );
     	
     	return folder;
     	
@@ -132,12 +147,20 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 //        return folder;
     }
 
+    /**
+     * Returns a folder object
+     * @param nIdAtome the atome id
+     * @return A folder object associated with the atome id
+     */
     public Folder findByAtome( int nIdAtome )
     {
     	EntityManager em = getEM(  );
     	Query q = em.createQuery( SQL_QUERY_SELECT_BY_ATOME );
     	q.setParameter( "idAtome", nIdAtome );
+    	
     	Folder folder = (Folder) q.getSingleResult(  );
+
+    	em.close(  );
     	
     	return folder;
     	
@@ -162,6 +185,11 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 //        return folder;
     }
 
+    /**
+     * Returns a folder object
+     * @param nIdVersion the version id
+     * @return A folder object associated with the version id
+     */
     public Folder findByVersion( int nIdVersion )
     {
     	EntityManager em = getEM(  );
@@ -171,6 +199,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	List<Folder> folderList = (List<Folder>) q.getResultList(  );
     	
     	Folder folder = folderList.get( 0 );
+
+    	em.close(  );
     	
     	return folder;
     	
@@ -195,6 +225,11 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 //        return folder;
     }
 
+    /**
+     * Returns a folder object
+     * @param nKey the folder id
+     * @return A folder object which has a child or an atome
+     */
     public Folder findForDelete( int nKey )
     {
     	EntityManager em = getEM(  );
@@ -203,6 +238,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	q.setParameter( "idFolder", nKey );
     	
     	Folder folder = (Folder) q.getSingleResult(  );
+
+    	em.close(  );
     	
     	return folder;
     	
@@ -228,6 +265,11 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 //        return folder;
     }
 
+    /**
+     * Returns a list of folder objects
+     * @param pluId the plu id
+     * @return A list of folder with the same plu id
+     */
     public List<Folder> findByPluId( int pluId )
     {
     	EntityManager em = getEM(  );
@@ -235,6 +277,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	q.setParameter( "idPlu", pluId );
     	
     	List<Folder> folderList = q.getResultList(  );
+
+    	em.close(  );
     	
     	return folderList;
     	
@@ -261,6 +305,11 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 //        return folderList;
     }
 
+    /**
+     * Returns a list of folder objects
+     * @param parentId the folder parent id
+     * @return A list of folder with the same folder parent id
+     */
     public List<Folder> findByParent( int parentId )
     {
     	EntityManager em = getEM(  );
@@ -268,6 +317,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	q.setParameter( "idParentFolder", parentId );
     	
     	List<Folder> folderList = q.getResultList(  );
+
+    	em.close(  );
     	
     	return folderList;
     	
@@ -294,6 +345,11 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 //        return folderList;
     }
 
+    /**
+     * Finds by filter
+     * @param filter the filter
+     * @return the folder list
+     */
     public List<Folder> findByFilter( FolderFilter filter )
     {
         List<Folder> folderList = new ArrayList<Folder>(  );
@@ -331,6 +387,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         }
 
         folderList = q.getResultList(  );
+
+    	em.close(  );
         
 //        daoUtil.executeQuery(  );
 //
@@ -352,6 +410,12 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         return folderList;
     }
 
+    /**
+     * Loads the image representing the folder
+     *
+     * @param nIdFolder int identifier of the Folder to fetch
+     * @return the image resource
+     */
     public ImageResource getImageResource( int nIdFolder )
     {
 //    	EntityManager em = getEM(  );

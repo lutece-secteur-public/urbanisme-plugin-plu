@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.plugins.plu.business.history;
 
+/**
+ * HistoryServices
+ * @author vLopez
+ */
 public class HistoryServices implements IHistoryServices
 {
     IHistoryHome _home;
@@ -62,30 +66,4 @@ public class HistoryServices implements IHistoryServices
         _home.create( history );
     }
 
-    //    /**
-    //         * Create a history object after a plu correction
-    //         * @param history the history object
-    //         */
-    //    public void correctPlu( History history )
-    //    {
-    //        _home.correctPlu( history );
-    //    }
-    //
-    //    /**
-    //         * Create a history object after a folder correction
-    //         * @param history the history object
-    //         */
-    //    public void correctFolder( History history )
-    //    {
-    //        _home.correctFolder( history );
-    //    }
-    //
-    //    /**
-    //         * Create a history object after an atome correction
-    //         * @param history the history object
-    //         */
-    //    public void correctAtome( History history )
-    //    {
-    //        _home.correctAtome( history );
-    //    }
 }

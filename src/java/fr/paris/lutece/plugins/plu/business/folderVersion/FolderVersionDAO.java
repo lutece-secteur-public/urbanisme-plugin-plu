@@ -61,6 +61,11 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
         return PluPlugin.PLUGIN_NAME;
     }
 
+    /**
+     * Returns a list of folderVersion objects
+     * @param folder the folder associated
+     * @return A list of folderVersion associated with the folder
+     */
     public List<FolderVersion> findByFolder( Folder folder )
     {
     	EntityManager em = getEM(  );
@@ -68,6 +73,8 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
     	q.setParameter( "idFolder", folder.getId(  ) );
     	
     	List<FolderVersion> folderVersionList = (List<FolderVersion>) q.getResultList(  );
+
+    	em.close(  );
     	
     	return folderVersionList;
     	
@@ -92,6 +99,12 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
 //        return folderVersionList;
     }
 
+    /**
+     * Returns a folderVersion object
+     * @param folder the folder associated
+     * @param version the version associated
+     * @return A folderVersion object associated with the folder and the version
+     */
     public FolderVersion findByFolderAndVersion( Folder folder, Version version )
     {
     	EntityManager em = getEM(  );
@@ -100,6 +113,8 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
     	q.setParameter( "idVersion", version.getId(  ) );
     	
     	FolderVersion folderVersion = (FolderVersion) q.getSingleResult(  );
+
+    	em.close(  );
     	
     	return folderVersion;
     	

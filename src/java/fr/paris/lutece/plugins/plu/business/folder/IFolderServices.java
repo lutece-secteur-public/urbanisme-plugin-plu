@@ -37,7 +37,10 @@ import fr.paris.lutece.portal.service.image.ImageResource;
 
 import java.util.List;
 
-
+/**
+ * IFolderServices the folder services interface
+ * @author vLopez
+ */
 public interface IFolderServices
 {
     /**

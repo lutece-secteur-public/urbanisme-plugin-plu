@@ -42,39 +42,6 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
  */
 public class PluHome extends AbstractLuteceHome<Integer, Plu, IPluDAO> implements IPluHome
 {
-    //    public void create( Plu plu )
-    //    {
-    //        getDao(  ).create( plu );
-    //    }
-    //
-    //    public List<Plu> findAll(  )
-    //    {
-    //        return getDao(  ).findAll(  );
-    //    }
-    //
-    //    public Plu findByPrimaryKey( int nKey )
-    //    {
-    //        return getDao(  ).findByPrimaryKey( nKey );
-    //    }
-
-    /**
-     * Update a plu object
-     * @param plu the plu object
-     */
-    public void updateApprove( Plu plu )
-    {
-        getDao(  ).updateApprove( plu );
-    }
-
-    /**
-     * Update a plu object
-     * @param plu the plu object
-     */
-    public void updateApplication( Plu plu )
-    {
-        getDao(  ).updateApplication( plu );
-    }
-
     /**
      * Returns a plu object
      * @return A plu object which work

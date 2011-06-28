@@ -37,7 +37,10 @@ import fr.paris.lutece.portal.service.image.ImageResource;
 
 import java.util.List;
 
-
+/**
+ * FolderServices
+ * @author vLopez
+ */
 public class FolderServices implements IFolderServices
 {
     IFolderHome _home;

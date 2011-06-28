@@ -37,7 +37,10 @@ import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 
 import java.util.List;
 
-
+/**
+ * FileServices
+ * @author vLopez
+ */
 public class FileServices implements IFileServices
 {
     IFileHome _home;

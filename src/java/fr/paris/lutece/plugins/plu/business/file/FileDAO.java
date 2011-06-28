@@ -69,6 +69,10 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         return PluPlugin.PLUGIN_NAME;
     }
 
+    /**
+     * Remove a new file object
+     * @param file the file object
+     */
     public void remove( File file )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -80,6 +84,10 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         daoUtil.free(  );
     }
 
+    /**
+     * Returns a list of file objects
+     * @return A list of all file
+     */
     public List<File> findAll(  )
     {
         List<File> fileList = new ArrayList<File>(  );
@@ -105,6 +113,10 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         return fileList;
     }
 
+    /**
+     * Returns a list of file objects
+     * @return A list of all mime type file
+     */
     public List<File> findAllMimeType(  )
     {
         List<File> fileList = new ArrayList<File>(  );
@@ -123,6 +135,11 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         return fileList;
     }
 
+    /**
+     * Returns a list of file objects
+     * @param nIdVersion the version id
+     * @return A list of file associated with the same version id
+     */
     public List<File> findByVersion( int nIdVersion )
     {
         List<File> fileList = new ArrayList<File>(  );
@@ -149,6 +166,12 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         return fileList;
     }
 
+    /**
+     * Finds by filter
+     * @param fileFilter the file filter
+     * @param atomeFilter the atome filter
+     * @return the folder list
+     */
     public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter )
     {
         List<File> fileList = new ArrayList<File>(  );
