@@ -47,26 +47,11 @@ import java.util.List;
 public class FolderVersionHome extends AbstractLuteceHome<Integer, FolderVersion, IFolderVersionDAO>
     implements IFolderVersionHome
 {
-    //    public void create( FolderVersion folderVersion )
-    //    {
-    //        getDao(  ).create( folderVersion );
-    //    }
-    //
-    //    public void update( FolderVersion folderVersion )
-    //    {
-    //        getDao(  ).update( folderVersion );
-    //    }
-    //
-    //    public void remove( Folder folder, Version versionOld )
-    //    {
-    //        getDao(  ).remove( folder, versionOld );
-    //    }
-
     /**
-    * Returns a list of folderVersion objects
-    * @param folder the folder associated
-    * @return A list of folderVersion associated with the folder
-    */
+     * Returns a list of folderVersion objects
+     * @param folder the folder associated
+     * @return A list of folderVersion associated with the folder
+     */
     public List<FolderVersion> findByFolder( Folder folder )
     {
         return getDao(  ).findByFolder( folder );

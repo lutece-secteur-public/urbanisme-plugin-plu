@@ -46,9 +46,9 @@ import java.util.List;
 public interface IFolderVersionServices
 {
     /**
-    * Create a new folderVersion object
-    * @param folderVersion the new folderVersion object
-    */
+     * Create a new folderVersion object
+     * @param folderVersion the new folderVersion object
+     */
     public void create( FolderVersion folderVersion );
 
     /**

@@ -46,17 +46,11 @@ import java.util.List;
  */
 public interface IFolderVersionHome extends IGenericHome<Integer, FolderVersion>
 {
-    //    public void create( FolderVersion folderVersion );
-    //
-    //    public void update( FolderVersion folderVersion );
-    //
-    //    public void remove( Folder folder, Version versionOld );
-
     /**
-    * Returns a list of folderVersion objects
-    * @param folder the folder associated
-    * @return A list of folderVersion associated with the folder
-    */
+     * Returns a list of folderVersion objects
+     * @param folder the folder associated
+     * @return A list of folderVersion associated with the folder
+     */
     public List<FolderVersion> findByFolder( Folder folder );
 
     /**

@@ -1895,6 +1895,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
+        if( folder == null )
+        {
+        	folder = new Folder(  );
+        	folder.setId( 0 );
+        }
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
@@ -2491,13 +2496,17 @@ public class PluJspBean extends PluginAdminPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_EVOLVE_ATOME );
 
-        int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
-        Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
-
+        Plu plu = _pluServices.findPluWork(  );
+        
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
+        if( folder == null )
+        {
+        	folder = new Folder(  );
+        	folder.setId( 0 );
+        }
 
-        Collection<Folder> folderList = _folderServices.findByPluId( nIdPlu );
+        Collection<Folder> folderList = _folderServices.findByPluId( plu.getId(  ) );
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );

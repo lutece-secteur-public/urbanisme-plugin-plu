@@ -37,10 +37,10 @@ import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.version.Version;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-import fr.paris.lutece.util.sql.DAOUtil;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 
 /**
@@ -49,11 +49,8 @@ import java.util.List;
  */
 public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> implements IFolderVersionDAO
 {
-    //    private static final String SQL_QUERY_CREATE = "INSERT INTO dossier_version_atome (id_version, id_dossier) VALUE (?, ?)";
-    //    private static final String SQL_QUERY_UPDATE = "UPDATE dossier_version_atome SET id_version = ?, id_dossier = ? WHERE id_dossier_version = ?";
-    //    private static final String SQL_QUERY_REMOVE = "DELETE FROM dossier_version_atome WHERE id_version = ? AND id_dossier = ?";
-    private static final String SQL_QUERY_SELECT_BY_FOLDER = "SELECT id_dossier_version, id_version FROM dossier_version_atome WHERE id_dossier = ?";
-    private static final String SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION = "SELECT id_dossier_version FROM dossier_version_atome WHERE id_dossier = ? AND id_version = ?";
+    private static final String SQL_QUERY_SELECT_BY_FOLDER = "SELECT fv.id, fv.version.id FROM FolderVersion fv WHERE fv.folder.id = :idFolder";
+    private static final String SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION = "SELECT fv.id FROM FolderVersion fv WHERE fv.folder.id = :idFolder AND fv.version.id = :idVersion";
 
     /**
     * @return the plugin name
@@ -64,75 +61,61 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
         return PluPlugin.PLUGIN_NAME;
     }
 
-    //
-    //    public void create( FolderVersion folderVersion )
-    //    {
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CREATE );
-    //        daoUtil.setInt( 1, folderVersion.getVersion(  ).getId(  ) );
-    //        daoUtil.setInt( 2, folderVersion.getFolder(  ).getId(  ) );
-    //        daoUtil.executeUpdate(  );
-    //
-    //        daoUtil.free(  );
-    //    }
-    //
-    //    public void update( FolderVersion folderVersion )
-    //    {
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-    //        daoUtil.setInt( 1, folderVersion.getVersion(  ).getId(  ) );
-    //        daoUtil.setInt( 2, folderVersion.getFolder(  ).getId(  ) );
-    //        daoUtil.setInt( 3, folderVersion.getId(  ) );
-    //        daoUtil.executeUpdate(  );
-    //
-    //        daoUtil.free(  );
-    //    }
-    //
-    //    public void remove( Folder folder, Version versionOld )
-    //    {
-    //        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_REMOVE );
-    //        daoUtil.setInt( 1, versionOld.getId(  ) );
-    //        daoUtil.setInt( 2, folder.getId(  ) );
-    //        daoUtil.executeUpdate(  );
-    //
-    //        daoUtil.free(  );
-    //    }
     public List<FolderVersion> findByFolder( Folder folder )
     {
-        List<FolderVersion> folderVersionList = new ArrayList<FolderVersion>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_FOLDER );
-        daoUtil.setInt( 1, folder.getId(  ) );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            Version version = new Version(  );
-            version.setId( daoUtil.getInt( 2 ) );
-
-            FolderVersion folderVersion = new FolderVersion(  );
-            folderVersion.setId( daoUtil.getInt( 1 ) );
-            folderVersion.setVersion( version );
-            folderVersionList.add( folderVersion );
-        }
-
-        daoUtil.free(  );
-
-        return folderVersionList;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER );
+    	q.setParameter( "idFolder", folder.getId(  ) );
+    	
+    	List<FolderVersion> folderVersionList = (List<FolderVersion>) q.getResultList(  );
+    	
+    	return folderVersionList;
+    	
+//        List<FolderVersion> folderVersionList = new ArrayList<FolderVersion>(  );
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_FOLDER );
+//        daoUtil.setInt( 1, folder.getId(  ) );
+//        daoUtil.executeQuery(  );
+//
+//        while ( daoUtil.next(  ) )
+//        {
+//            Version version = new Version(  );
+//            version.setId( daoUtil.getInt( 2 ) );
+//
+//            FolderVersion folderVersion = new FolderVersion(  );
+//            folderVersion.setId( daoUtil.getInt( 1 ) );
+//            folderVersion.setVersion( version );
+//            folderVersionList.add( folderVersion );
+//        }
+//
+//        daoUtil.free(  );
+//
+//        return folderVersionList;
     }
 
     public FolderVersion findByFolderAndVersion( Folder folder, Version version )
     {
-        FolderVersion folderVersion = new FolderVersion(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION );
-        daoUtil.setInt( 1, folder.getId(  ) );
-        daoUtil.setInt( 2, version.getId(  ) );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            folderVersion.setId( daoUtil.getInt( 1 ) );
-        }
-
-        daoUtil.free(  );
-
-        return folderVersion;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION );
+    	q.setParameter( "idFolder", folder.getId(  ) );
+    	q.setParameter( "idVersion", version.getId(  ) );
+    	
+    	FolderVersion folderVersion = (FolderVersion) q.getSingleResult(  );
+    	
+    	return folderVersion;
+    	
+//        FolderVersion folderVersion = new FolderVersion(  );
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION );
+//        daoUtil.setInt( 1, folder.getId(  ) );
+//        daoUtil.setInt( 2, version.getId(  ) );
+//        daoUtil.executeQuery(  );
+//
+//        while ( daoUtil.next(  ) )
+//        {
+//            folderVersion.setId( daoUtil.getInt( 1 ) );
+//        }
+//
+//        daoUtil.free(  );
+//
+//        return folderVersion;
     }
 }
