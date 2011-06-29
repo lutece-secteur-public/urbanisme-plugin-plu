@@ -82,52 +82,46 @@ public class VersionServices implements IVersionServices
     }
 
     /**
-     * Update the version objects for the approve
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the approve
+     * @param idPlu The plu identifier
+     * @return A list of version
      */
-    public void updateApprove( int idPlu, Date date )
+    public List<Version> selectApprove( int idPlu )
     {
-        _home.updateApprove( idPlu, date );
+    	return _home.selectApprove( idPlu );
     }
 
     /**
-     * Update the version objects for the application
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the application
+     * @param idPlu The plu identifier
+     * @param date The date of application
+     * @return A list of version
      */
-    public void updateApplication( int idPlu, Date date )
+    public List<Version> selectApplication( int idPlu, Date date )
     {
-        _home.updateApplication( idPlu, date );
+        return _home.selectApplication( idPlu, date );
     }
 
     /**
-     * Update the version objects for the evolution
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the evolution
+     * @param idPlu The plu identifier
+     * @param date The date of evolution
+     * @return A list of version
      */
-    public void updateEvolution( int idPlu, Date date )
+    public List<Version> selectEvolution( int idPlu, Date date )
     {
-        _home.updateEvolution( idPlu, date );
+        return _home.selectEvolution( idPlu, date );
     }
 
     /**
-     * Update the version objects for the archive
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the archive
+     * @param idPlu The plu identifier
+     * @param date The date of archivage
+     * @return A list of version
      */
-    public void updateArchive( int idPlu, Date date )
+    public List<Version> selectArchive( int idPlu, Date date )
     {
-        _home.updateArchive( idPlu, date );
-    }
-
-    /**
-     * Update a version object
-     * @param nKey the version id
-     */
-    public void updateForEvolution( int nKey )
-    {
-        _home.updateForEvolution( nKey );
+        return _home.selectArchive( idPlu, date );
     }
 
     /**

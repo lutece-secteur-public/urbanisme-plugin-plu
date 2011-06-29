@@ -59,14 +59,13 @@ import javax.persistence.TableGenerator;
 @Table( name = "version_atome" )
 public class Version
 {
+	/** Constants */
+	
+    public static final String RESOURCE_TYPE = "VERSION_RESOURCE";
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_version_atome_sequence";
-
     /** Unique value */
     private static final String JPA_COLUMN_NAME = "plu_version_atome_id";
-
-    //Constants
-    public static final String RESOURCE_TYPE = "VERSION_RESOURCE";
     private int _id;
     private Atome _atome;
     private int _version;

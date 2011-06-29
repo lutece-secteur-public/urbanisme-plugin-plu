@@ -60,14 +60,14 @@
 	            </td>
 	            <td style="text-align:center;">
 	            <#if plu.dj?exists >
-	            	${plu.dj}
+	            	${plu.dj?date}
 	            <#else>
 	            	N/A
 	            </#if>
 	            </td>
 	            <td style="text-align:center;">
 	            <#if plu.da?exists >
-	                ${plu.da}
+	                ${plu.da?date}
 	            <#else>
 	            	N/A
 	            </#if>

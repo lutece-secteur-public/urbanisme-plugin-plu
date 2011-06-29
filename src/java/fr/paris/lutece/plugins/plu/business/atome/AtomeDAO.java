@@ -52,33 +52,4 @@ public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
         return PluPlugin.PLUGIN_NAME;
     }
 
-    //    public List<Atome> findByDateAndParent( Date da, int idFolder )
-    //    {
-    //        EntityManager em = getEM(  );
-    //        CriteriaBuilder cb = em.getCriteriaBuilder(  );
-    //
-    //        CriteriaQuery<Atome> cq = cb.createQuery( Atome.class );
-    //
-    //        Root<Folder> rootFolder = cq.from( Folder.class );
-    //        Root<Version> rootVersion = cq.from( Version.class );
-    //        rootVersion.fetch( Version_.atome, JoinType.LEFT ).fetch( Atome_.folder, JoinType.LEFT )
-    //            .fetch( Folder_.parentFolder, JoinType.LEFT );
-    //
-    //        Predicate conditionD2 = cb.lessThanOrEqualTo( rootVersion.get( Version_.d2 ), da );
-    //        Predicate conditionD4 = cb.greaterThan( rootVersion.get( Version_.d4 ), da );
-    //        Predicate conditionIdFolder = cb.equal( rootFolder.get( Folder_.id ), idFolder );
-    //
-    //        cq.where( conditionD2, conditionD4, conditionIdFolder );
-    //
-    //        TypedQuery<Atome> query = em.createQuery( cq );
-    //
-    //        try
-    //        {
-    //            return query.getResultList(  );
-    //        }
-    //        catch ( NoResultException e )
-    //        {
-    //            return null;
-    //        }
-    //    }
 }

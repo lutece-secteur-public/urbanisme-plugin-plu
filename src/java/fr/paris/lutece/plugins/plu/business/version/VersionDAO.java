@@ -33,14 +33,11 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
-import fr.paris.lutece.plugins.plu.business.atome.Atome;
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.plugins.plu.business.version.IVersionDAO;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.plugins.plu.utils.PluUtils;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-import fr.paris.lutece.util.sql.DAOUtil;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,19 +52,19 @@ import javax.persistence.Query;
  */
 public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersionDAO
 {
-    private static final String SQL_QUERY_UPDATE_APPROVE = "UPDATE Version v JOIN v.id fv JOIN fv.folder f SET v.d1 = :d1 WHERE v.d1 IS NULL AND v.d2 IS NULL AND v.d3 IS NULL AND v.d4 IS NULL AND f.plu = :idPlu";
-    private static final String SQL_QUERY_UPDATE_APPLICATION = "UPDATE version_atome VA INNER JOIN dossier_version_atome DVA ON (VA.id_version = DVA.id_version) INNER JOIN dossier D ON (DVA.id_dossier = D.id_dossier) SET VA.date_application = ? WHERE VA.date_approbation < ? AND VA.date_application IS NULL AND VA.date_evolution IS NULL AND VA.date_archivage IS NULL AND D.id_plu = ?";
-    private static final String SQL_QUERY_UPDATE_EVOLUTION = "UPDATE version_atome VA INNER JOIN dossier_version_atome DVA ON (VA.id_version = DVA.id_version) INNER JOIN dossier D ON (DVA.id_dossier = D.id_dossier) SET VA.date_evolution = ? WHERE VA.date_application < ? AND VA.date_evolution = '0000-00-00' AND VA.date_archivage IS NULL AND D.id_plu = ?";
-    private static final String SQL_QUERY_UPDATE_ARCHIVE = "UPDATE version_atome VA INNER JOIN dossier_version_atome DVA ON (VA.id_version = DVA.id_version) INNER JOIN dossier D ON (DVA.id_dossier = D.id_dossier) SET VA.date_archivage = ? WHERE VA.date_evolution < ? AND VA.date_archivage IS NULL AND D.id_plu = ?";
-    private static final String SQL_QUERY_FOR_EVOLUTION = "UPDATE version_atome SET date_evolution = '0000-00-00' WHERE id_version = ?";
-    private static final String SQL_QUERY_SELECT_MAX_VERSION = "SELECT (num_version) FROM version_atome WHERE id_atome = ?";
-
-    private static final String SQL_QUERY_SELECT_BY_ATOME_AND_VERSION = "SELECT VA.id_version, VA.num_version, VA.date_approbation, VA.date_application, VA.date_evolution, VA.date_archivage, A.id_atome, A.nom, A.titre, A.description FROM atome A INNER JOIN version_atome VA ON (A.id_atome = VA.id_atome) WHERE VA.id_atome = ? AND VA.num_version = ?";
-    private static final String SQL_QUERY_SELECT_BY_PLU_AND_FOLDER = "SELECT VA.id_version, VA.num_version, VA.date_approbation, VA.date_application, VA.date_evolution, VA.date_archivage, A.id_atome, A.nom, A.titre, A.description FROM atome A INNER JOIN version_atome VA ON (A.id_atome = VA.id_atome) INNER JOIN dossier_version_atome DVA ON (VA.id_version = DVA.id_version) INNER JOIN dossier D ON (DVA.id_dossier = D.id_dossier) WHERE D.id_plu = ? AND D.id_dossier = ?";
+	private static final String SQL_QUERY_SELECT_APPROVE = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d1 IS NULL AND v.d2 IS NULL AND v.d3 IS NULL AND v.d4 IS NULL AND fv.folder.plu = :idPlu";
+    private static final String SQL_QUERY_SELECT_APPLICATION = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d1 < :d2 AND v.d2 IS NULL AND v.d3 IS NULL AND v.d4 IS NULL AND fv.folder.plu = :idPlu";
+    private static final String SQL_QUERY_SELECT_EVOLUTION = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d2 < :d3 AND v.d3 = '0000-00-00' AND v.d4 IS NULL AND fv.folder.id = :idPlu";
+    private static final String SQL_QUERY_SELECT_ARCHIVE = "SELECT v FROM FolderVersion fv JOIN fv.version v  WHERE v.d3 < :d4 AND v.d4 IS NULL AND fv.folder.id = :idPlu";
+//    private static final String SQL_QUERY_FOR_EVOLUTION = "UPDATE version_atome SET date_evolution = '0000-00-00' WHERE id_version = ?";
+    
+    private static final String SQL_QUERY_SELECT_MAX_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = MAX(v.version)";
+    private static final String SQL_QUERY_SELECT_BY_ATOME_AND_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = :numVersion;";
+    private static final String SQL_QUERY_SELECT_BY_PLU_AND_FOLDER = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu AND fv.folder.id = :idFolder";
     private static final String SQL_QUERY_SELECT_ALL = "SELECT v FROM Version v";
     private static final String SQL_FILTER_ATOME_NAME = "v.atome.name = :nameAtome";
     private static final String SQL_FILTER_ATOME_TITLE = "v.atome.title = :titleAtome";
-    private static final String SQL_FILTER_VERSION_NUMBER = "v.version = :version";
+    private static final String SQL_FILTER_VERSION_NUMBER = "v.version = :numVersion";
     private static final String SQL_FILTER_VERSION_D1 = "v.d1 = :d1";
     private static final String SQL_FILTER_VERSION_D2 = "v.d2 = :d2";
     private static final String SQL_FILTER_VERSION_D3 = "v.d3 = :d3";
@@ -81,95 +78,91 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     {
         return PluPlugin.PLUGIN_NAME;
     }
-
+    
     /**
-     * Update the version objects for the approve
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the approve
+     * @param idPlu The plu identifier
+     * @return A list of version
      */
-    public void updateApprove( int idPlu, Date date )
+    public List<Version> selectApprove( int idPlu )
     {
-        java.sql.Date sqlD1 = new java.sql.Date( date.getTime(  ) );
-
         EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_UPDATE_APPROVE );
-    	q.setParameter( "d1", sqlD1 );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_APPROVE );
     	q.setParameter( "idPlu", idPlu );
 
-    	q.executeUpdate(  );
-
-    	em.close(  ); 	
+    	List<Version> versionList = (List<Version>) q.getResultList(  );
     	
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_APPROVE );
-//        daoUtil.setDate( 1, sqlD1 );
-//        daoUtil.setInt( 2, idPlu );
-//        daoUtil.executeUpdate(  );
-//
-//        daoUtil.free(  );
+    	return versionList;
     }
 
     /**
-     * Update the version objects for the application
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the application
+     * @param idPlu The plu identifier
+     * @param date The date of application
+     * @return A list of version
      */
-    public void updateApplication( int idPlu, Date date )
+    public List<Version> selectApplication( int idPlu, Date date )
     {
         java.sql.Date sqlD2 = new java.sql.Date( date.getTime(  ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_APPLICATION );
-        daoUtil.setDate( 1, sqlD2 );
-        daoUtil.setDate( 2, sqlD2 );
-        daoUtil.setInt( 3, idPlu );
-        daoUtil.executeUpdate(  );
+        EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_APPLICATION );
+    	q.setParameter( "d2", sqlD2 );
+    	q.setParameter( "idPlu", idPlu );
 
-        daoUtil.free(  );
+    	List<Version> versionList = (List<Version>) q.getResultList(  );
+    	
+    	return versionList;
     }
 
     /**
-     * Update the version objects for the evolution
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the evolution
+     * @param idPlu The plu identifier
+     * @param date The date of evolution
+     * @return A list of version
      */
-    public void updateEvolution( int idPlu, Date date )
+    public List<Version> selectEvolution( int idPlu, Date date )
     {
         java.sql.Date sqlD3 = new java.sql.Date( date.getTime(  ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_EVOLUTION );
-        daoUtil.setDate( 1, sqlD3 );
-        daoUtil.setDate( 2, sqlD3 );
-        daoUtil.setInt( 3, idPlu );
-        daoUtil.executeUpdate(  );
+        EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_EVOLUTION );
+    	q.setParameter( "d3", sqlD3 );
+    	q.setParameter( "idPlu", idPlu );
 
-        daoUtil.free(  );
+    	List<Version> versionList = (List<Version>) q.getResultList(  );
+    	
+    	return versionList;
     }
 
     /**
-     * Update the version objects for the archive
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the archive
+     * @param idPlu The plu identifier
+     * @param date The date of archivage
+     * @return A list of version
      */
-    public void updateArchive( int idPlu, Date date )
+    public List<Version> selectArchive( int idPlu, Date date )
     {
         java.sql.Date sqlD4 = new java.sql.Date( date.getTime(  ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ARCHIVE );
-        daoUtil.setDate( 1, sqlD4 );
-        daoUtil.setDate( 2, sqlD4 );
-        daoUtil.setInt( 3, idPlu );
-        daoUtil.executeUpdate(  );
-
-        daoUtil.free(  );
+        EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_ARCHIVE );
+    	q.setParameter( "d4", sqlD4 );
+    	q.setParameter( "idPlu", idPlu );
+    	
+    	List<Version> versionList = (List<Version>) q.getResultList(  );
+    	
+    	return versionList;
     }
 
-    public void updateForEvolution( int nKey )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FOR_EVOLUTION );
-        daoUtil.setInt( 1, nKey );
-        daoUtil.executeUpdate(  );
-
-        daoUtil.free(  );
-    }
+//    public void updateForEvolution( int nKey )
+//    {
+//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FOR_EVOLUTION );
+//        daoUtil.setInt( 1, nKey );
+//        daoUtil.executeUpdate(  );
+//
+//        daoUtil.free(  );
+//    }
 
     /**
      * Load the largest num version
@@ -178,20 +171,13 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
      */
     public int findMaxVersion( int nIdAtome )
     {
-        int nId = 0;
-
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MAX_VERSION );
-        daoUtil.setInt( 1, nIdAtome );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            nId = daoUtil.getInt( 1 );
-        }
-
-        daoUtil.free(  );
-
-        return nId;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_MAX_VERSION );
+    	q.setParameter( "idAtome", nIdAtome );
+    	
+    	Version version = (Version) q.getSingleResult(  );
+    	
+    	return version.getVersion(  );
     }
 
     /**
@@ -202,32 +188,14 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
      */
     public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion )
     {
-        Version version = new Version(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ATOME_AND_VERSION );
-        daoUtil.setInt( 1, nIdAtome );
-        daoUtil.setInt( 2, numVersion );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            Atome atome = new Atome(  );
-            atome.setId( daoUtil.getInt( 7 ) );
-            atome.setName( daoUtil.getString( 8 ) );
-            atome.setTitle( daoUtil.getString( 9 ) );
-            atome.setDescription( daoUtil.getString( 10 ) );
-
-            version.setId( daoUtil.getInt( 1 ) );
-            version.setAtome( atome );
-            version.setVersion( daoUtil.getInt( 2 ) );
-            version.setD1( daoUtil.getDate( 3 ) );
-            version.setD2( daoUtil.getDate( 4 ) );
-            version.setD3( daoUtil.getDate( 5 ) );
-            version.setD4( daoUtil.getDate( 6 ) );
-        }
-
-        daoUtil.free(  );
-
-        return version;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_ATOME_AND_VERSION );
+    	q.setParameter( "idAtome", nIdAtome );
+    	q.setParameter( "numVersion", numVersion );
+    	
+    	Version version = (Version) q.getSingleResult(  );
+    	
+    	return version;
     }
 
     /**
@@ -238,39 +206,18 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
      */
     public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder )
     {
-        List<Version> versionList = new ArrayList<Version>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PLU_AND_FOLDER );
-        daoUtil.setInt( 1, nIdPlu );
-        daoUtil.setInt( 2, nIdFolder );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            Atome atome = new Atome(  );
-            atome.setId( daoUtil.getInt( 7 ) );
-            atome.setName( daoUtil.getString( 8 ) );
-            atome.setTitle( daoUtil.getString( 9 ) );
-            atome.setDescription( daoUtil.getString( 10 ) );
-
-            Version version = new Version(  );
-            version.setId( daoUtil.getInt( 1 ) );
-            version.setAtome( atome );
-            version.setVersion( daoUtil.getInt( 2 ) );
-            version.setD1( daoUtil.getDate( 3 ) );
-            version.setD2( daoUtil.getDate( 4 ) );
-            version.setD3( daoUtil.getDate( 5 ) );
-            version.setD4( daoUtil.getDate( 6 ) );
-            versionList.add( version );
-        }
-
-        daoUtil.free(  );
-
-        return versionList;
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_AND_FOLDER );
+    	q.setParameter( "idPlu", nIdPlu );
+    	q.setParameter( "idFolder", nIdFolder );
+    	
+    	List<Version> versionList = (List<Version>) q.getResultList(  );
+    	
+    	return versionList;
     }
 
     public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter )
     {
-        List<Version> versionList = new ArrayList<Version>(  );
         List<String> listStrFilter = new ArrayList<String>(  );
 
         if ( atomeFilter.containsName(  ) )
@@ -312,86 +259,47 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 
         EntityManager em = getEM(  );
     	Query q = em.createQuery( strSQL );
-//        DAOUtil daoUtil = new DAOUtil( strSQL );
-//        int nIndex = 1;
 
         if ( atomeFilter.containsName(  ) )
         {
         	q.setParameter( "nameAtome", atomeFilter.get_name(  ) );
-//            daoUtil.setString( nIndex, atomeFilter.get_name(  ) );
-//            nIndex++;
         }
 
         if ( atomeFilter.containsTitle(  ) )
         {
         	q.setParameter( "titleAtome", atomeFilter.get_title(  ) );
-//            daoUtil.setString( nIndex, atomeFilter.get_title(  ) );
-//            nIndex++;
         }
 
         if ( versionFilter.containsVersion(  ) )
         {
-        	q.setParameter( "version", versionFilter.get_version(  ) );
-//            daoUtil.setInt( nIndex, versionFilter.get_version(  ) );
-//            nIndex++;
+        	q.setParameter( "numVersion", versionFilter.get_version(  ) );
         }
 
         if ( versionFilter.containsD1(  ) )
         {
             java.sql.Date sqlD1 = new java.sql.Date( versionFilter.get_d1(  ).getTime(  ) );
             q.setParameter( "d1", sqlD1 );
-//            daoUtil.setDate( nIndex, sqlD1 );
-//            nIndex++;
         }
 
         if ( versionFilter.containsD2(  ) )
         {
             java.sql.Date sqlD2 = new java.sql.Date( versionFilter.get_d2(  ).getTime(  ) );
             q.setParameter( "d2", sqlD2 );
-//            daoUtil.setDate( nIndex, sqlD2 );
-//            nIndex++;
         }
 
         if ( versionFilter.containsD3(  ) )
         {
             java.sql.Date sqlD3 = new java.sql.Date( versionFilter.get_d3(  ).getTime(  ) );
             q.setParameter( "d3", sqlD3 );
-//            daoUtil.setDate( nIndex, sqlD3 );
-//            nIndex++;
         }
 
         if ( versionFilter.containsD4(  ) )
         {
             java.sql.Date sqlD4 = new java.sql.Date( versionFilter.get_d4(  ).getTime(  ) );
             q.setParameter( "d4", sqlD4 );
-//            daoUtil.setDate( nIndex, sqlD4 );
-//            nIndex++;
         }
 
-        versionList = q.getResultList(  );
-        
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            Atome atome = new Atome(  );
-//            atome.setId( daoUtil.getInt( 7 ) );
-//            atome.setName( daoUtil.getString( 8 ) );
-//            atome.setTitle( daoUtil.getString( 9 ) );
-//            atome.setDescription( daoUtil.getString( 10 ) );
-//
-//            Version version = new Version(  );
-//            version.setId( daoUtil.getInt( 1 ) );
-//            version.setAtome( atome );
-//            version.setVersion( daoUtil.getInt( 2 ) );
-//            version.setD1( daoUtil.getDate( 3 ) );
-//            version.setD2( daoUtil.getDate( 4 ) );
-//            version.setD3( daoUtil.getDate( 5 ) );
-//            version.setD4( daoUtil.getDate( 6 ) );
-//            versionList.add( version );
-//        }
-//
-//        daoUtil.free(  );
+        List<Version> versionList = q.getResultList(  );
 
         return versionList;
     }

@@ -46,53 +46,47 @@ import java.util.List;
  */
 public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDAO> implements IVersionHome
 {
-    /**
-     * Update the version objects for the approve
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+	/**
+     * Returns a list of version objects for the approve
+     * @param idPlu The plu identifier
+     * @return A list of version
      */
-    public void updateApprove( int idPlu, Date date )
+	public List<Version> selectApprove( int idPlu )
+	{
+		return getDao(  ).selectApprove( idPlu );
+	}
+
+	/**
+     * Returns a list of version objects for the application
+     * @param idPlu The plu identifier
+     * @param date The date of application
+     * @return A list of version
+     */
+    public List<Version> selectApplication( int idPlu, Date date )
     {
-        getDao(  ).updateApprove( idPlu, date );
+        return getDao(  ).selectApplication( idPlu, date );
     }
 
     /**
-     * Update the version objects for the application
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the evolution
+     * @param idPlu The plu identifier
+     * @param date The date of evolution
+     * @return A list of version
      */
-    public void updateApplication( int idPlu, Date date )
+    public List<Version> selectEvolution( int idPlu, Date date )
     {
-        getDao(  ).updateApplication( idPlu, date );
+        return getDao(  ).selectEvolution( idPlu, date );
     }
 
     /**
-     * Update the version objects for the evolution
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
+     * Returns a list of version objects for the archive
+     * @param idPlu The plu identifier
+     * @param date The date of archivage
+     * @return A list of version
      */
-    public void updateEvolution( int idPlu, Date date )
+    public List<Version> selectArchive( int idPlu, Date date )
     {
-        getDao(  ).updateEvolution( idPlu, date );
-    }
-
-    /**
-     * Update the version objects for the archive
-     * @param idPlu The plu id for the query
-     * @param date The date for the query
-     */
-    public void updateArchive( int idPlu, Date date )
-    {
-        getDao(  ).updateArchive( idPlu, date );
-    }
-
-    /**
-     * Update a version object
-     * @param nKey the version id
-     */
-    public void updateForEvolution( int nKey )
-    {
-        getDao(  ).updateForEvolution( nKey );
+        return getDao(  ).selectArchive( idPlu, date );
     }
 
     /**

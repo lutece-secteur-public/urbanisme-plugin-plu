@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.plu.business.plu;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
@@ -67,25 +68,19 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
     	EntityManager em = getEM(  );
     	Query q = em.createQuery( SQL_QUERY_SELECT_PLU_WORK );
     	
-    	Plu plu = (Plu) q.getSingleResult(  );
+    	Plu plu;
     	
-    	em.close(  );
+    	try
+    	{
+    		plu = (Plu) q.getSingleResult(  );
+    	}
+    	catch( NoResultException e )
+    	{
+    		plu = new Plu(  );
+    		plu.setId( 0 );
+    	}
     	
     	return plu;
-    	
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLU_WORK );
-//        daoUtil.executeQuery(  );
-//
-//        Plu plu = new Plu(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            plu.setId( daoUtil.getInt( 1 ) );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return plu;
     }
 
     /**
@@ -98,23 +93,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
     	Query q = em.createQuery( SQL_QUERY_SELECT_PLU_APPLIED );
     	
     	Plu plu = (Plu) q.getSingleResult(  );
-
-    	em.close(  );
     	
     	return plu;
-    	
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLU_APPLIED );
-//        daoUtil.executeQuery(  );
-//
-//        Plu plu = new Plu(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            plu.setId( daoUtil.getInt( 1 ) );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return plu;
     }
 }

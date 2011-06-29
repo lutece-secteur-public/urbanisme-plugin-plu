@@ -59,14 +59,13 @@ import javax.persistence.TableGenerator;
 @Table( name = "plu" )
 public class Plu
 {
+	/** Constants */
+	
+    public static final String RESOURCE_TYPE = "PLU_RESOURCE";
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_sequence";
-
     /** Unique value */
     private static final String JPA_COLUMN_NAME = "plu_id";
-
-    //Constants
-    public static final String RESOURCE_TYPE = "PLU_RESOURCE";
     private int _id;
     private Type _type;
     private String _cause;

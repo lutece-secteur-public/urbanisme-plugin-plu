@@ -84,29 +84,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	Query q = em.createQuery( SQL_QUERY_SELECT_LAST_FOLDER );
     	
     	Folder folder = (Folder) q.getSingleResult(  );
-
-    	em.close(  );
     	
     	return folder;
-    	
-//        Folder folder = new Folder(  );
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LAST_FOLDER );
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            folder.setId( daoUtil.getInt( 1 ) );
-//            folder.setPlu( daoUtil.getInt( 2 ) );
-//            folder.setParentFolder( daoUtil.getInt( 3 ) );
-//            folder.setTitle( daoUtil.getString( 4 ) );
-//            folder.setDescription( daoUtil.getString( 5 ) );
-//            folder.setImg( daoUtil.getBytes( 6 ) );
-//            folder.setHtml( daoUtil.getBytes( 7 ) );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return folder;
     }
 
     /**
@@ -121,30 +100,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	q.setParameter( "title", title );
     	
     	Folder folder = (Folder) q.getSingleResult(  );
-
-    	em.close(  );
     	
     	return folder;
-    	
-//        Folder folder = new Folder(  );
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_TITLE );
-//        daoUtil.setString( 1, title );
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            folder.setId( daoUtil.getInt( 1 ) );
-//            folder.setPlu( daoUtil.getInt( 2 ) );
-//            folder.setParentFolder( daoUtil.getInt( 3 ) );
-//            folder.setTitle( daoUtil.getString( 4 ) );
-//            folder.setDescription( daoUtil.getString( 5 ) );
-//            folder.setImg( daoUtil.getBytes( 6 ) );
-//            folder.setHtml( daoUtil.getBytes( 7 ) );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return folder;
     }
 
     /**
@@ -159,30 +116,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	q.setParameter( "idAtome", nIdAtome );
     	
     	Folder folder = (Folder) q.getSingleResult(  );
-
-    	em.close(  );
     	
     	return folder;
-    	
-//        Folder folder = new Folder(  );
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ATOME );
-//        daoUtil.setInt( 1, nIdAtome );
-//        daoUtil.executeQuery(  );
-
-//        while ( daoUtil.next(  ) )
-//        {
-//            folder.setId( daoUtil.getInt( 1 ) );
-//            folder.setPlu( daoUtil.getInt( 2 ) );
-//            folder.setParentFolder( daoUtil.getInt( 3 ) );
-//            folder.setTitle( daoUtil.getString( 4 ) );
-//            folder.setDescription( daoUtil.getString( 5 ) );
-//            folder.setImg( daoUtil.getBytes( 6 ) );
-//            folder.setHtml( daoUtil.getBytes( 7 ) );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return folder;
     }
 
     /**
@@ -199,30 +134,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	List<Folder> folderList = (List<Folder>) q.getResultList(  );
     	
     	Folder folder = folderList.get( 0 );
-
-    	em.close(  );
     	
     	return folder;
-    	
-//        Folder folder = new Folder(  );
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_VERSION );
-//        daoUtil.setInt( 1, nIdVersion );
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            folder.setId( daoUtil.getInt( 1 ) );
-//            folder.setPlu( daoUtil.getInt( 2 ) );
-//            folder.setParentFolder( daoUtil.getInt( 3 ) );
-//            folder.setTitle( daoUtil.getString( 4 ) );
-//            folder.setDescription( daoUtil.getString( 5 ) );
-//            folder.setImg( daoUtil.getBytes( 6 ) );
-//            folder.setHtml( daoUtil.getBytes( 7 ) );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return folder;
     }
 
     /**
@@ -238,31 +151,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	q.setParameter( "idFolder", nKey );
     	
     	Folder folder = (Folder) q.getSingleResult(  );
-
-    	em.close(  );
     	
     	return folder;
-    	
-//        Folder folder = new Folder(  );
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_FOR_DELETE );
-//        daoUtil.setInt( 1, nKey );
-//        daoUtil.setInt( 2, nKey );
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            folder.setId( daoUtil.getInt( 1 ) );
-//            folder.setPlu( daoUtil.getInt( 2 ) );
-//            folder.setParentFolder( daoUtil.getInt( 3 ) );
-//            folder.setTitle( daoUtil.getString( 4 ) );
-//            folder.setDescription( daoUtil.getString( 5 ) );
-//            folder.setImg( daoUtil.getBytes( 6 ) );
-//            folder.setHtml( daoUtil.getBytes( 7 ) );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return folder;
     }
 
     /**
@@ -277,32 +167,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	q.setParameter( "idPlu", pluId );
     	
     	List<Folder> folderList = q.getResultList(  );
-
-    	em.close(  );
     	
     	return folderList;
-    	
-//        List<Folder> folderList = new ArrayList<Folder>(  );
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PLU_ID );
-//        daoUtil.setInt( 1, pluId );
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            Folder folder = new Folder(  );
-//            folder.setId( daoUtil.getInt( 1 ) );
-//            folder.setPlu( daoUtil.getInt( 2 ) );
-//            folder.setParentFolder( daoUtil.getInt( 3 ) );
-//            folder.setTitle( daoUtil.getString( 4 ) );
-//            folder.setDescription( daoUtil.getString( 5 ) );
-//            folder.setImg( daoUtil.getBytes( 6 ) );
-//            folder.setHtml( daoUtil.getBytes( 7 ) );
-//            folderList.add( folder );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return folderList;
     }
 
     /**
@@ -317,32 +183,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	q.setParameter( "idParentFolder", parentId );
     	
     	List<Folder> folderList = q.getResultList(  );
-
-    	em.close(  );
     	
     	return folderList;
-    	
-//        List<Folder> folderList = new ArrayList<Folder>(  );
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PARENT );
-//        daoUtil.setInt( 1, parentId );
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            Folder folder = new Folder(  );
-//            folder.setId( daoUtil.getInt( 1 ) );
-//            folder.setPlu( daoUtil.getInt( 2 ) );
-//            folder.setParentFolder( daoUtil.getInt( 3 ) );
-//            folder.setTitle( daoUtil.getString( 4 ) );
-//            folder.setDescription( daoUtil.getString( 5 ) );
-//            folder.setImg( daoUtil.getBytes( 6 ) );
-//            folder.setHtml( daoUtil.getBytes( 7 ) );
-//            folderList.add( folder );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return folderList;
     }
 
     /**
@@ -352,7 +194,6 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public List<Folder> findByFilter( FolderFilter filter )
     {
-        List<Folder> folderList = new ArrayList<Folder>(  );
         List<String> listStrFilter = new ArrayList<String>(  );
 
         if ( filter.containsPlu(  ) )
@@ -369,43 +210,18 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 
         EntityManager em = getEM(  );
     	Query q = em.createQuery( strSQL );
-//        DAOUtil daoUtil = new DAOUtil( strSQL );
-//        int nIndex = 1;
 
         if ( filter.containsPlu(  ) )
         {
         	q.setParameter( "idPlu", filter.get_plu(  ) );
-//            daoUtil.setInt( nIndex, filter.get_plu(  ) );
-//            nIndex++;
         }
 
         if ( filter.containsTitle(  ) )
         {
         	q.setParameter( "title", filter.get_title(  ) );
-//            daoUtil.setString( nIndex, filter.get_title(  ) );
-//            nIndex++;
         }
 
-        folderList = q.getResultList(  );
-
-    	em.close(  );
-        
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            Folder folder = new Folder(  );
-//            folder.setId( daoUtil.getInt( 1 ) );
-//            folder.setPlu( daoUtil.getInt( 2 ) );
-//            folder.setParentFolder( daoUtil.getInt( 3 ) );
-//            folder.setTitle( daoUtil.getString( 4 ) );
-//            folder.setDescription( daoUtil.getString( 5 ) );
-//            folder.setImg( daoUtil.getBytes( 6 ) );
-//            folder.setHtml( daoUtil.getBytes( 7 ) );
-//            folderList.add( folder );
-//        }
-//
-//        daoUtil.free(  );
+        List<Folder> folderList = q.getResultList(  );
 
         return folderList;
     }
@@ -443,58 +259,5 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 
         return image;
     }
-
-    //    /**
-    //     * Find folder list by filter
-    //     * @param filter the filter
-    //     * @return the folder list
-    //     */
-    //    public List<Folder> findByFilter( FolderFilter filter )
-    //    {
-    //        EntityManager em = getEM(  );
-    //        CriteriaBuilder cb = em.getCriteriaBuilder(  );
-    //
-    //        CriteriaQuery<Folder> cq = cb.createQuery( Folder.class );
-    //
-    //        Root<Folder> root = cq.from( Folder.class );
-    //
-    //        buildCriteriaQuery( filter, root, cq, cb );
-    //
-    //        cq.distinct( true );
-    //
-    //        TypedQuery<Folder> query = em.createQuery( cq );
-    //
-    //        return query.getResultList(  );
-    //    }
-    //
-    //    /**
-    //     * Build the criteria query from the filter
-    //     * @param filter the filter
-    //     * @param root the folder root
-    //     * @param cq the criteria query
-    //     * @param cb the criteria builder
-    //     */
-    //    private void buildCriteriaQuery( FolderFilter filter, Root<Folder> root, CriteriaQuery<Folder> cq,
-    //        CriteriaBuilder cb )
-    //    {
-    //        List<Predicate> listPredicates = new ArrayList<Predicate>(  );
-    //
-    //        if ( StringUtils.isNotBlank( filter.get_title(  ) ) )
-    //        {
-    //            listPredicates.add( cb.like( root.get( Folder_.title ),
-    //                    PluJPAUtils.buildCriteriaLikeString1( filter.get_title(  ) ) ) );
-    //        }
-    //
-    //        /*if ( StringUtils.isNotBlank( filter.get_description(  ) ) )
-    //        {
-    //            listPredicates.add( cb.like( root.get( Folder_.description ),
-    //                    PluJPAUtils.buildCriteriaLikeString2( filter.get_description(  ) ) ) );
-    //        }*/
-    //        if ( !listPredicates.isEmpty(  ) )
-    //        {
-    //            // add existing predicates to Where clause
-    //            cq.where( listPredicates.toArray( new Predicate[0] ) );
-    //        }
-    //    }
-    //
+    
 }

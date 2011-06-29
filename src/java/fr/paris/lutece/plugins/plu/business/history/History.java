@@ -54,14 +54,13 @@ import javax.persistence.TableGenerator;
 @Table( name = "historique" )
 public class History
 {
+	/** Constants */
+	
+    public static final String RESOURCE_TYPE = "HISTORY_RESOURCE";
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_historique_sequence";
-
     /** Unique value */
     private static final String JPA_COLUMN_NAME = "plu_historique_id";
-
-    //Constants
-    public static final String RESOURCE_TYPE = "HISTORY_RESOURCE";
     private int _id;
     private int _plu;
     private int _folder;

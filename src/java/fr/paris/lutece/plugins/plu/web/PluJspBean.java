@@ -277,9 +277,9 @@ public class PluJspBean extends PluginAdminPageJspBean
     private IFolderVersionServices _folderVersionServices;
     private IFileServices _fileServices;
     
-    List<File> fileList = new ArrayList<File>(  );
-    Folder folderHtml = new Folder(  );
-    Folder folderImage = new Folder(  );
+    private List<File> fileList = new ArrayList<File>(  );
+    private Folder folderHtml = new Folder(  );
+    private Folder folderImage = new Folder(  );
 
     public PluJspBean(  )
     {
@@ -387,7 +387,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         plu.setDj( dj );
         _pluServices.update( plu );
 
-        _versionServices.updateApprove( nIdPlu, dj );
+        List<Version> versionList = _versionServices.selectApprove( nIdPlu );
+        for( Version version : versionList )
+        {
+        	version.setD1( dj );
+        	_versionServices.update( version );
+        }
 
         return JSP_REDIRECT_TO_MANAGE_PLU;
     }
@@ -466,16 +471,34 @@ public class PluJspBean extends PluginAdminPageJspBean
         plu.setDa( da );
         _pluServices.update( plu );
 
-        _versionServices.updateApplication( nIdPlu, da );
+        List<Version> versionList = _versionServices.selectApplication( nIdPlu, da );
+        for( Version version : versionList )
+        {
+        	version.setD2( da );
+        	_versionServices.update( version );
+        }
 
-        _versionServices.updateEvolution( nIdPlu - 1, dj );
+        versionList.clear(  );
+        versionList = _versionServices.selectEvolution( nIdPlu - 1, dj );
+        for( Version version : versionList )
+        {
+        	version.setD3( dj );
+        	_versionServices.update( version );
+        }
 
         GregorianCalendar calendar = new GregorianCalendar(  );
         calendar.setTime( da );
         calendar.add( Calendar.DATE, -1 );
 
         Date date = calendar.getTime(  );
-        _versionServices.updateArchive( nIdPlu - 1, date );
+        
+        versionList.clear(  );
+        versionList = _versionServices.selectArchive( nIdPlu - 1, date );
+        for( Version version : versionList )
+        {
+        	version.setD4( date );
+        	_versionServices.update( version );
+        }
 
         Plu plu2 = new Plu(  );
         _pluServices.create( plu2 );
@@ -1845,11 +1868,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getMimeType(  ).equals( ".eps" ) )
                     {
-                        file.setEPS( "o" );
+                        file.setEPS( "O" );
                     }
                     else
                     {
-                        file.setEPS( "n" );
+                        file.setEPS( "N" );
                     }
 
                     _fileServices.create( file );
@@ -2280,11 +2303,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getMimeType(  ).equals( ".eps" ) )
                     {
-                        file.setEPS( "o" );
+                        file.setEPS( "O" );
                     }
                     else
                     {
-                        file.setEPS( "n" );
+                        file.setEPS( "N" );
                     }
 
                     _fileServices.create( file );
@@ -2673,7 +2696,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version versionOld = _versionServices.findByPrimaryKey( nIdVersion );
 
-        _versionServices.updateForEvolution( nIdVersion );
+        Date d3 = stringToDate( "00/00/0000", "dd/MM/yyyy" );
+        versionOld.setD3( d3 );
+        _versionServices.update( versionOld );
 
         FolderVersion folderVersion = _folderVersionServices.findByFolderAndVersion( folder, versionOld );
         _folderVersionServices.remove( folderVersion );
@@ -2714,11 +2739,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getMimeType(  ).equals( ".eps" ) )
                     {
-                        file.setEPS( "o" );
+                        file.setEPS( "O" );
                     }
                     else
                     {
-                        file.setEPS( "n" );
+                        file.setEPS( "N" );
                     }
 
                     _fileServices.create( file );

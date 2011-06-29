@@ -47,7 +47,7 @@ import javax.persistence.Table;
 @Table( name = "fichier" )
 public class File
 {
-    //Constants
+	/** Constants */
     public static final String RESOURCE_TYPE = "FICHIER_RESOURCE";
     private int _id;
     private int _order;
@@ -194,25 +194,6 @@ public class File
     }
 
     /**
-     * Returns the physical file of this file
-     * @return the physical file
-     */
-    @Column( name = "fichier" )
-    public byte[] getFile(  )
-    {
-        return _file;
-    }
-
-    /**
-     * Sets the physical file of the file to the specified byte
-     * @param file the new physical file
-     */
-    public void setFile( byte[] file )
-    {
-        _file = file;
-    }
-
-    /**
      * Returns the eps value of this file
      * @return the file eps value
      */
@@ -229,5 +210,24 @@ public class File
     public void setEPS( String eps )
     {
         _eps = eps;
+    }
+    
+    /**
+     * Returns the physical file of this file
+     * @return the physical file
+     */
+    @Column( name = "fichier" )
+    public byte[] getFile(  )
+    {
+        return _file;
+    }
+
+    /**
+     * Sets the physical file of the file to the specified byte
+     * @param file the new physical file
+     */
+    public void setFile( byte[] file )
+    {
+        _file = file;
     }
 }

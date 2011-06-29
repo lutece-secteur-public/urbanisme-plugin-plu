@@ -37,10 +37,11 @@ import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.plugins.plu.utils.PluUtils;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-import fr.paris.lutece.util.sql.DAOUtil;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 
 /**
@@ -49,16 +50,16 @@ import java.util.List;
  */
 public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
 {
-    private static final String SQL_QUERY_DELETE = "DELETE FROM fichier WHERE id_atome = ? AND ordre_fichier = ? AND id_version_atome = ?";
+    private static final String SQL_QUERY_DELETE = "DELETE FROM File f WHERE f.id = :idAtome AND f.order = :orderFile AND f.version = :idVersion";
 
-    private static final String SQL_QUERY_SELECT_ALL = "SELECT id_atome, ordre_fichier, id_version_atome, nom_fichier, titre_fichier, format, est_eps, taille FROM fichier";
-    private static final String SQL_QUERY_SELECT_ALL_FORMAT = "SELECT format FROM fichier GROUP BY format";
-    private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT id_atome, ordre_fichier, id_version_atome, nom_fichier, titre_fichier, format, est_eps, taille FROM fichier WHERE id_version_atome = ?";
-    private static final String SQL_SEARCH = "SELECT F.id_atome, F.ordre_fichier, F.id_version_atome, F.nom_fichier, F.titre_fichier, F.format, F.est_eps, F.taille FROM fichier F INNER JOIN version_atome VA ON (F.id_version_atome = VA.id_version) INNER JOIN atome A ON (VA.id_atome = A.id_atome)";
-    private static final String SQL_FILTER_FILE_TITLE = "F.titre_fichier = ?";
-    private static final String SQL_FILTER_FILE_NAME = "F.nom_fichier = ?";
-    private static final String SQL_FILTER_FILE_TYPE = "F.format = ?";
-    private static final String SQL_FILTER_ATOME_NAME = "A.nom = ?";
+    private static final String SQL_QUERY_SELECT_ALL = "SELECT f.id, f.order, f.version, f.name, f.title, f.mimeType, f.size, f.eps FROM File f";
+    private static final String SQL_QUERY_SELECT_ALL_FORMAT = "SELECT f.mimeType FROM File f GROUP BY f.mimeType";
+    private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT f.id, f.order, f.version, f.name, f.title, f.mimeType, f.size, f.eps FROM File f WHERE f.version = :idVersion";
+    private static final String SQL_SEARCH = "SELECT f.id, f.order, f.version, f.name, f.title, f.mimeType, f.size, f.eps FROM File f, Version v WHERE f.id = v.atome.id AND f.version = v.id";
+    private static final String SQL_FILTER_FILE_TITLE = "f.title = :titleFile";
+    private static final String SQL_FILTER_FILE_NAME = "f.name = :nameFile";
+    private static final String SQL_FILTER_FILE_TYPE = "f.mimeType = :typeFile";
+    private static final String SQL_FILTER_ATOME_NAME = "v.atome.name = :nameAtome";
 
     /**
     * @return the plugin name
@@ -75,13 +76,13 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
      */
     public void remove( File file )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, file.getId(  ) );
-        daoUtil.setInt( 2, file.getOrder(  ) );
-        daoUtil.setInt( 3, file.getVersion(  ) );
-        daoUtil.executeUpdate(  );
-
-        daoUtil.free(  );
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_DELETE );
+    	q.setParameter( "idAtome", file.getId(  ) );
+    	q.setParameter( "orderFile", file.getOrder(  ) );
+    	q.setParameter( "idVersion", file.getVersion(  ) );
+    	
+    	q.executeUpdate(  );
     }
 
     /**
@@ -90,25 +91,10 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
      */
     public List<File> findAll(  )
     {
-        List<File> fileList = new ArrayList<File>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            File file = new File(  );
-            file.setId( daoUtil.getInt( 1 ) );
-            file.setOrder( daoUtil.getInt( 2 ) );
-            file.setVersion( daoUtil.getInt( 3 ) );
-            file.setName( daoUtil.getString( 4 ) );
-            file.setTitle( daoUtil.getString( 5 ) );
-            file.setMimeType( daoUtil.getString( 6 ) );
-            file.setEPS( daoUtil.getString( 7 ) );
-            file.setSize( daoUtil.getInt( 8 ) );
-            fileList.add( file );
-        }
-
-        daoUtil.free(  );
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_ALL );
+    	
+    	List<File> fileList = q.getResultList(  );
 
         return fileList;
     }
@@ -119,18 +105,10 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
      */
     public List<File> findAllMimeType(  )
     {
-        List<File> fileList = new ArrayList<File>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL_FORMAT );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            File file = new File(  );
-            file.setMimeType( daoUtil.getString( 1 ) );
-            fileList.add( file );
-        }
-
-        daoUtil.free(  );
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_ALL_FORMAT );
+    	
+    	List<File> fileList = q.getResultList(  );
 
         return fileList;
     }
@@ -142,26 +120,11 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
      */
     public List<File> findByVersion( int nIdVersion )
     {
-        List<File> fileList = new ArrayList<File>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_VERSION );
-        daoUtil.setInt( 1, nIdVersion );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            File file = new File(  );
-            file.setId( daoUtil.getInt( 1 ) );
-            file.setOrder( daoUtil.getInt( 2 ) );
-            file.setVersion( daoUtil.getInt( 3 ) );
-            file.setName( daoUtil.getString( 4 ) );
-            file.setTitle( daoUtil.getString( 5 ) );
-            file.setMimeType( daoUtil.getString( 6 ) );
-            file.setEPS( daoUtil.getString( 7 ) );
-            file.setSize( daoUtil.getInt( 8 ) );
-            fileList.add( file );
-        }
-
-        daoUtil.free(  );
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION );
+    	q.setParameter( "idVersion", nIdVersion );
+    	
+    	List<File> fileList = q.getResultList(  );
 
         return fileList;
     }
@@ -174,7 +137,6 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
      */
     public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter )
     {
-        List<File> fileList = new ArrayList<File>(  );
         List<String> listStrFilter = new ArrayList<String>(  );
 
         if ( fileFilter.containsTitle(  ) )
@@ -199,50 +161,30 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
 
         String strSQL = PluUtils.buildRequetteWithFilter( SQL_SEARCH, listStrFilter );
 
-        DAOUtil daoUtil = new DAOUtil( strSQL );
-        int nIndex = 1;
+        EntityManager em = getEM(  );
+    	Query q = em.createQuery( strSQL );
 
         if ( fileFilter.containsTitle(  ) )
         {
-            daoUtil.setString( nIndex, fileFilter.get_title(  ) );
-            nIndex++;
+        	q.setParameter( "titleFile", fileFilter.get_title(  ) );
         }
 
         if ( fileFilter.containsName(  ) )
         {
-            daoUtil.setString( nIndex, fileFilter.get_name(  ) );
-            nIndex++;
+        	q.setParameter( "nameFile", fileFilter.get_name(  ) );
         }
 
         if ( fileFilter.containsMimeType(  ) )
         {
-            daoUtil.setString( nIndex, fileFilter.get_mimeType(  ) );
-            nIndex++;
+        	q.setParameter( "typeFile", fileFilter.get_mimeType(  ) );
         }
 
         if ( atomeFilter.containsName(  ) )
         {
-            daoUtil.setString( nIndex, atomeFilter.get_name(  ) );
-            nIndex++;
+        	q.setParameter( "nameAtome", atomeFilter.get_name(  ) );
         }
 
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
-        {
-            File file = new File(  );
-            file.setId( daoUtil.getInt( 1 ) );
-            file.setOrder( daoUtil.getInt( 2 ) );
-            file.setVersion( daoUtil.getInt( 3 ) );
-            file.setName( daoUtil.getString( 4 ) );
-            file.setTitle( daoUtil.getString( 5 ) );
-            file.setMimeType( daoUtil.getString( 6 ) );
-            file.setEPS( daoUtil.getString( 7 ) );
-            file.setSize( daoUtil.getInt( 8 ) );
-            fileList.add( file );
-        }
-
-        daoUtil.free(  );
+        List<File> fileList = q.getResultList(  );
 
         return fileList;
     }

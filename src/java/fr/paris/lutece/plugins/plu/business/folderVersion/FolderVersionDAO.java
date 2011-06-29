@@ -73,30 +73,8 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
     	q.setParameter( "idFolder", folder.getId(  ) );
     	
     	List<FolderVersion> folderVersionList = (List<FolderVersion>) q.getResultList(  );
-
-    	em.close(  );
     	
     	return folderVersionList;
-    	
-//        List<FolderVersion> folderVersionList = new ArrayList<FolderVersion>(  );
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_FOLDER );
-//        daoUtil.setInt( 1, folder.getId(  ) );
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            Version version = new Version(  );
-//            version.setId( daoUtil.getInt( 2 ) );
-//
-//            FolderVersion folderVersion = new FolderVersion(  );
-//            folderVersion.setId( daoUtil.getInt( 1 ) );
-//            folderVersion.setVersion( version );
-//            folderVersionList.add( folderVersion );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return folderVersionList;
     }
 
     /**
@@ -113,24 +91,7 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
     	q.setParameter( "idVersion", version.getId(  ) );
     	
     	FolderVersion folderVersion = (FolderVersion) q.getSingleResult(  );
-
-    	em.close(  );
     	
     	return folderVersion;
-    	
-//        FolderVersion folderVersion = new FolderVersion(  );
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION );
-//        daoUtil.setInt( 1, folder.getId(  ) );
-//        daoUtil.setInt( 2, version.getId(  ) );
-//        daoUtil.executeQuery(  );
-//
-//        while ( daoUtil.next(  ) )
-//        {
-//            folderVersion.setId( daoUtil.getInt( 1 ) );
-//        }
-//
-//        daoUtil.free(  );
-//
-//        return folderVersion;
     }
 }
