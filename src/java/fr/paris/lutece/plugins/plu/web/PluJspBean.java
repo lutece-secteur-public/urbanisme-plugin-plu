@@ -39,6 +39,8 @@ import fr.paris.lutece.plugins.plu.business.atome.IAtomeServices;
 import fr.paris.lutece.plugins.plu.business.file.File;
 import fr.paris.lutece.plugins.plu.business.file.FileFilter;
 import fr.paris.lutece.plugins.plu.business.file.IFileServices;
+import fr.paris.lutece.plugins.plu.business.fileContent.FileContent;
+import fr.paris.lutece.plugins.plu.business.fileContent.IFileContentServices;
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.folder.FolderFilter;
 import fr.paris.lutece.plugins.plu.business.folder.IFolderServices;
@@ -86,7 +88,10 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+/**
+ * This class provides the user interface to manage form features ( manage,
+ * create, modify, remove)
+ */
 public class PluJspBean extends PluginAdminPageJspBean
 {
     public static final String RIGHT_MANAGE_PLU = "PLU_MANAGEMENT";
@@ -276,10 +281,11 @@ public class PluJspBean extends PluginAdminPageJspBean
     private IVersionServices _versionServices;
     private IFolderVersionServices _folderVersionServices;
     private IFileServices _fileServices;
+    private IFileContentServices _fileContentServices;
     
-    private List<File> fileList = new ArrayList<File>(  );
-    private Folder folderHtml = new Folder(  );
-    private Folder folderImage = new Folder(  );
+    private List<File> _fileList = new ArrayList<File>(  );
+    private Folder _folderHtml = new Folder(  );
+    private Folder _folderImage = new Folder(  );
 
     public PluJspBean(  )
     {
@@ -296,6 +302,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         _folderVersionServices = (IFolderVersionServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
                 "plu.folderVersionServices" );
         _fileServices = (IFileServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.fileServices" );
+        _fileContentServices = (IFileContentServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.fileContentServices" );
     }
 
     public String getManagePlu( HttpServletRequest request )
@@ -926,9 +933,9 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TREE_PLU, getLocale(  ), model );
 
-        fileList.clear(  );
-        folderHtml.setHtml( null );
-        folderImage.setImg( null );
+        _fileList.clear(  );
+        _folderHtml.setHtml( null );
+        _folderImage.setImg( null );
 
         return getAdminPage( template.getHtml(  ) );
     }
@@ -956,7 +963,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
             Folder folder = _folderServices.findByPrimaryKey( idFolder );
-            folderHtml.setHtml( folder.getHtml(  ) );
+            _folderHtml.setHtml( folder.getHtml(  ) );
             model.put( MARK_HTML, 1 );
         }
         else
@@ -968,7 +975,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
-                folderHtml.setHtml( physicalFile.getValue(  ) );
+                _folderHtml.setHtml( physicalFile.getValue(  ) );
                 model.put( MARK_HTML, 1 );
             }
             else
@@ -976,7 +983,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
                 {
                     String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
-                    folderHtml.setHtml( strHtml.getBytes(  ) );
+                    _folderHtml.setHtml( strHtml.getBytes(  ) );
                     model.put( MARK_HTML, 1 );
                 }
             }
@@ -1046,7 +1053,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             {
 	            String name = fileItem.getName(  );
 	            String type = name.substring( name.lastIndexOf( "." ) );
-	            if( !type.equals(".jpg") && !type.equals(".pgn") && !type.equals(".gif") )
+	            if( !type.equals( ".jpg" ) && !type.equals( ".pgn" ) && !type.equals( ".gif" ) )
 	            {
 	            	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, AdminMessage.TYPE_STOP );
 	            }
@@ -1054,7 +1061,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 	            PhysicalFile physicalFile = new PhysicalFile(  );
 	            physicalFile.setValue( fileItem.get(  ) );
 	            
-	            folderImage.setImg( physicalFile.getValue(  ) );
+	            _folderImage.setImg( physicalFile.getValue(  ) );
             }
         }
 
@@ -1073,13 +1080,13 @@ public class PluJspBean extends PluginAdminPageJspBean
         folder.setParentFolder( idParentFolder );
         folder.setTitle( request.getParameter( PARAMETER_FOLDER_TITLE ) );
         folder.setDescription( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
-        if( folderImage.getImg(  ) != null )
+        if( _folderImage.getImg(  ) != null )
         {
-        	folder.setImg( folderImage.getImg(  ) );
+        	folder.setImg( _folderImage.getImg(  ) );
         }
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
         {
-            folder.setHtml( folderHtml.getHtml(  ) );
+            folder.setHtml( _folderHtml.getHtml(  ) );
         }
 
         _folderServices.create( folder );
@@ -1150,7 +1157,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
             PhysicalFile physicalFile = new PhysicalFile(  );
             physicalFile.setValue( fileItem.get(  ) );
-            folderHtml.setImg( physicalFile.getValue(  ) );
+            _folderHtml.setImg( physicalFile.getValue(  ) );
             model.put( MARK_HTML, 1 );
         }
         else
@@ -1158,7 +1165,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
             {
                 String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
-                folderHtml.setHtml( strHtml.getBytes(  ) );
+                _folderHtml.setHtml( strHtml.getBytes(  ) );
                 model.put( MARK_HTML, 1 );
             }
         }
@@ -1238,14 +1245,14 @@ public class PluJspBean extends PluginAdminPageJspBean
 
             String name = fileItem.getName(  );
             String type = name.substring( name.lastIndexOf( "." ) );
-            if( !type.equals(".jpg") && !type.equals(".pgn") && !type.equals(".gif") )
+            if( !type.equals( ".jpg" ) && !type.equals( ".pgn" ) && !type.equals( ".gif" ) )
             {
             	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, AdminMessage.TYPE_STOP );
             }
             
             PhysicalFile physicalFile = new PhysicalFile(  );
             physicalFile.setValue( fileItem.get(  ) );
-            folderImage.setImg( physicalFile.getValue(  ) );
+            _folderImage.setImg( physicalFile.getValue(  ) );
         }
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_MODIFY_FOLDER, args, url.getUrl(  ),
@@ -1268,12 +1275,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( !"true".equals( request.getParameter( PARAMETER_FOLDER_IMAGE_CHECK ) ) )
         {
-            folder.setImg( folderImage.getImg(  ) );
+            folder.setImg( _folderImage.getImg(  ) );
         }
 
         if ( !"true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
         {
-            folder.setHtml( folderHtml.getHtml(  ) );
+            folder.setHtml( _folderHtml.getHtml(  ) );
         }
 
         _folderServices.update( folder );
@@ -1306,7 +1313,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
             PhysicalFile physicalFile = new PhysicalFile(  );
             physicalFile.setValue( fileItem.get(  ) );
-            folderHtml.setImg( physicalFile.getValue(  ) );
+            _folderHtml.setImg( physicalFile.getValue(  ) );
             model.put( MARK_HTML, 1 );
         }
         else
@@ -1314,7 +1321,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
             {
                 String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
-                folderHtml.setHtml( strHtml.getBytes(  ) );
+                _folderHtml.setHtml( strHtml.getBytes(  ) );
                 model.put( MARK_HTML, 1 );
             }
         }
@@ -1392,14 +1399,14 @@ public class PluJspBean extends PluginAdminPageJspBean
 
             String name = fileItem.getName(  );
             String type = name.substring( name.lastIndexOf( "." ) );
-            if( !type.equals(".jpg") && !type.equals(".pgn") && !type.equals(".gif") )
+            if( !type.equals( ".jpg" ) && !type.equals( ".pgn" ) && !type.equals( ".gif" ) )
             {
             	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, AdminMessage.TYPE_STOP );
             }
             
             PhysicalFile physicalFile = new PhysicalFile(  );
             physicalFile.setValue( fileItem.get(  ) );
-            folderImage.setImg( physicalFile.getValue(  ) );
+            _folderImage.setImg( physicalFile.getValue(  ) );
         }
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CORRECT_FOLDER, args, url.getUrl(  ),
@@ -1421,12 +1428,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( !"true".equals( request.getParameter( PARAMETER_FOLDER_IMAGE_CHECK ) ) )
         {
-            folder.setImg( folderImage.getImg(  ) );
+            folder.setImg( _folderImage.getImg(  ) );
         }
 
         if ( !"true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
         {
-            folder.setHtml( folderHtml.getHtml(  ) );
+            folder.setHtml( _folderHtml.getHtml(  ) );
         }
 
         _folderServices.update( folder );
@@ -1504,7 +1511,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CHOICE_CREATE_ATOME, getLocale(  ), model );
 
-        fileList.clear(  );
+        _fileList.clear(  );
 
         return getAdminPage( template.getHtml(  ) );
     }
@@ -1543,7 +1550,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             		( request.getParameter( PARAMETER_FILE_NAME ) != null ) &&
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
-                for( File fileTest : fileList )
+                for( File fileTest : _fileList )
                 {
                 	if( fileTest.getTitle(  ).equals( request.getParameter( PARAMETER_FILE_TITLE ) ) )
                 	{
@@ -1552,8 +1559,11 @@ public class PluJspBean extends PluginAdminPageJspBean
                 }
                 
                 File file = new File(  );
+//                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
+                
+//                fileContent.setFile( physicalFile.getValue(  ) );
 
                 String name = fileItem.getName(  );
                 String type = name.substring( name.lastIndexOf( "." ) );
@@ -1563,13 +1573,13 @@ public class PluJspBean extends PluginAdminPageJspBean
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
                 //file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
-                fileList.add( file );
+                _fileList.add( file );
             }
         }
 
-        if ( fileList != null )
+        if ( _fileList != null )
         {
-            model.put( MARK_LIST_FILE_LIST, fileList );
+            model.put( MARK_LIST_FILE_LIST, _fileList );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ATOME, getLocale(  ), model );
@@ -1591,9 +1601,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         int numVersion = _versionServices.findMaxVersion( nIdAtome );
         Version version = _versionServices.findByAtomeAndNumVersion( nIdAtome, numVersion );
 
-        if ( fileList.isEmpty(  ) )
+        if ( _fileList.isEmpty(  ) )
         {
-            fileList.addAll( _fileServices.findByVersion( version.getId(  ) ) );
+            _fileList.addAll( _fileServices.findByVersion( version.getId(  ) ) );
         }
 
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -1614,11 +1624,12 @@ public class PluJspBean extends PluginAdminPageJspBean
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
                 File file = new File(  );
+//                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
 
                 String name = fileItem.getName(  );
-                for( File fileTest : fileList )
+                for( File fileTest : _fileList )
                 {
                 	if( fileTest.getName(  ).equals( name ) )
                 	{
@@ -1626,19 +1637,21 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	}
                 }
                 
+//                fileContent.setFile( physicalFile.getValue(  ) );
+                
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
                 file.setFile( physicalFile.getValue(  ) );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
-                fileList.add( file );
+                _fileList.add( file );
             }
         }
 
-        if ( fileList != null )
+        if ( _fileList != null )
         {
-            model.put( MARK_LIST_FILE_LIST, fileList );
+            model.put( MARK_LIST_FILE_LIST, _fileList );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ATOME_WITH_OLD, getLocale(  ), model );
@@ -1696,7 +1709,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         boolean noEps = false;
         boolean eps = false;
 
-        for ( File file : fileList )
+        for ( File file : _fileList )
         {
             if ( file.getMimeType(  ).equals( ".eps" ) )
             {
@@ -1732,7 +1745,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int i = 0;
 
-        for ( File file : fileList )
+        for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
             {
@@ -1849,7 +1862,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         int i = 0;
         int order = 1;
 
-        for ( File file : fileList )
+        for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
             {
@@ -1868,13 +1881,16 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getMimeType(  ).equals( ".eps" ) )
                     {
-                        file.setEPS( "O" );
+                        file.setEPS( 'O' );
                     }
                     else
                     {
-                        file.setEPS( "N" );
+                        file.setEPS( 'N' );
                     }
 
+//                    _fileContentServices.create( file.getFile(  ) );
+//                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
+//                    file.setFile( fileContent );
                     _fileServices.create( file );
 
                     order++;
@@ -2081,9 +2097,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
 
-        if ( fileList.isEmpty(  ) )
+        if ( _fileList.isEmpty(  ) )
         {
-            fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
+            _fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
         }
 
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -2104,11 +2120,12 @@ public class PluJspBean extends PluginAdminPageJspBean
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
                 File file = new File(  );
+//                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
 
                 String name = fileItem.getName(  );
-                for( File fileTest : fileList )
+                for( File fileTest : _fileList )
                 {
                 	if( fileTest.getName(  ).equals( name ) )
                 	{
@@ -2116,19 +2133,21 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	}
                 }
                 
+//                fileContent.setFile( physicalFile.getValue(  ) );
+                
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
                 file.setFile( physicalFile.getValue(  ) );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
-                fileList.add( file );
+                _fileList.add( file );
             }
         }
 
-        if ( fileList != null )
+        if ( _fileList != null )
         {
-            model.put( MARK_LIST_FILE_LIST, fileList );
+            model.put( MARK_LIST_FILE_LIST, _fileList );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_ATOME, getLocale(  ), model );
@@ -2200,7 +2219,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int i = 0;
 
-        for ( File file : fileList )
+        for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
             {
@@ -2274,6 +2293,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             for ( File file : fileExistList )
             {
+//            	_fileContentServices.remove( file.getFile(  ) );
                 _fileServices.remove( file );
             }
         }
@@ -2283,7 +2303,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         int i = 0;
         int order = 1;
 
-        for ( File file : fileList )
+        for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
             {
@@ -2303,13 +2323,16 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getMimeType(  ).equals( ".eps" ) )
                     {
-                        file.setEPS( "O" );
+                        file.setEPS( 'O' );
                     }
                     else
                     {
-                        file.setEPS( "N" );
+                        file.setEPS( 'N' );
                     }
 
+//                    _fileContentServices.create( file.getFile(  ) );
+//                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
+//                    file.setFile( fileContent );
                     _fileServices.create( file );
 
                     order++;
@@ -2339,9 +2362,9 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Folder folder = _folderServices.findByVersion( nIdVersion );
 
-        if ( fileList.isEmpty(  ) )
+        if ( _fileList.isEmpty(  ) )
         {
-            fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
+            _fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
         }
 
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -2361,11 +2384,12 @@ public class PluJspBean extends PluginAdminPageJspBean
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
                 File file = new File(  );
+//                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
 
                 String name = fileItem.getName(  );
-                for( File fileTest : fileList )
+                for( File fileTest : _fileList )
                 {
                 	if( fileTest.getName(  ).equals( name ) )
                 	{
@@ -2373,19 +2397,21 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	}
                 }
                 
+//                fileContent.setFile( physicalFile.getValue(  ) );
+                
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
                 file.setFile( physicalFile.getValue(  ) );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
-                fileList.add( file );
+                _fileList.add( file );
             }
         }
 
-        if ( fileList != null )
+        if ( _fileList != null )
         {
-            model.put( MARK_LIST_FILE_LIST, fileList );
+            model.put( MARK_LIST_FILE_LIST, _fileList );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CORRECT_ATOME, getLocale(  ), model );
@@ -2422,7 +2448,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         boolean noEps = false;
         boolean eps = false;
 
-        for ( File file : fileList )
+        for ( File file : _fileList )
         {
             if ( file.getMimeType(  ).equals( ".eps" ) )
             {
@@ -2491,7 +2517,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE );
         int j = 0;
 
-        for ( File file : fileList )
+        for ( File file : _fileList )
         {
             if ( !file.getTitle(  ).equals( fileTitle[j] ) )
             {
@@ -2534,9 +2560,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
 
-        if ( fileList.isEmpty(  ) )
+        if ( _fileList.isEmpty(  ) )
         {
-            fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
+            _fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
         }
 
         Map<String, Object> model = new HashMap<String, Object>(  );
@@ -2558,11 +2584,12 @@ public class PluJspBean extends PluginAdminPageJspBean
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
                 File file = new File(  );
+//                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
 
                 String name = fileItem.getName(  );
-                for( File fileTest : fileList )
+                for( File fileTest : _fileList )
                 {
                 	if( fileTest.getName(  ).equals( name ) )
                 	{
@@ -2570,19 +2597,21 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	}
                 }
                 
+//                fileContent.setFile( physicalFile.getValue(  ) );
+                
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
                 file.setFile( physicalFile.getValue(  ) );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
-                fileList.add( file );
+                _fileList.add( file );
             }
         }
 
-        if ( fileList != null )
+        if ( _fileList != null )
         {
-            model.put( MARK_LIST_FILE_LIST, fileList );
+            model.put( MARK_LIST_FILE_LIST, _fileList );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EVOLVE_ATOME, getLocale(  ), model );
@@ -2653,7 +2682,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int i = 0;
 
-        for ( File file : fileList )
+        for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
             {
@@ -2720,7 +2749,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         int i = 0;
         int order = 1;
 
-        for ( File file : fileList )
+        for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
             {
@@ -2739,13 +2768,16 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getMimeType(  ).equals( ".eps" ) )
                     {
-                        file.setEPS( "O" );
+                        file.setEPS( 'O' );
                     }
                     else
                     {
-                        file.setEPS( "N" );
+                        file.setEPS( 'N' );
                     }
 
+//                    _fileContentServices.create( file.getFile(  ) );
+//                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
+//                    file.setFile( fileContent );
                     _fileServices.create( file );
 
                     order++;
@@ -3046,7 +3078,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
         {
-            model.put( MARK_HTML, folderHtml );
+            model.put( MARK_HTML, _folderHtml );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_HTML, getLocale(  ), model );

@@ -29,15 +29,15 @@
 						<option value="${file_format}">${file_format}</option>
 						</#if>
 						<option value="0">none</option>
-						<#list file_all_format as file >
-							<#if file.mimeType != file_format>
-		     				<option value="${file.mimeType}">${file.mimeType}</option>
+						<#list file_all_format as format >
+							<#if format != file_format>
+		     				<option value="${format}">${format}</option>
 		     				</#if>
 		     			</#list>
 					<#else>
 						<option value="0">none</option>
-						<#list file_all_format as file >
-		     				<option value="${file.mimeType}">${file.mimeType}</option>
+						<#list file_all_format as format >
+		     				<option value="${format}">${format}</option>
 		     			</#list>
 					</#if>
 				</select>
@@ -84,13 +84,13 @@
 	        <#list file_list as file >
 	        <tr>
 	        	<td>
-	                ${file.title}
+	                ${file[4]}
 	            </td>
 	            <td>
-	                ${file.name}
+	                ${file[3]}
 	            </td>
 	            <td>
-	                ${file.mimeType}
+	                ${file[5]}
 	            </td>
 	            <td>
 	           	<form method="post" action="jsp/admin/plugins/plu/atome/.jsp">

@@ -35,7 +35,9 @@ package fr.paris.lutece.plugins.plu.utils;
 
 import java.util.List;
 
-
+/**
+* Utils methods
+*/
 public class PluUtils
 {
     public static final String CONSTANT_WHERE = " WHERE ";

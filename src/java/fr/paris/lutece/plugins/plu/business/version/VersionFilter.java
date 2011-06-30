@@ -43,10 +43,10 @@ import java.util.Date;
 public class VersionFilter
 {
     private Integer _version = -1;
-    private Date _d1 = null;
-    private Date _d2 = null;
-    private Date _d3 = null;
-    private Date _d4 = null;
+    private Date _d1;
+    private Date _d2;
+    private Date _d3;
+    private Date _d4;
 
     /**
      * Get the version version filtered
@@ -61,9 +61,9 @@ public class VersionFilter
      * Set the version version to filter
      * @param _version the version version
      */
-    public void set_version( Integer _version )
+    public void set_version( Integer version )
     {
-        this._version = _version;
+        this._version = version;
     }
 
     /**
@@ -88,9 +88,9 @@ public class VersionFilter
      * Set the version d1 to filter
      * @param _d1 the version d1
      */
-    public void set_d1( Date _d1 )
+    public void set_d1( Date d1 )
     {
-        this._d1 = _d1;
+        this._d1 = d1;
     }
 
     /**
@@ -115,9 +115,9 @@ public class VersionFilter
      * Set the version d2 to filter
      * @param _d2 the version d2
      */
-    public void set_d2( Date _d2 )
+    public void set_d2( Date d2 )
     {
-        this._d2 = _d2;
+        this._d2 = d2;
     }
 
     /**
@@ -142,9 +142,9 @@ public class VersionFilter
      * Set the version d3 to filter
      * @param _d3 the version d3
      */
-    public void set_d3( Date _d3 )
+    public void set_d3( Date d3 )
     {
-        this._d3 = _d3;
+        this._d3 = d3;
     }
 
     /**
@@ -169,9 +169,9 @@ public class VersionFilter
      * Set the version d4 to filter
      * @param _d4 the version d4
      */
-    public void set_d4( Date _d4 )
+    public void set_d4( Date d4 )
     {
-        this._d4 = _d4;
+        this._d4 = d4;
     }
 
     /**

@@ -52,9 +52,9 @@ public class HistoryServices implements IHistoryServices
 	/**
 	 * @param home the _home to set
 	 */
-    public void setHome( IHistoryHome _home )
+    public void setHome( IHistoryHome home )
     {
-        this._home = _home;
+        this._home = home;
     }
 
     /**

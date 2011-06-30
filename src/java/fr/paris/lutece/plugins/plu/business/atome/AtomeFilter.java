@@ -40,8 +40,8 @@ package fr.paris.lutece.plugins.plu.business.atome;
  */
 public class AtomeFilter
 {
-    private String _name = null;
-    private String _title = null;
+    private String _name;
+    private String _title;
 
     /**
      * Get the atome name filtered
@@ -54,11 +54,11 @@ public class AtomeFilter
 
     /**
      * Set the atome name to filter
-     * @param _title the atome name
+     * @param name the atome name
      */
-    public void set_name( String _name )
+    public void set_name( String name )
     {
-        this._name = _name;
+        this._name = name;
     }
 
     /**
@@ -83,9 +83,9 @@ public class AtomeFilter
      * Set the atome title to filter
      * @param _title the atome title
      */
-    public void set_title( String _title )
+    public void set_title( String title )
     {
-        this._title = _title;
+        this._title = title;
     }
 
     /**

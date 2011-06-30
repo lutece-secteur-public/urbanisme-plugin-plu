@@ -33,9 +33,12 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 
@@ -57,7 +60,7 @@ public class File
     private String _mimeType;
     private int _size;
     private byte[] _file;
-    private String _eps;
+    private char _eps;
 
     /**
      * Returns the identifier of this file
@@ -198,16 +201,16 @@ public class File
      * @return the file eps value
      */
     @Column( name = "est_eps" )
-    public String getEPS(  )
+    public char getEPS(  )
     {
         return _eps;
     }
 
     /**
-     * Sets the eps value of the file to the specified varchar
+     * Sets the eps value of the file to the specified char
      * @param eps the new eps value
      */
-    public void setEPS( String eps )
+    public void setEPS( char eps )
     {
         _eps = eps;
     }
@@ -216,6 +219,8 @@ public class File
      * Returns the physical file of this file
      * @return the physical file
      */
+    @Lob
+    @Basic( fetch = FetchType.LAZY )
     @Column( name = "fichier" )
     public byte[] getFile(  )
     {

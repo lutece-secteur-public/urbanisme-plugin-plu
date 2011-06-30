@@ -166,7 +166,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	Query q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_ID );
     	q.setParameter( "idPlu", pluId );
     	
-    	List<Folder> folderList = q.getResultList(  );
+    	List<Folder> folderList = (List<Folder>) q.getResultList(  );
     	
     	return folderList;
     }
@@ -182,7 +182,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	Query q = em.createQuery( SQL_QUERY_SELECT_BY_PARENT );
     	q.setParameter( "idParentFolder", parentId );
     	
-    	List<Folder> folderList = q.getResultList(  );
+    	List<Folder> folderList = (List<Folder>) q.getResultList(  );
     	
     	return folderList;
     }
@@ -221,7 +221,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         	q.setParameter( "title", filter.get_title(  ) );
         }
 
-        List<Folder> folderList = q.getResultList(  );
+        List<Folder> folderList = (List<Folder>) q.getResultList(  );
 
         return folderList;
     }

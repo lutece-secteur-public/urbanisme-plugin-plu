@@ -112,7 +112,7 @@ public interface IVersionServices
 
     /**
      * Returns a list of version objects
-     * @param pluId the plu id
+     * @param nIdPlu the plu id
      * @param nIdFolder the folder id
      * @return A list of version associated with the same plu id and folder id
      */
@@ -120,7 +120,8 @@ public interface IVersionServices
 
     /**
      * Finds by filter
-     * @param filter the filter
+     * @param atomeFilter the atome filter
+     * @param versionFilter the version filter
      * @return the version list
      */
     public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );

@@ -43,7 +43,9 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+/**
+* PluApp
+*/
 public class PluApp implements XPageApplication
 {
     // Parameters
@@ -61,6 +63,15 @@ public class PluApp implements XPageApplication
     // private fields
     private Plugin _plugin;
 
+    /**
+     * renvoie la page.
+     * @param request le requête http
+     * @param nMode le mode
+     * @param plugin le Plugin actif
+     * @return la page
+     * @throws UserNotSignedException UserNotSignedException
+     * @throws SiteMessageException SiteMessageException
+     */
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
     {
         XPage page = new XPage(  );

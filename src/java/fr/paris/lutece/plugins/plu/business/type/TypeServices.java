@@ -55,9 +55,9 @@ public class TypeServices implements ITypeServices
 	/**
 	 * @param home the _home to set
 	 */
-	public void setHome( ITypeHome _home )
+	public void setHome( ITypeHome home )
     {
-        this._home = _home;
+        this._home = home;
     }
 
     /**

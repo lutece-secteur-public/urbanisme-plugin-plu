@@ -33,16 +33,29 @@
  */
 package fr.paris.lutece.plugins.plu.utils.jpa;
 
+/**
+* JPA Utils methods
+*/
 public class PluJPAUtils
 {
     public static final String SEQUENCE_TABLE_NAME = "plu_sequences";
     public static final String LIKE_ENCLOSING = "%";
 
+    /**
+     * Encloses string with percent "%"
+     * @param strToEnclose string to enclose
+     * @return <code>strToEnclose + "%"</code>
+     */
     public static String buildCriteriaLikeString1( String strToEnclose )
     {
         return strToEnclose + LIKE_ENCLOSING;
     }
 
+    /**
+     * Encloses string with percent "%"
+     * @param strToEnclose string to enclose
+     * @return <code>"%" + strToEnclose + "%"</code>
+     */
     public static String buildCriteriaLikeString2( String strToEnclose )
     {
         return LIKE_ENCLOSING + strToEnclose + LIKE_ENCLOSING;

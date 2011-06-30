@@ -41,7 +41,7 @@ package fr.paris.lutece.plugins.plu.business.folder;
 public class FolderFilter
 {
     private Integer _plu = -1;
-    private String _title = null;
+    private String _title;
 
     /**
      * Get the plu id filtered
@@ -54,11 +54,11 @@ public class FolderFilter
 
     /**
      * Set the plu id to filter
-     * @param _id the plu id
+     * @param plu the plu id
      */
-    public void set_plu( Integer _plu )
+    public void set_plu( Integer plu )
     {
-        this._plu = _plu;
+        this._plu = plu;
     }
 
     /**
@@ -81,11 +81,11 @@ public class FolderFilter
 
     /**
      * Set the folder title to filter
-     * @param _title the folder title
+     * @param title the folder title
      */
-    public void set_title( String _title )
+    public void set_title( String title )
     {
-        this._title = _title;
+        this._title = title;
     }
 
     /**

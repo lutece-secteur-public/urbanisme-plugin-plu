@@ -40,9 +40,9 @@ package fr.paris.lutece.plugins.plu.business.file;
  */
 public class FileFilter
 {
-    private String _name = null;
-    private String _title = null;
-    private String _mimeType = null;
+    private String _name;
+    private String _title;
+    private String _mimeType;
 
     /**
      * Get the file name filtered
@@ -57,9 +57,9 @@ public class FileFilter
      * Set the file name to filter
      * @param _name the file name
      */
-    public void set_name( String _name )
+    public void set_name( String name )
     {
-        this._name = _name;
+        this._name = name;
     }
 
     /**
@@ -84,9 +84,9 @@ public class FileFilter
      * Set the file title to filter
      * @param _title the file title
      */
-    public void set_title( String _title )
+    public void set_title( String title )
     {
-        this._title = _title;
+        this._title = title;
     }
 
     /**
@@ -111,9 +111,9 @@ public class FileFilter
      * Set the file mime type to filter
      * @param _mimeType the file mime type
      */
-    public void set_mimeType( String _mimeType )
+    public void set_mimeType( String mimeType )
     {
-        this._mimeType = _mimeType;
+        this._mimeType = mimeType;
     }
 
     /**

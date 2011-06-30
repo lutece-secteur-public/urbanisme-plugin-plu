@@ -123,7 +123,8 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
 
     /**
      * Finds by filter
-     * @param filter the filter
+     * @param atomeFilter the atome filter
+     * @param versionFilter the version filter
      * @return the version list
      */
     public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter )

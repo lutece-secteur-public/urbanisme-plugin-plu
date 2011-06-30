@@ -55,9 +55,9 @@ public class AtomeServices implements IAtomeServices
 	/**
 	 * @param home the _home to set
 	 */
-    public void setHome( IAtomeHome _home )
+    public void setHome( IAtomeHome home )
     {
-        this._home = _home;
+        this._home = home;
     }
 
     /**
@@ -82,7 +82,6 @@ public class AtomeServices implements IAtomeServices
     /**
      * Update an atome object
      * @param atome the atome object
-     * @param nIdAtomeOld the old id atome
      */
     public void update( Atome atome )
     {

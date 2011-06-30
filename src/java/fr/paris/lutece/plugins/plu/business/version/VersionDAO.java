@@ -34,7 +34,6 @@
 package fr.paris.lutece.plugins.plu.business.version;
 
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
-import fr.paris.lutece.plugins.plu.business.version.IVersionDAO;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.plugins.plu.utils.PluUtils;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
@@ -216,6 +215,11 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     	return versionList;
     }
 
+    /**
+     * Finds by filter
+     * @param filter the filter
+     * @return the version list
+     */
     public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter )
     {
         List<String> listStrFilter = new ArrayList<String>(  );
@@ -299,7 +303,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
             q.setParameter( "d4", sqlD4 );
         }
 
-        List<Version> versionList = q.getResultList(  );
+        List<Version> versionList = (List<Version>) q.getResultList(  );
 
         return versionList;
     }

@@ -55,9 +55,9 @@ public class EtatServices implements IEtatServices
 	/**
 	 * @param home the _home to set
 	 */
-    public void setHome( IEtatHome _home )
+    public void setHome( IEtatHome home )
     {
-        this._home = _home;
+        this._home = home;
     }
 
     /**

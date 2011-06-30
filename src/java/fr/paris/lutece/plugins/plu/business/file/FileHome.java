@@ -46,7 +46,7 @@ import java.util.List;
 public class FileHome extends AbstractLuteceHome<Integer, File, IFileDAO> implements IFileHome
 {
     /**
-     * Remove a new file object
+     * Remove a file object
      * @param file the file object
      */
     public void remove( File file )

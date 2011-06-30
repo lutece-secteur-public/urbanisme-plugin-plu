@@ -58,9 +58,9 @@ public class FolderVersionServices implements IFolderVersionServices
 	/**
 	 * @param home the _home to set
 	 */
-    public void setHome( IFolderVersionHome _home )
+    public void setHome( IFolderVersionHome home )
     {
-        this._home = _home;
+        this._home = home;
     }
 
     /**

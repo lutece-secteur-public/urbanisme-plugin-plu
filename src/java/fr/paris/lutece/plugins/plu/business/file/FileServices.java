@@ -71,7 +71,7 @@ public class FileServices implements IFileServices
     }
 
     /**
-     * Update a new file object
+     * Update a file object
      * @param file the file object
      */
     public void update( File file )
@@ -80,7 +80,7 @@ public class FileServices implements IFileServices
     }
 
     /**
-     * Remove a new file object
+     * Remove a file object
      * @param file the file object
      */
     public void remove( File file )

@@ -58,14 +58,14 @@ public class VersionServices implements IVersionServices
 	/**
 	 * @param home the _home to set
 	 */
-    public void setHome( IVersionHome _home )
+    public void setHome( IVersionHome home )
     {
-        this._home = _home;
+        this._home = home;
     }
 
     /**
-     * Create a new folder object
-     * @param folder the new folder object
+     * Create a new version object
+     * @param version the new version object
      */
     public void create( Version version )
     {
@@ -168,7 +168,8 @@ public class VersionServices implements IVersionServices
 
     /**
      * Finds by filter
-     * @param filter the filter
+     * @param atomeFilter the atome filter
+     * @param versionFilter the version filter
      * @return the version list
      */
     public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter )

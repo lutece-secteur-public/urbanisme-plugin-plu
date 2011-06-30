@@ -102,14 +102,14 @@ public class Plu
      * @return the plu type
      */
     @OneToOne( fetch = FetchType.EAGER )
-    @JoinColumn( name="id_type_acte_juridique" )
+    @JoinColumn( name = "id_type_acte_juridique" )
     public Type getType(  )
     {
         return _type;
     }
 
     /**
-     * Sets the type of the plu to the specified integer
+     * Sets the type of the plu to the specified Type
      * @param type the new type
      */
     public void setType( Type type )
@@ -217,15 +217,15 @@ public class Plu
      * @return the plu etat
      */
     @OneToOne( fetch = FetchType.EAGER )
-    @JoinColumn( name="id_etat_generation" )
+    @JoinColumn( name = "id_etat_generation" )
     public Etat getEtat(  )
     {
         return _etat;
     }
 
     /**
-     * Sets the type of the plu to the specified integer
-     * @param type the new type
+     * Sets the etat of the plu to the specified Etat
+     * @param etat the new etat
      */
     public void setEtat( Etat etat )
     {

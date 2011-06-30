@@ -95,7 +95,7 @@ public class FolderVersion
      * @return the FolderVersion version
      */
     @OneToOne( fetch = FetchType.LAZY )
-    @JoinColumn( name="id_version", referencedColumnName="id_version" )
+    @JoinColumn( name = "id_version" )
     public Version getVersion(  )
     {
         return _version;
@@ -115,7 +115,7 @@ public class FolderVersion
      * @return the FolderVersion folder
      */
     @OneToOne( fetch = FetchType.LAZY )
-    @JoinColumn( name="id_dossier", referencedColumnName="id_dossier" )
+    @JoinColumn( name = "id_dossier" )
     public Folder getFolder(  )
     {
         return _folder;
