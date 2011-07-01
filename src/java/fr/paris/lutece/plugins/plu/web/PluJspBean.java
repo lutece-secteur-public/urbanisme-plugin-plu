@@ -39,8 +39,8 @@ import fr.paris.lutece.plugins.plu.business.atome.IAtomeServices;
 import fr.paris.lutece.plugins.plu.business.file.File;
 import fr.paris.lutece.plugins.plu.business.file.FileFilter;
 import fr.paris.lutece.plugins.plu.business.file.IFileServices;
-import fr.paris.lutece.plugins.plu.business.fileContent.FileContent;
-import fr.paris.lutece.plugins.plu.business.fileContent.IFileContentServices;
+import fr.paris.lutece.plugins.plu.business.file.content.FileContent;
+import fr.paris.lutece.plugins.plu.business.file.content.IFileContentServices;
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.folder.FolderFilter;
 import fr.paris.lutece.plugins.plu.business.folder.IFolderServices;
@@ -306,7 +306,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     }
 
     public String getManagePlu( HttpServletRequest request )
-    {
+    {   
         setPageTitleProperty( PROPERTY_PAGE_TITLE_PLU_LIST );
 
         Plu plu = _pluServices.findPluApplied(  );
@@ -1559,17 +1559,17 @@ public class PluJspBean extends PluginAdminPageJspBean
                 }
                 
                 File file = new File(  );
-//                FileContent fileContent = new FileContent(  );
+                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
                 
-//                fileContent.setFile( physicalFile.getValue(  ) );
+                fileContent.setFile( physicalFile.getValue(  ) );
 
                 String name = fileItem.getName(  );
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setFile( physicalFile.getValue(  ) );
+                file.setFile( fileContent );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
                 //file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
@@ -1624,7 +1624,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
                 File file = new File(  );
-//                FileContent fileContent = new FileContent(  );
+                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
 
@@ -1637,12 +1637,12 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	}
                 }
                 
-//                fileContent.setFile( physicalFile.getValue(  ) );
+                fileContent.setFile( physicalFile.getValue(  ) );
                 
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setFile( physicalFile.getValue(  ) );
+                file.setFile( fileContent );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
                 _fileList.add( file );
@@ -1721,11 +1721,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
         }
 
-        if ( !eps )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
-                AdminMessage.TYPE_STOP );
-        }
+//        if ( !eps )
+//        {
+//            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
+//                AdminMessage.TYPE_STOP );
+//        }
 
         if ( !noEps )
         {
@@ -1875,7 +1875,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                         file.setTitle( fileTitle[i] );
                     }
 
-                    file.setId( nIdAtome );
+                    file.setAtome( nIdAtome );
                     file.setOrder( order );
                     file.setVersion( version2.getId(  ) );
 
@@ -1888,9 +1888,9 @@ public class PluJspBean extends PluginAdminPageJspBean
                         file.setEPS( 'N' );
                     }
 
-//                    _fileContentServices.create( file.getFile(  ) );
-//                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
-//                    file.setFile( fileContent );
+                    _fileContentServices.create( file.getFile(  ) );
+                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
+                    file.setFile( fileContent );
                     _fileServices.create( file );
 
                     order++;
@@ -2120,7 +2120,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
                 File file = new File(  );
-//                FileContent fileContent = new FileContent(  );
+                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
 
@@ -2133,12 +2133,12 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	}
                 }
                 
-//                fileContent.setFile( physicalFile.getValue(  ) );
+                fileContent.setFile( physicalFile.getValue(  ) );
                 
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setFile( physicalFile.getValue(  ) );
+                file.setFile( fileContent );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
                 _fileList.add( file );
@@ -2293,7 +2293,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             for ( File file : fileExistList )
             {
-//            	_fileContentServices.remove( file.getFile(  ) );
+            	_fileContentServices.remove( file.getFile(  ) );
                 _fileServices.remove( file );
             }
         }
@@ -2317,7 +2317,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                         _fileServices.update( file );
                     }
 
-                    file.setId( nIdAtome );
+                    file.setAtome( nIdAtome );
                     file.setOrder( order );
                     file.setVersion( version.getId(  ) );
 
@@ -2330,9 +2330,9 @@ public class PluJspBean extends PluginAdminPageJspBean
                         file.setEPS( 'N' );
                     }
 
-//                    _fileContentServices.create( file.getFile(  ) );
-//                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
-//                    file.setFile( fileContent );
+                    _fileContentServices.create( file.getFile(  ) );
+                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
+                    file.setFile( fileContent );
                     _fileServices.create( file );
 
                     order++;
@@ -2384,7 +2384,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
                 File file = new File(  );
-//                FileContent fileContent = new FileContent(  );
+                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
 
@@ -2397,12 +2397,12 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	}
                 }
                 
-//                fileContent.setFile( physicalFile.getValue(  ) );
+                fileContent.setFile( physicalFile.getValue(  ) );
                 
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setFile( physicalFile.getValue(  ) );
+                file.setFile( fileContent );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
                 _fileList.add( file );
@@ -2584,7 +2584,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
             {
                 File file = new File(  );
-//                FileContent fileContent = new FileContent(  );
+                FileContent fileContent = new FileContent(  );
                 PhysicalFile physicalFile = new PhysicalFile(  );
                 physicalFile.setValue( fileItem.get(  ) );
 
@@ -2597,12 +2597,12 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	}
                 }
                 
-//                fileContent.setFile( physicalFile.getValue(  ) );
+                fileContent.setFile( physicalFile.getValue(  ) );
                 
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setFile( physicalFile.getValue(  ) );
+                file.setFile( fileContent );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
                 _fileList.add( file );
@@ -2762,7 +2762,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                         file.setTitle( fileTitle[i] );
                     }
 
-                    file.setId( nIdAtome );
+                    file.setAtome( nIdAtome );
                     file.setOrder( order );
                     file.setVersion( version.getId(  ) );
 
@@ -2775,9 +2775,9 @@ public class PluJspBean extends PluginAdminPageJspBean
                         file.setEPS( 'N' );
                     }
 
-//                    _fileContentServices.create( file.getFile(  ) );
-//                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
-//                    file.setFile( fileContent );
+                    _fileContentServices.create( file.getFile(  ) );
+                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
+                    file.setFile( fileContent );
                     _fileServices.create( file );
 
                     order++;

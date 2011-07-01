@@ -46,18 +46,6 @@ import java.util.List;
 public interface IFileDAO extends IGenericDAO<Integer, File>
 {
     /**
-     * Remove a file object
-     * @param file the file object
-     */
-    public void remove( File file );
-
-    /**
-     * Returns a list of file objects
-     * @return A list of all file
-     */
-    public List<File> findAll(  );
-
-    /**
      * Returns a list of file objects
      * @return A list of all mime type file
      */

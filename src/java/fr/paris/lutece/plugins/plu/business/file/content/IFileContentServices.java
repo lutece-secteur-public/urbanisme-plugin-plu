@@ -31,38 +31,30 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.file;
-
-import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
-import fr.paris.lutece.util.jpa.IGenericHome;
-
-import java.util.List;
+package fr.paris.lutece.plugins.plu.business.file.content;
 
 
 /**
- * IFileHome the file home interface
+ * IFileContentServices the fileContent services interface
  * @author vLopez
  */
-public interface IFileHome extends IGenericHome<Integer, File>
+public interface IFileContentServices
 {
-    /**
-     * Returns a list of file objects
-     * @return A list of all mime type file
+	/**
+     * Create a new FileContent object
+     * @param fileContent the new fileContent object
      */
-    public List<File> findAllMimeType(  );
-
+    public void create( FileContent fileContent );
+    
     /**
-     * Returns a list of file objects
-     * @param nIdVersion the version id
-     * @return A list of file associated with the same version id
+     * Remove a FileContent object
+     * @param fileContent the fileContent object
      */
-    public List<File> findByVersion( int nIdVersion );
-
+    public void remove( FileContent fileContent );
+    
     /**
-     * Finds by filter
-     * @param fileFilter the file filter
-     * @param atomeFilter the atome filter
-     * @return the folder list
+     * Returns a FileContent object
+     * @return The last fileContent created
      */
-    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter );
+    public FileContent findLastFileContent(  );
 }

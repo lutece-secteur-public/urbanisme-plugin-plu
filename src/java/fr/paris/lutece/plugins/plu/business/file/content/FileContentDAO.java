@@ -31,38 +31,43 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.file;
+package fr.paris.lutece.plugins.plu.business.file.content;
 
-import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
-import fr.paris.lutece.util.jpa.IGenericHome;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
-import java.util.List;
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
 
 /**
- * IFileHome the file home interface
+ * This class provides Data Access methods for FileContent objects
  * @author vLopez
  */
-public interface IFileHome extends IGenericHome<Integer, File>
+public class FileContentDAO extends JPALuteceDAO<Integer, FileContent> implements IFileContentDAO
 {
+	private static final String SQL_QUERY_SELECT_LAST_FILE_CONTENT = "SELECT fc FROM FileContent fc WHERE fc.id = ( SELECT MAX(fc.id) FROM FileContent fc )";
+	
     /**
-     * Returns a list of file objects
-     * @return A list of all mime type file
+     * @return the plugin name
      */
-    public List<File> findAllMimeType(  );
-
+    @Override
+    public String getPluginName(  )
+    {
+        return PluPlugin.PLUGIN_NAME;
+    }
+    
     /**
-     * Returns a list of file objects
-     * @param nIdVersion the version id
-     * @return A list of file associated with the same version id
+     * Returns a FileContent object
+     * @return The last fileContent created
      */
-    public List<File> findByVersion( int nIdVersion );
-
-    /**
-     * Finds by filter
-     * @param fileFilter the file filter
-     * @param atomeFilter the atome filter
-     * @return the folder list
-     */
-    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter );
+    public FileContent findLastFileContent(  )
+    {
+    	EntityManager em = getEM(  );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_LAST_FILE_CONTENT );
+    	
+    	FileContent fileContent = (FileContent) q.getSingleResult(  );
+    	
+    	return fileContent;
+    }
 }

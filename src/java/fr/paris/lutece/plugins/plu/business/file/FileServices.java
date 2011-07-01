@@ -85,7 +85,8 @@ public class FileServices implements IFileServices
      */
     public void remove( File file )
     {
-        _home.remove( file );
+    	int key = file.getId(  );
+        _home.remove( key );
     }
 
     /**

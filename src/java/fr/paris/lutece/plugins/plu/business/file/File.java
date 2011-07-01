@@ -33,13 +33,15 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import fr.paris.lutece.plugins.plu.business.file.content.FileContent;
 
 
 /**
@@ -53,21 +55,22 @@ public class File
 	/** Constants */
     public static final String RESOURCE_TYPE = "FICHIER_RESOURCE";
     private int _id;
+    private int _atome;
     private int _order;
     private int _version;
     private String _name;
     private String _title;
     private String _mimeType;
     private int _size;
-    private byte[] _file;
     private char _eps;
+    private FileContent _file;
 
     /**
      * Returns the identifier of this file
-     * @return the file identifier
+     * @return the identifier
      */
     @Id
-    @Column( name = "id_atome" )
+    @Column( name = "id_fichier" )
     public int getId(  )
     {
         return _id;
@@ -79,7 +82,26 @@ public class File
      */
     public void setId( int id )
     {
-        _id = id;
+    	_id = id;
+    }
+    
+    /**
+     * Returns the identifier atome of this file
+     * @return the identifier atome
+     */
+    @Column( name = "id_atome" )
+    public int getAtome(  )
+    {
+        return _atome;
+    }
+
+    /**
+     * Sets the identifier atome of the file to the specified integer
+     * @param atome the new identifier atome
+     */
+    public void setAtome( int atome )
+    {
+    	_atome = atome;
     }
 
     /**
@@ -219,10 +241,9 @@ public class File
      * Returns the physical file of this file
      * @return the physical file
      */
-    @Lob
-    @Basic( fetch = FetchType.LAZY )
-    @Column( name = "fichier" )
-    public byte[] getFile(  )
+    @OneToOne( fetch = FetchType.LAZY )
+    @JoinColumn( name = "id_fichier_contenu" )
+    public FileContent getFile(  )
     {
         return _file;
     }
@@ -231,8 +252,9 @@ public class File
      * Sets the physical file of the file to the specified byte
      * @param file the new physical file
      */
-    public void setFile( byte[] file )
+    public void setFile( FileContent file )
     {
         _file = file;
     }
+    
 }

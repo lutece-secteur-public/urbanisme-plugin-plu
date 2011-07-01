@@ -46,24 +46,6 @@ import java.util.List;
 public class FileHome extends AbstractLuteceHome<Integer, File, IFileDAO> implements IFileHome
 {
     /**
-     * Remove a file object
-     * @param file the file object
-     */
-    public void remove( File file )
-    {
-        getDao(  ).remove( file );
-    }
-
-    /**
-     * Returns a list of file objects
-     * @return A list of all file
-     */
-    public List<File> findAll(  )
-    {
-        return getDao(  ).findAll(  );
-    }
-
-    /**
      * Returns a list of file objects
      * @return A list of all mime type file
      */

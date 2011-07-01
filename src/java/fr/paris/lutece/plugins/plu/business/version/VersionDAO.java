@@ -57,8 +57,8 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     private static final String SQL_QUERY_SELECT_ARCHIVE = "SELECT v FROM FolderVersion fv JOIN fv.version v  WHERE v.d3 < :d4 AND v.d4 IS NULL AND fv.folder.id = :idPlu";
 //    private static final String SQL_QUERY_FOR_EVOLUTION = "UPDATE version_atome SET date_evolution = '0000-00-00' WHERE id_version = ?";
     
-    private static final String SQL_QUERY_SELECT_MAX_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = MAX(v.version)";
-    private static final String SQL_QUERY_SELECT_BY_ATOME_AND_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = :numVersion;";
+    private static final String SQL_QUERY_SELECT_MAX_VERSION = "SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome";
+    private static final String SQL_QUERY_SELECT_BY_ATOME_AND_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = :numVersion";
     private static final String SQL_QUERY_SELECT_BY_PLU_AND_FOLDER = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu AND fv.folder.id = :idFolder";
     private static final String SQL_QUERY_SELECT_ALL = "SELECT v FROM Version v";
     private static final String SQL_FILTER_ATOME_NAME = "v.atome.name = :nameAtome";
@@ -174,9 +174,9 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     	Query q = em.createQuery( SQL_QUERY_SELECT_MAX_VERSION );
     	q.setParameter( "idAtome", nIdAtome );
     	
-    	Version version = (Version) q.getSingleResult(  );
+    	int version = (Integer) q.getSingleResult(  );
     	
-    	return version.getVersion(  );
+    	return version;
     }
 
     /**

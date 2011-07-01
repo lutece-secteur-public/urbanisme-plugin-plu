@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
+import fr.paris.lutece.plugins.plu.business.folderVersion.FolderVersion;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.plugins.plu.utils.PluUtils;
 import fr.paris.lutece.portal.service.image.ImageResource;
@@ -52,9 +53,10 @@ import javax.persistence.Query;
  */
 public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderDAO
 {
-	private static final String SQL_QUERY_SELECT_LAST_FOLDER = "SELECT f FROM Folder f WHERE f.id = ( SELECT MAX(f.id) FROM Folder f )";
+	private static final String SQL_QUERY_SELECT_LAST_FOLDER = "SELECT f FROM Folder f WHERE f.id = (SELECT MAX(f.id) FROM Folder f)";
     private static final String SQL_QUERY_SELECT_BY_TITLE = "SELECT f FROM Folder f WHERE f.title = :title";
-    private static final String SQL_QUERY_SELECT_BY_ATOME = "SELECT f FROM FolderVersion fv JOIN fv.folder f JOIN fv.version v WHERE v.version = (SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome )";
+//    private static final String SQL_QUERY_SELECT_BY_ATOME = "SELECT f FROM FolderVersion fv JOIN fv.folder f JOIN fv.version v WHERE v.atome.id = :idAtome AND v.version = (SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome )";
+    private static final String SQL_QUERY_SELECT_BY_ATOME = "SELECT fv FROM FolderVersion fv JOIN fv.version v JOIN fv.folder f WHERE v.atome.id = :idAtome AND v.version = (SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome )";
 
     private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.version.id = :idVersion";
     private static final String SQL_QUERY_SELECT_FOR_DELETE = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE f.parentFolder = :idParentFolder OR fv.folder.id = :idFolder";
@@ -112,11 +114,16 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public Folder findByAtome( int nIdAtome )
     {
     	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_ATOME );
+    	Query q = em.createQuery( "SELECT fv.folder FROM FolderVersion fv JOIN fv.version v JOIN fv.folder f WHERE v.atome.id = :idAtome AND v.version = (SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome ) ORDER BY f.id DESC" );
     	q.setParameter( "idAtome", nIdAtome );
     	
-    	Folder folder = (Folder) q.getSingleResult(  );
-    	
+    	List<Folder> fv =  q.getResultList(  );
+    	//Folder folder = (Folder) q.getSingleResult(  );
+    	Folder folder = null;
+    	if( fv != null )
+    	{
+    		folder = fv.get(0);
+    	}
     	return folder;
     }
 

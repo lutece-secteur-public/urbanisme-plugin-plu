@@ -31,38 +31,58 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.file;
-
-import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
-import fr.paris.lutece.util.jpa.IGenericHome;
-
-import java.util.List;
+package fr.paris.lutece.plugins.plu.business.file.content;
 
 
 /**
- * IFileHome the file home interface
+ * FileContentServices
  * @author vLopez
  */
-public interface IFileHome extends IGenericHome<Integer, File>
+public class FileContentServices implements IFileContentServices
 {
-    /**
-     * Returns a list of file objects
-     * @return A list of all mime type file
-     */
-    public List<File> findAllMimeType(  );
+    IFileContentHome _home;
 
     /**
-     * Returns a list of file objects
-     * @param nIdVersion the version id
-     * @return A list of file associated with the same version id
-     */
-    public List<File> findByVersion( int nIdVersion );
+	 * @return the _home
+	 */
+    public IFileContentHome getHome(  )
+    {
+        return _home;
+    }
+
+	/**
+	 * @param home the _home to set
+	 */
+    public void setHome( IFileContentHome _home )
+    {
+        this._home = _home;
+    }
 
     /**
-     * Finds by filter
-     * @param fileFilter the file filter
-     * @param atomeFilter the atome filter
-     * @return the folder list
+     * Create a new FileContent object
+     * @param fileContent the new fileContent object
      */
-    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter );
+    public void create( FileContent fileContent )
+    {
+    	_home.create( fileContent );
+    }
+    
+    /**
+     * Remove a FileContent object
+     * @param fileContent the fileContent object
+     */
+    public void remove( FileContent fileContent )
+    {
+    	int idFileContent = fileContent.getId(  );
+    	_home.remove( idFileContent );
+    }
+    
+    /**
+     * Returns a FileContent object
+     * @return The last fileContent created
+     */
+    public FileContent findLastFileContent(  )
+    {
+        return _home.findLastFileContent(  );
+    }
 }
