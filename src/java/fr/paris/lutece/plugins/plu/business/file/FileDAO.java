@@ -52,7 +52,7 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
 {
     private static final String SQL_QUERY_SELECT_ALL_FORMAT = "SELECT f.mimeType FROM File f GROUP BY f.mimeType";
     private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT f FROM File f WHERE f.version = :idVersion";
-    private static final String SQL_SEARCH = "SELECT f FROM File f, Version v WHERE f.atome = v.atome.id AND f.version = v.id";
+    private static final String SQL_SEARCH = "SELECT f FROM File f, Version v WHERE f.version = v.id";
     private static final String SQL_FILTER_FILE_TITLE = "f.title = :titleFile";
     private static final String SQL_FILTER_FILE_NAME = "f.name = :nameFile";
     private static final String SQL_FILTER_FILE_TYPE = "f.mimeType = :typeFile";

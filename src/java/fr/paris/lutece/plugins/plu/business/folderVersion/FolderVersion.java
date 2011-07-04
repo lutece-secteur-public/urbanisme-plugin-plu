@@ -114,7 +114,7 @@ public class FolderVersion
      * Returns the folder of this FolderVersion
      * @return the FolderVersion folder
      */
-    @OneToOne( fetch = FetchType.LAZY )
+    @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "id_dossier" )
     public Folder getFolder(  )
     {

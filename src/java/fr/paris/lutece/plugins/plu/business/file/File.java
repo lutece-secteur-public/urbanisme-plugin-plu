@@ -36,12 +36,16 @@ package fr.paris.lutece.plugins.plu.business.file;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 import fr.paris.lutece.plugins.plu.business.file.content.FileContent;
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
 
 
 /**
@@ -53,7 +57,12 @@ import fr.paris.lutece.plugins.plu.business.file.content.FileContent;
 public class File
 {
 	/** Constants */
-    public static final String RESOURCE_TYPE = "FICHIER_RESOURCE";
+	
+    public static final String RESOURCE_TYPE = "DOSSIER_VERSION_RESOURCE";
+    /** Sequence name */
+    private static final String JPA_SEQUENCE_NAME = "plu_fichier_sequence";
+    /** Unique value */
+    private static final String JPA_COLUMN_NAME = "plu_fichier_id"; 
     private int _id;
     private int _atome;
     private int _order;
@@ -69,7 +78,9 @@ public class File
      * Returns the identifier of this file
      * @return the identifier
      */
+    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
     @Id
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
     @Column( name = "id_fichier" )
     public int getId(  )
     {

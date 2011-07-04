@@ -1039,7 +1039,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Folder folder = _folderServices.findForTestTitle( folderTitle );
 
-        if ( folder.getTitle(  ) != null )
+        if ( folder != null )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_CREATE, args, AdminMessage.TYPE_STOP );
         }
@@ -1053,7 +1053,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             {
 	            String name = fileItem.getName(  );
 	            String type = name.substring( name.lastIndexOf( "." ) );
-	            if( !type.equals( ".jpg" ) && !type.equals( ".pgn" ) && !type.equals( ".gif" ) )
+	            if( !type.equals( ".jpg" ) && !type.equals( ".png" ) && !type.equals( ".gif" ) )
 	            {
 	            	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, AdminMessage.TYPE_STOP );
 	            }
@@ -1108,7 +1108,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Folder folder = _folderServices.findForDelete( nIdFolder );
 
-        if ( folder.getId(  ) != 0 )
+        if ( folder != null )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_DELETE, args, AdminMessage.TYPE_STOP );
         }
@@ -1139,6 +1139,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
         Folder folderParent = _folderServices.findByPrimaryKey( folder.getParentFolder(  ) );
+        if( folderParent == null )
+        {
+        	folderParent = new Folder(  );
+        }
 
         Collection<Folder> folderList = _folderServices.findByPluId( nIdPlu );
 
@@ -1243,16 +1247,19 @@ public class PluJspBean extends PluginAdminPageJspBean
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_IMAGE );
 
-            String name = fileItem.getName(  );
-            String type = name.substring( name.lastIndexOf( "." ) );
-            if( !type.equals( ".jpg" ) && !type.equals( ".pgn" ) && !type.equals( ".gif" ) )
+            if( fileItem.getSize(  ) > 0 )
             {
-            	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, AdminMessage.TYPE_STOP );
+	            String name = fileItem.getName(  );
+	            String type = name.substring( name.lastIndexOf( "." ) );
+	            if( !type.equals( ".jpg" ) && !type.equals( ".pgn" ) && !type.equals( ".gif" ) )
+	            {
+	            	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, AdminMessage.TYPE_STOP );
+	            }
+	            
+	            PhysicalFile physicalFile = new PhysicalFile(  );
+	            physicalFile.setValue( fileItem.get(  ) );
+	            _folderImage.setImg( physicalFile.getValue(  ) );
             }
-            
-            PhysicalFile physicalFile = new PhysicalFile(  );
-            physicalFile.setValue( fileItem.get(  ) );
-            _folderImage.setImg( physicalFile.getValue(  ) );
         }
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_MODIFY_FOLDER, args, url.getUrl(  ),
@@ -1804,21 +1811,6 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
         }
 
-        int maxVersion = _versionServices.findMaxVersion( nIdAtome );
-        Object[] argsVersion = { atomeName, atomeTitle, numVersion, maxVersion };
-
-        if ( maxVersion == numVersion )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION, argsVersion,
-                AdminMessage.TYPE_STOP );
-        }
-
-        if ( maxVersion > numVersion )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_SUP, argsVersion,
-                AdminMessage.TYPE_STOP );
-        }
-
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CREATE_ATOME, argsAtome, url.getUrl(  ),
             AdminMessage.TYPE_CONFIRMATION );
     }
@@ -1888,8 +1880,11 @@ public class PluJspBean extends PluginAdminPageJspBean
                         file.setEPS( 'N' );
                     }
 
-                    _fileContentServices.create( file.getFile(  ) );
-                    FileContent fileContent = _fileContentServices.findLastFileContent(  );
+                    FileContent fileContent = new FileContent(  );
+                    fileContent.setFile( file.getFile(  ).getFile(  ) );
+                    _fileContentServices.create( fileContent );
+                    fileContent = _fileContentServices.findLastFileContent(  );
+                    
                     file.setFile( fileContent );
                     _fileServices.create( file );
 
@@ -3035,15 +3030,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
         {
             int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
-            Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
+            Folder folder;
+            if( nIdFolder != 0 )
+            {
+            	folder = _folderServices.findByPrimaryKey( nIdFolder );
+            }
+            else
+            {
+            	folder = new Folder(  );
+            }
             model.put( MARK_FOLDER, folder );
-        }
-
-        if ( request.getParameter( PARAMETER_VERSION_ID ) != null )
-        {
-            int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
-            Version version = _versionServices.findByPrimaryKey( nIdVersion );
-            model.put( MARK_VERSION, version );
         }
 
         if ( request.getParameter( PARAMETER_ATOME_ID ) != null )
