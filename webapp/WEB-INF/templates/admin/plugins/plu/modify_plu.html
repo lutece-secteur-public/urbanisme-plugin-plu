@@ -11,7 +11,7 @@
         
 		<p>
         	<label for="date_juridique" >#i18n{plu.modify_plu.rowTitleDJ} : </label>
-        	<input type=text id="date_juridique" name="date_juridique" value="${one_plu.dj}" />
+        	<input type=text id="date_juridique" name="date_juridique" value="${one_plu.dj?date}" />
         	<@getDatePicker idField="date_juridique" language="fr" />
         </p>
         

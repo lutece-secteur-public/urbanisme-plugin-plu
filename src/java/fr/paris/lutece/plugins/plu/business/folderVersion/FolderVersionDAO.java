@@ -86,7 +86,7 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
     public FolderVersion findByFolderAndVersion( Folder folder, Version version )
     {
     	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION );
+    	Query q = em.createQuery( "SELECT fv FROM FolderVersion fv WHERE fv.folder.id = :idFolder AND fv.version.id = :idVersion" );
     	q.setParameter( "idFolder", folder.getId(  ) );
     	q.setParameter( "idVersion", version.getId(  ) );
     	

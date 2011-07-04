@@ -104,7 +104,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	Folder folder = null;
     	if( !folderList .isEmpty(  ) )
     	{
-    		folder = folderList.get(0);
+    		folder = folderList.get( 0 );
     	}
     	
     	return folder;
@@ -125,7 +125,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	Folder folder = null;
     	if( !folderList .isEmpty(  ) )
     	{
-    		folder = folderList.get(0);
+    		folder = folderList.get( 0 );
     	}
     	
     	return folder;
@@ -157,15 +157,24 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public Folder findForDelete( int nKey )
     {
     	EntityManager em = getEM(  );
-    	Query q = em.createQuery( "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE f.parentFolder = :idParentFolder OR fv.folder.id = :idFolder" );
+    	Query q = em.createQuery( "SELECT f FROM Folder f WHERE f.parentFolder = :idParentFolder" );
     	q.setParameter( "idParentFolder", nKey );
-    	q.setParameter( "idFolder", nKey );
     	
     	List<Folder> folderList = q.getResultList(  );
     	Folder folder = null;
     	if( !folderList.isEmpty(  ) )
     	{
-    		folder = folderList.get(0);
+    		folder = folderList.get( 0 );
+    	}
+    	else
+    	{
+    		q = em.createQuery( "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.folder.id = :idFolder" );
+    		q.setParameter( "idFolder", nKey );
+    		folderList = q.getResultList(  );
+    		if( !folderList.isEmpty(  ) )
+    		{
+    			folder = folderList.get( 0 );
+    		}
     	}
     	
     	return folder;
