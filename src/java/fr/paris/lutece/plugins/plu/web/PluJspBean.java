@@ -1885,6 +1885,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     _fileContentServices.create( fileContent );
                     fileContent = _fileContentServices.findLastFileContent(  );
                     
+                    file.setId( 0 );
                     file.setFile( fileContent );
                     _fileServices.create( file );
 
