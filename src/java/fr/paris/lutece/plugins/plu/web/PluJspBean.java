@@ -151,6 +151,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MARK_LIST_FILE_ALL_FORMAT = "file_all_format";
     private static final String MARK_PLU = "one_plu";
     private static final String MARK_PLU_APPLIED = "one_plu_applied";
+    private static final String MARK_PLU_WORK = "one_plu_work";
     private static final String MARK_TYPE = "one_type";
     private static final String MARK_FOLDER = "one_folder";
     private static final String MARK_FOLDER_PARENT = "one_folder_parent";
@@ -239,6 +240,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_DATE_APPLICATION = "date_application";
     private static final String PARAMETER_FILE_NAME = "file_name";
     private static final String PARAMETER_FILE_TITLE = "file_title";
+    private static final String PARAMETER_FILE_UTILISATION = "file_utilisation";
     private static final String PARAMETER_FILE_FORMAT = "file_format";
     private static final String PARAMETER_FILE_CHECK = "file_check";
     private static final String PARAMETER_FILE = "file";
@@ -728,6 +730,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         	plu = new Plu(  );
         	plu.setId( 0 );
         }
+        Plu pluWork = _pluServices.findPluWork(  );
         List<Plu> pluList = _pluServices.findAll(  );
 
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
@@ -737,6 +740,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLU, plu );
+        model.put( MARK_PLU_WORK, pluWork );
         model.put( MARK_LIST_PLU_LIST, pluList );
 
         if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
@@ -1581,6 +1585,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
+                file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
                 file.setFile( fileContent );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
@@ -1654,6 +1659,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
+                file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
                 file.setFile( fileContent );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
@@ -1718,28 +1724,28 @@ public class PluJspBean extends PluginAdminPageJspBean
         url.addParameter( PARAMETER_ATOME_DESCRIPTION, atomeDescription );
 
         Object[] argsEps = { atomeName, atomeTitle, numVersion };
-        boolean noEps = false;
-        boolean eps = false;
+        boolean consultation = false;
+        boolean impression = false;
 
         for ( File file : _fileList )
         {
-            if ( file.getMimeType(  ).equals( ".eps" ) )
+            if ( file.getUtilisation(  ) == 'I' )
             {
-                eps = true;
+            	impression = true;
             }
             else
             {
-                noEps = true;
+            	consultation = true;
             }
         }
 
-//        if ( !eps )
+//        if ( !impression )
 //        {
 //            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
 //                AdminMessage.TYPE_STOP );
 //        }
 
-        if ( !noEps )
+        if ( !consultation )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps,
                 AdminMessage.TYPE_STOP );
@@ -1875,15 +1881,6 @@ public class PluJspBean extends PluginAdminPageJspBean
                     file.setAtome( nIdAtome );
                     file.setOrder( order );
                     file.setVersion( version2.getId(  ) );
-
-                    if ( file.getMimeType(  ).equals( ".eps" ) )
-                    {
-                        file.setEPS( 'O' );
-                    }
-                    else
-                    {
-                        file.setEPS( 'N' );
-                    }
 
                     FileContent fileContent = new FileContent(  );
                     fileContent.setFile( file.getFile(  ).getFile(  ) );
@@ -2139,6 +2136,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
+                file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
                 file.setFile( fileContent );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
@@ -2286,7 +2284,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         version.setVersion( numVersion );
         _versionServices.update( version );
 
-        FolderVersion folderVersion = _folderVersionServices.findByFolderAndVersion( folderOld, version );
+        FolderVersion folderVersion = _folderVersionServices.findByMaxFolderAndVersion( version );
         version = _versionServices.findByPrimaryKey( nIdVersion );
 
         folderVersion.setVersion( version );
@@ -2326,15 +2324,6 @@ public class PluJspBean extends PluginAdminPageJspBean
                     file.setAtome( nIdAtome );
                     file.setOrder( order );
                     file.setVersion( version.getId(  ) );
-
-                    if ( file.getMimeType(  ).equals( ".eps" ) )
-                    {
-                        file.setEPS( 'O' );
-                    }
-                    else
-                    {
-                        file.setEPS( 'N' );
-                    }
 
                     FileContent fileContent = new FileContent(  );
                     fileContent.setFile( file.getFile(  ).getFile(  ) );
@@ -2412,6 +2401,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 String type = name.substring( name.lastIndexOf( "." ) );
                 file.setName( request.getParameter( PARAMETER_FILE_NAME ) );
                 file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
+                file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
                 file.setFile( fileContent );
                 file.setMimeType( type );
                 file.setSize( (int) fileItem.getSize(  ) );
@@ -2455,27 +2445,27 @@ public class PluJspBean extends PluginAdminPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
         }
 
-        boolean noEps = false;
-        boolean eps = false;
+        boolean consultation = false;
+        boolean impression = false;
 
         for ( File file : _fileList )
         {
-            if ( file.getMimeType(  ).equals( ".eps" ) )
+            if ( file.getUtilisation(  ) == 'I' )
             {
-                eps = true;
+            	impression = true;
             }
             else
             {
-                noEps = true;
+            	consultation = true;
             }
         }
 
-//        if ( !eps )
+//        if ( !impression )
 //        {
 //            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, AdminMessage.TYPE_STOP );
 //        }
 
-        if ( !noEps )
+        if ( !consultation )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS,
                 AdminMessage.TYPE_STOP );
@@ -2739,7 +2729,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         versionOld.setD3( d3 );
         _versionServices.update( versionOld );
 
-        FolderVersion folderVersion = _folderVersionServices.findByFolderAndVersion( folder, versionOld );
+        FolderVersion folderVersion = _folderVersionServices.findByMaxFolderAndVersion( versionOld );
         _folderVersionServices.remove( folderVersion );
 
         Version version = new Version(  );
@@ -2775,15 +2765,6 @@ public class PluJspBean extends PluginAdminPageJspBean
                     file.setAtome( nIdAtome );
                     file.setOrder( order );
                     file.setVersion( version.getId(  ) );
-
-                    if ( file.getMimeType(  ).equals( ".eps" ) )
-                    {
-                        file.setEPS( 'O' );
-                    }
-                    else
-                    {
-                        file.setEPS( 'N' );
-                    }
 
                     FileContent fileContent = new FileContent(  );
                     fileContent.setFile( file.getFile(  ).getFile(  ) );
@@ -2830,7 +2811,15 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
-        _folderServices.remove( folder );
+        
+        int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
+        Version version = _versionServices.findByPrimaryKey( nIdVersion );
+        
+        version.setArchive( 'O' );
+        _versionServices.update( version );
+        
+        FolderVersion folderVersion =  _folderVersionServices.findByMaxFolderAndVersion( version );
+        _folderVersionServices.remove( folderVersion );
 
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId(  ) + "&id_folder=" + folder.getId(  );
     }

@@ -49,8 +49,8 @@ import javax.persistence.Query;
  */
 public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> implements IFolderVersionDAO
 {
-    private static final String SQL_QUERY_SELECT_BY_FOLDER = "SELECT fv.id, fv.version.id FROM FolderVersion fv WHERE fv.folder.id = :idFolder";
-    private static final String SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION = "SELECT fv.id FROM FolderVersion fv WHERE fv.folder.id = :idFolder AND fv.version.id = :idVersion";
+    private static final String SQL_QUERY_SELECT_BY_FOLDER = "SELECT fv FROM FolderVersion fv WHERE fv.folder.id = :idFolder";
+    private static final String SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION = "SELECT fv FROM FolderVersion fv WHERE fv.version.id = :idVersion AND fv.folder.id = (SELECT MAX(fv.folder.id) FROM FolderVersion fv WHERE fv.version.id = :idVersion)";
 
     /**
     * @return the plugin name
@@ -72,22 +72,20 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
     	Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER );
     	q.setParameter( "idFolder", folder.getId(  ) );
     	
-    	List<FolderVersion> folderVersionList = (List<FolderVersion>) q.getResultList(  );
+    	List<FolderVersion> folderVersionList = q.getResultList(  );
     	
     	return folderVersionList;
     }
 
     /**
      * Returns a folderVersion object
-     * @param folder the folder associated
      * @param version the version associated
-     * @return A folderVersion object associated with the folder and the version
+     * @return A folderVersion object associated with the last folder of the version
      */
-    public FolderVersion findByFolderAndVersion( Folder folder, Version version )
+    public FolderVersion findByMaxFolderAndVersion( Version version )
     {
     	EntityManager em = getEM(  );
-    	Query q = em.createQuery( "SELECT fv FROM FolderVersion fv WHERE fv.folder.id = :idFolder AND fv.version.id = :idVersion" );
-    	q.setParameter( "idFolder", folder.getId(  ) );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION );
     	q.setParameter( "idVersion", version.getId(  ) );
     	
     	FolderVersion folderVersion = (FolderVersion) q.getSingleResult(  );

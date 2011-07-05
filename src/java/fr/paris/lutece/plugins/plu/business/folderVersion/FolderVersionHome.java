@@ -59,12 +59,11 @@ public class FolderVersionHome extends AbstractLuteceHome<Integer, FolderVersion
 
     /**
      * Returns a folderVersion object
-     * @param folder the folder associated
      * @param version the version associated
-     * @return A folderVersion object associated with the folder and the version
+     * @return A folderVersion object associated with the last folder of the version
      */
-    public FolderVersion findByFolderAndVersion( Folder folder, Version version )
+    public FolderVersion findByMaxFolderAndVersion( Version version )
     {
-        return getDao(  ).findByFolderAndVersion( folder, version );
+        return getDao(  ).findByMaxFolderAndVersion( version );
     }
 }

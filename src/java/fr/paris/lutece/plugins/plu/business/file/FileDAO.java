@@ -76,7 +76,7 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
     	EntityManager em = getEM(  );
     	Query q = em.createQuery( SQL_QUERY_SELECT_ALL_FORMAT );
     	
-    	List<File> fileList = (List<File>) q.getResultList(  );
+    	List<File> fileList = q.getResultList(  );
 
         return fileList;
     }
@@ -92,7 +92,7 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
     	Query q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION );
     	q.setParameter( "idVersion", nIdVersion );
     	
-    	List<File> fileList = (List<File>) q.getResultList(  );
+    	List<File> fileList = q.getResultList(  );
 
         return fileList;
     }
@@ -152,7 +152,7 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         	q.setParameter( "nameAtome", atomeFilter.get_name(  ) );
         }
 
-        List<File> fileList = (List<File>) q.getResultList(  );
+        List<File> fileList = q.getResultList(  );
 
         return fileList;
     }

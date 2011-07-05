@@ -54,7 +54,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 	private static final String SQL_QUERY_SELECT_APPROVE = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d1 IS NULL AND v.d2 IS NULL AND v.d3 IS NULL AND v.d4 IS NULL AND fv.folder.plu = :idPlu";
     private static final String SQL_QUERY_SELECT_APPLICATION = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d1 < :d2 AND v.d2 IS NULL AND v.d3 IS NULL AND v.d4 IS NULL AND fv.folder.plu = :idPlu";
     private static final String SQL_QUERY_SELECT_EVOLUTION = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d2 < :d3 AND v.d3 = '0000-00-00' AND v.d4 IS NULL AND fv.folder.id = :idPlu";
-    private static final String SQL_QUERY_SELECT_ARCHIVE = "SELECT v FROM FolderVersion fv JOIN fv.version v  WHERE v.d3 < :d4 AND v.d4 IS NULL AND fv.folder.id = :idPlu";
+    private static final String SQL_QUERY_SELECT_ARCHIVE = "SELECT v FROM FolderVersion fv JOIN fv.version v  WHERE v.d4 IS NULL AND ( v.archive = 'O' OR ( v.d3 < :d4 AND fv.folder.id = :idPlu ) )";
 //    private static final String SQL_QUERY_FOR_EVOLUTION = "UPDATE version_atome SET date_evolution = '0000-00-00' WHERE id_version = ?";
     
     private static final String SQL_QUERY_SELECT_MAX_VERSION = "SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome";
@@ -89,7 +89,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     	Query q = em.createQuery( SQL_QUERY_SELECT_APPROVE );
     	q.setParameter( "idPlu", idPlu );
 
-    	List<Version> versionList = (List<Version>) q.getResultList(  );
+    	List<Version> versionList = q.getResultList(  );
     	
     	return versionList;
     }
@@ -109,7 +109,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     	q.setParameter( "d2", sqlD2 );
     	q.setParameter( "idPlu", idPlu );
 
-    	List<Version> versionList = (List<Version>) q.getResultList(  );
+    	List<Version> versionList = q.getResultList(  );
     	
     	return versionList;
     }
@@ -129,7 +129,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     	q.setParameter( "d3", sqlD3 );
     	q.setParameter( "idPlu", idPlu );
 
-    	List<Version> versionList = (List<Version>) q.getResultList(  );
+    	List<Version> versionList = q.getResultList(  );
     	
     	return versionList;
     }
@@ -149,7 +149,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     	q.setParameter( "d4", sqlD4 );
     	q.setParameter( "idPlu", idPlu );
     	
-    	List<Version> versionList = (List<Version>) q.getResultList(  );
+    	List<Version> versionList = q.getResultList(  );
     	
     	return versionList;
     }
@@ -210,7 +210,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     	q.setParameter( "idPlu", nIdPlu );
     	q.setParameter( "idFolder", nIdFolder );
     	
-    	List<Version> versionList = (List<Version>) q.getResultList(  );
+    	List<Version> versionList = q.getResultList(  );
     	
     	return versionList;
     }
@@ -303,7 +303,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
             q.setParameter( "d4", sqlD4 );
         }
 
-        List<Version> versionList = (List<Version>) q.getResultList(  );
+        List<Version> versionList = q.getResultList(  );
 
         return versionList;
     }

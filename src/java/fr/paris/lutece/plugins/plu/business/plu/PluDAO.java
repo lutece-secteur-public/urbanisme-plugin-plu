@@ -47,7 +47,7 @@ import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
  */
 public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
 {
-    private static final String SQL_QUERY_SELECT_PLU_WORK = "SELECT p FROM Plu p WHERE p.dj IS NULL AND p.da IS NULL";
+    private static final String SQL_QUERY_SELECT_PLU_WORK = "SELECT p FROM Plu p WHERE p.da IS NULL";
     private static final String SQL_QUERY_SELECT_PLU_APPLIED = "SELECT p FROM Plu p WHERE p.id = ( SELECT MAX(p.id) - 1 FROM Plu p )";
     
     /**

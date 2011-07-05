@@ -73,6 +73,7 @@ public class Version
     private Date _d2;
     private Date _d3;
     private Date _d4;
+    private char _archive;
 
     /**
      * Returns the identifier of this version
@@ -209,5 +210,24 @@ public class Version
     public void setD4( Date d4 )
     {
         _d4 = d4;
+    }
+
+    /**
+     * Returns the archive value of this file
+     * @return the file archive value
+     */
+    @Column( name = "a_archiver" )
+    public char getArchive(  )
+    {
+        return _archive;
+    }
+
+    /**
+     * Sets the archive value of the file to the specified char
+     * @param archive the new archive value
+     */
+    public void setArchive( char archive )
+    {
+        _archive = archive;
     }
 }

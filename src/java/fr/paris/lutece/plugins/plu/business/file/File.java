@@ -71,7 +71,7 @@ public class File
     private String _title;
     private String _mimeType;
     private int _size;
-    private char _eps;
+    private char _utilisation;
     private FileContent _file;
 
     /**
@@ -230,22 +230,22 @@ public class File
     }
 
     /**
-     * Returns the eps value of this file
-     * @return the file eps value
+     * Returns the utilisation value of this file
+     * @return the file utilisation value
      */
-    @Column( name = "est_eps" )
-    public char getEPS(  )
+    @Column( name = "utilisation" )
+    public char getUtilisation(  )
     {
-        return _eps;
+        return _utilisation;
     }
 
     /**
-     * Sets the eps value of the file to the specified char
-     * @param eps the new eps value
+     * Sets the utilisation value of the file to the specified char
+     * @param utilisation the new utilisation value
      */
-    public void setEPS( char eps )
+    public void setUtilisation( char utilisation )
     {
-        _eps = eps;
+    	_utilisation = utilisation;
     }
     
     /**

@@ -73,7 +73,7 @@
 	    <tr>
 	    	<td>
 	           	<form method="post" action="jsp/admin/plugins/plu/plu/TreePlu.jsp">
-	           		<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+	           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
 	           		<input type="hidden" name="id_folder" value="${folder.id}"/>
 	           		<#if folder_title?exists>
 	           		<input type="hidden" name="folder_title" value="${folder_title}"/>
@@ -86,7 +86,7 @@
 	        </td>
 	        <td style="text-align:center;">
 	            <form method="post" action="jsp/admin/plugins/plu/plu/TreePlu.jsp">
-	            	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+	            	<input type="hidden" name="id_plu" value="${folder.plu}"/>
 	            	<input type="hidden" name="id_folder" value="${folder.id}"/>
 	            	<#if folder_title?exists>
 	           		<input type="hidden" name="folder_title" value="${folder_title}"/>
@@ -191,8 +191,8 @@
         		<@getDatePicker idField="version_d4" language="fr" />
         	</p>
 			<p>
-				<input type="hidden" name="id_plu" value="${one_plu.id}"/>
-				<input type="hidden" name="id_folder" value="${one_folder.id}"/>
+				<input type="hidden" name="id_plu" value="0"/>
+				<input type="hidden" name="id_folder" value="0"/>
 		       	<input type="submit" value="#i18n{plu.search_atome.buttonSearch}" class="button"/>   
 		    </p>
 		</form>
@@ -307,7 +307,7 @@
 			</#if>
 			</td>
 			<td style="text-align:center;">
-			<#if !version.d2?exists >
+			<#if !version.d2?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) >
 				<A href="jsp/admin/plugins/plu/atome/ModifyAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
    					<input src="images/admin/skin/plugins/plu/atome_modify.png" title="#i18n{plu.modify_atome.modify}" alt="#i18n{plu.modify_atome.modify}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
 				</A>
@@ -315,7 +315,7 @@
 				<img disabled="disabled" src="images/admin/skin/plugins/plu/atome_modify.png" style="opacity:0.4;filter:alpha(opacity=40)" title="#i18n{plu.modify_atome.modify}" alt="#i18n{plu.modify_atome.modify}" />
 			</#if>
 	        </td>
-	        <#if version.d2?exists && !version.d3?exists >
+	        <#if version.d2?exists && !version.d3?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) >
 	        <td style="text-align:center;">
 	           	<A href="jsp/admin/plugins/plu/atome/EvolveAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
    					<input src="images/admin/skin/plugins/plu/atome_evolve.png" title="#i18n{plu.evolve_atome.evolve}" alt="#i18n{plu.evolve_atome.evolve}" style="border: 0pt none ; vertical-align: bottom;" type="image" />
