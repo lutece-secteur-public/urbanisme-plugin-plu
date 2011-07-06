@@ -15,38 +15,51 @@
 			${one_folder.description}
 		</p>
 		<br/>
-		<#if version_list?has_content>
+		<#if version_list?has_content || folder_child_list?has_content>
 			<p style="clear:left; font-size:12px;">
 				Ce document est composé des éléments suivant:
 			</p>
-			<#list version_list as version>
 			<ul>
-			<p style="float:left; margin:0 15px">
-				- ${version.atome.title}.
-			</p>
-			<p>
-				${version.atome.description}
-			</p>
-				<ul style="margin-left:40px">
-				<#list file_list as file>
-					<#if version.id == file.version>
-					<li>
-						${file.title} (fichier ${file.mimeType?upper_case})<br/>
-					</li>
-					</#if>
+			<#if version_list?has_content>
+				<#list version_list as version>
+				<p style="float:left; margin:0 15px">
+					- ${version.atome.title}.
+				</p>
+				<p>
+					${version.atome.description}
+				</p>
+				<#if file_list?has_content>
+					<ul style="margin-left:40px">
+					<#list file_list as file>
+						<#if version.id == file.version>
+						<li>
+							${file.title} (fichier ${file.mimeType?upper_case})<br/>
+						</li>
+						</#if>
+					</#list>
+					</ul>
+				</#if>
 				</#list>
-				</ul>
+			</#if>
+			<#if folder_child_list?has_content>
+				<#list folder_child_list as child>
+				<p style="margin:0 15px">
+					- ${child.title}<br/>
+				</p>
+				</#list>
+			</#if>
 			</ul>
-			</#list>
 		</#if>
 		<#if one_folder_parent?exists >
 			<p style="font-size:12px;">
 				Ce document fait partie du document "${one_folder_parent.title} " qui contient aussi les documents suivant:
 			</p>
 			<ul>
-			<#list folder_child_list as child>
+			<#list folder_parent_child_list as child>
 				<#if one_folder.id != child.id>
+				<p style="margin:0 15px">
 					- ${child.title}<br/>
+				</p>
 				</#if>
 			</#list>
 			</ul>

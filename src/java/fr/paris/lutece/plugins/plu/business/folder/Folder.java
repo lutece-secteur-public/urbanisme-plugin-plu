@@ -49,7 +49,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "dossier" )
+@Table( name = "PLU_DOSSIER" )
 public class Folder
 {
 	/** Constants */

@@ -49,7 +49,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "etat_generation" )
+@Table( name = "PLU_ETAT_GENERATION" )
 public class Etat
 {
 	/** Constants */

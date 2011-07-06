@@ -53,7 +53,7 @@ import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
  * @author vLopez
  */
 @Entity
-@Table( name = "fichier" )
+@Table( name = "PLU_FICHIER" )
 public class File
 {
 	/** Constants */

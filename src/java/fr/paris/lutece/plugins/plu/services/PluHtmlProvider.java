@@ -31,97 +31,83 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.file;
+package fr.paris.lutece.plugins.plu.services;
+
+import fr.paris.lutece.plugins.plu.business.folder.IFolderServices;
+import fr.paris.lutece.portal.service.image.ImageResource;
+import fr.paris.lutece.portal.service.image.ImageResourceManager;
+import fr.paris.lutece.portal.service.image.ImageResourceProvider;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 
 /**
- * FileFilter
+ * PluHtmlProvider
  * @author vLopez
  */
-public class FileFilter
+final class PluHtmlProvider implements ImageResourceProvider
 {
-    private String _name;
-    private String _title;
-    private String _mimeType;
+    private static final String HTML_RESOURCE_TYPE_ID = "folder_html";
+    private static PluHtmlProvider _singleton;
+    private IFolderServices _folderServices;
 
     /**
-     * Get the file name filtered
-     * @return the file name
+     * Constructor
      */
-    public String get_name(  )
+    private PluHtmlProvider(  )
     {
-        return _name;
+        _folderServices = (IFolderServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
+                "plu.folderServices" );
     }
 
     /**
-     * Set the file name to filter
-     * @param name the file name
-     */
-    public void set_name( String name )
-    {
-        this._name = name;
-    }
-
-    /**
+     * Get the instance of {@link PluHtmlProvider}
      *
-     * @return true if the filter contain a file name
+     * @return a {@link PluHtmlProvider}
      */
-    public boolean containsName(  )
+    public static synchronized PluHtmlProvider getInstance(  )
     {
-        return ( _name != null );
+        if ( _singleton == null )
+        {
+            _singleton = new PluHtmlProvider(  );
+        }
+
+        return _singleton;
     }
 
     /**
-     * Get the file title filtered
-     * @return the file title
+     * Init the provider
      */
-    public String get_title(  )
+    public void init(  )
     {
-        return _title;
+        register(  );
     }
 
     /**
-     * Set the file title to filter
-     * @param title the file title
+     * Register the provider to the manager
      */
-    public void set_title( String title )
+    public void register(  )
     {
-        this._title = title;
+        ImageResourceManager.registerProvider( this );
     }
 
     /**
+     * Returns the resource type Id
      *
-     * @return true if the filter contain a file title
+     * @return The resource type Id
      */
-    public boolean containsTitle(  )
+    public String getResourceTypeId(  )
     {
-        return ( _title != null );
+        return HTML_RESOURCE_TYPE_ID;
     }
 
     /**
-     * Get the file mime type filtered
-     * @return the file mime type
-     */
-    public String get_mimeType(  )
-    {
-        return _mimeType;
-    }
-
-    /**
-     * Set the file mime type to filter
-     * @param mimeType the file mime type
-     */
-    public void set_mimeType( String mimeType )
-    {
-        this._mimeType = mimeType;
-    }
-
-    /**
+     * Get the html specifique resource given a Folder Id
      *
-     * @return true if the filter contain a file mime type
+     * @param nIdFolder the Id of the folder
+     * @return an {@link HtmlResource}
      */
-    public boolean containsMimeType(  )
+    public ImageResource getImageResource( int nIdFolder )
     {
-        return ( _mimeType != null );
+        return _folderServices.getHtmlResource( nIdFolder );
     }
 }

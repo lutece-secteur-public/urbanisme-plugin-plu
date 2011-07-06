@@ -44,7 +44,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
  * PluImgProvider
  * @author vLopez
  */
-public class PluImgProvider implements ImageResourceProvider
+final class PluImgProvider implements ImageResourceProvider
 {
     private static final String IMAGE_RESOURCE_TYPE_ID = "folder_image";
     private static PluImgProvider _singleton;

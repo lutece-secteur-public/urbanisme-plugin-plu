@@ -58,14 +58,16 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     private static final String SQL_QUERY_SELECT_BY_ATOME = "SELECT fv.folder FROM FolderVersion fv JOIN fv.version v JOIN fv.folder f WHERE v.atome.id = :idAtome AND v.version = (SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome ) ORDER BY f.id DESC";
 
     private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.version.id = :idVersion";
-    private static final String SQL_QUERY_SELECT_FOR_DELETE = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE f.parentFolder = :idParentFolder OR fv.folder.id = :idFolder";
+    private static final String SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_PARENT = "SELECT f FROM Folder f WHERE f.parentFolder = :idParentFolder";
+    private static final String SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_ATOME = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.folder.id = :idFolder";
     private static final String SQL_QUERY_SELECT_BY_PLU_ID = "SELECT f FROM Folder f WHERE f.plu = :idPlu ORDER BY f.parentFolder";
     private static final String SQL_QUERY_SELECT_BY_PARENT = "SELECT f FROM Folder f WHERE f.parentFolder = :idParentFolder";
     private static final String SQL_QUERY_SELECT_ALL = "SELECT f FROM Folder f";
     private static final String SQL_FILTER_ID_PLU = "f.plu = :idPlu";
     private static final String SQL_FILTER_TITLE = "f.title = :title";
 //    private static final String SQL_QUERY_SELECT_IMAGE = "SELECT f.img FROM Folder f WHERE f.id = :idFolder";
-    private static final String SQL_QUERY_SELECT_IMAGE = "SELECT d.image FROM dossier d WHERE d.id_dossier = ?";
+    private static final String SQL_QUERY_SELECT_IMAGE = "SELECT d.image FROM plu_dossier d WHERE d.id_dossier = ?";
+    private static final String SQL_QUERY_SELECT_HTML = "SELECT d.html_specifique FROM plu_dossier d WHERE d.id_dossier = ?";
 
     /**
      * @return the plugin name
@@ -157,7 +159,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public Folder findForDelete( int nKey )
     {
     	EntityManager em = getEM(  );
-    	Query q = em.createQuery( "SELECT f FROM Folder f WHERE f.parentFolder = :idParentFolder" );
+    	Query q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_PARENT );
     	q.setParameter( "idParentFolder", nKey );
     	
     	List<Folder> folderList = q.getResultList(  );
@@ -168,7 +170,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     	}
     	else
     	{
-    		q = em.createQuery( "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.folder.id = :idFolder" );
+    		q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_ATOME );
     		q.setParameter( "idFolder", nKey );
     		folderList = q.getResultList(  );
     		if( !folderList.isEmpty(  ) )
@@ -285,4 +287,37 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         return image;
     }
     
+    /**
+     * Loads the html specifique representing the folder
+     *
+     * @param nIdFolder int identifier of the Folder to fetch
+     * @return the html specifique
+     */
+    public ImageResource getHtmlResource( int nIdFolder )
+    {
+//    	EntityManager em = getEM(  );
+//    	Query q = em.createQuery( SQL_QUERY_SELECT_HTML );
+//    	q.setParameter( "idFolder", nIdFolder );
+//    	
+//    	ImageResource image = null;
+//    	image = (ImageResource) q.getSingleResult(  );
+//    	
+//    	return image;
+    	
+    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_HTML );
+        daoUtil.setInt( 1, nIdFolder );
+        daoUtil.executeQuery(  );
+
+        ImageResource image = null;
+
+        if ( daoUtil.next(  ) )
+        {
+            image = new ImageResource(  );
+            image.setImage( daoUtil.getBytes( 1 ) );
+        }
+
+        daoUtil.free(  );
+
+        return image;
+    }
 }

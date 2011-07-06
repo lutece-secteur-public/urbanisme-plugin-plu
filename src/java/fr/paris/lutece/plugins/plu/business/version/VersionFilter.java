@@ -59,7 +59,7 @@ public class VersionFilter
 
     /**
      * Set the version version to filter
-     * @param _version the version version
+     * @param version the version version
      */
     public void set_version( Integer version )
     {
@@ -86,7 +86,7 @@ public class VersionFilter
 
     /**
      * Set the version d1 to filter
-     * @param _d1 the version d1
+     * @param d1 the version d1
      */
     public void set_d1( Date d1 )
     {
@@ -113,7 +113,7 @@ public class VersionFilter
 
     /**
      * Set the version d2 to filter
-     * @param _d2 the version d2
+     * @param d2 the version d2
      */
     public void set_d2( Date d2 )
     {
@@ -140,7 +140,7 @@ public class VersionFilter
 
     /**
      * Set the version d3 to filter
-     * @param _d3 the version d3
+     * @param d3 the version d3
      */
     public void set_d3( Date d3 )
     {
@@ -167,7 +167,7 @@ public class VersionFilter
 
     /**
      * Set the version d4 to filter
-     * @param _d4 the version d4
+     * @param d4 the version d4
      */
     public void set_d4( Date d4 )
     {

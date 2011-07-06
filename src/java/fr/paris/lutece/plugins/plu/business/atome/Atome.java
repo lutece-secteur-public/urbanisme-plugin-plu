@@ -44,7 +44,7 @@ import javax.persistence.Table;
  * @author vLopez
  */
 @Entity
-@Table( name = "atome" )
+@Table( name = "PLU_ATOME" )
 public class Atome
 {
 	/** Constants */

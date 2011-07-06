@@ -107,4 +107,12 @@ public interface IFolderDAO extends IGenericDAO<Integer, Folder>
      * @return the image resource
      */
     public ImageResource getImageResource( int nIdFolder );
+    
+    /**
+     * Loads the html specifique representing the folder
+     *
+     * @param nIdFolder int identifier of the Folder to fetch
+     * @return the html specifique
+     */
+    public ImageResource getHtmlResource( int nIdFolder );
 }

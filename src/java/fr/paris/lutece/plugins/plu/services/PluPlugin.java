@@ -50,5 +50,6 @@ public class PluPlugin extends PluginDefaultImplementation
     public void init(  )
     {
         PluImgProvider.getInstance(  ).init(  );
+        PluHtmlProvider.getInstance(  ).init(  );
     }
 }

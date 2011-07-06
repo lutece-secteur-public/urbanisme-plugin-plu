@@ -48,20 +48,20 @@ import javax.servlet.http.HttpServletRequest;
 */
 public class PluApp implements XPageApplication
 {
-    // Parameters
+    /** Parameters */
     private static final String PARAMETER_PAGE = "page";
     private static final String PARAMETER_PLU_ID = "id";
 
-    // Properties
+    /** Properties */
     private static final String PROPERTY_PAGE_TITLE = "plu.pageTitle";
     private static final String PROPERTY_PAGE_PATH = "plu.pagePathLabel";
 
-    // Templates
+    /** Templates */
     private static final String TEMPLATE_XPAGE_PLU = "skin/plugins/plu/page_plu.html";
     private static final String TEMPLATE_XPAGE_PLU_LISTS = "skin/plugins/plu/plu_list.html";
 
-    // private fields
-    private Plugin _plugin;
+    /** Public Fields */
+    public Plugin _plugin;
 
     /**
      * renvoie la page.
@@ -69,8 +69,6 @@ public class PluApp implements XPageApplication
      * @param nMode le mode
      * @param plugin le Plugin actif
      * @return la page
-     * @throws UserNotSignedException UserNotSignedException
-     * @throws SiteMessageException SiteMessageException
      */
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
     {

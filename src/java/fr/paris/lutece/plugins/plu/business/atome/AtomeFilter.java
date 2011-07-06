@@ -81,7 +81,7 @@ public class AtomeFilter
 
     /**
      * Set the atome title to filter
-     * @param _title the atome title
+     * @param title the atome title
      */
     public void set_title( String title )
     {

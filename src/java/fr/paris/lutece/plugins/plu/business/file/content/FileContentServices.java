@@ -53,9 +53,9 @@ public class FileContentServices implements IFileContentServices
 	/**
 	 * @param home the _home to set
 	 */
-    public void setHome( IFileContentHome _home )
+    public void setHome( IFileContentHome home )
     {
-        this._home = _home;
+        this._home = home;
     }
 
     /**

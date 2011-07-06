@@ -56,7 +56,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "version_atome" )
+@Table( name = "PLU_VERSION_ATOME" )
 public class Version
 {
 	/** Constants */

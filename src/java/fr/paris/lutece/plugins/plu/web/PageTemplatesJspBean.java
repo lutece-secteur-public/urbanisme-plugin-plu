@@ -66,33 +66,33 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 {
-    // Right
+    /** Right */
     public static final String RIGHT_MANAGE_PAGE_TEMPLATES = "CORE_PAGE_TEMPLATE_MANAGEMENT";
 
-    // Properties for page titles
+    /** Properties for page titles */
     private static final String PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST = "portal.style.manage_page_templates.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE = "portal.style.create_page_template.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_PAGE_TEMPLATE = "portal.style.modify_page_template.pageTitle";
 
-    // Markers
+    /** Markers */
     private static final String MARK_PAGE_TEMPLATES_LIST = "page_templates_list";
     private static final String MARK_PAGE_TEMPLATE = "page_template";
 
-    // Templates files path
+    /** Templates files path */
     private static final String TEMPLATE_PAGE_TEMPLATES = "admin/style/manage_page_templates.html";
     private static final String TEMPLATE_CREATE_PAGE_TEMPLATE = "admin/style/create_page_template.html";
     private static final String TEMPLATE_MODIFY_PAGE_TEMPLATE = "admin/style/modify_page_template.html";
 
-    // Properties
+    /** Properties */
     private static final String PROPERTY_PATH_TEMPLATE = "path.templates";
     private static final String PROPERTY_PATH_FILE_PAGE_TEMPLATE = "path.file.page.template";
     private static final String PROPERTY_PATH_IMAGE_PAGE_TEMPLATE = "path.image.page.template";
 
-    // Messages
+    /** Messages */
     private static final String MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE = "portal.style.message.pageTemplateConfirmDelete";
     private static final String MESSAGE_PAGE_TEMPLATE_IS_USED = "portal.style.message.pageTemplateIsUsed";
 
-    // Parameters
+    /** Parameters */
     private static final String PARAMETER_PAGE_TEMPLATE_FILE = "page_template_file";
     private static final String PARAMETER_PAGE_TEMPLATE_PICTURE = "page_template_picture";
     private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE = "update_image";
@@ -102,7 +102,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     private static final String strPathFilePageTemplate = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) +
         File.separator + AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE );
 
-    //JSP
+    /** JSP */
     private static final String JSP_DO_REMOVE_PAGE_TEMPLATE = "jsp/admin/style/DoRemovePageTemplate.jsp";
 
     /**

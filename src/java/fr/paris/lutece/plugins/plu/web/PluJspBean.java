@@ -98,7 +98,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 {
     public static final String RIGHT_MANAGE_PLU = "PLU_MANAGEMENT";
 
-    // properties for page titles
+    /** properties for page titles */
     private static final String PROPERTY_PAGE_TITLE_PLU_LIST = "plu.manage_plu.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_APPROVE_PLU = "plu.approve_plu.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_APPLICABLE_PLU = "plu.applicable_plu.pageTitle";
@@ -118,7 +118,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PROPERTY_PAGE_TITLE_HTML = "plu.create_html.pageTitle";
     private static final String PROPERTY_DEFAULT_RESULT_PER_PAGE = "plu.resultList.itemsPerPage";
 
-    // templates
+    /** Templates */
     private static final String TEMPLATE_MANAGE_PLU = "/admin/plugins/plu/manage_plu.html";
     private static final String TEMPLATE_TREE_PLU = "/admin/plugins/plu/tree_plu.html";
     private static final String TEMPLATE_APPROVE_PLU = "/admin/plugins/plu/approve_plu.html";
@@ -141,11 +141,12 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String TEMPLATE_IMPORT_HTML = "/admin/plugins/plu/import_html.html";
     private static final String TEMPLATE_DUPLICATE_HTML = "/admin/plugins/plu/duplicate_html.html";
 
-    //Markers
+    /** Markers */
     private static final String MARK_LIST_PLU_LIST = "plu_list";
     private static final String MARK_LIST_TYPE_LIST = "type_list";
     private static final String MARK_LIST_FOLDER_LIST = "folder_list";
     private static final String MARK_LIST_FOLDER_CHILD_LIST = "folder_child_list";
+    private static final String MARK_LIST_FOLDER_PARENT_CHILD_LIST = "folder_parent_child_list";
     private static final String MARK_LIST_ATOME_LIST = "atome_list";
     private static final String MARK_LIST_VERSION_LIST = "version_list";
     private static final String MARK_LIST_FILE_LIST = "file_list";
@@ -166,7 +167,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_PAGINATOR = "paginator";
 
-    // Messages
+    /** Messages */
     private static final String MESSAGE_CONFIRM_APPROVE_PLU = "plu.message.confirmApprovePlu";
     private static final String MESSAGE_CONFIRM_CANCEL_APPROVE_PLU = "plu.message.confirmCancelApprovePlu";
     private static final String MESSAGE_CONFIRM_APPLICABLE_PLU = "plu.message.confirmApplicablePlu";
@@ -207,10 +208,9 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MESSAGE_ERROR_ATOME_CREATE_ID = "plu.message.errorAtomeCreateId";
     private static final String MESSAGE_ERROR_ATOME_CREATE_NAME = "plu.message.errorAtomeCreateName";
     private static final String MESSAGE_ERROR_ATOME_CREATE_TITLE = "plu.message.errorAtomeCreateTitle";
-    private static final String MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION = "plu.message.errorAtomeCreateNumVersion";
     private static final String MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_SUP = "plu.message.errorAtomeCreateNumVersionSup";
 
-    // parameters
+    /** Parameters */
     private static final String PARAMETER_PLU_ID = "id_plu";
     private static final String PARAMETER_PLU_TYPE = "id_type";
     private static final String PARAMETER_PLU_CAUSE = "cause";
@@ -249,7 +249,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_HISTORY_DESCRIPTION = "description";
     private static final String PARAMETER_PAGE_INDEX = "page_index";
 
-    // Jsp Definition
+    /** Jsp Definition */
     private static final String JSP_REDIRECT_TO_MANAGE_PLU = "../plu/ManagePlu.jsp";
     private static final String JSP_REDIRECT_TO_TREE_PLU = "../plu/TreePlu.jsp";
     private static final String JSP_REDIRECT_TO_CHOICE_CREATE_ATOME = "../atome/ChoiceCreateAtome.jsp";
@@ -274,7 +274,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String JSP_DO_UPLOAD_ATOME = "jsp/admin/plugins/plu/atome/DoUploadAtome.jsp";
     private static final String JSP_REDIRECT_TO_VIEW_ATOME = "jsp/admin/plugins/plu/atome/ViewAtome.jsp";
 
-    //Variables
+    /** Variables */
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
     private int _nItemsPerPage;
@@ -293,6 +293,9 @@ public class PluJspBean extends PluginAdminPageJspBean
     private Folder _folderHtml = new Folder(  );
     private Folder _folderImage = new Folder(  );
 
+    /**
+     * Constructor
+     */
     public PluJspBean(  )
     {
         super(  );
@@ -312,6 +315,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         _fileContentServices = (IFileContentServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.fileContentServices" );
     }
 
+    /**
+     * Generates a HTML form that displays the Plu manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String getManagePlu( HttpServletRequest request )
     {   
         setPageTitleProperty( PROPERTY_PAGE_TITLE_PLU_LIST );
@@ -327,6 +335,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( templateList.getHtml(  ) );
     }
 
+    /**
+     * Generates a HTML form for approve a Plu
+     * @param request the Http request
+     * @return HTML
+     */
     public String getApprovePlu( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_APPROVE_PLU );
@@ -345,6 +358,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation of cancel for approve a PLU
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCancelApprovePlu( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -357,6 +375,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Generates a message of confirmation for approve a PLU
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmApprovePlu( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_DATE_JURIDIQUE ).equals( "" ) ||
@@ -385,6 +408,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Approve a Plu and return to the Plu manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doApprovePlu( HttpServletRequest request )
         throws ParseException
     {
@@ -411,6 +439,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_MANAGE_PLU;
     }
 
+    /**
+     * Generates a HTML form for apply a Plu
+     * @param request the Http request
+     * @return HTML
+     */
     public String getApplicablePlu( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_APPLICABLE_PLU );
@@ -429,6 +462,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation of cancel for apply a PLU
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCancelApplicablePlu( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -442,6 +480,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Generates a message of confirmation for apply a PLU
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmApplicablePlu( HttpServletRequest request )
         throws ParseException
     {
@@ -474,6 +517,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Apply a Plu and return to the Plu manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doApplicablePlu( HttpServletRequest request )
         throws ParseException
     {
@@ -559,6 +607,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_MANAGE_PLU;
     }
 
+    /**
+     * Generates a HTML form for modify Plu
+     * @param request the Http request
+     * @return HTML
+     */
     public String getModifyPlu( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_PLU );
@@ -580,6 +633,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation for modify a PLU
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmModifyPlu( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -601,6 +659,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Modify a Plu and return to the Plu manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doModifyPlu( HttpServletRequest request )
         throws ParseException
     {
@@ -620,6 +683,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_MANAGE_PLU;
     }
 
+    /**
+     * Generates a HTML form for correct Plu
+     * @param request the Http request
+     * @return HTML
+     */
     public String getCorrectPlu( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CORRECT_PLU );
@@ -641,6 +709,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation for correct a PLU
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCorrectPlu( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -662,6 +735,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Correct a Plu and return to the Plu manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doCorrectPlu( HttpServletRequest request )
         throws ParseException
     {
@@ -728,6 +806,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_MANAGE_PLU;
     }
 
+    /**
+     * Generates a HTML form that displays the Folder or the Atome manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String getTreePlu( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -953,6 +1036,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a HTML form for create a new folder
+     * @param request the Http request
+     * @return HTML
+     */
     public String getCreateFolder( HttpServletRequest request )
     {
     	 setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_FOLDER );
@@ -1007,6 +1095,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation of cancel for create a new folder
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCancelCreateFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1021,6 +1114,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Generates a message of confirmation for create a new folder
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCreateFolder( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_FOLDER_TITLE ).equals( "" ) ||
@@ -1082,6 +1180,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             args, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Create a folder and return to the folder manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doCreateFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1107,6 +1210,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + nIdPlu;
     }
 
+    /**
+     * Generates a message of confirmation for remove a folder
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmRemoveFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1130,6 +1238,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Remove a folder and return to the folder manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doRemoveFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1142,6 +1255,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId(  );
     }
 
+    /**
+     * Generates a HTML form for modify a folder
+     * @param request the Http request
+     * @return HTML
+     */
     public String getModifyFolder( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_FOLDER );
@@ -1192,6 +1310,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation of cancel for modify a folder
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCancelModifyFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1206,6 +1329,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Generates a message of confirmation for modify a folder
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmModifyFolder( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_FOLDER_TITLE ).equals( "" ) ||
@@ -1279,6 +1407,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Modify a folder and return to the folder manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doModifyFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1308,6 +1441,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId(  );
     }
 
+    /**
+     * Generates a HTML form for correct a folder
+     * @param request the Http request
+     * @return HTML
+     */
     public String getCorrectFolder( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CORRECT_FOLDER );
@@ -1351,6 +1489,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation of cancel for correct a folder
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCancelCorrectFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1365,6 +1508,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Generates a message of confirmation for correct a folder
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCorrectFolder( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_FOLDER_TITLE ).equals( "" ) ||
@@ -1437,6 +1585,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Correct a folder and return to the folder manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doCorrectFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1474,6 +1627,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId(  );
     }
 
+    /**
+     * Generates a HTML page that visualizes the folder
+     * @param request the Http request
+     * @return HTML
+     */
     public String getViewFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1481,9 +1639,10 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
+        List<Folder> folderChildList = _folderServices.findByParent( folder.getId(  ) );
 
         Folder folderParent = _folderServices.findByPrimaryKey( folder.getParentFolder(  ) );
-        List<Folder> folderChildList = _folderServices.findByParent( folder.getParentFolder(  ) );
+        List<Folder> folderParentChildList = _folderServices.findByParent( folder.getParentFolder(  ) );
 
         List<Version> listVersion = _versionServices.findByPluAndFolder( nIdPlu, nIdFolder );
 
@@ -1499,6 +1658,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_FOLDER, folder );
         model.put( MARK_FOLDER_PARENT, folderParent );
         model.put( MARK_LIST_FOLDER_CHILD_LIST, folderChildList );
+        model.put( MARK_LIST_FOLDER_PARENT_CHILD_LIST, folderParentChildList );
         model.put( MARK_LIST_VERSION_LIST, listVersion );
         model.put( MARK_LIST_FILE_LIST, fileList );
 
@@ -1507,6 +1667,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a HTML form that displays the choices of creation of atome
+     * @param request the Http request
+     * @return HTML
+     */
     public String getChoiceCreateAtome( HttpServletRequest request )
     {
         Plu plu = _pluServices.findPluWork(  );
@@ -1540,6 +1705,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a HTML form for create a new atome
+     * @param request the Http request
+     * @return HTML
+     */
     public String getCreateAtome( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_ATOME );
@@ -1612,6 +1782,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a HTML form for create a new atome with an existing atome
+     * @param request the Http request
+     * @return HTML
+     */
     public String getCreateAtomeWithOld( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1685,6 +1860,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation of cancel for create a new atome
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCancelCreateAtome( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1698,6 +1878,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Generates a message of confirmation for create a new atome
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCreateAtome( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_FOLDER_ID ).equals( "" ) ||
@@ -1834,6 +2019,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Create an atome and return to the choice create atome
+     * @param request the Http request
+     * @return HTML
+     */
     public String doCreateAtome( HttpServletRequest request )
         throws ParseException
     {
@@ -1926,6 +2116,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return (Date) sdf.parse( sDate );
     }
 
+    /**
+     * Generates a HTML page that visualizes the files of the atome
+     * @param request the Http request
+     * @return HTML
+     */
     public String getViewAtome( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_VIEW_ATOME );
@@ -2088,6 +2283,12 @@ public class PluJspBean extends PluginAdminPageJspBean
     //
     //        return getAdminPage( template.getHtml(  ) );
     //    }
+    
+    /**
+     * Generates a HTML form for modify an atome
+     * @param request the Http request
+     * @return HTML
+     */
     public String getModifyAtome( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_ATOME );
@@ -2162,6 +2363,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation of cancel for modify atome
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCancelModifyAtome( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2179,6 +2385,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Generates a message of confirmation for modify atome
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmModifyAtome( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_FOLDER_ID ).equals( "" ) ||
@@ -2255,6 +2466,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Modify an atome and return to the atome manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doModifyAtome( HttpServletRequest request )
         throws ParseException
     {
@@ -2264,8 +2480,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
         
-        int nIdFolderOld = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_OLD_ID ) );
-        Folder folderOld = _folderServices.findByPrimaryKey( nIdFolderOld );
+//        int nIdFolderOld = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_OLD_ID ) );
+//        Folder folderOld = _folderServices.findByPrimaryKey( nIdFolderOld );
 
         int nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_ID ) );
         String atomeName = request.getParameter( PARAMETER_ATOME_NAME );
@@ -2352,6 +2568,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId(  ) + "&id_folder=" + folder.getId(  );
     }
 
+    /**
+     * Generates a HTML form for correct an atome
+     * @param request the Http request
+     * @return HTML
+     */
     public String getCorrectAtome( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CORRECT_ATOME );
@@ -2427,6 +2648,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation of cancel for correct atome
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCancelCorrectAtome( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2444,6 +2670,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Generates a message of confirmation for correct atome
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCorrectAtome( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_ATOME_TITLE ).equals( "" ) ||
@@ -2507,6 +2738,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Correct an atome and return to the atome manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doCorrectAtome( HttpServletRequest request )
         throws ParseException
     {
@@ -2549,6 +2785,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + folder.getPlu( ) + "&id_folder=" + folder.getId(  );
     }
 
+    /**
+     * Generates a HTML form for evolve an atome
+     * @param request the Http request
+     * @return HTML
+     */
     public String getEvolveAtome( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_EVOLVE_ATOME );
@@ -2627,6 +2868,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a message of confirmation of cancel for evolve atome
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmCancelEvolveAtome( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2644,6 +2890,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Generates a message of confirmation for evolve atome
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmEvolveAtome( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_FOLDER_ID ).equals( "" ) ||
@@ -2717,6 +2968,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Evolve an atome and return to the atome manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doEvolveAtome( HttpServletRequest request )
         throws ParseException
     {
@@ -2733,7 +2989,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version versionOld = _versionServices.findByPrimaryKey( nIdVersion );
 
-        Date d3 = stringToDate( "00/00/0000", "dd/MM/yyyy" );
+        Date d3 = stringToDate( "01/01/0001", "dd/MM/yyyy" );
         versionOld.setD3( d3 );
         _versionServices.update( versionOld );
 
@@ -2793,6 +3049,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId(  ) + "&id_folder=" + folder.getId(  );
     }
 
+    /**
+     * Generates a message of confirmation for archivage atome
+     * @param request the Http request
+     * @return message
+     */
     public String getConfirmArchiveAtome( HttpServletRequest request ) //throws AccessDeniedException
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2812,6 +3073,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             AdminMessage.TYPE_CONFIRMATION );
     }
 
+    /**
+     * Archive an atome and return to the atome manage
+     * @param request the Http request
+     * @return HTML
+     */
     public String doArchiveAtome( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -3015,6 +3281,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     //
     //        return JSP_REDIRECT_TO_BURST_VERSION + "?id_plu=" + plu.getId(  ) + "&id_version=" + versionOld.getId(  );
     //    }
+    
     public String getConfirmUploadAtome( HttpServletRequest request )
     {
         UrlItem url = new UrlItem( JSP_DO_UPLOAD_ATOME );
@@ -3030,6 +3297,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return JSP_REDIRECT_TO_TREE_PLU;
     }
 
+    /**
+     * Generates a HTML form for join of files to an atome
+     * @param request the Http request
+     * @return HTML
+     */
     public String getJoinFile( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_JOIN_FILE );
@@ -3073,6 +3345,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a HTML form for create a new html page
+     * @param request the Http request
+     * @return HTML
+     */
     public String getCreateHtml( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_HTML );
@@ -3098,6 +3375,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a HTML form for import a html page
+     * @param request the Http request
+     * @return HTML
+     */
     public String getImportHtml( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_HTML );
@@ -3116,6 +3398,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         return getAdminPage( template.getHtml(  ) );
     }
 
+    /**
+     * Generates a HTML form for duplicate a html page
+     * @param request the Http request
+     * @return HTML
+     */
     public String getDuplicateHtml( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_HTML );

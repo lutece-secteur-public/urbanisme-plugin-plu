@@ -53,9 +53,8 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 {
 	private static final String SQL_QUERY_SELECT_APPROVE = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d1 IS NULL AND v.d2 IS NULL AND v.d3 IS NULL AND v.d4 IS NULL AND fv.folder.plu = :idPlu";
     private static final String SQL_QUERY_SELECT_APPLICATION = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d1 < :d2 AND v.d2 IS NULL AND v.d3 IS NULL AND v.d4 IS NULL AND fv.folder.plu = :idPlu";
-    private static final String SQL_QUERY_SELECT_EVOLUTION = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d2 < :d3 AND v.d3 = '0000-00-00' AND v.d4 IS NULL AND fv.folder.id = :idPlu";
+    private static final String SQL_QUERY_SELECT_EVOLUTION = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d2 < :d3 AND v.d3 = '0001-01-01' AND v.d4 IS NULL AND fv.folder.id = :idPlu";
     private static final String SQL_QUERY_SELECT_ARCHIVE = "SELECT v FROM FolderVersion fv JOIN fv.version v  WHERE v.d4 IS NULL AND ( v.archive = 'O' OR ( v.d3 < :d4 AND fv.folder.id = :idPlu ) )";
-//    private static final String SQL_QUERY_FOR_EVOLUTION = "UPDATE version_atome SET date_evolution = '0000-00-00' WHERE id_version = ?";
     
     private static final String SQL_QUERY_SELECT_MAX_VERSION = "SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome";
     private static final String SQL_QUERY_SELECT_BY_ATOME_AND_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = :numVersion";
@@ -154,19 +153,10 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     	return versionList;
     }
 
-//    public void updateForEvolution( int nKey )
-//    {
-//        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FOR_EVOLUTION );
-//        daoUtil.setInt( 1, nKey );
-//        daoUtil.executeUpdate(  );
-//
-//        daoUtil.free(  );
-//    }
-
     /**
-     * Load the largest num version
+     * Returns a version objects
      * @param nIdAtome The atome identifier
-     * @return The largest num version
+     * @return A version
      */
     public int findMaxVersion( int nIdAtome )
     {
@@ -180,10 +170,10 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     }
 
     /**
-     * Returns a list of version objects
+     * Returns a version objects
      * @param nIdAtome The atome identifier
      * @param numVersion The number version
-     * @return A list of version
+     * @return A version
      */
     public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion )
     {
@@ -217,7 +207,8 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 
     /**
      * Finds by filter
-     * @param filter the filter
+     * @param atomeFilter the atome filter
+     * @param versionFilter the version filter
      * @return the version list
      */
     public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter )

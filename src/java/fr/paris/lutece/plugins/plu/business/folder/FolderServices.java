@@ -188,4 +188,15 @@ public class FolderServices implements IFolderServices
     {
         return _home.getImageResource( nIdFolder );
     }
+    
+    /**
+     * Loads the html specifique representing the folder
+     *
+     * @param nIdFolder int identifier of the Folder to fetch
+     * @return the html specifique
+     */
+    public ImageResource getHtmlResource( int nIdFolder )
+    {
+    	return _home.getHtmlResource( nIdFolder );
+    }
 }

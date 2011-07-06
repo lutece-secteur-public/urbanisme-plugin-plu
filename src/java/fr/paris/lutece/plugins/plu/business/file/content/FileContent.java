@@ -15,7 +15,7 @@ import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
  * @author vLopez
  */
 @Entity
-@Table( name = "fichier_contenu" )
+@Table( name = "PLU_FICHIER_CONTENU" )
 public class FileContent
 {
 	/** Constants */
