@@ -59,6 +59,16 @@ public class EtatServices implements IEtatServices
     {
         this._home = home;
     }
+    
+	/**
+     * Returns a etat object
+     * @param nKey the etat id
+     * @return A etat object with the same id
+     */
+    public Etat findByPrimaryKey( int nKey )
+    {
+    	return _home.findByPrimaryKey( nKey );
+    }
 
     /**
      * Returns a list of etat objects

@@ -36,6 +36,8 @@ package fr.paris.lutece.plugins.plu.web;
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.plugins.plu.business.atome.IAtomeServices;
+import fr.paris.lutece.plugins.plu.business.etat.Etat;
+import fr.paris.lutece.plugins.plu.business.etat.IEtatServices;
 import fr.paris.lutece.plugins.plu.business.file.File;
 import fr.paris.lutece.plugins.plu.business.file.FileFilter;
 import fr.paris.lutece.plugins.plu.business.file.IFileServices;
@@ -278,6 +280,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private int _nItemsPerPage;
     private IPluServices _pluServices;
     private ITypeServices _typeServices;
+    private IEtatServices _etatServices;
     private IHistoryServices _historyServices;
     private IFolderServices _folderServices;
     private IAtomeServices _atomeServices;
@@ -295,6 +298,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         super(  );
         _pluServices = (IPluServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.pluServices" );
         _typeServices = (ITypeServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.typeServices" );
+        _etatServices = (IEtatServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.etatServices" );
         _historyServices = (IHistoryServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
                 "plu.historyServices" );
         _folderServices = (IFolderServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
@@ -666,9 +670,13 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdType = Integer.parseInt( request.getParameter( PARAMETER_PLU_TYPE ) );
         Type type = _typeServices.findByPrimaryKey( nIdType );
+        
+        Etat etat = _etatServices.findByPrimaryKey( 5 );
+        
         plu.setType( type );
         plu.setCause( request.getParameter( PARAMETER_PLU_CAUSE ) );
         plu.setReference( request.getParameter( PARAMETER_PLU_REFERENCE ) );
+        plu.setEtat( etat );
         _pluServices.update( plu );
 
         History history = new History(  );
@@ -1739,11 +1747,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
         }
 
-//        if ( !impression )
-//        {
-//            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
-//                AdminMessage.TYPE_STOP );
-//        }
+        if ( !impression )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
+                AdminMessage.TYPE_STOP );
+        }
 
         if ( !consultation )
         {
@@ -2460,10 +2468,10 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
         }
 
-//        if ( !impression )
-//        {
-//            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, AdminMessage.TYPE_STOP );
-//        }
+        if ( !impression )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, AdminMessage.TYPE_STOP );
+        }
 
         if ( !consultation )
         {

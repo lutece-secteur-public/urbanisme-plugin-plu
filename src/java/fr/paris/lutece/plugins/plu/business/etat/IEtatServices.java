@@ -42,6 +42,13 @@ import java.util.List;
  */
 public interface IEtatServices
 {
+	/**
+     * Returns a etat object
+     * @param nKey the etat id
+     * @return A etat object with the same id
+     */
+    public Etat findByPrimaryKey( int nKey );
+    
     /**
      * Returns a list of etat objects
      * @return A list of all etat
