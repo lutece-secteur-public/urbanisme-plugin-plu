@@ -51,7 +51,7 @@ public interface IVersionDAO extends IGenericDAO<Integer, Version>
      * @param idPlu The plu identifier
      * @return A list of version
      */
-	public List<Version> selectApprove( int idPlu );
+	List<Version> selectApprove( int idPlu );
 
 	/**
      * Returns a list of version objects for the application
@@ -59,7 +59,7 @@ public interface IVersionDAO extends IGenericDAO<Integer, Version>
      * @param date The date of application
      * @return A list of version
      */
-    public List<Version> selectApplication( int idPlu, Date date );
+    List<Version> selectApplication( int idPlu, Date date );
 
     /**
      * Returns a list of version objects for the evolution
@@ -67,7 +67,7 @@ public interface IVersionDAO extends IGenericDAO<Integer, Version>
      * @param date The date of evolution
      * @return A list of version
      */
-    public List<Version> selectEvolution( int idPlu, Date date );
+    List<Version> selectEvolution( int idPlu, Date date );
 
     /**
      * Returns a list of version objects for the archive
@@ -75,14 +75,14 @@ public interface IVersionDAO extends IGenericDAO<Integer, Version>
      * @param date The date of archivage
      * @return A list of version
      */
-    public List<Version> selectArchive( int idPlu, Date date );
+    List<Version> selectArchive( int idPlu, Date date );
 
     /**
      * Returns an integer
      * @param nIdAtome the atome id
      * @return A maximum version number
      */
-    public int findMaxVersion( int nIdAtome );
+    int findMaxVersion( int nIdAtome );
 
     /**
      * Returns a version object
@@ -90,7 +90,7 @@ public interface IVersionDAO extends IGenericDAO<Integer, Version>
      * @param numVersion the version number
      * @return A version object associated with the same atome id and version number
      */
-    public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion );
+    Version findByAtomeAndNumVersion( int nIdAtome, int numVersion );
 
     /**
      * Returns a list of version objects
@@ -98,7 +98,7 @@ public interface IVersionDAO extends IGenericDAO<Integer, Version>
      * @param nIdFolder the folder id
      * @return A list of version associated with the same plu id and folder id
      */
-    public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder );
+    List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder );
 
     /**
      * Finds by filter
@@ -106,5 +106,5 @@ public interface IVersionDAO extends IGenericDAO<Integer, Version>
      * @param versionFilter the version filter
      * @return the version list
      */
-    public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );
+    List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );
 }

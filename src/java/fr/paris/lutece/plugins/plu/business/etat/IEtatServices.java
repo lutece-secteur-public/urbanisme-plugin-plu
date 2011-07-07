@@ -47,11 +47,11 @@ public interface IEtatServices
      * @param nKey the etat id
      * @return A etat object with the same id
      */
-    public Etat findByPrimaryKey( int nKey );
+    Etat findByPrimaryKey( int nKey );
     
     /**
      * Returns a list of etat objects
      * @return A list of all etat
      */
-    public List<Etat> findAll(  );
+    List<Etat> findAll(  );
 }

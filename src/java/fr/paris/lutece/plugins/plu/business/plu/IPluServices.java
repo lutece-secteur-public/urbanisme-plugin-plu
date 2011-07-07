@@ -46,36 +46,36 @@ public interface IPluServices
      * Create a new plu object
      * @param plu the new plu object
      */
-    public void create( Plu plu );
+    void create( Plu plu );
     
     /**
      * Update a plu object
      * @param plu the plu object
      */
-    public void update( Plu plu );
+    void update( Plu plu );
 
     /**
      * Returns a list of plu objects
      * @return A list of all plu
      */
-    public List<Plu> findAll(  );
+    List<Plu> findAll(  );
 
     /**
      * Returns a plu object
      * @param nKey the plu id
      * @return A plu object with the same id
      */
-    public Plu findByPrimaryKey( int nKey );
+    Plu findByPrimaryKey( int nKey );
 
     /**
      * Returns a plu object
      * @return A plu object which work
      */
-    public Plu findPluWork(  );
+    Plu findPluWork(  );
 
     /**
      * Returns a plu object
      * @return A plu object which is applied
      */
-    public Plu findPluApplied(  );
+    Plu findPluApplied(  );
 }

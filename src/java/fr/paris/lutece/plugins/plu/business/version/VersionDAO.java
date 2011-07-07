@@ -60,6 +60,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     private static final String SQL_QUERY_SELECT_BY_ATOME_AND_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = :numVersion";
     private static final String SQL_QUERY_SELECT_BY_PLU_AND_FOLDER = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu AND fv.folder.id = :idFolder";
     private static final String SQL_QUERY_SELECT_ALL = "SELECT v FROM Version v";
+    private static final String SQL_FILTER_ATOME_ID = "v.atome.id = :idAtome";
     private static final String SQL_FILTER_ATOME_NAME = "v.atome.name = :nameAtome";
     private static final String SQL_FILTER_ATOME_TITLE = "v.atome.title = :titleAtome";
     private static final String SQL_FILTER_VERSION_NUMBER = "v.version = :numVersion";
@@ -215,6 +216,11 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     {
         List<String> listStrFilter = new ArrayList<String>(  );
 
+        if ( atomeFilter.containsId(  ) )
+        {
+            listStrFilter.add( SQL_FILTER_ATOME_ID );
+        }
+
         if ( atomeFilter.containsName(  ) )
         {
             listStrFilter.add( SQL_FILTER_ATOME_NAME );
@@ -224,7 +230,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
         {
             listStrFilter.add( SQL_FILTER_ATOME_TITLE );
         }
-
+        
         if ( versionFilter.containsVersion(  ) )
         {
             listStrFilter.add( SQL_FILTER_VERSION_NUMBER );
@@ -255,6 +261,11 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
         EntityManager em = getEM(  );
     	Query q = em.createQuery( strSQL );
 
+        if ( atomeFilter.containsId(  ) )
+        {
+        	q.setParameter( "idAtome", atomeFilter.get_id(  ) );
+        }
+        
         if ( atomeFilter.containsName(  ) )
         {
         	q.setParameter( "nameAtome", atomeFilter.get_name(  ) );

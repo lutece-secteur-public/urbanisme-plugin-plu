@@ -46,5 +46,5 @@ public interface IFileContentDAO extends IGenericDAO<Integer, FileContent>
      * Returns a FileContent object
      * @return The last fileContent created
      */
-    public FileContent findLastFileContent(  );
+    FileContent findLastFileContent(  );
 }

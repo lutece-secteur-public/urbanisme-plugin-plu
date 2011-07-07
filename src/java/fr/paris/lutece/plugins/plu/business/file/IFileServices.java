@@ -47,38 +47,38 @@ public interface IFileServices
      * Create a new file object
      * @param file the new file object
      */
-    public void create( File file );
+    void create( File file );
 
     /**
      * Update a file object
      * @param file the file object
      */
-    public void update( File file );
+    void update( File file );
 
     /**
      * Remove a file object
      * @param file the file object
      */
-    public void remove( File file );
+    void remove( File file );
 
     /**
      * Returns a list of file objects
      * @return A list of all file
      */
-    public List<File> findAll(  );
+    List<File> findAll(  );
 
     /**
      * Returns a list of file objects
      * @return A list of all mime type file
      */
-    public List<File> findAllMimeType(  );
+    List<File> findAllMimeType(  );
 
     /**
      * Returns a list of file objects
      * @param nIdVersion the version id
      * @return A list of file associated with the same version id
      */
-    public List<File> findByVersion( int nIdVersion );
+    List<File> findByVersion( int nIdVersion );
 
     /**
      * Finds by filter
@@ -86,5 +86,5 @@ public interface IFileServices
      * @param atomeFilter the atome filter
      * @return the folder list
      */
-    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter );
+    List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter );
 }

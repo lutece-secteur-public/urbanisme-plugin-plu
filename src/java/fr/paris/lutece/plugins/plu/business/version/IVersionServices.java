@@ -49,20 +49,20 @@ public interface IVersionServices
      * Create a new version object
      * @param version the new version object
      */
-    public void create( Version version );
+    void create( Version version );
 
     /**
      * Update a version object
      * @param version the version object
      */
-    public void update( Version version );
+    void update( Version version );
 
     /**
      * Returns a list of version objects for the approve
      * @param idPlu The plu identifier
      * @return A list of version
      */
-    public List<Version> selectApprove( int idPlu );
+    List<Version> selectApprove( int idPlu );
 
     /**
      * Returns a list of version objects for the application
@@ -70,7 +70,7 @@ public interface IVersionServices
      * @param date The date of application
      * @return A list of version
      */
-    public List<Version> selectApplication( int idPlu, Date date );
+    List<Version> selectApplication( int idPlu, Date date );
 
     /**
      * Returns a list of version objects for the evolution
@@ -78,7 +78,7 @@ public interface IVersionServices
      * @param date The date of evolution
      * @return A list of version
      */
-    public List<Version> selectEvolution( int idPlu, Date date );
+    List<Version> selectEvolution( int idPlu, Date date );
 
     /**
      * Returns a list of version objects for the archive
@@ -86,21 +86,21 @@ public interface IVersionServices
      * @param date The date of archivage
      * @return A list of version
      */
-    public List<Version> selectArchive( int idPlu, Date date );
+    List<Version> selectArchive( int idPlu, Date date );
 
     /**
      * Returns an integer
      * @param nIdAtome the atome id
      * @return A maximum version number
      */
-    public int findMaxVersion( int nIdAtome );
+    int findMaxVersion( int nIdAtome );
 
     /**
      * Returns a version object
      * @param nKey the version id
      * @return A version object with the id nKey
      */
-    public Version findByPrimaryKey( int nKey );
+    Version findByPrimaryKey( int nKey );
 
     /**
      * Returns a version object
@@ -108,7 +108,7 @@ public interface IVersionServices
      * @param numVersion the version number
      * @return A version object associated with the same atome id and version number
      */
-    public Version findByAtomeAndNumVersion( int nIdAtome, int numVersion );
+    Version findByAtomeAndNumVersion( int nIdAtome, int numVersion );
 
     /**
      * Returns a list of version objects
@@ -116,7 +116,7 @@ public interface IVersionServices
      * @param nIdFolder the folder id
      * @return A list of version associated with the same plu id and folder id
      */
-    public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder );
+    List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder );
 
     /**
      * Finds by filter
@@ -124,5 +124,5 @@ public interface IVersionServices
      * @param versionFilter the version filter
      * @return the version list
      */
-    public List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );
+    List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );
 }

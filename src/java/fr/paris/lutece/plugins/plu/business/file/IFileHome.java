@@ -49,14 +49,14 @@ public interface IFileHome extends IGenericHome<Integer, File>
      * Returns a list of file objects
      * @return A list of all mime type file
      */
-    public List<File> findAllMimeType(  );
+    List<File> findAllMimeType(  );
 
     /**
      * Returns a list of file objects
      * @param nIdVersion the version id
      * @return A list of file associated with the same version id
      */
-    public List<File> findByVersion( int nIdVersion );
+    List<File> findByVersion( int nIdVersion );
 
     /**
      * Finds by filter
@@ -64,5 +64,5 @@ public interface IFileHome extends IGenericHome<Integer, File>
      * @param atomeFilter the atome filter
      * @return the folder list
      */
-    public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter );
+    List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter );
 }

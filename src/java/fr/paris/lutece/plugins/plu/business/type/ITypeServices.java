@@ -47,11 +47,11 @@ public interface ITypeServices
      * @param nKey the type id
      * @return A type object with the same id
      */
-    public Type findByPrimaryKey( int nKey );
+    Type findByPrimaryKey( int nKey );
 
     /**
      * Returns a list of type objects
      * @return A list of all type
      */
-    public List<Type> findAll(  );
+    List<Type> findAll(  );
 }

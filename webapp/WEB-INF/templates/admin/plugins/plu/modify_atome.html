@@ -38,12 +38,12 @@
         	<label for="num_version" >#i18n{plu.modify_version.rowTitleVersion} : </label> 
         	<input type="text" id="num_version" name="num_version" value="${one_version.version}" size="30" maxlength="20" tabindex="1"/>
         </p>
-        
+        <#if one_version.d1?exists>
 		<p>
         	<label for="version_d1" >#i18n{plu.modify_version.rowTitleD1} :</label>
         	<input type="text" id="version_d1" name="version_d1" value="${one_version.d1?date}" disabled="disabled"/>
         </p>
-
+		</#if>
         <p>
         	<label for="atome_description" >#i18n{plu.modify_atome.rowTitleDescription} :</label>
         </p>

@@ -49,56 +49,56 @@ public interface IFolderDAO extends IGenericDAO<Integer, Folder>
      * Returns a folder object
      * @return The last folder created
      */
-    public Folder findLastFolder(  );
+    Folder findLastFolder(  );
 
     /**
      * Returns a folder object
      * @param title the folder title
      * @return A folder object with the same title
      */
-    public Folder findForTestTitle( String title );
+    Folder findForTestTitle( String title );
 
     /**
      * Returns a folder object
      * @param nIdAtome the atome id
      * @return A folder object associated with the atome id
      */
-    public Folder findByAtome( int nIdAtome );
+    Folder findByAtome( int nIdAtome );
 
     /**
      * Returns a folder object
      * @param nIdVersion the version id
      * @return A folder object associated with the version id
      */
-    public Folder findByVersion( int nIdVersion );
+    Folder findByVersion( int nIdVersion );
 
     /**
      * Returns a folder object
      * @param nKey the folder id
      * @return A folder object which has a child or an atome
      */
-    public Folder findForDelete( int nKey );
+    Folder findForDelete( int nKey );
 
     /**
      * Returns a list of folder objects
      * @param pluId the plu id
      * @return A list of folder with the same plu id
      */
-    public List<Folder> findByPluId( int pluId );
+    List<Folder> findByPluId( int pluId );
 
     /**
      * Returns a list of folder objects
      * @param parentId the folder parent id
      * @return A list of folder with the same folder parent id
      */
-    public List<Folder> findByParent( int parentId );
+    List<Folder> findByParent( int parentId );
 
     /**
      * Finds by filter
      * @param filter the filter
      * @return the folder list
      */
-    public List<Folder> findByFilter( FolderFilter filter );
+    List<Folder> findByFilter( FolderFilter filter );
 
     /**
      * Loads the image representing the folder
@@ -106,7 +106,7 @@ public interface IFolderDAO extends IGenericDAO<Integer, Folder>
      * @param nIdFolder int identifier of the Folder to fetch
      * @return the image resource
      */
-    public ImageResource getImageResource( int nIdFolder );
+    ImageResource getImageResource( int nIdFolder );
     
     /**
      * Loads the html specifique representing the folder
@@ -114,5 +114,5 @@ public interface IFolderDAO extends IGenericDAO<Integer, Folder>
      * @param nIdFolder int identifier of the Folder to fetch
      * @return the html specifique
      */
-    public ImageResource getHtmlResource( int nIdFolder );
+    ImageResource getHtmlResource( int nIdFolder );
 }

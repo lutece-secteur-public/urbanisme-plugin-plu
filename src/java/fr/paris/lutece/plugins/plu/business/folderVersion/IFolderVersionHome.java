@@ -51,12 +51,12 @@ public interface IFolderVersionHome extends IGenericHome<Integer, FolderVersion>
      * @param folder the folder associated
      * @return A list of folderVersion associated with the folder
      */
-    public List<FolderVersion> findByFolder( Folder folder );
+    List<FolderVersion> findByFolder( Folder folder );
 
     /**
      * Returns a folderVersion object
      * @param version the version associated
      * @return A folderVersion object associated with the last folder of the version
      */
-    public FolderVersion findByMaxFolderAndVersion( Version version );
+    FolderVersion findByMaxFolderAndVersion( Version version );
 }

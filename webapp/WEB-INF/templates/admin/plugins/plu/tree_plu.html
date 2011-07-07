@@ -95,9 +95,7 @@
 			   	</form>
 	       	</td>
 	       	<td style="text-align:center;">
-	       		<form method="post" action="jsp/admin/plugins/plu/folder/ViewFolder.jsp">
-	            	<input type="hidden" name="id_plu" value="${folder.plu}"/>
-	            	<input type="hidden" name="id_folder" value="${folder.id}"/>
+	       		<form method="post" action="jsp/admin/plugins/plu/folder/ViewFolder.jsp?id_plu=${folder.plu}&id_folder=${folder.id}">
 		      		<input src="images/admin/skin/plugins/plu/atome_view.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.view_folder.view}${folder.id}" title="#i18n{plu.view_folder.view}${folder.id}" type="image" />
 			   	</form>
 	       	</td>
@@ -158,6 +156,9 @@
 	<#if version_list?exists>
 	<div class="highlight-box">
 		<form method="post" name="" action="jsp/admin/plugins/plu/plu/TreePlu.jsp"  >
+		<table>
+		<tr>
+			<td style="border-bottom:none;">
 			<p>
   			   	<label for="atome_name" >#i18n{plu.search_atome.rowTitleAtomeName} : </label> 
         		<input type="text" id="atome_name" name="atome_name" <#if atome_name?exists>value="${atome_name}"</#if> size="60" maxlength="60" tabindex="1" />
@@ -166,10 +167,17 @@
   			   	<label for="atome_title" >#i18n{plu.search_atome.rowTitleAtome} : </label> 
         		<input type="text" id="atome_title" name="atome_title" <#if atome_title?exists>value="${atome_title}"</#if> size="60" maxlength="60" tabindex="1" />
         	</p>
+        	<p>
+        		<label for="id_atome" >#i18n{plu.search_atome.rowTitleAtomeId} :</label>  
+        		<input type="text" id="id_atome" name="id_atome" <#if id_atome?exists><#assign res="${id_atome}"?matches("[0-9]+?")><#if res>value="${id_atome}"</#if></#if> size="60" maxlength="101" tabindex="2" />
+        	</p>
        		<p>
         		<label for="num_version" >#i18n{plu.search_atome.rowTitleVersion} :</label>  
         		<input type="text" id="num_version" name="num_version" <#if num_version?exists><#assign res="${num_version}"?matches("[0-9]+?")><#if res>value="${num_version}"</#if></#if> size="60" maxlength="101" tabindex="2" />
         	</p>
+        	</td>
+        
+        	<td style="border-bottom:none;">
         	<p>
         		<label for="version_d1" >#i18n{plu.search_atome.rowTitleD1} :</label>
         		<input type="text" id="version_d1" name="version_d1" <#if version_d1?exists>value="${version_d1}"</#if> />
@@ -190,6 +198,9 @@
         		<input type="text" id="version_d4" name="version_d4" <#if version_d4?exists>value="${version_d4}"</#if> />
         		<@getDatePicker idField="version_d4" language="fr" />
         	</p>
+        	</td>
+        </tr>
+        </table>
 			<p>
 				<input type="hidden" name="id_plu" value="0"/>
 				<input type="hidden" name="id_folder" value="0"/>
@@ -319,7 +330,7 @@
 				<img disabled="disabled" src="images/admin/skin/plugins/plu/atome_modify.png" style="opacity:0.4;filter:alpha(opacity=40)" title="#i18n{plu.modify_atome.modify}" alt="#i18n{plu.modify_atome.modify}" />
 			</#if>
 	        </td>
-	        <#if version.d2?exists && !version.d3?exists && !version.d4?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) >
+	        <#if version.d2?exists && !version.d3?exists && !version.d4?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) && version.archive!='O' >
 	        <td style="text-align:center;">
 	           	<A href="jsp/admin/plugins/plu/atome/EvolveAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
    					<input src="images/admin/skin/plugins/plu/atome_evolve.png" title="#i18n{plu.evolve_atome.evolve}" alt="#i18n{plu.evolve_atome.evolve}" style="border: 0pt none ; vertical-align: bottom;" type="image" />

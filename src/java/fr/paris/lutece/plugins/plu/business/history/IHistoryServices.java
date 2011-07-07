@@ -43,6 +43,6 @@ public interface IHistoryServices
      * Create a new history object
      * @param history the new history object
      */
-    public void create( History history );
+    void create( History history );
 
 }

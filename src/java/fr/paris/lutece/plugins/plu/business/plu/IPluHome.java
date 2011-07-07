@@ -46,11 +46,11 @@ public interface IPluHome extends IGenericHome<Integer, Plu>
      * Returns a plu object
      * @return A plu object which work
      */
-    public Plu findPluWork(  );
+    Plu findPluWork(  );
 
     /**
      * Returns a plu object
      * @return A plu object which is applied
      */
-    public Plu findPluApplied(  );
+    Plu findPluApplied(  );
 }

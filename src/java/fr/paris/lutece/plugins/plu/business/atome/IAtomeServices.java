@@ -45,30 +45,30 @@ public interface IAtomeServices
      * Create a new atome object
      * @param atome the new atome object
      */
-    public void create( Atome atome );
+    void create( Atome atome );
 
     /**
      * remove an atome object
      * @param atome the atome object
      */
-    public void remove( Atome atome );
+    void remove( Atome atome );
     
     /**
      * Update an atome object
      * @param atome the atome object
      */
-    public void update( Atome atome );
+    void update( Atome atome );
 
     /**
      * Returns an atome object
      * @param nKey the atome id
      * @return An atome object with the id nKey
      */
-    public Atome findByPrimaryKey( int nKey );
+    Atome findByPrimaryKey( int nKey );
 
     /**
      * Returns a list of atome objects
      * @return A list of all atome
      */
-    public List<Atome> findAll(  );
+    List<Atome> findAll(  );
 }

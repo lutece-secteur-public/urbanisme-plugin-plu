@@ -44,17 +44,17 @@ public interface IFileContentServices
      * Create a new FileContent object
      * @param fileContent the new fileContent object
      */
-    public void create( FileContent fileContent );
+    void create( FileContent fileContent );
     
     /**
      * Remove a FileContent object
      * @param fileContent the fileContent object
      */
-    public void remove( FileContent fileContent );
+    void remove( FileContent fileContent );
     
     /**
      * Returns a FileContent object
      * @return The last fileContent created
      */
-    public FileContent findLastFileContent(  );
+    FileContent findLastFileContent(  );
 }
