@@ -10,11 +10,8 @@
 		<p>
 			<label for="id_folder" >#i18n{plu.create_folder.rowTitleParentFolder} : </label>
 			<select name="id_folder">
-				<option value="${one_folder.id}">${one_folder.title}</option>
 				<#list folder_list as folder>
-					<#if folder.id != one_folder.id>
-     				<option value="${folder.id}">${folder.title}</option>
-     				</#if>
+     				<option value="${folder.id}" <#if folder.title==one_folder.title>selected="selected"</#if>>${folder.title}</option>
      			</#list>
 			</select>
 		</p>
