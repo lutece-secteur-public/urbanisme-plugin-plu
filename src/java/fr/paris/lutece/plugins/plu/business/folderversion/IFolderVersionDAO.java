@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.business.folderVersion;
+package fr.paris.lutece.plugins.plu.business.folderversion;
 
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.version.Version;
