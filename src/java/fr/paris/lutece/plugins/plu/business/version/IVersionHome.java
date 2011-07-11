@@ -46,19 +46,19 @@ import java.util.List;
  */
 public interface IVersionHome extends IGenericHome<Integer, Version>
 {
-	/**
-     * Returns a list of version objects for the approve
-     * @param idPlu The plu identifier
-     * @return A list of version
-     */
-	List<Version> selectApprove( int idPlu );
+    /**
+    * Returns a list of version objects for the approve
+    * @param idPlu The plu identifier
+    * @return A list of version
+    */
+    List<Version> selectApprove( int idPlu );
 
-	/**
-     * Returns a list of version objects for the application
-     * @param idPlu The plu identifier
-     * @param date The date of application
-     * @return A list of version
-     */
+    /**
+    * Returns a list of version objects for the application
+    * @param idPlu The plu identifier
+    * @param date The date of application
+    * @return A list of version
+    */
     List<Version> selectApplication( int idPlu, Date date );
 
     /**

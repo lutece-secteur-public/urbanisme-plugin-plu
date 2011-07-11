@@ -52,11 +52,12 @@ import javax.persistence.TableGenerator;
 @Table( name = "PLU_ETAT_GENERATION" )
 public class Etat
 {
-	/** Constants */
-	
+    /** Constants */
     public static final String RESOURCE_TYPE = "ETAT_RESOURCE";
+
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_etat_sequence";
+
     /** Unique value */
     private static final String JPA_COLUMN_NAME = "plu_etat_id";
     private int _id;

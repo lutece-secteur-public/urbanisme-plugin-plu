@@ -40,12 +40,13 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
  * This class provides instances management methods (create, find, ...) for FileContent objects
  * @author vLopez
  */
-public class FileContentHome extends AbstractLuteceHome<Integer, FileContent, IFileContentDAO> implements IFileContentHome
+public class FileContentHome extends AbstractLuteceHome<Integer, FileContent, IFileContentDAO>
+    implements IFileContentHome
 {
-	/**
-     * Returns a FileContent object
-     * @return The last fileContent created
-     */
+    /**
+    * Returns a FileContent object
+    * @return The last fileContent created
+    */
     public FileContent findLastFileContent(  )
     {
         return getDao(  ).findLastFileContent(  );

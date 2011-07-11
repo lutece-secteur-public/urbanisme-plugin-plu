@@ -42,20 +42,20 @@ import java.util.List;
  */
 public class TypeServices implements ITypeServices
 {
-    ITypeHome _home;
+    private ITypeHome _home;
 
     /**
-	 * @return the _home
-	 */
+         * @return the _home
+         */
     public ITypeHome getHome(  )
     {
         return _home;
     }
-    
-	/**
-	 * @param home the _home to set
-	 */
-	public void setHome( ITypeHome home )
+
+    /**
+     * @param home the _home to set
+     */
+    public void setHome( ITypeHome home )
     {
         this._home = home;
     }

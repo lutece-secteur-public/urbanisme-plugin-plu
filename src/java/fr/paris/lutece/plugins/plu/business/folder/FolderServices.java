@@ -37,25 +37,26 @@ import fr.paris.lutece.portal.service.image.ImageResource;
 
 import java.util.List;
 
+
 /**
  * FolderServices
  * @author vLopez
  */
 public class FolderServices implements IFolderServices
 {
-    IFolderHome _home;
+    private IFolderHome _home;
 
     /**
-	 * @return the _home
-	 */
+         * @return the _home
+         */
     public IFolderHome getHome(  )
     {
         return _home;
     }
 
-	/**
-	 * @param home the _home to set
-	 */
+    /**
+     * @param home the _home to set
+     */
     public void setHome( IFolderHome home )
     {
         this._home = home;
@@ -188,7 +189,7 @@ public class FolderServices implements IFolderServices
     {
         return _home.getImageResource( nIdFolder );
     }
-    
+
     /**
      * Loads the html specifique representing the folder
      *
@@ -197,6 +198,6 @@ public class FolderServices implements IFolderServices
      */
     public ImageResource getHtmlResource( int nIdFolder )
     {
-    	return _home.getHtmlResource( nIdFolder );
+        return _home.getHtmlResource( nIdFolder );
     }
 }

@@ -42,5 +42,4 @@ import fr.paris.lutece.util.jpa.IGenericHome;
  */
 public interface IHistoryHome extends IGenericHome<Integer, History>
 {
-    
 }

@@ -37,25 +37,26 @@ import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 
 import java.util.List;
 
+
 /**
  * FileServices
  * @author vLopez
  */
 public class FileServices implements IFileServices
 {
-    IFileHome _home;
+    private IFileHome _home;
 
     /**
-	 * @return the _home
-	 */
+         * @return the _home
+         */
     public IFileHome getHome(  )
     {
         return _home;
     }
 
-	/**
-	 * @param home the _home to set
-	 */
+    /**
+     * @param home the _home to set
+     */
     public void setHome( IFileHome home )
     {
         _home = home;
@@ -85,7 +86,7 @@ public class FileServices implements IFileServices
      */
     public void remove( File file )
     {
-    	int key = file.getId(  );
+        int key = file.getId(  );
         _home.remove( key );
     }
 

@@ -42,19 +42,19 @@ import java.util.List;
  */
 public class AtomeServices implements IAtomeServices
 {
-    IAtomeHome _home;
+    private IAtomeHome _home;
 
     /**
-	 * @return the _home
-	 */
+         * @return the _home
+         */
     public IAtomeHome getHome(  )
     {
         return _home;
     }
 
-	/**
-	 * @param home the _home to set
-	 */
+    /**
+     * @param home the _home to set
+     */
     public void setHome( IAtomeHome home )
     {
         this._home = home;
@@ -68,15 +68,15 @@ public class AtomeServices implements IAtomeServices
     {
         _home.create( atome );
     }
-    
+
     /**
      * remove an atome object
      * @param atome the atome object
      */
     public void remove( Atome atome )
     {
-    	int nIdAtome = atome.getId(  );
-    	_home.remove( nIdAtome );
+        int nIdAtome = atome.getId(  );
+        _home.remove( nIdAtome );
     }
 
     /**

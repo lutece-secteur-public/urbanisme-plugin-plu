@@ -43,13 +43,12 @@ import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
  */
 public class HistoryDAO extends JPALuteceDAO<Integer, History> implements IHistoryDAO
 {
-	/**
-     * @return the plugin name
-     */
+    /**
+    * @return the plugin name
+    */
     @Override
     public String getPluginName(  )
     {
         return PluPlugin.PLUGIN_NAME;
     }
-
 }

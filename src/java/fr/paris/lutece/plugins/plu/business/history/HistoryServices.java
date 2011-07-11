@@ -33,25 +33,26 @@
  */
 package fr.paris.lutece.plugins.plu.business.history;
 
+
 /**
  * HistoryServices
  * @author vLopez
  */
 public class HistoryServices implements IHistoryServices
 {
-    IHistoryHome _home;
+    private IHistoryHome _home;
 
     /**
-	 * @return the _home
-	 */
+         * @return the _home
+         */
     public IHistoryHome getHome(  )
     {
         return _home;
     }
 
-	/**
-	 * @param home the _home to set
-	 */
+    /**
+     * @param home the _home to set
+     */
     public void setHome( IHistoryHome home )
     {
         this._home = home;
@@ -65,5 +66,4 @@ public class HistoryServices implements IHistoryServices
     {
         _home.create( history );
     }
-
 }

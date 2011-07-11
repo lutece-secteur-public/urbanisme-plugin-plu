@@ -51,5 +51,4 @@ public class AtomeDAO extends JPALuteceDAO<Integer, Atome> implements IAtomeDAO
     {
         return PluPlugin.PLUGIN_NAME;
     }
-
 }

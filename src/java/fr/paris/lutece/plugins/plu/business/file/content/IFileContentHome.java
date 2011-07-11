@@ -42,9 +42,9 @@ import fr.paris.lutece.util.jpa.IGenericHome;
  */
 public interface IFileContentHome extends IGenericHome<Integer, FileContent>
 {
-	/**
-     * Returns a FileContent object
-     * @return The last fileContent created
-     */
-    FileContent findLastFileContent(  );    
+    /**
+    * Returns a FileContent object
+    * @return The last fileContent created
+    */
+    FileContent findLastFileContent(  );
 }

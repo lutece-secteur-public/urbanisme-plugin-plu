@@ -46,22 +46,22 @@ import java.util.List;
  */
 public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDAO> implements IVersionHome
 {
-	/**
-     * Returns a list of version objects for the approve
-     * @param idPlu The plu identifier
-     * @return A list of version
-     */
-	public List<Version> selectApprove( int idPlu )
-	{
-		return getDao(  ).selectApprove( idPlu );
-	}
+    /**
+    * Returns a list of version objects for the approve
+    * @param idPlu The plu identifier
+    * @return A list of version
+    */
+    public List<Version> selectApprove( int idPlu )
+    {
+        return getDao(  ).selectApprove( idPlu );
+    }
 
-	/**
-     * Returns a list of version objects for the application
-     * @param idPlu The plu identifier
-     * @param date The date of application
-     * @return A list of version
-     */
+    /**
+    * Returns a list of version objects for the application
+    * @param idPlu The plu identifier
+    * @param date The date of application
+    * @return A list of version
+    */
     public List<Version> selectApplication( int idPlu, Date date )
     {
         return getDao(  ).selectApplication( idPlu, date );

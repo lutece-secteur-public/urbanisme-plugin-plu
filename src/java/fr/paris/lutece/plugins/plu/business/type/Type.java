@@ -52,11 +52,12 @@ import javax.persistence.TableGenerator;
 @Table( name = "PLU_TYPE_ACTE_JURIDIQUE" )
 public class Type
 {
-	/** Constants */
-	
+    /** Constants */
     public static final String RESOURCE_TYPE = "TYPE_RESOURCE";
+
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_type_sequence";
+
     /** Unique value */
     private static final String JPA_COLUMN_NAME = "plu_type_id";
     private int _id;

@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.plu.utils;
 
 import java.util.List;
 
+
 /**
 * Utils methods
 */
@@ -42,6 +43,14 @@ public class PluUtils
 {
     public static final String CONSTANT_WHERE = " WHERE ";
     public static final String CONSTANT_AND = " AND ";
+
+    /**
+     * empty constructor
+     */
+    private PluUtils(  )
+    {
+        // nothing
+    }
 
     /**
     * Builds a query with filters placed in parameters.

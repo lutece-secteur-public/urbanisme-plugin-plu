@@ -42,5 +42,4 @@ import fr.paris.lutece.util.jpa.IGenericHome;
  */
 public interface IAtomeHome extends IGenericHome<Integer, Atome>
 {
-    
 }

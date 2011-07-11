@@ -40,18 +40,18 @@ package fr.paris.lutece.plugins.plu.business.file.content;
  */
 public interface IFileContentServices
 {
-	/**
-     * Create a new FileContent object
-     * @param fileContent the new fileContent object
-     */
+    /**
+    * Create a new FileContent object
+    * @param fileContent the new fileContent object
+    */
     void create( FileContent fileContent );
-    
+
     /**
      * Remove a FileContent object
      * @param fileContent the fileContent object
      */
     void remove( FileContent fileContent );
-    
+
     /**
      * Returns a FileContent object
      * @return The last fileContent created

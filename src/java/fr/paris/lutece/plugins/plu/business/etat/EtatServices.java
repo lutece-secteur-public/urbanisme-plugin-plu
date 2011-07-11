@@ -42,32 +42,32 @@ import java.util.List;
  */
 public class EtatServices implements IEtatServices
 {
-    IEtatHome _home;
+    private IEtatHome _home;
 
     /**
-	 * @return the _home
-	 */
+         * @return the _home
+         */
     public IEtatHome getHome(  )
     {
         return _home;
     }
 
-	/**
-	 * @param home the _home to set
-	 */
+    /**
+     * @param home the _home to set
+     */
     public void setHome( IEtatHome home )
     {
         this._home = home;
     }
-    
-	/**
-     * Returns a etat object
-     * @param nKey the etat id
-     * @return A etat object with the same id
-     */
+
+    /**
+    * Returns a etat object
+    * @param nKey the etat id
+    * @return A etat object with the same id
+    */
     public Etat findByPrimaryKey( int nKey )
     {
-    	return _home.findByPrimaryKey( nKey );
+        return _home.findByPrimaryKey( nKey );
     }
 
     /**

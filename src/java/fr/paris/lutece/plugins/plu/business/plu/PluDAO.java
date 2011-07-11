@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-
-import fr.paris.lutece.plugins.plu.services.PluPlugin;
-import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
 
 /**
@@ -49,7 +49,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
 {
     private static final String SQL_QUERY_SELECT_PLU_WORK = "SELECT p FROM Plu p WHERE p.da IS NULL";
     private static final String SQL_QUERY_SELECT_PLU_APPLIED = "SELECT p FROM Plu p WHERE p.id = ( SELECT MAX(p.id) - 1 FROM Plu p )";
-    
+
     /**
      * @return the plugin name
      */
@@ -65,22 +65,22 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
      */
     public Plu findPluWork(  )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_PLU_WORK );
-    	
-    	Plu plu;
-    	
-    	try
-    	{
-    		plu = (Plu) q.getSingleResult(  );
-    	}
-    	catch( NoResultException e )
-    	{
-    		plu = new Plu(  );
-    		plu.setId( 0 );
-    	}
-    	
-    	return plu;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_PLU_WORK );
+
+        Plu plu;
+
+        try
+        {
+            plu = (Plu) q.getSingleResult(  );
+        }
+        catch ( NoResultException e )
+        {
+            plu = new Plu(  );
+            plu.setId( 0 );
+        }
+
+        return plu;
     }
 
     /**
@@ -89,11 +89,11 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
      */
     public Plu findPluApplied(  )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_PLU_APPLIED );
-    	
-    	Plu plu = (Plu) q.getSingleResult(  );
-    	
-    	return plu;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_PLU_APPLIED );
+
+        Plu plu = (Plu) q.getSingleResult(  );
+
+        return plu;
     }
 }

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.plu.business.history;
 
+
 /**
  * IHistoryServices the history services interface
  * @author vLopez
@@ -44,5 +45,4 @@ public interface IHistoryServices
      * @param history the new history object
      */
     void create( History history );
-
 }

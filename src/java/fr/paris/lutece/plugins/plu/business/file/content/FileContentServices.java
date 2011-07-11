@@ -40,19 +40,19 @@ package fr.paris.lutece.plugins.plu.business.file.content;
  */
 public class FileContentServices implements IFileContentServices
 {
-    IFileContentHome _home;
+    private IFileContentHome _home;
 
     /**
-	 * @return the _home
-	 */
+         * @return the _home
+         */
     public IFileContentHome getHome(  )
     {
         return _home;
     }
 
-	/**
-	 * @param home the _home to set
-	 */
+    /**
+     * @param home the _home to set
+     */
     public void setHome( IFileContentHome home )
     {
         this._home = home;
@@ -64,19 +64,19 @@ public class FileContentServices implements IFileContentServices
      */
     public void create( FileContent fileContent )
     {
-    	_home.create( fileContent );
+        _home.create( fileContent );
     }
-    
+
     /**
      * Remove a FileContent object
      * @param fileContent the fileContent object
      */
     public void remove( FileContent fileContent )
     {
-    	int idFileContent = fileContent.getId(  );
-    	_home.remove( idFileContent );
+        int idFileContent = fileContent.getId(  );
+        _home.remove( idFileContent );
     }
-    
+
     /**
      * Returns a FileContent object
      * @return The last fileContent created

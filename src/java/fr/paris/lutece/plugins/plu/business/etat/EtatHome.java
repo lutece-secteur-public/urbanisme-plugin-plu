@@ -42,5 +42,4 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
  */
 public class EtatHome extends AbstractLuteceHome<Integer, Etat, IEtatDAO> implements IEtatHome
 {
-    
 }

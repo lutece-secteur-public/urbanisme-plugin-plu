@@ -57,13 +57,14 @@ import javax.persistence.TableGenerator;
 @Table( name = "PLU_DOSSIER_VERSION_ATOME" )
 public class FolderVersion
 {
-	/** Constants */
-	
+    /** Constants */
     public static final String RESOURCE_TYPE = "DOSSIER_VERSION_RESOURCE";
+
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_dossier_version_atome_sequence";
+
     /** Unique value */
-    private static final String JPA_COLUMN_NAME = "plu_dossier_version_atome_id";    
+    private static final String JPA_COLUMN_NAME = "plu_dossier_version_atome_id";
     private int _id;
     private Version _version;
     private Folder _folder;

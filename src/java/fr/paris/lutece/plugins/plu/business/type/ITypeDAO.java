@@ -42,5 +42,4 @@ import fr.paris.lutece.util.jpa.IGenericDAO;
  */
 public interface ITypeDAO extends IGenericDAO<Integer, Type>
 {
-
 }

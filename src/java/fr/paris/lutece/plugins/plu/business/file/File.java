@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
+import fr.paris.lutece.plugins.plu.business.file.content.FileContent;
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,9 +47,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-import fr.paris.lutece.plugins.plu.business.file.content.FileContent;
-import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-
 
 /**
  * This class represents business object File
@@ -56,13 +56,14 @@ import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
 @Table( name = "PLU_FICHIER" )
 public class File
 {
-	/** Constants */
-	
+    /** Constants */
     public static final String RESOURCE_TYPE = "DOSSIER_VERSION_RESOURCE";
+
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_fichier_sequence";
+
     /** Unique value */
-    private static final String JPA_COLUMN_NAME = "plu_fichier_id"; 
+    private static final String JPA_COLUMN_NAME = "plu_fichier_id";
     private int _id;
     private int _atome;
     private int _order;
@@ -93,9 +94,9 @@ public class File
      */
     public void setId( int id )
     {
-    	_id = id;
+        _id = id;
     }
-    
+
     /**
      * Returns the identifier atome of this file
      * @return the identifier atome
@@ -112,7 +113,7 @@ public class File
      */
     public void setAtome( int atome )
     {
-    	_atome = atome;
+        _atome = atome;
     }
 
     /**
@@ -245,9 +246,9 @@ public class File
      */
     public void setUtilisation( char utilisation )
     {
-    	_utilisation = utilisation;
+        _utilisation = utilisation;
     }
-    
+
     /**
      * Returns the physical file of this file
      * @return the physical file
@@ -267,5 +268,4 @@ public class File
     {
         _file = file;
     }
-    
 }

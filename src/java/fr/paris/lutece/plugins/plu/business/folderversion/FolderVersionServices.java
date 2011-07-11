@@ -45,19 +45,19 @@ import java.util.List;
  */
 public class FolderVersionServices implements IFolderVersionServices
 {
-    IFolderVersionHome _home;
+    private IFolderVersionHome _home;
 
     /**
-	 * @return the _home
-	 */
+         * @return the _home
+         */
     public IFolderVersionHome getHome(  )
     {
         return _home;
     }
 
-	/**
-	 * @param home the _home to set
-	 */
+    /**
+     * @param home the _home to set
+     */
     public void setHome( IFolderVersionHome home )
     {
         this._home = home;

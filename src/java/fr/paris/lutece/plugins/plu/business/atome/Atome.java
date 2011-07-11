@@ -47,7 +47,7 @@ import javax.persistence.Table;
 @Table( name = "PLU_ATOME" )
 public class Atome
 {
-	/** Constants */
+    /** Constants */
     public static final String RESOURCE_TYPE = "ATOME_RESOURCE";
     private int _id;
     private String _name;

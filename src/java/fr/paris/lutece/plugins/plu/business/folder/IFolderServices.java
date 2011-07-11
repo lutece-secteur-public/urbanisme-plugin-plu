@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.image.ImageResource;
 
 import java.util.List;
 
+
 /**
  * IFolderServices the folder services interface
  * @author vLopez
@@ -130,7 +131,7 @@ public interface IFolderServices
      * @return the image resource
      */
     ImageResource getImageResource( int nIdFolder );
-    
+
     /**
      * Loads the html specifique representing the folder
      *

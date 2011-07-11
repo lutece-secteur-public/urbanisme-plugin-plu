@@ -42,9 +42,9 @@ import fr.paris.lutece.util.jpa.IGenericDAO;
  */
 public interface IFileContentDAO extends IGenericDAO<Integer, FileContent>
 {
-	/**
-     * Returns a FileContent object
-     * @return The last fileContent created
-     */
+    /**
+    * Returns a FileContent object
+    * @return The last fileContent created
+    */
     FileContent findLastFileContent(  );
 }

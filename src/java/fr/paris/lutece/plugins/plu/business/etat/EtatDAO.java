@@ -51,5 +51,4 @@ public class EtatDAO extends JPALuteceDAO<Integer, Etat> implements IEtatDAO
     {
         return PluPlugin.PLUGIN_NAME;
     }
-
 }

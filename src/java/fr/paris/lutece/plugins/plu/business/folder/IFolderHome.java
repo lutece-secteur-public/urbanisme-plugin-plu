@@ -107,7 +107,7 @@ public interface IFolderHome extends IGenericHome<Integer, Folder>
      * @return the image resource
      */
     ImageResource getImageResource( int nIdFolder );
-    
+
     /**
      * Loads the html specifique representing the folder
      *

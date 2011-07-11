@@ -42,19 +42,19 @@ import java.util.List;
  */
 public class PluServices implements IPluServices
 {
-    IPluHome _home;
+    private IPluHome _home;
 
     /**
-	 * @return the _home
-	 */
+         * @return the _home
+         */
     public IPluHome getHome(  )
     {
         return _home;
     }
-    
-	/**
-	 * @param home the _home to set
-	 */
+
+    /**
+     * @param home the _home to set
+     */
     public void setHome( IPluHome home )
     {
         this._home = home;
@@ -75,9 +75,9 @@ public class PluServices implements IPluServices
      */
     public void update( Plu plu )
     {
-    	_home.update( plu );
+        _home.update( plu );
     }
-    
+
     /**
      * Returns a list of plu objects
      * @return A list of all plu

@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.plugins.plu.business.file.content;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 
 /**
@@ -46,8 +46,8 @@ import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
  */
 public class FileContentDAO extends JPALuteceDAO<Integer, FileContent> implements IFileContentDAO
 {
-	private static final String SQL_QUERY_SELECT_LAST_FILE_CONTENT = "SELECT fc FROM FileContent fc WHERE fc.id = ( SELECT MAX(fc.id) FROM FileContent fc )";
-	
+    private static final String SQL_QUERY_SELECT_LAST_FILE_CONTENT = "SELECT fc FROM FileContent fc WHERE fc.id = ( SELECT MAX(fc.id) FROM FileContent fc )";
+
     /**
      * @return the plugin name
      */
@@ -56,18 +56,18 @@ public class FileContentDAO extends JPALuteceDAO<Integer, FileContent> implement
     {
         return PluPlugin.PLUGIN_NAME;
     }
-    
+
     /**
      * Returns a FileContent object
      * @return The last fileContent created
      */
     public FileContent findLastFileContent(  )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_LAST_FILE_CONTENT );
-    	
-    	FileContent fileContent = (FileContent) q.getSingleResult(  );
-    	
-    	return fileContent;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_LAST_FILE_CONTENT );
+
+        FileContent fileContent = (FileContent) q.getSingleResult(  );
+
+        return fileContent;
     }
 }

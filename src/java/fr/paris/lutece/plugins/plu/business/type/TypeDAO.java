@@ -51,5 +51,4 @@ public class TypeDAO extends JPALuteceDAO<Integer, Type> implements ITypeDAO
     {
         return PluPlugin.PLUGIN_NAME;
     }
-
 }

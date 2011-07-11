@@ -3,17 +3,17 @@
 
 <beans>
   
-  	<bean id="plu.folderVersionServices"  class="fr.paris.lutece.plugins.plu.business.folderVersion.FolderVersionServices" >
+  	<bean id="plu.folderVersionServices"  class="fr.paris.lutece.plugins.plu.business.folderversion.FolderVersionServices" >
         <property name="home">
             <ref bean="plu.folderVersionHome" />
         </property>
     </bean>  
-  	<bean id="plu.folderVersionHome"  class="fr.paris.lutece.plugins.plu.business.folderVersion.FolderVersionHome" >
+  	<bean id="plu.folderVersionHome"  class="fr.paris.lutece.plugins.plu.business.folderversion.FolderVersionHome" >
         <property name="dao">
             <ref bean="plu.folderVersionDAO" />
         </property>
 	</bean>
-    <bean id="plu.folderVersionDAO"  class="fr.paris.lutece.plugins.plu.business.folderVersion.FolderVersionDAO" />
+    <bean id="plu.folderVersionDAO"  class="fr.paris.lutece.plugins.plu.business.folderversion.FolderVersionDAO" />
     
   
 </beans>

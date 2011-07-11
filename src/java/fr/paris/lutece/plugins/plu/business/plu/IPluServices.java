@@ -47,7 +47,7 @@ public interface IPluServices
      * @param plu the new plu object
      */
     void create( Plu plu );
-    
+
     /**
      * Update a plu object
      * @param plu the plu object

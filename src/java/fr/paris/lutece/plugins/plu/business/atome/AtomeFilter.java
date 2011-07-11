@@ -40,7 +40,7 @@ package fr.paris.lutece.plugins.plu.business.atome;
  */
 public class AtomeFilter
 {
-	private Integer _id = -1;
+    private Integer _id = -1;
     private String _name;
     private String _title;
 
@@ -64,13 +64,13 @@ public class AtomeFilter
 
     /**
      *
-     * @return true if the filter contain an id 
+     * @return true if the filter contain an id
      */
     public boolean containsId(  )
     {
         return ( _id != -1 );
     }
-    
+
     /**
      * Get the atome name filtered
      * @return the atome name

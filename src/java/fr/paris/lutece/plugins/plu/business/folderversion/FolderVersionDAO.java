@@ -37,6 +37,7 @@ import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.version.Version;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -68,13 +69,13 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
      */
     public List<FolderVersion> findByFolder( Folder folder )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER );
-    	q.setParameter( "idFolder", folder.getId(  ) );
-    	
-    	List<FolderVersion> folderVersionList = q.getResultList(  );
-    	
-    	return folderVersionList;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER );
+        q.setParameter( "idFolder", folder.getId(  ) );
+
+        List<FolderVersion> folderVersionList = q.getResultList(  );
+
+        return folderVersionList;
     }
 
     /**
@@ -84,12 +85,12 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
      */
     public FolderVersion findByMaxFolderAndVersion( Version version )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION );
-    	q.setParameter( "idVersion", version.getId(  ) );
-    	
-    	FolderVersion folderVersion = (FolderVersion) q.getSingleResult(  );
-    	
-    	return folderVersion;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION );
+        q.setParameter( "idVersion", version.getId(  ) );
+
+        FolderVersion folderVersion = (FolderVersion) q.getSingleResult(  );
+
+        return folderVersion;
     }
 }

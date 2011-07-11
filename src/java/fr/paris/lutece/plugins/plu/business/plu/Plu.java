@@ -59,11 +59,12 @@ import javax.persistence.TableGenerator;
 @Table( name = "PLU_PLU" )
 public class Plu
 {
-	/** Constants */
-	
+    /** Constants */
     public static final String RESOURCE_TYPE = "PLU_RESOURCE";
+
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_sequence";
+
     /** Unique value */
     private static final String JPA_COLUMN_NAME = "plu_id";
     private int _id;
@@ -185,12 +186,12 @@ public class Plu
     }
 
     /**
-     * Sets the date generation of the plu to the specified date
-     * @param dg the new date generation
+     * Sets the da of the plu to the specified date
+     * @param da the new da
      */
-    public void setDg( Date dg )
+    public void setDa( Date da )
     {
-        _dg = dg;
+        _da = da;
     }
 
     /**
@@ -204,12 +205,12 @@ public class Plu
     }
 
     /**
-     * Sets the da of the plu to the specified date
-     * @param da the new da
+     * Sets the date generation of the plu to the specified date
+     * @param dg the new date generation
      */
-    public void setDa( Date da )
+    public void setDg( Date dg )
     {
-        _da = da;
+        _dg = dg;
     }
 
     /**

@@ -42,5 +42,4 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
  */
 public class AtomeHome extends AbstractLuteceHome<Integer, Atome, IAtomeDAO> implements IAtomeHome
 {
-    
 }

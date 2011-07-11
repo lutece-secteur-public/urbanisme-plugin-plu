@@ -37,6 +37,7 @@ import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.plugins.plu.utils.PluUtils;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,10 +74,10 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
      */
     public List<File> findAllMimeType(  )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_ALL_FORMAT );
-    	
-    	List<File> fileList = q.getResultList(  );
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_ALL_FORMAT );
+
+        List<File> fileList = q.getResultList(  );
 
         return fileList;
     }
@@ -88,11 +89,11 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
      */
     public List<File> findByVersion( int nIdVersion )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION );
-    	q.setParameter( "idVersion", nIdVersion );
-    	
-    	List<File> fileList = q.getResultList(  );
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION );
+        q.setParameter( "idVersion", nIdVersion );
+
+        List<File> fileList = q.getResultList(  );
 
         return fileList;
     }
@@ -130,26 +131,26 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         String strSQL = PluUtils.buildRequetteWithFilter( SQL_SEARCH, listStrFilter );
 
         EntityManager em = getEM(  );
-    	Query q = em.createQuery( strSQL );
+        Query q = em.createQuery( strSQL );
 
         if ( fileFilter.containsTitle(  ) )
         {
-        	q.setParameter( "titleFile", fileFilter.get_title(  ) );
+            q.setParameter( "titleFile", fileFilter.get_title(  ) );
         }
 
         if ( fileFilter.containsName(  ) )
         {
-        	q.setParameter( "nameFile", fileFilter.get_name(  ) );
+            q.setParameter( "nameFile", fileFilter.get_name(  ) );
         }
 
         if ( fileFilter.containsMimeType(  ) )
         {
-        	q.setParameter( "typeFile", fileFilter.get_mimeType(  ) );
+            q.setParameter( "typeFile", fileFilter.get_mimeType(  ) );
         }
 
         if ( atomeFilter.containsName(  ) )
         {
-        	q.setParameter( "nameAtome", atomeFilter.get_name(  ) );
+            q.setParameter( "nameAtome", atomeFilter.get_name(  ) );
         }
 
         List<File> fileList = q.getResultList(  );

@@ -42,5 +42,4 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
  */
 public class HistoryHome extends AbstractLuteceHome<Integer, History, IHistoryDAO> implements IHistoryHome
 {
-    
 }

@@ -134,7 +134,7 @@ public class FolderHome extends AbstractLuteceHome<Integer, Folder, IFolderDAO> 
     {
         return getDao(  ).getImageResource( nIdFolder );
     }
-    
+
     /**
      * Loads the html specifique representing the folder
      *
@@ -143,6 +143,6 @@ public class FolderHome extends AbstractLuteceHome<Integer, Folder, IFolderDAO> 
      */
     public ImageResource getHtmlResource( int nIdFolder )
     {
-    	return getDao(  ).getHtmlResource( nIdFolder );
+        return getDao(  ).getHtmlResource( nIdFolder );
     }
 }

@@ -42,5 +42,4 @@ import fr.paris.lutece.util.jpa.IGenericDAO;
  */
 public interface IEtatDAO extends IGenericDAO<Integer, Etat>
 {
-    
 }

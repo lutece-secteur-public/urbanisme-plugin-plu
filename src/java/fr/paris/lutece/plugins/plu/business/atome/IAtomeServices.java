@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.plu.business.atome;
 
 import java.util.List;
 
+
 /**
  * IAtomeServices the atome services interface
  * @author vLopez
@@ -52,7 +53,7 @@ public interface IAtomeServices
      * @param atome the atome object
      */
     void remove( Atome atome );
-    
+
     /**
      * Update an atome object
      * @param atome the atome object

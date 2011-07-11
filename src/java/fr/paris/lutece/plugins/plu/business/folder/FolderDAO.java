@@ -52,11 +52,9 @@ import javax.persistence.Query;
  */
 public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderDAO
 {
-	private static final String SQL_QUERY_SELECT_LAST_FOLDER = "SELECT f FROM Folder f WHERE f.id = (SELECT MAX(f.id) FROM Folder f)";
+    private static final String SQL_QUERY_SELECT_LAST_FOLDER = "SELECT f FROM Folder f WHERE f.id = (SELECT MAX(f.id) FROM Folder f)";
     private static final String SQL_QUERY_SELECT_BY_TITLE = "SELECT f FROM Folder f WHERE f.title = :title";
-//    private static final String SQL_QUERY_SELECT_BY_ATOME = "SELECT f FROM FolderVersion fv JOIN fv.folder f JOIN fv.version v WHERE v.atome.id = :idAtome AND v.version = (SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome )";
     private static final String SQL_QUERY_SELECT_BY_ATOME = "SELECT fv.folder FROM FolderVersion fv JOIN fv.version v JOIN fv.folder f WHERE v.atome.id = :idAtome AND v.version = (SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome ) ORDER BY f.id DESC";
-
     private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.version.id = :idVersion";
     private static final String SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_PARENT = "SELECT f FROM Folder f WHERE f.parentFolder = :idParentFolder";
     private static final String SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_ATOME = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.folder.id = :idFolder";
@@ -65,7 +63,8 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     private static final String SQL_QUERY_SELECT_ALL = "SELECT f FROM Folder f";
     private static final String SQL_FILTER_ID_PLU = "f.plu = :idPlu";
     private static final String SQL_FILTER_TITLE = "f.title = :title";
-//    private static final String SQL_QUERY_SELECT_IMAGE = "SELECT f.img FROM Folder f WHERE f.id = :idFolder";
+
+    //    private static final String SQL_QUERY_SELECT_IMAGE = "SELECT f.img FROM Folder f WHERE f.id = :idFolder";
     private static final String SQL_QUERY_SELECT_IMAGE = "SELECT d.image FROM plu_dossier d WHERE d.id_dossier = ?";
     private static final String SQL_QUERY_SELECT_HTML = "SELECT d.html_specifique FROM plu_dossier d WHERE d.id_dossier = ?";
 
@@ -83,12 +82,12 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public Folder findLastFolder(  )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_LAST_FOLDER );
-    	
-    	Folder folder = (Folder) q.getSingleResult(  );
-    	
-    	return folder;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_LAST_FOLDER );
+
+        Folder folder = (Folder) q.getSingleResult(  );
+
+        return folder;
     }
 
     /**
@@ -98,18 +97,19 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public Folder findForTestTitle( String title )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_TITLE );
-    	q.setParameter( "title", title );
-    	
-    	List<Folder> folderList = q.getResultList(  );
-    	Folder folder = null;
-    	if( !folderList .isEmpty(  ) )
-    	{
-    		folder = folderList.get( 0 );
-    	}
-    	
-    	return folder;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_BY_TITLE );
+        q.setParameter( "title", title );
+
+        List<Folder> folderList = q.getResultList(  );
+        Folder folder = null;
+
+        if ( !folderList.isEmpty(  ) )
+        {
+            folder = folderList.get( 0 );
+        }
+
+        return folder;
     }
 
     /**
@@ -119,18 +119,19 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public Folder findByAtome( int nIdAtome )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_ATOME );
-    	q.setParameter( "idAtome", nIdAtome );
-    	
-    	List<Folder> folderList =  q.getResultList(  );
-    	Folder folder = null;
-    	if( !folderList .isEmpty(  ) )
-    	{
-    		folder = folderList.get( 0 );
-    	}
-    	
-    	return folder;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_BY_ATOME );
+        q.setParameter( "idAtome", nIdAtome );
+
+        List<Folder> folderList = q.getResultList(  );
+        Folder folder = null;
+
+        if ( !folderList.isEmpty(  ) )
+        {
+            folder = folderList.get( 0 );
+        }
+
+        return folder;
     }
 
     /**
@@ -140,15 +141,15 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public Folder findByVersion( int nIdVersion )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION );
-    	q.setParameter( "idVersion", nIdVersion );
-    	
-    	List<Folder> folderList = q.getResultList(  );
-    	
-    	Folder folder = folderList.get( 0 );
-    	
-    	return folder;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION );
+        q.setParameter( "idVersion", nIdVersion );
+
+        List<Folder> folderList = q.getResultList(  );
+
+        Folder folder = folderList.get( 0 );
+
+        return folder;
     }
 
     /**
@@ -158,28 +159,30 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public Folder findForDelete( int nKey )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_PARENT );
-    	q.setParameter( "idParentFolder", nKey );
-    	
-    	List<Folder> folderList = q.getResultList(  );
-    	Folder folder = null;
-    	if( !folderList.isEmpty(  ) )
-    	{
-    		folder = folderList.get( 0 );
-    	}
-    	else
-    	{
-    		q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_ATOME );
-    		q.setParameter( "idFolder", nKey );
-    		folderList = q.getResultList(  );
-    		if( !folderList.isEmpty(  ) )
-    		{
-    			folder = folderList.get( 0 );
-    		}
-    	}
-    	
-    	return folder;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_PARENT );
+        q.setParameter( "idParentFolder", nKey );
+
+        List<Folder> folderList = q.getResultList(  );
+        Folder folder = null;
+
+        if ( !folderList.isEmpty(  ) )
+        {
+            folder = folderList.get( 0 );
+        }
+        else
+        {
+            q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_ATOME );
+            q.setParameter( "idFolder", nKey );
+            folderList = q.getResultList(  );
+
+            if ( !folderList.isEmpty(  ) )
+            {
+                folder = folderList.get( 0 );
+            }
+        }
+
+        return folder;
     }
 
     /**
@@ -189,13 +192,13 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public List<Folder> findByPluId( int pluId )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_ID );
-    	q.setParameter( "idPlu", pluId );
-    	
-    	List<Folder> folderList = q.getResultList(  );
-    	
-    	return folderList;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_ID );
+        q.setParameter( "idPlu", pluId );
+
+        List<Folder> folderList = q.getResultList(  );
+
+        return folderList;
     }
 
     /**
@@ -205,13 +208,13 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public List<Folder> findByParent( int parentId )
     {
-    	EntityManager em = getEM(  );
-    	Query q = em.createQuery( SQL_QUERY_SELECT_BY_PARENT );
-    	q.setParameter( "idParentFolder", parentId );
-    	
-    	List<Folder> folderList = q.getResultList(  );
-    	
-    	return folderList;
+        EntityManager em = getEM(  );
+        Query q = em.createQuery( SQL_QUERY_SELECT_BY_PARENT );
+        q.setParameter( "idParentFolder", parentId );
+
+        List<Folder> folderList = q.getResultList(  );
+
+        return folderList;
     }
 
     /**
@@ -236,16 +239,16 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         String strSQL = PluUtils.buildRequetteWithFilter( SQL_QUERY_SELECT_ALL, listStrFilter );
 
         EntityManager em = getEM(  );
-    	Query q = em.createQuery( strSQL );
+        Query q = em.createQuery( strSQL );
 
         if ( filter.containsPlu(  ) )
         {
-        	q.setParameter( "idPlu", filter.get_plu(  ) );
+            q.setParameter( "idPlu", filter.get_plu(  ) );
         }
 
         if ( filter.containsTitle(  ) )
         {
-        	q.setParameter( "title", filter.get_title(  ) );
+            q.setParameter( "title", filter.get_title(  ) );
         }
 
         List<Folder> folderList = q.getResultList(  );
@@ -261,15 +264,14 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public ImageResource getImageResource( int nIdFolder )
     {
-//    	EntityManager em = getEM(  );
-//    	Query q = em.createQuery( SQL_QUERY_SELECT_IMAGE );
-//    	q.setParameter( "idFolder", nIdFolder );
-//    	
-//    	ImageResource image = null;
-//    	image = (ImageResource) q.getSingleResult(  );
-//    	
-//    	return image;
-    	
+        //    	EntityManager em = getEM(  );
+        //    	Query q = em.createQuery( SQL_QUERY_SELECT_IMAGE );
+        //    	q.setParameter( "idFolder", nIdFolder );
+        //    	
+        //    	ImageResource image = null;
+        //    	image = (ImageResource) q.getSingleResult(  );
+        //    	
+        //    	return image;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_IMAGE );
         daoUtil.setInt( 1, nIdFolder );
         daoUtil.executeQuery(  );
@@ -286,7 +288,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 
         return image;
     }
-    
+
     /**
      * Loads the html specifique representing the folder
      *
@@ -295,16 +297,15 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
      */
     public ImageResource getHtmlResource( int nIdFolder )
     {
-//    	EntityManager em = getEM(  );
-//    	Query q = em.createQuery( SQL_QUERY_SELECT_HTML );
-//    	q.setParameter( "idFolder", nIdFolder );
-//    	
-//    	ImageResource image = null;
-//    	image = (ImageResource) q.getSingleResult(  );
-//    	
-//    	return image;
-    	
-    	DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_HTML );
+        //    	EntityManager em = getEM(  );
+        //    	Query q = em.createQuery( SQL_QUERY_SELECT_HTML );
+        //    	q.setParameter( "idFolder", nIdFolder );
+        //    	
+        //    	ImageResource image = null;
+        //    	image = (ImageResource) q.getSingleResult(  );
+        //    	
+        //    	return image;
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_HTML );
         daoUtil.setInt( 1, nIdFolder );
         daoUtil.executeQuery(  );
 

@@ -52,11 +52,12 @@ import javax.persistence.TableGenerator;
 @Table( name = "PLU_DOSSIER" )
 public class Folder
 {
-	/** Constants */
-	
+    /** Constants */
     public static final String RESOURCE_TYPE = "DOSSIER_RESOURCE";
+
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_dossier_sequence";
+
     /** Unique value */
     private static final String JPA_COLUMN_NAME = "plu_dossier_id";
     private int _id;
