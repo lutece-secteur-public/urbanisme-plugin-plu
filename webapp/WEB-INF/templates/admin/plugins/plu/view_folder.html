@@ -3,7 +3,7 @@
 	<h2>#i18n{plu.view_folder.pageSubTitle}</h2>
 	<#if one_folder.html?has_content>
 		<p>
-			<img src="image?resource_type=folder_html&id=${one_folder.id}" alt="#i18n{plu.view_folder.html}"/>
+			${one_folder.html}
 		</p>
 	<#else>
 		<h1 style="margin-left:10px">${one_folder.title}</h1>
