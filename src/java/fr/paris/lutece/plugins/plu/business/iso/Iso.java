@@ -31,64 +31,76 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.utils;
+package fr.paris.lutece.plugins.plu.business.iso;
 
-import java.util.List;
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 
 /**
-* Utils methods
-*/
-public final class PluUtils
+ * This class represents business object Iso
+ * @author vLopez
+ */
+@Entity
+@Table( name = "PLU_ISO" )
+public class Iso
 {
-    public static final String CONSTANT_WHERE = " WHERE ";
-    public static final String CONSTANT_AND = " AND ";
+    /** Constants */
+    public static final String RESOURCE_TYPE = "ISO_RESOURCE";
+
+    /** Sequence name */
+    private static final String JPA_SEQUENCE_NAME = "plu_iso_sequence";
+
+    /** Unique value */
+    private static final String JPA_COLUMN_NAME = "plu_iso_id";
+    private int _id;
+    private int _plu;
 
     /**
-     * empty constructor
+     * Returns the identifier of this iso
+     * @return the iso identifier
      */
-    private PluUtils(  )
+    @TableGenerator( table = PluJPAUtils.SEQUENCE_TABLE_NAME, name = JPA_SEQUENCE_NAME, pkColumnValue = JPA_COLUMN_NAME, allocationSize = 1 )
+    @Id
+    @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
+    @Column( name = "id_iso" )
+    public int getId(  )
     {
-        // nothing
+        return _id;
     }
 
     /**
-    * Builds a query with filters placed in parameters.
-    * Consider using {@link #buildQueryWithFilter(StringBuilder, List)} instead.
-    * @param strSelect the select of the  query
-    * @param listStrFilter the list of filter to add in the query
-    * @return a query
-    */
-    public static String buildRequetteWithFilter( String strSelect, List<String> listStrFilter )
+     * Sets the identifier of the iso to the specified integer
+     * @param id the new identifier
+     */
+    public void setId( int id )
     {
-        return buildQueryWithFilter( new StringBuilder( strSelect ), listStrFilter );
+        _id = id;
     }
 
     /**
-     * Builds a query with filters placed in parameters
-     * @param sbSQL the beginning of the  query
-     * @param listFilter the list of filter to add in the query
-     * @return a query
+     * Returns the id plu of this iso
+     * @return the iso id plu
      */
-    public static String buildQueryWithFilter( StringBuilder sbSQL, List<String> listFilter )
+    @Column( name = "id_plu" )
+    public int getPlu(  )
     {
-        int nCount = 0;
+        return _plu;
+    }
 
-        for ( String strFilter : listFilter )
-        {
-            if ( ++nCount == 1 )
-            {
-                sbSQL.append( CONSTANT_WHERE );
-            }
-
-            sbSQL.append( strFilter );
-
-            if ( nCount != listFilter.size(  ) )
-            {
-                sbSQL.append( CONSTANT_AND );
-            }
-        }
-
-        return sbSQL.toString(  );
+    /**
+     * Sets the id plu of the iso to the specified integer
+     * @param plu the new id plu
+     */
+    public void setPlu( int plu )
+    {
+        _plu = plu;
     }
 }

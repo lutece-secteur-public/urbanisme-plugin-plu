@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  
+  	<bean id="plu.isoServices"  class="fr.paris.lutece.plugins.plu.business.iso.IsoServices" >
+        <property name="home">
+            <ref bean="plu.isoHome" />
+        </property>
+    </bean>  
+  	<bean id="plu.isoHome"  class="fr.paris.lutece.plugins.plu.business.iso.IsoHome" >
+        <property name="dao">
+            <ref bean="plu.isoDAO" />
+        </property>
+	</bean>
+    <bean id="plu.isoDAO"  class="fr.paris.lutece.plugins.plu.business.iso.IsoDAO" />
+    
+  
+</beans>

@@ -53,7 +53,7 @@ import javax.persistence.TableGenerator;
 public class FileContent
 {
     /** Constants */
-    public static final String RESOURCE_TYPE = "DOSSIER_VERSION_RESOURCE";
+    public static final String RESOURCE_TYPE = "FICHIER_CONTENU_RESOURCE";
 
     /** Sequence name */
     private static final String JPA_SEQUENCE_NAME = "plu_fichier_contenu_sequence";

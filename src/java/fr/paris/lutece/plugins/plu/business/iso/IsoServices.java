@@ -31,64 +31,39 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.utils;
-
-import java.util.List;
+package fr.paris.lutece.plugins.plu.business.iso;
 
 
 /**
-* Utils methods
-*/
-public final class PluUtils
+ * IsoServices
+ * @author vLopez
+ */
+public class IsoServices implements IIsoServices
 {
-    public static final String CONSTANT_WHERE = " WHERE ";
-    public static final String CONSTANT_AND = " AND ";
+    private IIsoHome _home;
 
     /**
-     * empty constructor
-     */
-    private PluUtils(  )
+         * @return the _home
+         */
+    public IIsoHome getHome(  )
     {
-        // nothing
+        return _home;
     }
 
     /**
-    * Builds a query with filters placed in parameters.
-    * Consider using {@link #buildQueryWithFilter(StringBuilder, List)} instead.
-    * @param strSelect the select of the  query
-    * @param listStrFilter the list of filter to add in the query
-    * @return a query
-    */
-    public static String buildRequetteWithFilter( String strSelect, List<String> listStrFilter )
+     * @param home the _home to set
+     */
+    public void setHome( IIsoHome home )
     {
-        return buildQueryWithFilter( new StringBuilder( strSelect ), listStrFilter );
+        this._home = home;
     }
 
     /**
-     * Builds a query with filters placed in parameters
-     * @param sbSQL the beginning of the  query
-     * @param listFilter the list of filter to add in the query
-     * @return a query
+     * Create a new Iso object
+     * @param iso the new Iso object
      */
-    public static String buildQueryWithFilter( StringBuilder sbSQL, List<String> listFilter )
+    public void create( Iso iso )
     {
-        int nCount = 0;
-
-        for ( String strFilter : listFilter )
-        {
-            if ( ++nCount == 1 )
-            {
-                sbSQL.append( CONSTANT_WHERE );
-            }
-
-            sbSQL.append( strFilter );
-
-            if ( nCount != listFilter.size(  ) )
-            {
-                sbSQL.append( CONSTANT_AND );
-            }
-        }
-
-        return sbSQL.toString(  );
+        _home.create( iso );
     }
 }

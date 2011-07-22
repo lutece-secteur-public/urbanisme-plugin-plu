@@ -1,27 +1,31 @@
 /*==============================================================*/
 /* Nom de SGBD :  MySQL 4.0                                     */
-/* Date de création :  16/06/2011 09:34:40                      */
+/* Date de création :  08/07/2011 14:44:40                      */
 /*==============================================================*/
 
-drop table if exists historique;
+drop table if exists plu_iso;
 
-drop table if exists etat_generation;
+drop table if exists plu_historique;
 
-drop table if exists type_acte_juridique;
+drop table if exists plu_etat_generation;
 
-drop table if exists fichier;
+drop table if exists plu_type_acte_juridique;
 
-drop table if exists dossier_version_atome;
+drop table if exists plu_fichier_contenu;
 
-drop table if exists version_atome;
+drop table if exists plu_fichier;
 
-drop table if exists atome;
+drop table if exists plu_dossier_version_atome;
 
-drop table if exists dossier;
+drop table if exists plu_version_atome;
 
-drop table if exists plu;
+drop table if exists plu_atome;
+
+drop table if exists plu_dossier;
 
 drop table if exists plu_sequences;
+
+drop table if exists plu_plu;
 
 /*==============================================================*/
 /* Table : plu_sequences										*/
@@ -29,7 +33,7 @@ drop table if exists plu_sequences;
 create table plu_sequences
 (
   sequence_name		 			varchar(255)		default null,
-  next_val						int(11) 			default null,
+  next_val						int(11) 			default null
 )
 comment = "table de séquence"
 engine = innodb
@@ -37,11 +41,11 @@ default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
 
 /*==============================================================*/
-/* Table : atome                                                */
+/* Table : plu_atome                                            */
 /*==============================================================*/
-create table atome
+create table plu_atome
 (
-   id_atome                       int(10) unsigned               not null,
+   id_atome                       int(11) unsigned               not null,
    nom                            varchar(255)                   not null,
    titre                          varchar(255)                   not null,
    description                    text                           not null,
@@ -53,13 +57,13 @@ default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
 
 /*==============================================================*/
-/* Table : dossier                                              */
+/* Table : plu_dossier                                           */
 /*==============================================================*/
-create table dossier
+create table plu_dossier
 (
-   id_dossier                     int(10) unsigned               not null auto_increment,
-   id_plu                         int(10) unsigned               not null,
-   id_dossier_parent              int(10) unsigned,
+   id_dossier                     int(11) unsigned               not null auto_increment,
+   id_plu                         int(11) unsigned               not null,
+   id_dossier_parent              int(11) unsigned,
    titre                          varchar(255)                   not null,
    description                    text                           not null,
    image                          mediumblob,
@@ -73,13 +77,13 @@ row_format = dynamic;
 
 
 /*==============================================================*/
-/* Table : dossier_version_atome                                */
+/* Table : plu_dossier_version_atome                            */
 /*==============================================================*/
-create table dossier_version_atome
+create table plu_dossier_version_atome
 (
-   id_dossier_version             int(10) unsigned               not null auto_increment,
-   id_version                     int(10) unsigned               not null,
-   id_dossier                     int(10) unsigned               not null,
+   id_dossier_version             int(11) unsigned               not null auto_increment,
+   id_version                     int(11) unsigned               not null,
+   id_dossier                     int(11) unsigned               not null,
    primary key (id_dossier_version)
 )
 comment = "table de lien entre version_atome et dossier"
@@ -88,20 +92,21 @@ default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
 
 /*==============================================================*/
-/* Table : fichier                                              */
+/* Table : plu_fichier                                          */
 /*==============================================================*/
-create table fichier
+create table plu_fichier
 (
-   id_atome                       int(10)                        not null,
-   ordre_fichier                  int(10)                        not null,
-   id_version_atome               int(10)                        not null,
+   id_fichier                     int(11)                        not null auto_increment,
+   id_fichier_contenu			  int(11) 						 not null default '0',
+   id_atome                       int(11)                        not null default '0',
+   ordre_fichier                  int(11)                        not null default '0',
+   id_version_atome               int(11)                        not null default '0',
    nom_fichier                    varchar(255)                   not null,
    titre_fichier                  varchar(255)                   not null,
    format                         varchar(30)                    not null,
-   fichier                        longblob                       not null,
-   taille                         int(10)                        not null,
-   est_eps                        char(1)                        not null,
-   primary key (id_atome, ordre_fichier, id_version_atome)
+   taille                         int(11)                        not null default '0',
+   utilisation                    char(1)                        not null default '',
+   primary key (id_fichier)
 )
 comment = "table des fichiers"
 engine = innodb
@@ -109,14 +114,29 @@ default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
 
 /*==============================================================*/
-/* Table : historique                                           */
+/* Table : plu_fichier_contenu                                  */
 /*==============================================================*/
-create table historique
+create table plu_fichier_contenu
 (
-   id_histo                       int(10) unsigned               not null auto_increment,
-   id_plu                         int(10) unsigned               not null,
-   id_dossier                     int(10) unsigned,
-   id_atome                       int(10) unsigned,
+   id_fichier_contenu             int(11)                        not null auto_increment,
+   fichier                        longblob                       not null,
+   primary key (id_fichier_contenu)
+)
+comment = "table contenu des fichiers"
+engine = innodb
+default charset=utf8 collate=utf8_unicode_ci
+row_format = dynamic;
+
+
+/*==============================================================*/
+/* Table : plu_historique                                       */
+/*==============================================================*/
+create table plu_historique
+(
+   id_histo                       int(11) unsigned               not null auto_increment,
+   id_plu                         int(11) unsigned               not null,
+   id_dossier                     int(11) unsigned,
+   id_atome                       int(11) unsigned,
    date_correction                date                           not null,
    description                    varchar(255)                   not null,
    primary key (id_histo)
@@ -127,18 +147,18 @@ default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
 
 /*==============================================================*/
-/* Table : plu                                                  */
+/* Table : plu_plu                                              */
 /*==============================================================*/
-create table plu
+create table plu_plu
 (
-   id_plu                         int(10) unsigned               not null auto_increment,
-   id_type_acte_juridique         int(10) unsigned,
+   id_plu                         int(11) unsigned               not null auto_increment,
+   id_type_acte_juridique         int(11) unsigned,
    nom_acte_juridique             varchar(255),
    ref_deliberation               varchar(255),
    dj                             date,
    da                             date,
    date_generation                date,
-   id_etat_generation             int(10) unsigned,
+   id_etat_generation             int(11) unsigned,
    primary key (id_plu)
 )
 comment = "table des versions de plu"
@@ -147,17 +167,36 @@ default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
 
 /*==============================================================*/
-/* Table : version_atome                                        */
+/* Table : plu_iso                                              */
 /*==============================================================*/
-create table version_atome
+create table plu_iso
 (
-   id_version                     int(10) unsigned               not null auto_increment,
-   id_atome                       int(10) unsigned               not null,
-   num_version                    int(10) unsigned               not null,
+   id_iso                         int(11) unsigned               not null auto_increment,
+   id_plu                         int(11) unsigned               not null,
+   iso_rep                        varchar(80)                    not null,
+   iso_nom                        varchar(30)                    not null,
+   iso_date                       date                           not null,
+   iso_taille                     int(11) unsigned               not null,
+   primary key (id_iso)
+)
+comment = "table contient les information des fichiers iso"
+engine = innodb
+default charset=utf8 collate=utf8_unicode_ci
+row_format = dynamic;
+
+/*==============================================================*/
+/* Table : plu_version_atome                                    */
+/*==============================================================*/
+create table plu_version_atome
+(
+   id_version                     int(11) unsigned               not null auto_increment,
+   id_atome                       int(11) unsigned               not null default '0',
+   num_version                    int(11) unsigned               not null default '0',
    date_approbation               date,
    date_application               date,
    date_evolution                 date,
    date_archivage                 date,
+   a_archiver 					  char(1) 						default 'N',
    primary key (id_version)
 )
 comment = "table des versions d'atome"
@@ -166,9 +205,9 @@ default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
 
 /*==============================================================*/
-/* Table : type_acte_juridique                                  */
+/* Table : plu_type_acte_juridique                              */
 /*==============================================================*/
-create table type_acte_juridique
+create table plu_type_acte_juridique
 (
    id_type                        int(11) unsigned               not null auto_increment,
    type                           varchar(255)                   not null,
@@ -180,9 +219,9 @@ default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
 
 /*==============================================================*/
-/* Table : etat_generation                                      */
+/* Table : plu_etat_generation                                  */
 /*==============================================================*/
-create table etat_generation
+create table plu_etat_generation
 (
    id_etat                        int(11) unsigned               not null auto_increment,
    etat                           varchar(255)                   not null,

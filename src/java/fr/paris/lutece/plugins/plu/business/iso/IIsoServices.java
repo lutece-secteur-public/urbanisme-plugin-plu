@@ -31,64 +31,18 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.plu.utils;
-
-import java.util.List;
+package fr.paris.lutece.plugins.plu.business.iso;
 
 
 /**
-* Utils methods
-*/
-public final class PluUtils
+ * IIsoServices the iso services interface
+ * @author vLopez
+ */
+public interface IIsoServices
 {
-    public static final String CONSTANT_WHERE = " WHERE ";
-    public static final String CONSTANT_AND = " AND ";
-
     /**
-     * empty constructor
-     */
-    private PluUtils(  )
-    {
-        // nothing
-    }
-
-    /**
-    * Builds a query with filters placed in parameters.
-    * Consider using {@link #buildQueryWithFilter(StringBuilder, List)} instead.
-    * @param strSelect the select of the  query
-    * @param listStrFilter the list of filter to add in the query
-    * @return a query
+    * Create a new Iso object
+    * @param iso the new Iso object
     */
-    public static String buildRequetteWithFilter( String strSelect, List<String> listStrFilter )
-    {
-        return buildQueryWithFilter( new StringBuilder( strSelect ), listStrFilter );
-    }
-
-    /**
-     * Builds a query with filters placed in parameters
-     * @param sbSQL the beginning of the  query
-     * @param listFilter the list of filter to add in the query
-     * @return a query
-     */
-    public static String buildQueryWithFilter( StringBuilder sbSQL, List<String> listFilter )
-    {
-        int nCount = 0;
-
-        for ( String strFilter : listFilter )
-        {
-            if ( ++nCount == 1 )
-            {
-                sbSQL.append( CONSTANT_WHERE );
-            }
-
-            sbSQL.append( strFilter );
-
-            if ( nCount != listFilter.size(  ) )
-            {
-                sbSQL.append( CONSTANT_AND );
-            }
-        }
-
-        return sbSQL.toString(  );
-    }
+    void create( Iso iso );
 }

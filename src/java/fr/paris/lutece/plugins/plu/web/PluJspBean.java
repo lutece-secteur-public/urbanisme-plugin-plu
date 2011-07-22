@@ -50,6 +50,8 @@ import fr.paris.lutece.plugins.plu.business.folderversion.FolderVersion;
 import fr.paris.lutece.plugins.plu.business.folderversion.IFolderVersionServices;
 import fr.paris.lutece.plugins.plu.business.history.History;
 import fr.paris.lutece.plugins.plu.business.history.IHistoryServices;
+import fr.paris.lutece.plugins.plu.business.iso.IIsoServices;
+import fr.paris.lutece.plugins.plu.business.iso.Iso;
 import fr.paris.lutece.plugins.plu.business.plu.IPluServices;
 import fr.paris.lutece.plugins.plu.business.plu.Plu;
 import fr.paris.lutece.plugins.plu.business.type.ITypeServices;
@@ -216,7 +218,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_PLU_TYPE = "id_type";
     private static final String PARAMETER_PLU_CAUSE = "cause";
     private static final String PARAMETER_PLU_REFERENCE = "reference";
-    private static final String PARAMETER_PLU_LIST_ID = "plu_list_id";
     private static final String PARAMETER_FOLDER_ID = "id_folder";
     private static final String PARAMETER_FOLDER_TITLE = "folder_title";
     private static final String PARAMETER_FOLDER_TITLE_OLD = "folder_title_old";
@@ -288,6 +289,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private IFolderVersionServices _folderVersionServices;
     private IFileServices _fileServices;
     private IFileContentServices _fileContentServices;
+    private IIsoServices _isoServices;
     private List<File> _fileList = new ArrayList<File>(  );
     private Folder _folderHtml = new Folder(  );
     private Folder _folderImage = new Folder(  );
@@ -313,6 +315,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         _fileServices = (IFileServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.fileServices" );
         _fileContentServices = (IFileContentServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
                 "plu.fileContentServices" );
+        _isoServices = (IIsoServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.isoServices" );
     }
 
     /**
@@ -545,8 +548,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         Date dj = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
         Date da = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
 
+        Etat etat = _etatServices.findByPrimaryKey( 1 );
+
+        plu.setEtat( etat );
         plu.setDa( da );
         _pluServices.update( plu );
+
+        Iso iso = new Iso(  );
+        iso.setPlu( plu.getId(  ) );
+        _isoServices.create( iso );
 
         List<Version> versionList = _versionServices.selectApplication( nIdPlu, da );
 
@@ -825,6 +835,18 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String doIsoPlu( HttpServletRequest request )
     {
+        int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
+        Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
+
+        Etat etat = _etatServices.findByPrimaryKey( 1 );
+
+        plu.setEtat( etat );
+        _pluServices.update( plu );
+
+        Iso iso = new Iso(  );
+        iso.setPlu( plu.getId(  ) );
+        _isoServices.create( iso );
+
         return JSP_REDIRECT_TO_MANAGE_PLU;
     }
 
@@ -1111,9 +1133,9 @@ public class PluJspBean extends PluginAdminPageJspBean
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
                 FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
 
-//                PhysicalFile physicalFile = new PhysicalFile(  );
-//                physicalFile.setValue( fileItem.get(  ) );
-//                _folderHtml.setHtml( physicalFile.getValue(  ) );
+                //                PhysicalFile physicalFile = new PhysicalFile(  );
+                //                physicalFile.setValue( fileItem.get(  ) );
+                //                _folderHtml.setHtml( physicalFile.getValue(  ) );
                 _folderHtml.setHtml( fileItem.getString(  ) );
                 model.put( MARK_HTML, 1 );
             }
@@ -1670,6 +1692,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         history.setDc( date );
         history.setDescription( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
         _historyServices.create( history );
+
+        Etat etat = _etatServices.findByPrimaryKey( 5 );
+
+        plu.setEtat( etat );
+        _pluServices.update( plu );
 
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId(  );
     }
@@ -3055,6 +3082,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         history.setDc( date );
         history.setDescription( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
         _historyServices.create( history );
+
+        Etat etat = _etatServices.findByPrimaryKey( 5 );
+
+        Plu plu = _pluServices.findByPrimaryKey( folder.getPlu(  ) );
+        plu.setEtat( etat );
+        _pluServices.update( plu );
 
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + folder.getPlu(  ) + "&id_folder=" + folder.getId(  );
     }
