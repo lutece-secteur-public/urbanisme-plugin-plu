@@ -3,14 +3,14 @@
 	<parent>
 	  <artifactId>lutece-plugins-pom</artifactId>
 	  <groupId>fr.paris.lutece.plugins</groupId>
-	  <version>2.25</version>
+	  <version>2.26</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.paris.lutece.plugins</groupId>
 	<artifactId>plugin-plu</artifactId>
-	<packaging>lutece-plugin</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<packaging>${packaging}</packaging>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>Lutece PLU plugin</name>
 
 	<repositories>
@@ -26,18 +26,19 @@
 		<dependency>
 		    <groupId>fr.paris.lutece</groupId>
 		    <artifactId>lutece-core</artifactId>
-		    <version>[2.3.1,3.0.0-SNAPSHOT)</version>
+		    <version>3.0.2-SNAPSHOT</version>
 		    <type>lutece-core</type>
 	  </dependency>
 	  <dependency>
 		    <groupId>fr.paris.lutece.plugins</groupId>
 		    <artifactId>module-jpa-hibernate</artifactId>
-		    <version>1.0.2</version>
+		    <version>[1.0.2,)</version>
 		    <type>lutece-plugin</type>
 	  </dependency>
 	</dependencies>
 
 	<properties>
+		<packaging>lutece-plugin</packaging>
 		<componentName>plu</componentName>
 		<jiraProjectName>PLU</jiraProjectName>
 		<jiraComponentId></jiraComponentId>
@@ -48,5 +49,33 @@
         <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/applications/plu/trunk/plugin-plu</developerConnection>
         <url>http://dev.lutece.paris.fr/viewvc/lutece/applications/plu/trunk/plugin-plu</url>
     </scm>
+	
+	<profiles>
+		<profile>
+			<id>dev-eclipse-wtp</id>
+			<properties>
+				<packaging>war</packaging>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<webResources>
+								<resource>
+									<directory>webapp</directory>
+									<targetPath>/</targetPath>
+								</resource>
+								<resource>
+									<directory>site-lutece</directory>
+									<targetPath>/</targetPath>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	
 </project>
