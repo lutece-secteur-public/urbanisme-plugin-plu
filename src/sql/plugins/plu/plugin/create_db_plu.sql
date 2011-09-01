@@ -1,6 +1,6 @@
-/*==============================================================*/
+ï»¿/*==============================================================*/
 /* Nom de SGBD :  MySQL 4.0                                     */
-/* Date de création :  08/07/2011 14:44:40                      */
+/* Date de crÃ©ation :  29/08/2011 14:10:00                      */
 /*==============================================================*/
 
 drop table if exists plu_iso;
@@ -10,6 +10,8 @@ drop table if exists plu_historique;
 drop table if exists plu_etat_generation;
 
 drop table if exists plu_type_acte_juridique;
+
+drop table if exists plu_decision;
 
 drop table if exists plu_fichier_contenu;
 
@@ -35,7 +37,7 @@ create table plu_sequences
   sequence_name		 			varchar(255)		default null,
   next_val						int(11) 			default null
 )
-comment = "table de séquence"
+comment = "table de sÃ©quence"
 engine = innodb
 default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
@@ -67,7 +69,8 @@ create table plu_dossier
    titre                          varchar(255)                   not null,
    description                    text                           not null,
    image                          mediumblob,
-   html_specifique                mediumblob,
+   html_specifique_c              mediumblob,
+   html_specifique_i              mediumblob,
    primary key (id_dossier)
 )
 comment = "table de dossiers"
@@ -147,15 +150,29 @@ default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
 
 /*==============================================================*/
+/* Table : plu_decision                                         */
+/*==============================================================*/
+create table plu_decision
+(
+   id_decision                    int(11) unsigned               not null auto_increment,
+   id_plu                         int(11) unsigned,
+   id_type_acte_juridique         int(11) unsigned,
+   nom_acte_juridique             varchar(255),
+   ref_deliberation               varchar(255),
+   dj                             date,
+   primary key (id_decision)
+)
+comment = "table des decisions de plu"
+engine = innodb
+default charset=utf8 collate=utf8_unicode_ci
+row_format = dynamic;
+
+/*==============================================================*/
 /* Table : plu_plu                                              */
 /*==============================================================*/
 create table plu_plu
 (
    id_plu                         int(11) unsigned               not null auto_increment,
-   id_type_acte_juridique         int(11) unsigned,
-   nom_acte_juridique             varchar(255),
-   ref_deliberation               varchar(255),
-   dj                             date,
    da                             date,
    date_generation                date,
    id_etat_generation             int(11) unsigned,
@@ -231,3 +248,4 @@ comment = "etats de la generation des iso et site"
 engine = innodb
 default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;
+
