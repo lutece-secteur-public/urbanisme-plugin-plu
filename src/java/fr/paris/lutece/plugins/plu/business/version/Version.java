@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.plu.business.version;
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
 import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
 
-//import java.sql.Date;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -56,7 +55,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "PLU_VERSION_ATOME" )
+@Table( name = "plu_version_atome" )
 public class Version
 {
     /** Constants */

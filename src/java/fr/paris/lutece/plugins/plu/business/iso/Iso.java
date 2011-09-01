@@ -49,7 +49,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "PLU_ISO" )
+@Table( name = "plu_iso" )
 public class Iso
 {
     /** Constants */
@@ -71,7 +71,7 @@ public class Iso
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
     @Column( name = "id_iso" )
-    public int getId(  )
+    public int getId( )
     {
         return _id;
     }
@@ -90,7 +90,7 @@ public class Iso
      * @return the iso id plu
      */
     @Column( name = "id_plu" )
-    public int getPlu(  )
+    public int getPlu( )
     {
         return _plu;
     }

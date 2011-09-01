@@ -49,7 +49,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "PLU_FICHIER_CONTENU" )
+@Table( name = "plu_fichier_contenu" )
 public class FileContent
 {
     /** Constants */

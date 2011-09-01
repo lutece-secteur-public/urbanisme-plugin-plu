@@ -54,7 +54,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "PLU_DOSSIER_VERSION_ATOME" )
+@Table( name = "plu_dossier_version_atome" )
 public class FolderVersion
 {
     /** Constants */

@@ -49,7 +49,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "PLU_TYPE_ACTE_JURIDIQUE" )
+@Table( name = "plu_type_acte_juridique" )
 public class Type
 {
     /** Constants */

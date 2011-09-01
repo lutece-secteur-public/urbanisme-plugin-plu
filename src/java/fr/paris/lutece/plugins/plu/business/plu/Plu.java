@@ -56,7 +56,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "PLU_PLU" )
+@Table( name = "plu_plu" )
 public class Plu
 {
     /** Constants */

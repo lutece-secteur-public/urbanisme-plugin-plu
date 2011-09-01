@@ -53,7 +53,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "PLU_FICHIER" )
+@Table( name = "plu_fichier" )
 public class File
 {
     /** Constants */

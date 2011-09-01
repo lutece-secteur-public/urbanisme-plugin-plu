@@ -54,7 +54,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
      * @return the plugin name
      */
     @Override
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return PluPlugin.PLUGIN_NAME;
     }
@@ -63,20 +63,20 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
      * Returns a plu object
      * @return A plu object which work
      */
-    public Plu findPluWork(  )
+    public Plu findPluWork( )
     {
-        EntityManager em = getEM(  );
+        EntityManager em = getEM( );
         Query q = em.createQuery( SQL_QUERY_SELECT_PLU_WORK );
 
         Plu plu;
 
         try
         {
-            plu = (Plu) q.getSingleResult(  );
+            plu = (Plu) q.getSingleResult( );
         }
         catch ( NoResultException e )
         {
-            plu = new Plu(  );
+            plu = new Plu( );
             plu.setId( 0 );
         }
 
@@ -87,12 +87,19 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
      * Returns a plu object
      * @return A plu object which is applied
      */
-    public Plu findPluApplied(  )
+    public Plu findPluApplied( )
     {
-        EntityManager em = getEM(  );
+        EntityManager em = getEM( );
         Query q = em.createQuery( SQL_QUERY_SELECT_PLU_APPLIED );
+        Plu plu = null;
+        try
+        {
+            plu = (Plu) q.getSingleResult( );
 
-        Plu plu = (Plu) q.getSingleResult(  );
+        }
+        catch ( NoResultException e )
+        {
+        }
 
         return plu;
     }

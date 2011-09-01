@@ -51,7 +51,7 @@ import javax.persistence.TableGenerator;
  * @author vLopez
  */
 @Entity
-@Table( name = "PLU_HISTORIQUE" )
+@Table( name = "plu_historique" )
 public class History
 {
     /** Constants */
