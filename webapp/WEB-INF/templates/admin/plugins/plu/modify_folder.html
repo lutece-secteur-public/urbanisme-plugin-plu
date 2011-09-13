@@ -44,6 +44,30 @@
     	    	</textarea>
         	</div>
         </p>
+         
+         <fieldset style="width:66%; margin:10px 0 0 17%; border-radius: 11px 11px 11px 11px;">
+			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage}</legend>
+			
+			<p>
+	        	<A href="jsp/admin/plugins/plu/html/CreateHtml.jsp?page=folder/ModifyFolder&id_folder_return=${one_folder.id}&id_plu=${one_plu.id}" style="color:blue;margin-left:20%;">
+	        		#i18n{plu.create_folder.rowTitleCreateHtml}
+	        	</A>
+	        	<A href="jsp/admin/plugins/plu/html/CreateHtml.jsp?page=folder/ModifyFolder&id_plu=${one_plu.id}&id_folder_return=${one_folder.id}<#if folder_html?exists>&folder_html=${folder_html}</#if>" style="color:blue;margin-left:10%;">
+	        		#i18n{plu.create_folder.rowTitleModifyHtml}
+	        	</A>
+	        	<A href="jsp/admin/plugins/plu/html/ImportHtml.jsp?page=folder/ModifyFolder&id_plu=${one_plu.id}&id_folder_return=${one_folder.id}" style="color:blue;margin-left:10%;">
+	        		#i18n{plu.create_folder.rowTitleImportHtml}
+	        	</A>
+	        	<A href="jsp/admin/plugins/plu/html/DuplicateHtml.jsp?page=folder/ModifyFolder&id_plu=${one_plu.id}&id_folder_return=${one_folder.id}" style="color:blue;margin-left:10%;">
+	        		#i18n{plu.create_folder.rowTitleDuplicateHtml}
+	        	</A>
+	        </p>
+			<#if folder_html?exists>
+		        <p>
+		        	<input type="checkbox" name="html_check" value="true" checked/>nom_dossier-id_dossier.html
+		        </p>
+		    </#if>
+	    </fieldset>
                 
         <p>
         	<A href="jsp/admin/plugins/plu/folder/ConfirmCancelModifyFolder.jsp?id_plu=${one_plu.id}&folder_title=${one_folder.title}" style="text-decoration:none" id="button">

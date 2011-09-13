@@ -22,6 +22,9 @@
    			<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${one_plu.id}" style="text-decoration:none" id="button">
    				#i18n{plu.duplicate_html.buttonReturn}
         	</A>
+        	<#if one_folder?exists>
+				<input type="hidden" name="id_folder_return" value="${one_folder.id}"/>
+        	</#if>
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
         	<input type="submit" value="#i18n{plu.duplicate_html.buttonValidate}" class="button" />
    		</p>
