@@ -18,12 +18,12 @@
    <db-pool-required>1</db-pool-required>
 <!-- test -->
 	<!-- Page Include Service -->
-    <!-- page-include-services>
+    <page-include-services>
         <page-include-service>
             <page-include-service-id>plu</page-include-service-id>
-            <page-include-service-class>fr.paris.lutece.plugins.plu.web.PluInclude</page-include-service-class>
+            <page-include-service-class>fr.paris.lutece.plugins.plu.web.PluVersionInclude</page-include-service-class>
         </page-include-service>
-    </page-include-services-->
+    </page-include-services>
     
     <!--Administration interface parameters-->
     <admin-features>	
