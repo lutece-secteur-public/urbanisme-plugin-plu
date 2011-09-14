@@ -4,7 +4,7 @@
 
 	<h2>#i18n{plu.modify_folder.pageSubTitle}</h2>
 	
-	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/ConfirmModifyFolder.jsp">
+	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/ConfirmHtmlModifyFolder.jsp">
 		
 		<p>
 			<label for="id_parent_folder" >#i18n{plu.modify_folder.rowTitleParentFolder} : </label>
@@ -49,18 +49,10 @@
 			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage}</legend>
 			
 			<p>
-	        	<A href="jsp/admin/plugins/plu/html/CreateHtml.jsp?page=folder/ModifyFolder&id_folder_return=${one_folder.id}&id_plu=${one_plu.id}" style="color:blue;margin-left:20%;">
-	        		#i18n{plu.create_folder.rowTitleCreateHtml}
-	        	</A>
-	        	<A href="jsp/admin/plugins/plu/html/CreateHtml.jsp?page=folder/ModifyFolder&id_plu=${one_plu.id}&id_folder_return=${one_folder.id}<#if folder_html?exists>&folder_html=${folder_html}</#if>" style="color:blue;margin-left:10%;">
-	        		#i18n{plu.create_folder.rowTitleModifyHtml}
-	        	</A>
-	        	<A href="jsp/admin/plugins/plu/html/ImportHtml.jsp?page=folder/ModifyFolder&id_plu=${one_plu.id}&id_folder_return=${one_folder.id}" style="color:blue;margin-left:10%;">
-	        		#i18n{plu.create_folder.rowTitleImportHtml}
-	        	</A>
-	        	<A href="jsp/admin/plugins/plu/html/DuplicateHtml.jsp?page=folder/ModifyFolder&id_plu=${one_plu.id}&id_folder_return=${one_folder.id}" style="color:blue;margin-left:10%;">
-	        		#i18n{plu.create_folder.rowTitleDuplicateHtml}
-	        	</A>
+   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleCreateHtml}" class="button" />
+   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleModifyHtml}" class="button" />
+   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleImportHtml}" class="button" />
+   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleDuplicateHtml}" class="button" />
 	        </p>
 			<#if folder_html?exists>
 		        <p>
@@ -75,8 +67,12 @@
         	</A>
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 	        <input type="hidden" name="id_folder" value="${one_folder.id}"/>
+        	<input type="hidden" name="page" value="folder/ModifyFolder"/>
+        	<#if folder_html?exists>
+        		<input type="hidden" name="folder_html" value="${folder_html!}"/>
+        	</#if>
 	        <input type="hidden" name="folder_title_old" value="${one_folder.title}"/>
-   		  	<input type="submit" value="#i18n{plu.modify_folder.buttonValidate}" class="button" />
+   		  	<input type="submit" name="action" value="#i18n{plu.modify_folder.buttonValidate}" class="button" />
         </p>
         
  	</form>

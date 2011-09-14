@@ -4,26 +4,31 @@
 
 	<h2>#i18n{plu.create_folder.pageSubTitle}</h2>
 	
-	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/ConfirmCreateFolder.jsp">
+	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/folder/ConfirmHtmlFolder.jsp">
 	
 		<p>
 			<label for="id_parent_folder" >#i18n{plu.create_folder.rowTitleParentFolder} : </label>
+			<#if id_parent_folder?exists>
+				<#assign parent_folder=id_parent_folder>
+			<#else>
+				<#assign parent_folder=0>
+			</#if>
 			<select name="id_parent_folder" style="width:331px;">
 				<option value="0">none</option>
 				<#list folder_list as folder>
-     			<option value="${folder.id}">${folder.title}</option>
+     			<option value="${folder.id}" <#if folder.id?number==parent_folder?number>selected="selected"</#if>>${folder.title}</option>
      			</#list>
 			</select>
 		</p>
 		
 		<p>
 	        <label for="folder_title" >#i18n{plu.create_folder.rowTitle} : </label> 
-    	    <input type="text" id="folder_title" name="folder_title" size="60" maxlength="51" tabindex="1" />
+    	    <input type="text" id="folder_title" name="folder_title" value="${folder_title!}" size="60" maxlength="51" tabindex="1" />
         </p>
         
         <p>
         	<label for="folder_image" >#i18n{plu.create_folder.rowTitleImage} : </label> 
-        	<input type="file" id="folder_image" name="folder_image"/>
+        	<input type="file" id="folder_image" value="${folder_image!}" name="folder_image"/>
         </p>
         
         <p>
@@ -32,6 +37,7 @@
        	<p>
        		<div id="richtext" class="editor">
        			<textarea id="folder_description" class="richtext" name="folder_description" style="width:80%;" rows="15" cols="90">
+       			${folder_description!}
         		</textarea>
         	</div>
         </p>
@@ -40,18 +46,10 @@
 			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage}</legend>
 			
 			<p>
-	        	<A href="jsp/admin/plugins/plu/html/CreateHtml.jsp?page=folder/CreateFolder&id_plu=${one_plu.id}" style="color:blue;margin-left:20%;">
-	        		#i18n{plu.create_folder.rowTitleCreateHtml}
-	        	</A>
-	        	<A href="jsp/admin/plugins/plu/html/CreateHtml.jsp?page=folder/CreateFolder&id_plu=${one_plu.id}<#if folder_html?exists>&folder_html=${folder_html}</#if>" style="color:blue;margin-left:10%;">
-	        		#i18n{plu.create_folder.rowTitleModifyHtml}
-	        	</A>
-	        	<A href="jsp/admin/plugins/plu/html/ImportHtml.jsp?page=folder/CreateFolder&id_plu=${one_plu.id}" style="color:blue;margin-left:10%;">
-	        		#i18n{plu.create_folder.rowTitleImportHtml}
-	        	</A>
-	        	<A href="jsp/admin/plugins/plu/html/DuplicateHtml.jsp?page=folder/CreateFolder&id_plu=${one_plu.id}" style="color:blue;margin-left:10%;">
-	        		#i18n{plu.create_folder.rowTitleDuplicateHtml}
-	        	</A>
+   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleCreateHtml}" class="button" />
+   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleModifyHtml}" class="button" />
+   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleImportHtml}" class="button" />
+   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleDuplicateHtml}" class="button" />
 	        </p>
 			<#if folder_html?exists>
 		        <p>
@@ -65,7 +63,11 @@
         	#i18n{plu.create_folder.buttonReturn}
         	</A>
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
-   		  	<input type="submit" value="#i18n{plu.create_folder.buttonValidate}" class="button" />
+        	<input type="hidden" name="page" value="folder/CreateFolder"/>
+        	<#if folder_html?exists>
+        		<input type="hidden" name="folder_html" value="${folder_html!}"/>
+        	</#if>
+   		  	<input type="submit" name="action" value="#i18n{plu.create_folder.buttonValidate}" class="button" />
         </p>
         
 	</form>

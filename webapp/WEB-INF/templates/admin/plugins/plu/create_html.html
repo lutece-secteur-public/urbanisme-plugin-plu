@@ -15,13 +15,16 @@
     	</p>
    	
    		<p>
-   			<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${one_plu.id}" style="text-decoration:none" id="button">
-   				#i18n{plu.create_html.buttonReturn}
-        	</A>
+   			<input class="button" type="button" value="#i18n{plu.create_html.buttonReturn}" onclick="javascript:history.go(-1);">
         	<#if one_folder?exists>
 				<input type="hidden" name="id_folder_return" value="${one_folder.id}"/>
         	</#if>
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+        	<input type="hidden" name="id_parent_folder" value="${id_parent_folder!}"/>
+        	<input type="hidden" name="folder_title" value="${folder_title!}"/>
+        	<input type="hidden" name="folder_image" value="${folder_image!}"/>
+	        <input type="hidden" name="id_folder" value="${id_folder!}"/>
+        	<input type="hidden" name="folder_description" value="${folder_description!}"/>
         	<input type="submit" value="#i18n{plu.create_html.buttonValidate}" class="button" />
    		</p>
    		

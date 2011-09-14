@@ -1121,6 +1121,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
+        model.put( PARAMETER_FOLDER_PARENT_ID, request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
+        model.put( PARAMETER_FOLDER_TITLE, request.getParameter( PARAMETER_FOLDER_TITLE ) );
+        model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
+        model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
 
         if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
         {
@@ -1356,6 +1360,23 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Collection<Folder> folderList = _folderServices.findByPluId( nIdPlu );
 
+        if ( request.getParameter( PARAMETER_FOLDER_PARENT_ID ) != null )
+        {
+        	folderParent.setId( Integer.parseInt( request.getParameter( PARAMETER_FOLDER_PARENT_ID ) ) );
+        }
+        if ( request.getParameter( PARAMETER_FOLDER_TITLE ) != null )
+        {
+        	folder.setTitle( request.getParameter( PARAMETER_FOLDER_TITLE ) );
+        }
+        if ( request.getParameter( PARAMETER_FOLDER_IMAGE ) != null )
+        {
+        	folder.setImg( request.getParameter( PARAMETER_FOLDER_IMAGE ).getBytes( ) );
+        }
+        if ( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) != null )
+        {
+        	folder.setDescription( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
+        }
+        
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PLU, plu );
         model.put( MARK_FOLDER, folder );
@@ -3899,7 +3920,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( "page", page );
         model.put( MARK_PLU, plu );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_LOCALE, getLocale( ) );        
+        model.put( MARK_LOCALE, getLocale( ) );
+        model.put( PARAMETER_FOLDER_PARENT_ID, request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
+        model.put( PARAMETER_FOLDER_TITLE, request.getParameter( PARAMETER_FOLDER_TITLE ) );
+        model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
+        model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
+        model.put( PARAMETER_FOLDER_ID, request.getParameter( PARAMETER_FOLDER_ID ) );
         
         if ( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) != null )
         {
@@ -3908,7 +3934,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 	        model.put( MARK_FOLDER, folder );
         }
 
-        if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
+        if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null && !request.getParameter( "action" ).equals( "Créer" ) )
         {
             model.put( MARK_HTML, _folderHtml );
         }
@@ -3935,6 +3961,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( "page", page );
         model.put( MARK_PLU, plu );
+        model.put( PARAMETER_FOLDER_PARENT_ID, request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
+        model.put( PARAMETER_FOLDER_TITLE, request.getParameter( PARAMETER_FOLDER_TITLE ) );
+        model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
+        model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
+        model.put( PARAMETER_FOLDER_ID, request.getParameter( PARAMETER_FOLDER_ID ) );
         
         if ( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) != null )
         {
@@ -3967,6 +3998,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( "page", page );
         model.put( MARK_PLU, plu );
         model.put( MARK_LIST_FOLDER_LIST, folderList );
+        model.put( PARAMETER_FOLDER_PARENT_ID, request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
+        model.put( PARAMETER_FOLDER_TITLE, request.getParameter( PARAMETER_FOLDER_TITLE ) );
+        model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
+        model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
+        model.put( PARAMETER_FOLDER_ID, request.getParameter( PARAMETER_FOLDER_ID ) );
         
         if ( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) != null )
         {
