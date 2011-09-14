@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.iso;
 
+import java.util.List;
+
 
 /**
  * IIsoServices the iso services interface
@@ -41,8 +43,14 @@ package fr.paris.lutece.plugins.plu.business.iso;
 public interface IIsoServices
 {
     /**
-    * Create a new Iso object
-    * @param iso the new Iso object
-    */
+     * Create a new Iso object
+     * @param iso the new Iso object
+     */
     void create( Iso iso );
+
+    /**
+     * Returns list of all isos (one iso per plu version)
+     * @return list of all isos (one iso per plu version)
+     */
+    List<Iso> findList( );
 }

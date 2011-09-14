@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.iso;
 
+import java.util.List;
+
 
 /**
  * IsoServices
@@ -43,9 +45,9 @@ public class IsoServices implements IIsoServices
     private IIsoHome _home;
 
     /**
-         * @return the _home
-         */
-    public IIsoHome getHome(  )
+     * @return the _home
+     */
+    public IIsoHome getHome( )
     {
         return _home;
     }
@@ -65,5 +67,13 @@ public class IsoServices implements IIsoServices
     public void create( Iso iso )
     {
         _home.create( iso );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public List<Iso> findList( )
+    {
+        return this.getHome( ).findList( );
     }
 }

@@ -35,6 +35,8 @@ package fr.paris.lutece.plugins.plu.business.iso;
 
 import fr.paris.lutece.util.jpa.IGenericDAO;
 
+import java.util.List;
+
 
 /**
  * isoInterface
@@ -42,4 +44,10 @@ import fr.paris.lutece.util.jpa.IGenericDAO;
  */
 public interface IIsoDAO extends IGenericDAO<Integer, Iso>
 {
+
+    /**
+     * Returns list of all isos (one iso per plu version)
+     * @return list of all isos (one iso per plu version)
+     */
+    List<Iso> findList( );
 }

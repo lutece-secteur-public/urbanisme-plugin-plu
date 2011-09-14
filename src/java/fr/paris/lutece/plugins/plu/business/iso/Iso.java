@@ -33,15 +33,23 @@
  */
 package fr.paris.lutece.plugins.plu.business.iso;
 
+import fr.paris.lutece.plugins.plu.business.plu.Plu;
+import fr.paris.lutece.plugins.plu.utils.PluUtils;
 import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Transient;
 
 
 /**
@@ -61,7 +69,14 @@ public class Iso
     /** Unique value */
     private static final String JPA_COLUMN_NAME = "plu_iso_id";
     private int _id;
-    private int _plu;
+    private Plu _plu;
+    private String nomConsultation;
+    private String nomImpression;
+    private Date date;
+    private Long tailleConsultation;
+    private String tailleConsultationString;
+    private Long tailleImpression;
+    private String tailleImpressionString;
 
     /**
      * Returns the identifier of this iso
@@ -89,8 +104,9 @@ public class Iso
      * Returns the id plu of this iso
      * @return the iso id plu
      */
-    @Column( name = "id_plu" )
-    public int getPlu( )
+    @OneToOne( fetch = FetchType.EAGER )
+    @JoinColumn( name = "id_plu" )
+    public Plu getPlu( )
     {
         return _plu;
     }
@@ -99,8 +115,105 @@ public class Iso
      * Sets the id plu of the iso to the specified integer
      * @param plu the new id plu
      */
-    public void setPlu( int plu )
+    public void setPlu( Plu plu )
     {
         _plu = plu;
+    }
+
+    /**
+     * @return the nom
+     */
+    @Column( name = "iso_c_nom" )
+    public String getNomConsultation( )
+    {
+        return nomConsultation;
+    }
+
+    /**
+     * @param nom the nom to set
+     */
+    public void setNomConsultation( String nom )
+    {
+        this.nomConsultation = nom;
+    }
+
+    /**
+     * @return the nom
+     */
+    @Column( name = "iso_i_nom" )
+    public String getNomImpression( )
+    {
+        return nomImpression;
+    }
+
+    /**
+     * @param nom the nom to set
+     */
+    public void setNomImpression( String nom )
+    {
+        this.nomImpression = nom;
+    }
+
+    /**
+     * @return the date
+     */
+    @Column( name = "iso_date" )
+    public Date getDate( )
+    {
+        return date;
+    }
+
+    /**
+     * @param date the date to set
+     */
+    public void setDate( Date date )
+    {
+        this.date = date;
+    }
+
+    /**
+     * @return the taille
+     */
+    @Column( name = "iso_c_taille" )
+    public Long getTailleConsultation( )
+    {
+        return tailleConsultation;
+    }
+
+    /**
+     * @param taille the taille to set
+     */
+    public void setTailleConsultation( Long taille )
+    {
+        this.tailleConsultation = taille;
+    }
+
+    /**
+     * @return the taille
+     */
+    @Column( name = "iso_i_taille" )
+    public Long getTailleImpression( )
+    {
+        return tailleImpression;
+    }
+
+    /**
+     * @param taille the taille to set
+     */
+    public void setTailleImpression( Long taille )
+    {
+        this.tailleImpression = taille;
+    }
+
+    @Transient
+    public String getTailleImpressionString( )
+    {
+        return PluUtils.formatSize( this.tailleImpression );
+    }
+
+    @Transient
+    public String getTailleConsultationString( )
+    {
+        return PluUtils.formatSize( this.tailleConsultation );
     }
 }

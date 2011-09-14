@@ -190,13 +190,14 @@ create table plu_iso
 (
    id_iso                         int(11) unsigned               not null auto_increment,
    id_plu                         int(11) unsigned               not null,
-   iso_rep                        varchar(80)                    not null,
-   iso_nom                        varchar(30)                    not null,
+   iso_c_nom                      varchar(255)                    not null,
+   iso_i_nom                      varchar(255)                    not null,
    iso_date                       date                           not null,
-   iso_taille                     int(11) unsigned               not null,
+   iso_c_taille                   int(11) unsigned               not null,
+   iso_i_taille                   int(11) unsigned               not null,
    primary key (id_iso)
 )
-comment = "table contient les information des fichiers iso"
+comment = "table contient les informations des fichiers iso"
 engine = innodb
 default charset=utf8 collate=utf8_unicode_ci
 row_format = dynamic;

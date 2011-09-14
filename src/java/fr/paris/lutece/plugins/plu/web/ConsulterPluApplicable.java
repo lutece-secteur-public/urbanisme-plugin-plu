@@ -38,7 +38,6 @@ import fr.paris.lutece.plugins.plu.business.plu.Plu;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.IOException;
 
@@ -53,10 +52,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ConsulterPluApplicable extends HttpServlet
 {
-    /**
-     * Property name for path where plu websites are generated
-     */
-    public static String PATH_PLU_WEBSITES = "url.static.websites";
+    private static final String PREFIX_WEBSITE_URL = "sites-plu/site_statique_";
+    private static final String SUFFIX_WEBSITE_URL = "/index_plu.html";
 
     private IPluServices _pluServices;
 
@@ -87,8 +84,7 @@ public class ConsulterPluApplicable extends HttpServlet
     {
         Plu pluApplied = _pluServices.findPluApplied( );
 
-        String pathPluWebsites = AppPropertiesService.getProperty( PATH_PLU_WEBSITES );
-        pathPluWebsites = pathPluWebsites.replace( "{0}", String.valueOf( pluApplied.getId( ) ) );
+        String pathPluWebsites = PREFIX_WEBSITE_URL + pluApplied.getId( ) + SUFFIX_WEBSITE_URL;
 
         response.sendRedirect( AppPathService.getBaseUrl( request ) + pathPluWebsites );
 

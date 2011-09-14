@@ -35,11 +35,21 @@ package fr.paris.lutece.plugins.plu.business.iso;
 
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
 
+import java.util.List;
+
 
 /**
- * This class provides instances management methods (create, find, ...) for Iso objects
+ * This class provides instances management methods (create, find, ...) for Iso
+ * objects
  * @author vLopez
  */
 public class IsoHome extends AbstractLuteceHome<Integer, Iso, IIsoDAO> implements IIsoHome
 {
+    /**
+     * {@inheritDoc}
+     */
+    public List<Iso> findList( )
+    {
+        return this.getDao( ).findList( );
+    }
 }

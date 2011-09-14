@@ -1,0 +1,28 @@
+<div id="one-zone-first" class="span-15 prepend-1 append-1 prepend-top">
+	<h2 class="page-title">#i18n{plu.page_iso.pageTitle}</h2>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>#i18n{plu.page_iso.list.version.columnTitle}</th>
+				<th>#i18n{plu.page_iso.list.periodeApplicable.columnTitle}</th>
+				<th>#i18n{plu.page_iso.list.consultation.columnTitle}</th>
+				<th>#i18n{plu.page_iso.list.taille.columnTitle}</th>
+				<th>#i18n{plu.page_iso.list.impression.columnTitle}</th>
+				<th>#i18n{plu.page_iso.list.taille.columnTitle}</th>
+			</tr>
+		</thead>
+		<tbody>
+		<#list isoList as iso>
+			<tr>
+				<td>${iso.plu.id}</td>
+				<td>du ${iso.plu.da}</td>
+				<td><a href="iso/${iso.nomConsultation}">${iso.nomConsultation}</a></td>
+				<td>${iso.tailleConsultationString}</td>
+				<td><a href="iso/${iso.nomImpression}">${iso.nomImpression}</a></td>
+				<td>${iso.tailleImpressionString}</td>
+			</tr>
+		</#list>
+		</tbody>
+	</table>
+</div>

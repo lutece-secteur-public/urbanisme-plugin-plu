@@ -35,6 +35,8 @@ package fr.paris.lutece.plugins.plu.business.iso;
 
 import fr.paris.lutece.util.jpa.IGenericHome;
 
+import java.util.List;
+
 
 /**
  * IIsoHome the iso home interface
@@ -42,4 +44,10 @@ import fr.paris.lutece.util.jpa.IGenericHome;
  */
 public interface IIsoHome extends IGenericHome<Integer, Iso>
 {
+
+    /**
+     * Returns list of all isos (one iso per plu version)
+     * @return list of all isos (one iso per plu version)
+     */
+    List<Iso> findList( );
 }

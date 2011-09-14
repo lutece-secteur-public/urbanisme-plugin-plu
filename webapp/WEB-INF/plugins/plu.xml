@@ -40,15 +40,27 @@
    <!-- Xpage configuration -->
    <applications>
       <application>
-	 <application-id>plu</application-id>
-	 <application-class>fr.paris.lutece.plugins.plu.web.PluApp</application-class>
+	 	<application-id>plu</application-id>
+		<application-class>fr.paris.lutece.plugins.plu.web.PluApp</application-class>
+      </application>
+      <application>
+          <application-id>isoList</application-id>
+          <application-class>fr.paris.lutece.plugins.plu.web.IsoListApp</application-class>
+<!--           <application-roles>role1,role2</application-roles> -->
       </application>
    </applications>
    
    <css-stylesheets>
    	<css-stylesheet>plugin-plu/plugin_plu.css</css-stylesheet>
    </css-stylesheets>
-
+	
+	<servlets>
+	  <servlet>
+	    <servlet-name>ConsulterPluApplicable</servlet-name>
+	    <servlet-class>fr.paris.lutece.plugins.plu.web.ConsulterPluApplicable</servlet-class>
+   		<url-pattern>/pluApplicable</url-pattern>
+	  </servlet>
+	</servlets>
 	<!-- RBAC Resources -->
 	<!-- rbac-resource-types>
 		<rbac-resource-type>

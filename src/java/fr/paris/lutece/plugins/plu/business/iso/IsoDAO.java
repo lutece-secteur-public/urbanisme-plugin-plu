@@ -36,6 +36,10 @@ package fr.paris.lutece.plugins.plu.business.iso;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
+import java.util.List;
+
+import javax.persistence.Query;
+
 
 /**
  * This class provides Data Access methods for Iso objects
@@ -43,12 +47,22 @@ import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
  */
 public class IsoDAO extends JPALuteceDAO<Integer, Iso> implements IIsoDAO
 {
+    private static final String FIND_LIST_JPQL = "SELECT iso FROM Iso iso JOIN iso.plu isoPlu GROUP BY isoPlu.id HAVING iso.id = max(iso.id)";
+
     /**
-    * @return the plugin name
-    */
+     * @return the plugin name
+     */
     @Override
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return PluPlugin.PLUGIN_NAME;
     }
+
+    public List<Iso> findList( )
+    {
+        Query query = this.getEM( ).createQuery( FIND_LIST_JPQL );
+        List<Iso> resultList = query.getResultList( );
+        return resultList;
+    }
+
 }

@@ -35,10 +35,12 @@ package fr.paris.lutece.plugins.plu.utils;
 
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+
 
 /**
-* Utils methods
-*/
+ * Utils methods
+ */
 public final class PluUtils
 {
     public static final String CONSTANT_WHERE = " WHERE ";
@@ -47,18 +49,19 @@ public final class PluUtils
     /**
      * empty constructor
      */
-    private PluUtils(  )
+    private PluUtils( )
     {
         // nothing
     }
 
     /**
-    * Builds a query with filters placed in parameters.
-    * Consider using {@link #buildQueryWithFilter(StringBuilder, List)} instead.
-    * @param strSelect the select of the  query
-    * @param listStrFilter the list of filter to add in the query
-    * @return a query
-    */
+     * Builds a query with filters placed in parameters.
+     * Consider using {@link #buildQueryWithFilter(StringBuilder, List)}
+     * instead.
+     * @param strSelect the select of the query
+     * @param listStrFilter the list of filter to add in the query
+     * @return a query
+     */
     public static String buildRequetteWithFilter( String strSelect, List<String> listStrFilter )
     {
         return buildQueryWithFilter( new StringBuilder( strSelect ), listStrFilter );
@@ -66,7 +69,7 @@ public final class PluUtils
 
     /**
      * Builds a query with filters placed in parameters
-     * @param sbSQL the beginning of the  query
+     * @param sbSQL the beginning of the query
      * @param listFilter the list of filter to add in the query
      * @return a query
      */
@@ -83,12 +86,22 @@ public final class PluUtils
 
             sbSQL.append( strFilter );
 
-            if ( nCount != listFilter.size(  ) )
+            if ( nCount != listFilter.size( ) )
             {
                 sbSQL.append( CONSTANT_AND );
             }
         }
 
-        return sbSQL.toString(  );
+        return sbSQL.toString( );
+    }
+
+    /**
+     * Transform a byte size to a readable size including units
+     * @param size size in bytes
+     * @return size in string
+     */
+    public static String formatSize( Long size )
+    {
+        return FileUtils.byteCountToDisplaySize( size );
     }
 }
