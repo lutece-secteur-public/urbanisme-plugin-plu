@@ -46,6 +46,14 @@
        			<input type="hidden" name="id_version" value="${one_version.id}"/>
        			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
    			<#else>
+   				<#if page="atome/CreateAtome">
+        			<input type="hidden" name="id_folder_atome" value="${id_folder_atome!}"/>
+        			<input type="hidden" name="atome_name" value="${atome_name!}"/>
+        			<input type="hidden" name="atome_title" value="${atome_title!}"/>
+        			<input type="hidden" name="id_atome" value="${id_atome!}"/>
+        			<input type="hidden" name="num_version" value="${num_version!}"/>
+        			<input type="hidden" name="atome_description" value="${atome_description!}"/>
+   				</#if>
    				<#if one_folder?exists>
    					<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}" style="text-decoration:none" id="button">
    					#i18n{plu.create_atome.buttonReturn}
