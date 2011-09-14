@@ -2030,7 +2030,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 		}
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
-        int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
+        int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) );
         String atomeName = request.getParameter( PARAMETER_ATOME_NAME );
         String atomeTitle = request.getParameter( PARAMETER_ATOME_TITLE );
         String atomeDescription = request.getParameter( PARAMETER_ATOME_DESCRIPTION );
