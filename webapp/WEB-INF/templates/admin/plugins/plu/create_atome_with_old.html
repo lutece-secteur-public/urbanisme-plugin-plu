@@ -5,35 +5,35 @@
 
 	<h2>#i18n{plu.create_atome.pageSubTitle}</h2>
 	
-	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/atome/ConfirmCreateAtome.jsp">
+	<form enctype="multipart/form-data" method=post accept=image action="jsp/admin/plugins/plu/atome/CreateJoinFileAtome.jsp">
 		
 		<p>
-			<label for="id_folder" >#i18n{plu.create_folder.rowTitleParentFolder} : </label>
-			<select name="id_folder">
+			<label for="id_folder_atome" >#i18n{plu.create_folder.rowTitleParentFolder} : </label>
+			<select name="id_folder_atome">
 				<#list folder_list as folder>
-     				<option value="${folder.id}" <#if folder.title==one_folder.title>selected="selected"</#if>>${folder.title}</option>
+     				<option value="${folder.id}" <#if folder.id?number==id_folder_atome?number>selected="selected"</#if>>${folder.title}</option>
      			</#list>
 			</select>
 		</p>
 		
 		<p>
         	<label for="atome_name" >#i18n{plu.create_atome.rowTitleName} : </label> 
-        	<input type="text" id="atome_name" name="atome_name" size="60" maxlength="51" tabindex="1" />
+        	<input type="text" id="atome_name" value="${atome_name!}" name="atome_name" size="60" maxlength="51" tabindex="1" />
         </p>
         
 		<p>
         	<label for="atome_title" >#i18n{plu.create_atome.rowTitle} : </label> 
-        	<input type="text" id="atome_title" name="atome_title" size="60" maxlength="51" tabindex="1" />
+        	<input type="text" id="atome_title" value="${atome_title!}" name="atome_title" size="60" maxlength="51" tabindex="1" />
         </p>
         
         <p>
-        	<label for="id_atome" >#i18n{plu.create_atome.rowTitleId} :</label>
-        	<input type="text" id="id_atome" name="id_atome" size="30" maxlength="20" tabindex="1" />
+        	<label for="num_atome" >#i18n{plu.create_atome.rowTitleId} :</label>
+        	<input type="text" id="num_atome" value="${num_atome!}" name="num_atome" size="30" maxlength="20" tabindex="1" />
         </p>
         
         <p>
         	<label for="num_version" >#i18n{plu.create_version.rowTitleVersion} : </label> 
-        	<input type="text" id="num_version" name="num_version" value="1" size="30" maxlength="20" tabindex="1"/>
+        	<input type="text" id="num_version" name="num_version" value="${num_version!}" size="30" maxlength="20" tabindex="1"/>
         </p>
         
         <p>
@@ -42,6 +42,7 @@
        	<p>
         	<div id="richtext" class="editor">
         		<textarea id="atome_description" class="richtext" name="atome_description" style="width:80%;" rows="15" cols="90">
+        		${atome_description!}
         		</textarea>
     	    </div>
         </p>
@@ -59,11 +60,12 @@
 		        </#list>
 		    </#if>
 	    
-	        <p style="margin-left:31%;">
+   		  	<input type="submit" name="action" value="#i18n{plu.create_atome.rowTitleFile}" class="button"/>
+	        <#--<p style="margin-left:31%;">
 	        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=atome/CreateAtomeWithOld&id_atome=${one_atome.id}&id_plu=${one_plu.id}&id_folder=${one_folder.id}" style="color:blue">
 	        		#i18n{plu.create_atome.rowTitleFile}
 	        	</A> 
-	        </p>
+	        </p>-->
 	        
 	    </fieldset>
         
@@ -72,7 +74,10 @@
         	#i18n{plu.create_atome.buttonReturn}
         	</A>
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
-   		  	<input type="submit" value="#i18n{plu.create_atome.buttonValidate}" class="button"/>
+        	<input type="hidden" name="id_folder" value="${one_folder.id}"/>
+        	<input type="hidden" name="id_atome" value="${one_atome.id}"/>
+        	<input type="hidden" name="page" value="atome/CreateAtomeWithOld"/>
+   		  	<input type="submit" name="action" value="#i18n{plu.create_atome.buttonValidate}" class="button"/>
         </p>
         
 	</form>

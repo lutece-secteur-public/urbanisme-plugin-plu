@@ -231,6 +231,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_FOLDER_HTML = "folder_html";
     private static final String PARAMETER_FOLDER_HTML_CHECK = "html_check";
     private static final String PARAMETER_ATOME_ID = "id_atome";
+    private static final String PARAMETER_ATOME_NUM = "num_atome";
     private static final String PARAMETER_ATOME_OLD_ID = "id_atome_old";
     private static final String PARAMETER_ATOME_NAME = "atome_name";
     private static final String PARAMETER_ATOME_TITLE = "atome_title";
@@ -1829,7 +1830,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( PARAMETER_FOLDER_ID_ATOME, request.getParameter( PARAMETER_FOLDER_ID_ATOME ) );
         model.put( PARAMETER_ATOME_NAME, request.getParameter( PARAMETER_ATOME_NAME ) );
         model.put( PARAMETER_ATOME_TITLE, request.getParameter( PARAMETER_ATOME_TITLE ) );
-        model.put( PARAMETER_ATOME_ID, request.getParameter( PARAMETER_ATOME_ID ) );
+        model.put( PARAMETER_ATOME_NUM, request.getParameter( PARAMETER_ATOME_NUM ) );
         String versionNum = request.getParameter( PARAMETER_VERSION_NUM );
         if ( versionNum == null )
         {
@@ -1916,6 +1917,24 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PLU, plu );
+        if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) != null )
+        {
+        	model.put( PARAMETER_FOLDER_ID_ATOME, request.getParameter( PARAMETER_FOLDER_ID_ATOME ) );
+        }
+        else
+        {
+        	model.put( PARAMETER_FOLDER_ID_ATOME, folder.getId( ) );        	
+        }
+        model.put( PARAMETER_ATOME_NAME, request.getParameter( PARAMETER_ATOME_NAME ) );
+        model.put( PARAMETER_ATOME_TITLE, request.getParameter( PARAMETER_ATOME_TITLE ) );
+        model.put( PARAMETER_ATOME_NUM, request.getParameter( PARAMETER_ATOME_NUM ) );
+        String versionNum = request.getParameter( PARAMETER_VERSION_NUM );
+        if ( versionNum == null )
+        {
+        	versionNum = "1";
+        }
+        model.put( PARAMETER_VERSION_NUM, versionNum );
+        model.put( PARAMETER_ATOME_DESCRIPTION, request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
         model.put( MARK_FOLDER, folder );
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_ATOME, atome );
@@ -2005,7 +2024,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     public String getConfirmCreateAtome( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ).equals( "" )
-                || request.getParameter( PARAMETER_ATOME_ID ).equals( "" )
+                || request.getParameter( PARAMETER_ATOME_NUM ).equals( "" )
                 || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_NAME ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_TITLE ).equals( "" )
@@ -2019,7 +2038,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdAtome = 0;
         int numVersion = 0;
         try {
-        	nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_ID ) );
+        	nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_NUM ) );
 		} catch (NumberFormatException e) {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_ID_NUMBER, AdminMessage.TYPE_STOP );    
 		}
@@ -2048,7 +2067,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         UrlItem url = new UrlItem( JSP_DO_CREATE_ATOME );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_FOLDER_ID_ATOME, nIdFolder );
-        url.addParameter( PARAMETER_ATOME_ID, nIdAtome );
+        url.addParameter( PARAMETER_ATOME_NUM, nIdAtome );
         url.addParameter( PARAMETER_VERSION_NUM, numVersion );
         url.addParameter( PARAMETER_ATOME_NAME, atomeName );
         url.addParameter( PARAMETER_ATOME_TITLE, atomeTitle );
@@ -2178,7 +2197,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
 
-        int nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_ID ) );
+        int nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_NUM ) );
         int numVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_NUM ) );
 
         Atome atome = new Atome( );
@@ -3784,14 +3803,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( "page", page );
         model.put( MARK_PLU, plu );
-        if ( page.equals( "atome/CreateAtome" ) )
+        if ( page.equals( "atome/CreateAtome" ) || page.equals( "atome/CreateAtomeWithOld" ) )
         {
             model.put( PARAMETER_FOLDER_ID_ATOME, request.getParameter( PARAMETER_FOLDER_ID_ATOME ) );
             model.put( PARAMETER_ATOME_NAME, request.getParameter( PARAMETER_ATOME_NAME ) );
             model.put( PARAMETER_ATOME_TITLE, request.getParameter( PARAMETER_ATOME_TITLE ) );
-            model.put( PARAMETER_ATOME_ID, request.getParameter( PARAMETER_ATOME_ID ) );
             model.put( PARAMETER_VERSION_NUM, request.getParameter( PARAMETER_VERSION_NUM ) );
             model.put( PARAMETER_ATOME_DESCRIPTION, request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
+            model.put( PARAMETER_ATOME_NUM, request.getParameter( PARAMETER_ATOME_NUM ) );
+            model.put( PARAMETER_ATOME_ID, request.getParameter( PARAMETER_ATOME_ID ) );
         }
 
         if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
@@ -3811,7 +3831,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             model.put( MARK_FOLDER, folder );
         }
 
-        if ( !StringUtils.isEmpty( request.getParameter( PARAMETER_ATOME_ID ) ) && !page.equals( "atome/CreateAtome" ) )
+        if ( !StringUtils.isEmpty( request.getParameter( PARAMETER_ATOME_ID ) ) && !page.equals( "atome/CreateAtome" ) && !page.equals( "atome/CreateAtomeWithOld" ) )
         {
             int nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_ID ) );
             Atome atome = _atomeServices.findByPrimaryKey( nIdAtome );
