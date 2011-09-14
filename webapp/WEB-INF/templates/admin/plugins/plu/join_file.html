@@ -46,11 +46,12 @@
        			<input type="hidden" name="id_version" value="${one_version.id}"/>
        			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
    			<#else>
-   				<#if page="atome/CreateAtome" || page="atome/CreateAtomeWithOld">
+   				<#if page="atome/CreateAtome" || page="atome/CreateAtomeWithOld" || page="atome/ModifyAtome">
         			<input type="hidden" name="id_folder_atome" value="${id_folder_atome!}"/>
         			<input type="hidden" name="atome_name" value="${atome_name!}"/>
         			<input type="hidden" name="atome_title" value="${atome_title!}"/>
         			<input type="hidden" name="id_atome" value="${id_atome!}"/>
+        			<input type="hidden" name="id_version" value="${id_version!}"/>
         			<input type="hidden" name="num_version" value="${num_version!}"/>
         			<input type="hidden" name="num_atome" value="${num_atome!}"/>
         			<input type="hidden" name="atome_description" value="${atome_description!}"/>

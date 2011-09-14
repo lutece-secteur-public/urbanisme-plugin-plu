@@ -5,11 +5,11 @@
 
 	<h2>#i18n{plu.modify_atome.pageSubTitle}</h2>
 	
-	<form enctype="multipart/form-data" method=post accept=application/pdf action="jsp/admin/plugins/plu/atome/ConfirmModifyAtome.jsp">
+	<form enctype="multipart/form-data" method=post accept=application/pdf action="jsp/admin/plugins/plu/atome/ConfirmModifyJoinFileAtome.jsp">
 		
 		<p>
-			<label for="id_folder" >#i18n{plu.modify_atome.rowTitleParentFolder} : </label>
-			<select name="id_folder" style="width:331px;">
+			<label for="id_folder_atome" >#i18n{plu.modify_atome.rowTitleParentFolder} : </label>
+			<select name="id_folder_atome" style="width:331px;">
 				<option value="${one_folder.id}">${one_folder.title}</option>
 				<#list folder_list as folder>
 					<#if folder.id != one_folder.id>
@@ -30,8 +30,8 @@
         </p>
               
         <p>
-        	<label for="id_atome" >#i18n{plu.modify_atome.rowTitleId} :</label>
-        	<input type="text" id="id_atome" name="id_atome" value="${one_version.atome.id}" size="30" maxlength="20" tabindex="1" />
+        	<label for="num_atome" >#i18n{plu.modify_atome.rowTitleId} :</label>
+        	<input type="text" id="num_atome" name="num_atome" value="${one_version.atome.id}" size="30" maxlength="20" tabindex="1" />
         </p>
         
         <p>
@@ -68,11 +68,12 @@
 		        </#list>
 		    </#if>
 		    
-	        <p style="margin-left:31%;">
+	        <#--<p style="margin-left:31%;">
 	        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=atome/ModifyAtome&id_atome=${one_version.atome.id}&id_folder=${one_folder.id}&id_plu=${one_plu.id}&id_version=${one_version.id}" style="color:blue">
 	        		#i18n{plu.modify_atome.rowTitleFile}
 	        	</A> 
-	        </p>
+	        </p>-->
+   		  	<input type="submit" name="action" value="#i18n{plu.modify_atome.rowTitleFile}" class="button"/>
 	    
 	    </fieldset>
         
@@ -82,8 +83,10 @@
         	</A> 
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
         	<input type="hidden" name="id_version" value="${one_version.id}"/>
+        	<input type="hidden" name="id_folder" value="${one_folder.id}"/>
         	<input type="hidden" name="id_atome_old" value="${one_version.atome.id}"/>
-   		  	<input type="submit" value="#i18n{plu.modify_atome.buttonValidate}" class="button" />
+        	<input type="hidden" name="page" value="atome/ModifyAtome"/>
+   		  	<input type="submit" name="action" value="#i18n{plu.modify_atome.buttonValidate}" class="button" />
         </p>
         
 	</form>
