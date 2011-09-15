@@ -33,7 +33,13 @@
  */
 package fr.paris.lutece.plugins.plu.business.iso;
 
+import fr.paris.lutece.plugins.plu.business.plu.Plu;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 /**
@@ -72,8 +78,38 @@ public class IsoServices implements IIsoServices
     /**
      * {@inheritDoc}
      */
-    public List<Iso> findList( )
+    public Collection<Iso> findList( )
     {
-        return this.getHome( ).findList( );
+        List<Iso> isoList = this.getHome( ).findList( );
+        List<Iso> isoListToReturn = new ArrayList<Iso>( );
+
+        // Eliminates doublons by getting last iso generated
+        Map<Integer, Iso> isoPerPlu = new TreeMap<Integer, Iso>( );
+        for ( Iso iso : isoList )
+        {
+            Plu plu = iso.getPlu( );
+            if ( isoPerPlu.get( plu.getId( ) ) == null || isoPerPlu.get( plu.getId( ) ).getId( ) < iso.getId( ) )
+            {
+                isoPerPlu.put( plu.getId( ), iso );
+                isoListToReturn.add( null ); // Init list to return
+            }
+        }
+
+        // Get date of end of application and reverse order of list
+        int i = isoPerPlu.size( );
+        for ( Iso iso : isoPerPlu.values( ) )
+        {
+            // Get the next plu
+            Iso isoNextPlu = isoPerPlu.get( iso.getPlu( ).getId( ) + 1 );
+            if ( isoNextPlu != null )
+            {
+                // Set the date of end with date application of next plu
+                iso.getPlu( ).setDateFin( isoNextPlu.getPlu( ).getDa( ) );
+            }
+            isoListToReturn.set( i - 1, iso );
+            i--;
+        }
+
+        return isoListToReturn;
     }
 }

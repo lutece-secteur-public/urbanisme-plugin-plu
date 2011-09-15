@@ -1,7 +1,7 @@
-<div id="one-zone-first" class="span-15 prepend-1 append-1 prepend-top">
+<div id="one-zone-first">
 	<h2 class="page-title">#i18n{plu.page_iso.pageTitle}</h2>
-	
-	<table>
+	<p><em>Cliquez sur le nom de l'ISO pour le télécharger.</em></p>
+	<table class="list-plu">
 		<thead>
 			<tr>
 				<th>#i18n{plu.page_iso.list.version.columnTitle}</th>
@@ -16,7 +16,11 @@
 		<#list isoList as iso>
 			<tr>
 				<td>${iso.plu.id}</td>
-				<td>du ${iso.plu.da}</td>
+				<#if iso_index == 0>
+				<td>Depuis le ${iso.plu.da?date?string.medium}</td>
+				<#else>
+				<td>du ${iso.plu.da?date?string.medium} au ${iso.plu.dateFin!}</td>
+				</#if>
 				<td><a href="iso/${iso.nomConsultation}">${iso.nomConsultation}</a></td>
 				<td>${iso.tailleConsultationString}</td>
 				<td><a href="iso/${iso.nomImpression}">${iso.nomImpression}</a></td>

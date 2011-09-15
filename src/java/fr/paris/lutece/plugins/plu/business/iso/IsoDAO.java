@@ -47,7 +47,7 @@ import javax.persistence.Query;
  */
 public class IsoDAO extends JPALuteceDAO<Integer, Iso> implements IIsoDAO
 {
-    private static final String FIND_LIST_JPQL = "SELECT iso FROM Iso iso JOIN iso.plu isoPlu GROUP BY isoPlu.id HAVING iso.id = max(iso.id)";
+    private static final String FIND_LIST_JPQL = "SELECT iso FROM Iso iso JOIN iso.plu isoPlu ORDER BY iso.plu.da DESC";
 
     /**
      * @return the plugin name

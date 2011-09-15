@@ -49,6 +49,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Transient;
 
 
 /**
@@ -73,6 +74,7 @@ public class Plu
     private String _reference;
     private Date _dj;
     private Date _da;
+    private Date dateFin;
     private Date _dg;
     private Etat _etat;
 
@@ -84,7 +86,7 @@ public class Plu
     @Id
     @GeneratedValue( strategy = GenerationType.TABLE, generator = JPA_SEQUENCE_NAME )
     @Column( name = "id_plu" )
-    public int getId(  )
+    public int getId( )
     {
         return _id;
     }
@@ -104,7 +106,7 @@ public class Plu
      */
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "id_type_acte_juridique" )
-    public Type getType(  )
+    public Type getType( )
     {
         return _type;
     }
@@ -123,7 +125,7 @@ public class Plu
      * @return the plu cause
      */
     @Column( name = "nom_acte_juridique" )
-    public String getCause(  )
+    public String getCause( )
     {
         return _cause;
     }
@@ -142,15 +144,15 @@ public class Plu
      * @return the plu reference
      */
     @Column( name = "ref_deliberation" )
-    public String getReference(  )
+    public String getReference( )
     {
         return _reference;
     }
 
     /**
-    * Sets the reference of the plu to the specified String
-    * @param reference the new reference
-    */
+     * Sets the reference of the plu to the specified String
+     * @param reference the new reference
+     */
     public void setReference( String reference )
     {
         _reference = reference;
@@ -161,7 +163,7 @@ public class Plu
      * @return the plu dj
      */
     @Column( name = "dj" )
-    public Date getDj(  )
+    public Date getDj( )
     {
         return _dj;
     }
@@ -180,7 +182,7 @@ public class Plu
      * @return the plu da
      */
     @Column( name = "da" )
-    public Date getDa(  )
+    public Date getDa( )
     {
         return _da;
     }
@@ -195,11 +197,29 @@ public class Plu
     }
 
     /**
+     * @return the date
+     */
+    @Transient
+    public Date getDateFin( )
+    {
+        return dateFin;
+    }
+
+    /**
+     * Sets the da of the plu to the specified date
+     * @param da the new da
+     */
+    public void setDateFin( Date dateFin )
+    {
+        this.dateFin = dateFin;
+    }
+
+    /**
      * Returns the date generation of this plu
      * @return the plu dg
      */
     @Column( name = "date_generation" )
-    public Date getDg(  )
+    public Date getDg( )
     {
         return _dg;
     }
@@ -219,7 +239,7 @@ public class Plu
      */
     @OneToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "id_etat_generation" )
-    public Etat getEtat(  )
+    public Etat getEtat( )
     {
         return _etat;
     }
