@@ -43,7 +43,23 @@ import java.util.List;
 public class PluServices implements IPluServices
 {
     private IPluHome _home;
+    
+    // Constants corresponding to the variables defined in the lutece.properties file
+    private static PluServices _singleton;
 
+    /**
+     * @return the instance of the service
+     */
+    public static PluServices getInstance(  )
+    {
+        if ( _singleton == null )
+        {
+            _singleton = new PluServices(  );
+        }
+
+        return _singleton;
+    }
+    
     /**
          * @return the _home
          */
@@ -114,4 +130,15 @@ public class PluServices implements IPluServices
     {
         return _home.findPluApplied(  );
     }
+
+    /**
+     * Returns the list of plu with find with filters
+     * @param dateDebut the begin application date
+     * @param dateFin the end application date
+     * @return the list of plu
+     */
+	public List<Plu> findWithFilters( String dateDebut, String dateFin )
+	{		
+		return PluHome.getInstance( ).findWithFilters( dateDebut, dateFin );
+	}
 }

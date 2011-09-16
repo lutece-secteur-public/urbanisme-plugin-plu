@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
+import java.util.List;
+
 import fr.paris.lutece.util.jpa.IGenericHome;
 
 
@@ -53,4 +55,12 @@ public interface IPluHome extends IGenericHome<Integer, Plu>
      * @return A plu object which is applied
      */
     Plu findPluApplied(  );
+
+    /**
+     * Returns the list of plu with find with filters
+     * @param dateDebut the begin application date
+     * @param dateFin the end application date
+     * @return the list of plu
+     */
+	List<Plu> findWithFilters(String dateDebut, String dateFin);
 }

@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
+import java.util.List;
+
 import fr.paris.lutece.util.jpa.IGenericDAO;
 
 
@@ -53,4 +55,12 @@ public interface IPluDAO extends IGenericDAO<Integer, Plu>
      * @return A plu object which is applied
      */
     Plu findPluApplied(  );
+    
+    /**
+     * Returns the list of plu with find with filters
+     * @param dateApplicationDebut the begin application date
+     * @param dateApplicationFin the end application date
+     * @return the list of plu
+     */
+    List<Plu> findPluWithFilters( String dateApplicationDebut, String dateApplicationFin );
 }

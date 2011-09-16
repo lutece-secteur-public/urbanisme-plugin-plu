@@ -1,0 +1,62 @@
+<script src="js/jquery/jquery.min.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js" type="text/javascript"></script>
+<script src="js/jquery/plugins/ui/datepicker/ui.datepicker.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="js/jquery/plugins/ui/datepicker/ui.datepicker.css"/>
+<div id="one-zone-first" >
+	<h2 class="page-title">#i18n{plu.page_plu.pageTitle}</h2>
+	<div>
+		<form method=post action="jsp/site/Portal.jsp?page=plu&search=true">
+			<h1>#i18n{plu.search.title}</h1>
+			<#if errors?exists>
+				<div class="errors">
+					<#list errors as error>
+						${error!}
+					</#list>
+				</div>
+			</#if>
+			#i18n{plu.search.dateApplication} : * #i18n{plu.search.entreLe} <input type="text" id="dateApplicationDebut" name="dateApplicationDebut" value="${dateApplicationDebut!}"/><@getDatePicker idField="dateApplicationDebut" language="fr" />
+			* #i18n{plu.search.etLe} <input type="text" id="dateApplicationFin" name="dateApplicationFin" value="${dateApplicationFin!}"/><@getDatePicker idField="dateApplicationFin" language="fr" />
+			<input type="submit" value="#i18n{plu.search_folder.buttonSearch}" class="button"/>
+		</form>
+	</div>
+	<#if listPlu?exists>
+		<table class="list-plu">
+			<thead>
+				<th>#i18n{plu.search.version}</th>
+				<th>#i18n{plu.search.typeActeJuridique}</th>
+				<th>#i18n{plu.search.causeActeJurique}</th>
+				<th>#i18n{plu.search.refDeliberation}</th>
+				<th>#i18n{plu.search.dateJuridique}</th>
+				<th>#i18n{plu.search.dateApplication}</th>
+				<th>#i18n{plu.search.versionConsultation}</th>
+				<th>#i18n{plu.search.versionImpression}</th>
+			</thead>
+			<tbody>
+				<#list listPlu as plu>
+					<tr>
+						<td>
+							${plu.id!}
+						</td>
+						<td>
+							${plu.type.name!}
+						</td>
+						<td>
+							${plu.cause!}
+						</td>
+						<td>
+							${plu.reference!}
+						</td>
+						<td>
+							${plu.dj!?date}
+						</td>
+						<td>
+							${plu.da!?date}
+						</td>
+						<td><img src="images/local/skin/site/version_consultation.png"/></td>
+						<td><img src="images/local/skin/site/version_impression.png"/></td>
+					</tr>
+				</#list>
+			</tbody>
+		</table>
+	</#if>
+</div>

@@ -33,7 +33,10 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 
 /**
@@ -41,7 +44,24 @@ import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
  * @author vLopez
  */
 public class PluHome extends AbstractLuteceHome<Integer, Plu, IPluDAO> implements IPluHome
-{
+{    
+	// Constants corresponding to the variables defined in the lutece.properties file
+    private static PluHome _singleton;
+  // private static PluDAO _dao = (PluDAO) SpringContextService.getPluginBean( "plu", "plu.pluDAO" );
+
+    /**
+     * @return the instance of the service
+     */
+    public static PluHome getInstance(  )
+    {
+        if ( _singleton == null )
+        {
+            _singleton = new PluHome(  );
+        }
+
+        return _singleton;
+    }
+    
     /**
      * Returns a plu object
      * @return A plu object which work
@@ -59,4 +79,15 @@ public class PluHome extends AbstractLuteceHome<Integer, Plu, IPluDAO> implement
     {
         return getDao(  ).findPluApplied(  );
     }
+
+    /**
+     * Returns the list of plu with find with filters
+     * @param dateDebut the begin application date
+     * @param dateFin the end application date
+     * @return the list of plu
+     */
+	public List<Plu> findWithFilters(String dateDebut, String dateFin)
+	{
+		return PluDAO.getInstance( ).findPluWithFilters( dateDebut, dateFin );
+	}
 }
