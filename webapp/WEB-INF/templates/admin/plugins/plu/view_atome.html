@@ -1,12 +1,12 @@
 <div style="clear:both;" >
-	<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none">
-		<input type="submit" value="#i18n{plu.manage_plu.buttonListPlu}" class="button" />
+	<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none" class="button">
+		#i18n{plu.manage_plu.buttonListPlu}
 	</A>
-	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0" style="text-decoration:none">
-		<input type="submit" value="#i18n{plu.manage_folder.buttonListFolder}" class="button" />
+	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0" style="text-decoration:none" class="button">
+		#i18n{plu.manage_folder.buttonListFolder}
 	</A>
-	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0&id_folder=0" style="text-decoration:none">
-		<input type="submit" value="#i18n{plu.manage_atome.buttonListAtome}" class="button" />
+	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=0&id_folder=0" style="text-decoration:none" class="button">
+		#i18n{plu.manage_atome.buttonListAtome}
 	</A>
 </div>
 
@@ -93,9 +93,8 @@
 	                ${file.mimeType}
 	            </td>
 	            <td>
-	           	<form method="post" action="jsp/admin/plugins/plu/atome/.jsp">
-		    		<input src="images/admin/skin/plugins/plu/document_view.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.view_file.view}" title="#i18n{plu.view_file.view}" type="image" />
-				</form>
+	           	
+		    		<a href="sites-plu/site_statique_${one_plu.id!}/index_plu.html"><img src="images/admin/skin/plugins/plu/document_view.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.view_file.view}" title="#i18n{plu.view_file.view}" type="image" /></a>
 	        	</td>
 	        </tr>
 	        </#list>
@@ -123,12 +122,12 @@
 </div>
 
 
-<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none">
-   	<input type="submit" value="#i18n{plu.tree_plu.buttonListPlu}" class="button" />
+<A href="jsp/admin/plugins/plu/plu/ManagePlu.jsp" style="text-decoration:none" class="button">
+   	#i18n{plu.tree_plu.buttonListPlu}
 </A>
-<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}<#if folder_title?exists>&folder_title=${folder_title}</#if>" style="text-decoration:none">
-   	<input type="submit" value="#i18n{plu.tree_plu.buttonListFolder}" class="button" />
+<A class="button" href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}<#if folder_title?exists>&folder_title=${folder_title}</#if>" style="text-decoration:none">
+   	#i18n{plu.tree_plu.buttonListFolder}
 </A>
-<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}<#if folder_title?exists>&folder_title=${folder_title}/><#elseif atome_title?exists>&atome_name=${atome_name}&atome_title=${atome_title}&num_version=${num_version}&version_d1=${version_d1}&version_d2=${version_d2}&version_d3=${version_d3}&version_d4=${version_d4}</#if>" style="text-decoration:none">
-   	<input type="submit" value="#i18n{plu.tree_plu.buttonListAtome}" class="button" />
+<A class="button" href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}<#if folder_title?exists>&folder_title=${folder_title}/><#elseif atome_title?exists>&atome_name=${atome_name}&atome_title=${atome_title}&num_version=${num_version}&version_d1=${version_d1}&version_d2=${version_d2}&version_d3=${version_d3}&version_d4=${version_d4}</#if>" style="text-decoration:none">
+   	#i18n{plu.tree_plu.buttonListAtome}
 </A>
