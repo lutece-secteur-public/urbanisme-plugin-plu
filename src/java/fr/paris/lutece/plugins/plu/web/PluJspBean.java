@@ -199,6 +199,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MESSAGE_ERROR_DATE_APPLICATION_LOWER = "plu.message.errorDateApplicationLower";
     private static final String MESSAGE_ERROR_PLU_WORK = "plu.message.errorPluWork";
     private static final String MESSAGE_ERROR_REQUIRED_FIELD = "plu.message.errorRequiredfield";
+    private static final String MESSAGE_ERROR_DATE_FORMAT = "plu.message.errorDateFormat";
     private static final String MESSAGE_ERROR_FOLDER_CREATE = "plu.message.errorFolderCreate";
     private static final String MESSAGE_ERROR_FOLDER_DELETE = "plu.message.errorFolderDelete";
     private static final String MESSAGE_ERROR_FOLDER_IMAGE_TYPE = "plu.message.errorFolderImageType";
@@ -406,7 +407,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         String strReference = request.getParameter( PARAMETER_PLU_REFERENCE );
         String strDate = request.getParameter( PARAMETER_DATE_JURIDIQUE );
 
-        Date dj = stringToDate( strDate, "dd/MM/yyyy" );
+        Date dj = new Date( );
+        try
+        {
+        	dj = stringToDate( strDate, "dd/MM/yyyy" );
+        }
+        catch ( ParseException e )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );        	
+        }
+        
         Date date = new Date( );
 
         if ( dj.after( date ) )
@@ -517,8 +527,18 @@ public class PluJspBean extends PluginAdminPageJspBean
         String strCause = request.getParameter( PARAMETER_PLU_CAUSE );
         String strDj = request.getParameter( PARAMETER_DATE_JURIDIQUE );
         String strDa = request.getParameter( PARAMETER_DATE_APPLICATION );
-        Date dj = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
-        Date da = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
+        Date dj;
+        Date da;
+        
+        try
+        {
+        	dj = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
+        	da = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
+        }
+        catch ( ParseException e )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );        	
+        }
 
         if ( da.before( dj ) )
         {
@@ -685,7 +705,17 @@ public class PluJspBean extends PluginAdminPageJspBean
         url.addParameter( PARAMETER_PLU_REFERENCE, strReference );
         url.addParameter( PARAMETER_DATE_JURIDIQUE, strDate );
 
-        Date dj = stringToDate( strDate, "dd/MM/yyyy" );
+        Date dj;
+        
+        try
+        {
+        	dj = stringToDate( strDate, "dd/MM/yyyy" );
+        }
+        catch( ParseException e )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );        	
+        }
+        
         Date date = new Date( );
 
         if ( dj.after( date ) )
