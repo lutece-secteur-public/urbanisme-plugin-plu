@@ -1414,7 +1414,13 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
 
-        if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
+        if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
+        {
+            String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
+            _folderHtml.setHtml( strHtml );
+            model.put( MARK_HTML, 1 );
+        }
+        else if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
         {
             int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
             Folder folderDuplicate = _folderServices.findByPrimaryKey( idFolder );
@@ -1431,13 +1437,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         else
         {
-            if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
-            {
-                String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
-                _folderHtml.setHtml( strHtml );
-                model.put( MARK_HTML, 1 );
-            }
-            else if ( folder.getHtml( ) != null )
+        	if ( folder.getHtml( ) != null )
             {
                 _folderHtml.setHtml( folder.getHtml( ) );
                 model.put( MARK_HTML, 1 );
