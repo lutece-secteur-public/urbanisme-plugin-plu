@@ -159,7 +159,7 @@
         		<input type="text" id="id_atome" name="id_atome" <#if id_atome?exists><#assign res="${id_atome}"?matches("[0-9]+?")><#if res>value="${id_atome}"</#if></#if> size="60" maxlength="101" tabindex="2" />
         	</p>
        		<p>
-        		<label for="num_version" >#i18n{plu.search_atome.rowTitleVersion} :</label>  
+        		<label for="num_version" >#i18n{plu.search_atome.rowTitleVersion}  :</label>  
         		<input type="text" id="num_version" name="num_version" <#if num_version?exists><#assign res="${num_version}"?matches("[0-9]+?")><#if res>value="${num_version}"</#if></#if> size="60" maxlength="101" tabindex="2" />
         	</p>
         	</td>
@@ -170,17 +170,17 @@
         		<input type="text" id="version_d1" name="version_d1" <#if version_d1?exists>value="${version_d1}"</#if> />
         		<@getDatePicker idField="version_d1" language="fr" />
         	</p>
-        	<p>
+        	<p style="clear:left">
         		<label for="version_d2" >#i18n{plu.search_atome.rowTitleD2} :</label>
         		<input type="text" id="version_d2" name="version_d2" <#if version_d2?exists>value="${version_d2}"</#if> />
         		<@getDatePicker idField="version_d2" language="fr" />
         	</p>
-        	<p>
+        	<p style="clear:left">
         		<label for="version_d3" >#i18n{plu.search_atome.rowTitleD3} :</label>
         		<input type="text" id="version_d3" name="version_d3" <#if version_d3?exists>value="${version_d3}"</#if> />
         		<@getDatePicker idField="version_d3" language="fr" />
         	</p>
-        	<p>
+        	<p style="clear:left">
         		<label for="version_d4" >#i18n{plu.search_atome.rowTitleD4} :</label>
         		<input type="text" id="version_d4" name="version_d4" <#if version_d4?exists>value="${version_d4}"</#if> />
         		<@getDatePicker idField="version_d4" language="fr" />
