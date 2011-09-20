@@ -410,13 +410,13 @@ public class PluJspBean extends PluginAdminPageJspBean
         Date dj = new Date( );
         try
         {
-        	dj = stringToDate( strDate, "dd/MM/yyyy" );
+            dj = stringToDate( strDate, "dd/MM/yyyy" );
         }
         catch ( ParseException e )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );        	
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );
         }
-        
+
         Date date = new Date( );
 
         if ( dj.after( date ) )
@@ -529,15 +529,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         String strDa = request.getParameter( PARAMETER_DATE_APPLICATION );
         Date dj;
         Date da;
-        
+
         try
         {
-        	dj = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
-        	da = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
+            dj = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
+            da = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
         }
         catch ( ParseException e )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );        	
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );
         }
 
         if ( da.before( dj ) )
@@ -706,16 +706,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         url.addParameter( PARAMETER_DATE_JURIDIQUE, strDate );
 
         Date dj;
-        
+
         try
         {
-        	dj = stringToDate( strDate, "dd/MM/yyyy" );
+            dj = stringToDate( strDate, "dd/MM/yyyy" );
         }
-        catch( ParseException e )
+        catch ( ParseException e )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );        	
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );
         }
-        
+
         Date date = new Date( );
 
         if ( dj.after( date ) )
@@ -1057,6 +1057,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 model.put( MARK_LIST_VERSION_LIST, paginator.getPageItems( ) );
                 model.put( PARAMETER_ATOME_NAME, atomeName );
                 model.put( PARAMETER_ATOME_TITLE, atomeTitle );
+                model.put( PARAMETER_ATOME_ID, strAtomeId );
                 model.put( PARAMETER_VERSION_NUM, strNumVersion );
                 model.put( PARAMETER_VERSION_D1, strD1 );
                 model.put( PARAMETER_VERSION_D2, strD2 );
@@ -1155,7 +1156,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
         model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
 
-        if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
+        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
         {
             int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
             Folder folder = _folderServices.findByPrimaryKey( idFolder );
@@ -1177,7 +1178,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
             else
             {
-                if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
+                if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_HTML ) ) )
                 {
                     String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
                     _folderHtml.setHtml( strHtml );
