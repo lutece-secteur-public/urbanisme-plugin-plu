@@ -28,6 +28,7 @@
 				<th>#i18n{plu.search.refDeliberation}</th>
 				<th>#i18n{plu.search.dateJuridique}</th>
 				<th>#i18n{plu.search.dateApplication}</th>
+				<th>#i18n{plu.search.versionEnLigne}</th>
 				<th>#i18n{plu.search.versionConsultation}</th>
 				<th>#i18n{plu.search.versionImpression}</th>
 			</thead>
@@ -52,8 +53,21 @@
 						<td>
 							${plu.da!?date}
 						</td>
-						<td><img src="images/local/skin/site/version_consultation.png"/></td>
-						<td><img src="images/local/skin/site/version_impression.png"/></td>
+						<td>
+						<#if plu.lastIso?has_content>
+						<a href="sites-plu/site_statique_${plu.id!}/index_plu.html"><img src="images/local/skin/site/site_consultation.png"/></a>
+						</#if>
+						</td>
+						<td>
+						<#if plu.lastIso?has_content>
+						<a href="iso/${plu.lastIso.nomConsultation!}"><img src="images/local/skin/site/version_consultation.png"/></a>
+						</#if>
+						</td>
+						<td>
+						<#if plu.lastIso?has_content>
+						<a href="iso/${plu.lastIso.nomImpression!}"><img src="images/local/skin/site/version_impression.png"/></a>
+						</#if>
+						</td>
 					</tr>
 				</#list>
 			</tbody>

@@ -52,4 +52,12 @@ public class IsoHome extends AbstractLuteceHome<Integer, Iso, IIsoDAO> implement
     {
         return this.getDao( ).findList( );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Iso findLastGenerated( Integer idPlu )
+    {
+        return this.getDao( ).findLastGenerated( idPlu );
+    }
 }

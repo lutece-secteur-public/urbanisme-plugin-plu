@@ -50,4 +50,11 @@ public interface IIsoHome extends IGenericHome<Integer, Iso>
      * @return list of all isos (one iso per plu version)
      */
     List<Iso> findList( );
+
+    /**
+     * Return the last generated iso of a plu
+     * @param idPlu id plu
+     * @return last generated iso
+     */
+    Iso findLastGenerated( Integer idPlu );
 }

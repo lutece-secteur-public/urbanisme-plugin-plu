@@ -46,7 +46,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
@@ -104,7 +104,7 @@ public class Iso
      * Returns the id plu of this iso
      * @return the iso id plu
      */
-    @OneToOne( fetch = FetchType.EAGER )
+    @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "id_plu" )
     public Plu getPlu( )
     {

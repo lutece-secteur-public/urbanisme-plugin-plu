@@ -33,6 +33,15 @@
  */
 package fr.paris.lutece.plugins.plu.web;
 
+import fr.paris.lutece.plugins.plu.business.plu.PluServices;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.xpages.XPage;
+import fr.paris.lutece.portal.web.xpages.XPageApplication;
+import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,40 +50,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.paris.lutece.plugins.plu.business.plu.PluServices;
-import fr.paris.lutece.portal.service.message.AdminMessage;
-import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.xpages.XPage;
-import fr.paris.lutece.portal.web.xpages.XPageApplication;
-import fr.paris.lutece.util.html.HtmlTemplate;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
-* PluApp
-*/
+ * PluApp
+ */
 public class PluApp implements XPageApplication
 {
-	private PluServices _pluServices;
-	
-	/** Parameters */
-	private static final String PARAMETER_DATE_APPLICATION_DEBUT = "dateApplicationDebut";
-	private static final String PARAMETER_DATE_APPLICATION_FIN = "dateApplicationFin";
-	private static final String PARAMETER_SEARCH = "search";
-	private static final String PARAMETER_ERRORS = "errors";
-	private static final String PARAMETER_LIST_PLU = "listPlu";
-	
+    private PluServices _pluServices;
+
+    /** Parameters */
+    private static final String PARAMETER_DATE_APPLICATION_DEBUT = "dateApplicationDebut";
+    private static final String PARAMETER_DATE_APPLICATION_FIN = "dateApplicationFin";
+    private static final String PARAMETER_SEARCH = "search";
+    private static final String PARAMETER_ERRORS = "errors";
+    private static final String PARAMETER_LIST_PLU = "listPlu";
+
     /** Properties */
-    private static final String PROPERTY_PAGE_TITLE = "plu.pageTitle";
-    private static final String PROPERTY_PAGE_PATH = "plu.pagePathLabel";
+    private static final String PROPERTY_PAGE_TITLE = "plu.search.title";
+    private static final String PROPERTY_PAGE_PATH = "plu.search.title";
     private static final String PROPERTY_ERROR_DATE_REQUIRED = "plu.error.date.required";
     private static final String PROPERTY_ERROR_DATE_FORMAT = "plu.error.date.format";
 
@@ -93,72 +90,71 @@ public class PluApp implements XPageApplication
      */
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
     {
-        XPage page = new XPage(  );
+        XPage page = new XPage( );
 
-        page.setTitle( AppPropertiesService.getProperty( PROPERTY_PAGE_TITLE ) );
-        page.setPathLabel( AppPropertiesService.getProperty( PROPERTY_PAGE_PATH ) );
+        page.setTitle( I18nService.getLocalizedString( PROPERTY_PAGE_TITLE, I18nService.getDefaultLocale( ) ) );
+        page.setPathLabel( I18nService.getLocalizedString( PROPERTY_PAGE_PATH, I18nService.getDefaultLocale( ) ) );
 
         if ( request.getParameter( PARAMETER_SEARCH ) != null )
         {
-        	page.setContent( doPluSearch( request ) );
+            page.setContent( doPluSearch( request ) );
         }
         else
         {
-        	page.setContent( getPluSearch( request ) );
+            page.setContent( getPluSearch( request ) );
         }
-
 
         return page;
     }
 
     private String getPluSearch( HttpServletRequest request )
     {
-    	HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_PLU_SEARCH );
-    	
-		return template.getHtml( );
-	}
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_PLU_SEARCH );
+
+        return template.getHtml( );
+    }
 
     private String doPluSearch( HttpServletRequest request )
     {
-    	Map<String, Object> model = new HashMap<String, Object>( );
-    	
-    	String dateDebut = request.getParameter( PARAMETER_DATE_APPLICATION_DEBUT );
-    	String dateFin = request.getParameter( PARAMETER_DATE_APPLICATION_FIN );
-    	model.put( PARAMETER_DATE_APPLICATION_DEBUT, dateDebut );
-    	model.put( PARAMETER_DATE_APPLICATION_FIN, dateFin );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
-		List<String> errors = new ArrayList<String>( );
-		
-    	if ( StringUtils.isEmpty( dateDebut ) || StringUtils.isEmpty( dateFin ) )
-    	{
-    		errors.add( AppPropertiesService.getProperty( PROPERTY_ERROR_DATE_REQUIRED ) );
-    		model.put( PARAMETER_ERRORS, errors);
-    	}
-    	else
-    	{
-    		try
-    		{
-    			Date d;
-    			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    			ParsePosition pos = new ParsePosition(0);
-    			d = formatter.parse( dateDebut, pos );
-    		    formatter = new SimpleDateFormat("yyyy-MM-dd");
-    			dateDebut = formatter.format( d );
-    			
-    			formatter = new SimpleDateFormat("dd/MM/yyyy");
-    			d = formatter.parse( dateFin, pos );
-    		    formatter = new SimpleDateFormat("yyyy-MM-dd");
-    		    dateFin = formatter.format( d );
-    		}
-    		catch (RuntimeException e)
-    		{
-        		errors.add( AppPropertiesService.getProperty( PROPERTY_ERROR_DATE_FORMAT ) );
-    		}
-    		model.put( PARAMETER_LIST_PLU, PluServices.getInstance( ).findWithFilters( dateDebut, dateFin ) );
-    	}
-    	
-    	HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_PLU_SEARCH, request.getLocale( ), model );
-    	
-		return template.getHtml( );
-	}
+        String dateDebut = request.getParameter( PARAMETER_DATE_APPLICATION_DEBUT );
+        String dateFin = request.getParameter( PARAMETER_DATE_APPLICATION_FIN );
+        model.put( PARAMETER_DATE_APPLICATION_DEBUT, dateDebut );
+        model.put( PARAMETER_DATE_APPLICATION_FIN, dateFin );
+
+        List<String> errors = new ArrayList<String>( );
+
+        if ( StringUtils.isEmpty( dateDebut ) || StringUtils.isEmpty( dateFin ) )
+        {
+            errors.add( AppPropertiesService.getProperty( PROPERTY_ERROR_DATE_REQUIRED ) );
+            model.put( PARAMETER_ERRORS, errors );
+        }
+        else
+        {
+            try
+            {
+                Date d;
+                SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy" );
+                ParsePosition pos = new ParsePosition( 0 );
+                d = formatter.parse( dateDebut, pos );
+                formatter = new SimpleDateFormat( "yyyy-MM-dd" );
+                dateDebut = formatter.format( d );
+
+                formatter = new SimpleDateFormat( "dd/MM/yyyy" );
+                d = formatter.parse( dateFin, pos );
+                formatter = new SimpleDateFormat( "yyyy-MM-dd" );
+                dateFin = formatter.format( d );
+            }
+            catch ( RuntimeException e )
+            {
+                errors.add( AppPropertiesService.getProperty( PROPERTY_ERROR_DATE_FORMAT ) );
+            }
+            model.put( PARAMETER_LIST_PLU, PluServices.getInstance( ).findWithFilters( dateDebut, dateFin ) );
+        }
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_PLU_SEARCH, request.getLocale( ), model );
+
+        return template.getHtml( );
+    }
 }

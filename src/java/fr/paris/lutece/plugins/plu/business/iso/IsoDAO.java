@@ -48,6 +48,7 @@ import javax.persistence.Query;
 public class IsoDAO extends JPALuteceDAO<Integer, Iso> implements IIsoDAO
 {
     private static final String FIND_LIST_JPQL = "SELECT iso FROM Iso iso JOIN iso.plu isoPlu ORDER BY iso.plu.da DESC";
+    private static final String FIND_LAST_GENERATED_JPQL = "SELECT iso FROM Iso iso WHERE iso.plu.id = :idPlu ORDER BY iso.id DESC";
 
     /**
      * @return the plugin name
@@ -63,6 +64,21 @@ public class IsoDAO extends JPALuteceDAO<Integer, Iso> implements IIsoDAO
         Query query = this.getEM( ).createQuery( FIND_LIST_JPQL );
         List<Iso> resultList = query.getResultList( );
         return resultList;
+    }
+
+    public Iso findLastGenerated( Integer idPlu )
+    {
+        Query query = this.getEM( ).createQuery( FIND_LAST_GENERATED_JPQL );
+        query.setParameter( "idPlu", idPlu );
+        List<Iso> resultList = query.getResultList( );
+        if ( !resultList.isEmpty( ) )
+        {
+            return resultList.get( 0 );
+        }
+        else
+        {
+            return null;
+        }
     }
 
 }

@@ -44,7 +44,6 @@ import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,7 +56,8 @@ public class IsoListApp implements XPageApplication
 {
     /** Parameters */
     private static final String PARAMETER_PAGE = "page";
-    private static final String PARAMETER_PLU_ID = "id";
+    private static final String PROPERTY_PAGE_TITLE = "plu.page_iso.pageTitle";
+    private static final String PROPERTY_PAGE_PATH = "plu.page_iso.pageTitle";
 
     /** Templates */
     private static final String TEMPLATE_XPAGE_ISO_LIST = "skin/plugins/plu/iso_list.html";
@@ -82,19 +82,23 @@ public class IsoListApp implements XPageApplication
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
     {
         XPage page = new XPage( );
-        Locale defaultLocale = new Locale( "fr_FR" );
 
         String strPluginName = request.getParameter( PARAMETER_PAGE );
         _plugin = PluginService.getPlugin( strPluginName );
 
-        page.setTitle( I18nService.getLocalizedString( "page_iso.pageTitle", defaultLocale ) );
-        page.setPathLabel( I18nService.getLocalizedString( "page_iso.pageTitle", defaultLocale ) );
+        page.setTitle( I18nService.getLocalizedString( PROPERTY_PAGE_TITLE, I18nService.getDefaultLocale( ) ) );
+        page.setPathLabel( I18nService.getLocalizedString( PROPERTY_PAGE_PATH, I18nService.getDefaultLocale( ) ) );
 
         page.setContent( getIsoLists( request ) );
 
         return page;
     }
 
+    /**
+     * Renvoie le code html de la page listant les iso à télécharger
+     * @param request
+     * @return
+     */
     private String getIsoLists( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>( );

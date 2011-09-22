@@ -10,10 +10,10 @@
    <installation></installation>
    <changes></changes>
    <user-guide></user-guide>
-   <description>Gestion des PLU</description>
+   <description>Gestion du PLU</description>
    <provider>Mairie de Paris</provider>
    <provider-url>http://lutece.paris.fr</provider-url>
-   <icon-url>images/admin/skin/plugins/plu/</icon-url>
+   <icon-url>images/admin/skin/plugins/plu/plu_icon.png</icon-url>
    <copyright>Copyright 2001-2008 Mairie de Paris</copyright>
    <db-pool-required>1</db-pool-required>
 <!-- test -->

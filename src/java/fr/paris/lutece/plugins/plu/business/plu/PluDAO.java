@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -55,18 +55,19 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
     private static final String SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION = "SELECT p FROM Plu p WHERE p.da > date1 AND p.da < date2";
     private static PluDAO _singleton;
 
-      /**
-       * @return the instance of the service
-       */
-      public static PluDAO getInstance(  )
-      {
-          if ( _singleton == null )
-          {
-              _singleton = new PluDAO(  );
-          }
+    /**
+     * @return the instance of the service
+     */
+    public static PluDAO getInstance( )
+    {
+        if ( _singleton == null )
+        {
+            _singleton = new PluDAO( );
+        }
 
-          return _singleton;
-      }
+        return _singleton;
+    }
+
     /**
      * Returns the list of plu with find with filters
      * @param dateApplicationDebut the begin application date
@@ -75,27 +76,31 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
      */
     public List<Plu> findPluWithFilters( String dateApplicationDebut, String dateApplicationFin )
     {
-    	EntityManager em = getEM( );
-    	String query = SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION;
-    	query = query.replace( "date1", "'" + dateApplicationDebut + "'" );
-    	query = query.replace( "date2", "'" + dateApplicationFin + "'" );
-    	
-    	Query q = em.createQuery( query );
-    	
-    	ArrayList<Plu> listPlu;
-    	
-    	try
-    	{
-    		listPlu = (ArrayList<Plu>) q.getResultList( );
-    	}
-    	catch ( NoResultException e )
-    	{
-    		listPlu = new ArrayList<Plu>( );
-    	}
-    	
-    	return listPlu;
+        EntityManager em = getEM( );
+        String query = SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION;
+        query = query.replace( "date1", "'" + dateApplicationDebut + "'" );
+        query = query.replace( "date2", "'" + dateApplicationFin + "'" );
+
+        Query q = em.createQuery( query );
+
+        ArrayList<Plu> listPlu;
+
+        try
+        {
+            listPlu = (ArrayList<Plu>) q.getResultList( );
+            for ( Plu plu : listPlu )
+            {
+
+            }
+        }
+        catch ( NoResultException e )
+        {
+            listPlu = new ArrayList<Plu>( );
+        }
+
+        return listPlu;
     }
-    
+
     /**
      * @return the plugin name
      */

@@ -90,8 +90,11 @@ public class IsoServices implements IIsoServices
             Plu plu = iso.getPlu( );
             if ( isoPerPlu.get( plu.getId( ) ) == null || isoPerPlu.get( plu.getId( ) ).getId( ) < iso.getId( ) )
             {
+                if ( !isoPerPlu.containsKey( plu.getId( ) ) )
+                {
+                    isoListToReturn.add( null ); // Init list to return
+                }
                 isoPerPlu.put( plu.getId( ), iso );
-                isoListToReturn.add( null ); // Init list to return
             }
         }
 

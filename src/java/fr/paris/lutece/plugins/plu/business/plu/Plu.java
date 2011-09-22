@@ -34,10 +34,12 @@
 package fr.paris.lutece.plugins.plu.business.plu;
 
 import fr.paris.lutece.plugins.plu.business.etat.Etat;
+import fr.paris.lutece.plugins.plu.business.iso.Iso;
 import fr.paris.lutece.plugins.plu.business.type.Type;
 import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,6 +48,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
@@ -77,6 +80,8 @@ public class Plu
     private Date dateFin;
     private Date _dg;
     private Etat _etat;
+    private Set<Iso> isoList;
+    private Iso lastIso;
 
     /**
      * Returns the identifier of this plu
@@ -252,4 +257,39 @@ public class Plu
     {
         _etat = etat;
     }
+
+    /**
+     * @return the iso
+     */
+    @OneToMany( mappedBy = "plu" )
+    public Set<Iso> getIsoList( )
+    {
+        return isoList;
+    }
+
+    /**
+     * @param isoList the iso to set
+     */
+    public void setIsoList( Set<Iso> isoList )
+    {
+        this.isoList = isoList;
+    }
+
+    /**
+     * @return the lastIso
+     */
+    @Transient
+    public Iso getLastIso( )
+    {
+        return lastIso;
+    }
+
+    /**
+     * @param lastIso the lastIso to set
+     */
+    public void setLastIso( Iso lastIso )
+    {
+        this.lastIso = lastIso;
+    }
+
 }

@@ -9,7 +9,7 @@
     	<p>
     		<div id="richtext" class="editor">
         		<textarea id="folder_html" class="richtext" name="folder_html" style="width:80%;" rows="50" cols="90">
-        		<#if folder_html?exists>${folder_html.html}</#if>
+        		<#if folder_html?exists>${folder_html.html!}</#if>
         		</textarea>
     	    </div>
     	</p>

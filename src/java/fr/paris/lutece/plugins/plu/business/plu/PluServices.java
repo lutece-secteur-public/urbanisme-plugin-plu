@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
+import fr.paris.lutece.plugins.plu.business.iso.IIsoHome;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+
 import java.util.List;
 
 
@@ -43,27 +46,20 @@ import java.util.List;
 public class PluServices implements IPluServices
 {
     private IPluHome _home;
-    
-    // Constants corresponding to the variables defined in the lutece.properties file
-    private static PluServices _singleton;
+    private IIsoHome isoHome;
 
     /**
      * @return the instance of the service
      */
-    public static PluServices getInstance(  )
+    public static IPluServices getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new PluServices(  );
-        }
-
-        return _singleton;
+        return (IPluServices) SpringContextService.getBean( "plu.pluServices" );
     }
-    
+
     /**
-         * @return the _home
-         */
-    public IPluHome getHome(  )
+     * @return the _home
+     */
+    public IPluHome getHome( )
     {
         return _home;
     }
@@ -98,9 +94,9 @@ public class PluServices implements IPluServices
      * Returns a list of plu objects
      * @return A list of all plu
      */
-    public List<Plu> findAll(  )
+    public List<Plu> findAll( )
     {
-        return _home.findAll(  );
+        return _home.findAll( );
     }
 
     /**
@@ -117,18 +113,18 @@ public class PluServices implements IPluServices
      * Returns a plu object
      * @return A plu object which work
      */
-    public Plu findPluWork(  )
+    public Plu findPluWork( )
     {
-        return _home.findPluWork(  );
+        return _home.findPluWork( );
     }
 
     /**
      * Returns a plu object
      * @return A plu object which is applied
      */
-    public Plu findPluApplied(  )
+    public Plu findPluApplied( )
     {
-        return _home.findPluApplied(  );
+        return _home.findPluApplied( );
     }
 
     /**
@@ -137,8 +133,29 @@ public class PluServices implements IPluServices
      * @param dateFin the end application date
      * @return the list of plu
      */
-	public List<Plu> findWithFilters( String dateDebut, String dateFin )
-	{		
-		return PluHome.getInstance( ).findWithFilters( dateDebut, dateFin );
-	}
+    public List<Plu> findWithFilters( String dateDebut, String dateFin )
+    {
+        List<Plu> pluList = PluHome.getInstance( ).findWithFilters( dateDebut, dateFin );
+        for ( Plu plu : pluList )
+        {
+            plu.setLastIso( getIsoHome( ).findLastGenerated( plu.getId( ) ) );
+        }
+        return pluList;
+    }
+
+    /**
+     * @return the isoHome
+     */
+    public IIsoHome getIsoHome( )
+    {
+        return isoHome;
+    }
+
+    /**
+     * @param isoHome the isoHome to set
+     */
+    public void setIsoHome( IIsoHome isoHome )
+    {
+        this.isoHome = isoHome;
+    }
 }

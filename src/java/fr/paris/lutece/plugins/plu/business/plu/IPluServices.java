@@ -58,7 +58,7 @@ public interface IPluServices
      * Returns a list of plu objects
      * @return A list of all plu
      */
-    List<Plu> findAll(  );
+    List<Plu> findAll( );
 
     /**
      * Returns a plu object
@@ -71,11 +71,13 @@ public interface IPluServices
      * Returns a plu object
      * @return A plu object which work
      */
-    Plu findPluWork(  );
+    Plu findPluWork( );
 
     /**
      * Returns a plu object
      * @return A plu object which is applied
      */
-    Plu findPluApplied(  );
+    Plu findPluApplied( );
+
+    List<Plu> findWithFilters( String dateDebut, String dateFin );
 }
