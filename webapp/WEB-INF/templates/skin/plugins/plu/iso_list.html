@@ -19,7 +19,7 @@
 				<#if iso_index == 0>
 				<td>Depuis le ${iso.plu.da?date?string.medium}</td>
 				<#else>
-				<td>du ${iso.plu.da?date?string.medium} au ${iso.plu.dateFin?date?string.medium!}</td>
+				<td>du ${iso.plu.da?date?string.medium} au <#if iso.plu.dateFin?has_content>${iso.plu.dateFin?date?string.medium!}</#if></td>
 				</#if>
 				<td><a href="iso/${iso.nomConsultation}">${iso.nomConsultation}</a></td>
 				<td>${iso.tailleConsultationString}</td>

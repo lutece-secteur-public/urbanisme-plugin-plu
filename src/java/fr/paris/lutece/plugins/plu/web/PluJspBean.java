@@ -698,6 +698,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         String strReference = request.getParameter( PARAMETER_PLU_REFERENCE );
         String strDate = request.getParameter( PARAMETER_DATE_JURIDIQUE );
 
+        if ( StringUtils.isEmpty( request.getParameter( PARAMETER_PLU_CAUSE ) )
+                || StringUtils.isEmpty( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
+        }
+
         UrlItem url = new UrlItem( JSP_DO_MODIFY_PLU );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_PLU_TYPE, nIdType );
@@ -791,6 +797,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         String strCause = request.getParameter( PARAMETER_PLU_CAUSE );
         String strReference = request.getParameter( PARAMETER_PLU_REFERENCE );
         String strDescription = request.getParameter( PARAMETER_HISTORY_DESCRIPTION );
+
+        if ( StringUtils.isEmpty( request.getParameter( PARAMETER_PLU_CAUSE ) )
+                || StringUtils.isEmpty( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
+        }
 
         UrlItem url = new UrlItem( JSP_DO_CORRECT_PLU );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
@@ -1438,7 +1450,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         else
         {
-        	if ( folder.getHtml( ) != null )
+            if ( folder.getHtml( ) != null )
             {
                 _folderHtml.setHtml( folder.getHtml( ) );
                 model.put( MARK_HTML, 1 );

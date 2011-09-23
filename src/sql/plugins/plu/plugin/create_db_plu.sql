@@ -157,8 +157,8 @@ create table plu_decision
    id_decision                    int(11) unsigned               not null auto_increment,
    id_plu                         int(11) unsigned,
    id_type_acte_juridique         int(11) unsigned,
-   nom_acte_juridique             varchar(255),
-   ref_deliberation               varchar(255),
+   nom_acte_juridique             varchar(2048),
+   ref_deliberation               varchar(65536),
    dj                             date,
    primary key (id_decision)
 )
