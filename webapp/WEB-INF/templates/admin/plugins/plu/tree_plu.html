@@ -198,6 +198,7 @@
 	
 	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}
 	<#if atome_name?exists>&atome_name=${atome_name}</#if><#if atome_title?exists>&atome_title=${atome_title}</#if>
+	<#if id_atome?exists>&id_atome=${id_atome!}</#if>
 	<#if num_version?exists>&num_version=${num_version}</#if><#if version_d1?exists>&version_d1=${version_d1}</#if>
 	<#if version_d2?exists>&version_d2=${version_d2}</#if><#if version_d3?exists>&version_d3=${version_d3}</#if>
 	<#if version_d4?exists>&version_d4=${version_d4}</#if>">
@@ -321,6 +322,7 @@
 	
 	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}
 	<#if atome_name?exists>&atome_name=${atome_name}</#if><#if atome_title?exists>&atome_title=${atome_title}</#if>
+	<#if id_atome?exists>&id_atome=${id_atome!}</#if>
 	<#if num_version?exists>&num_version=${num_version}</#if><#if version_d1?exists>&version_d1=${version_d1}</#if>
 	<#if version_d2?exists>&version_d2=${version_d2}</#if><#if version_d3?exists>&version_d3=${version_d3}</#if>
 	<#if version_d4?exists>&version_d4=${version_d4}</#if>">
