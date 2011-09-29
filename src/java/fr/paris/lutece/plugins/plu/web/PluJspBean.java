@@ -336,9 +336,10 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Plu plu = _pluServices.findPluApplied( );
         List<Plu> pluList = _pluServices.findAll( );
-
+        Plu pluWork = _pluServices.findPluWork( );
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PLU_APPLIED, plu );
+        model.put( MARK_PLU_WORK, pluWork );
         model.put( MARK_LIST_PLU_LIST, pluList );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PLU, getLocale( ), model );
@@ -2399,9 +2400,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         List<File> fileAll = _fileServices.findAll( );
         List<File> fileAllFormat = _fileServices.findAllMimeType( );
 
+        Plu pluWork = _pluServices.findPluWork( );
+        
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PLU, plu );
         model.put( MARK_FOLDER, folder );
+        model.put( MARK_PLU_WORK, pluWork );
         model.put( MARK_VERSION, version );
         model.put( MARK_LIST_FILE_ALL, fileAll );
         model.put( MARK_LIST_FILE_ALL_FORMAT, fileAllFormat );
