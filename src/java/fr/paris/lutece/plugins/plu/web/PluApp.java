@@ -142,6 +142,7 @@ public class PluApp implements XPageApplication
                 dateDebut = formatter.format( d );
 
                 formatter = new SimpleDateFormat( "dd/MM/yyyy" );
+                pos = new ParsePosition( 0 );
                 d = formatter.parse( dateFin, pos );
                 formatter = new SimpleDateFormat( "yyyy-MM-dd" );
                 dateFin = formatter.format( d );
