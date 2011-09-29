@@ -69,6 +69,7 @@ create table plu_dossier
    titre                          varchar(255)                   not null,
    description                    text                           not null,
    image                          mediumblob,
+   nom_image					  varchar(255),
    html_specifique_c              mediumblob,
    html_specifique_i              mediumblob,
    primary key (id_dossier)
