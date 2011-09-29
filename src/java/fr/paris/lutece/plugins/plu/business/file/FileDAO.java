@@ -53,10 +53,11 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
 {
     private static final String SQL_QUERY_SELECT_ALL_FORMAT = "SELECT f.mimeType FROM File f GROUP BY f.mimeType";
     private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT f FROM File f WHERE f.version = :idVersion";
-    private static final String SQL_SEARCH = "SELECT f FROM File f, Version v WHERE f.version = v.id";
+    private static final String SQL_SEARCH = "SELECT f FROM File f, Version v";
     private static final String SQL_FILTER_FILE_TITLE = "f.title = :titleFile";
     private static final String SQL_FILTER_FILE_NAME = "f.name = :nameFile";
     private static final String SQL_FILTER_FILE_TYPE = "f.mimeType = :typeFile";
+    private static final String SQL_FILTER_FILE_ID = "f.version = v.id";
     private static final String SQL_FILTER_ATOME_NAME = "v.atome.name = :nameAtome";
 
     /**
@@ -107,7 +108,9 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
     public List<File> findByFilter( FileFilter fileFilter, AtomeFilter atomeFilter )
     {
         List<String> listStrFilter = new ArrayList<String>(  );
-
+        
+        listStrFilter.add( ( SQL_FILTER_FILE_ID ) );
+        
         if ( fileFilter.containsTitle(  ) )
         {
             listStrFilter.add( SQL_FILTER_FILE_TITLE );
