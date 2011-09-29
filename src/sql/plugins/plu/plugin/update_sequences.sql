@@ -5,3 +5,5 @@ UPDATE `plu_sequences` SET next_val= ( SELECT max( id_dossier ) FROM plu_dossier
 UPDATE `plu_sequences` SET next_val= ( SELECT max( id_dossier_version ) FROM plu_dossier_version_atome ) +1 WHERE sequence_name="plu_dossier_version_atome_id";
 UPDATE `plu_sequences` SET next_val= ( SELECT max( id_version ) FROM plu_version_atome ) +1 WHERE sequence_name="plu_version_atome_sequence";
 UPDATE `plu_sequences` SET next_val= ( SELECT max( id_version ) FROM plu_version_atome ) +1 WHERE sequence_name="plu_version_atome_id";
+UPDATE `plu_sequences` SET next_val= ( SELECT max( id_fichier ) FROM plu_fichier ) +1 WHERE sequence_name="plu_fichier_id";
+UPDATE `plu_sequences` SET next_val= ( SELECT max( id_fichier_contenu ) FROM plu_fichier_contenu ) +1 WHERE sequence_name="plu_fichier_contenu_id";
