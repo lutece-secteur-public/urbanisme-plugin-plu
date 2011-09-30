@@ -1190,8 +1190,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 		                // PhysicalFile physicalFile = new PhysicalFile( );
 		                // physicalFile.setValue( fileItem.get( ) );
 		                // _folderHtml.setHtml( physicalFile.getValue( ) );
-		                _folderHtml.setHtml( fileItem.getString( ) );
-		                model.put( MARK_HTML, 1 );
+		                if ( fileItem.getSize( ) != 0 )
+		                {
+		                	_folderHtml.setHtml( fileItem.getString( ) );
+			                model.put( MARK_HTML, 1 );
+		                }
 		            }
 		            else
 		            {
