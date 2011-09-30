@@ -11,13 +11,13 @@
 	            	<form enctype="multipart/form-data"  method="post" action="jsp/admin/plugins/plu/atome/CreateAtome.jsp">
 	            		<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 	            		<input type="hidden" name="id_folder" value="${one_folder.id}"/>
-		      			<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="Nouvel Atome" type="image" />
+		      			<input style="border: 0pt none ; vertical-align: bottom; background: none;cursor: pointer;" value="Nouvel Atome" type="submit" />
 			   		</form>
 			   	</td>
 			   	<td>
 			   		<form enctype="multipart/form-data"  method="post" action="jsp/admin/plugins/plu/atome/CreateAtomeWithOld.jsp">
 			   			<input type="hidden" name="id_plu" value="${one_plu.id}"/>
-			        	<input src="images/admin/skin/actions/" style="border: 0pt none ; vertical-align: bottom;" alt="Ancien Atome: " type="image">
+			        	<input style="border: 0pt none ; vertical-align: bottom; background: none;cursor: pointer;" value="Ancien Atome" type="submit" />
 			        	<select name="id_atome">
 							<#list atome_list as atome>
      						<option value="${atome.id}">${atome.title}</option>
