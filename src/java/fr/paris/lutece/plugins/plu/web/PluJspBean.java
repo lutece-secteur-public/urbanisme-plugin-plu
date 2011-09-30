@@ -553,7 +553,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         url.addParameter( PARAMETER_DATE_JURIDIQUE, strDj );
         url.addParameter( PARAMETER_DATE_APPLICATION, strDa );
 
-        Object[] args = { nIdPlu, strCause, da };
+        Object[] args = { nIdPlu, strCause, strDa };
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_APPLICABLE_PLU, args, url.getUrl( ),
                 AdminMessage.TYPE_CONFIRMATION );
