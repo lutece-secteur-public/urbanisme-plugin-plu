@@ -540,11 +540,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );
         }
-
+        
+        Object[] argsDate = { strDa, strDj };
+        
         if ( da.before( dj ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_APPLICATION_LOWER,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_APPLICATION_LOWER, argsDate, AdminMessage.TYPE_STOP );
         }
 
         UrlItem url = new UrlItem( JSP_DO_APPLICABLE_PLU );
@@ -2101,6 +2102,10 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getConfirmCreateAtome( HttpServletRequest request )
     {
+    	if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) == null )
+    	{
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
+    	}
         if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_NUM ).equals( "" )
                 || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" )
