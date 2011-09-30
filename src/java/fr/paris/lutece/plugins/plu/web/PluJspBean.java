@@ -1168,36 +1168,42 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( PARAMETER_FOLDER_TITLE, request.getParameter( PARAMETER_FOLDER_TITLE ) );
         model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
         model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
-
-        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
+        
+        if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
         {
-            int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
-            Folder folder = _folderServices.findByPrimaryKey( idFolder );
-            _folderHtml.setHtml( folder.getHtml( ) );
-            model.put( MARK_HTML, 1 );
-        }
-        else
-        {
-            if ( request instanceof MultipartHttpServletRequest )
-            {
-                MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-                FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
-
-                // PhysicalFile physicalFile = new PhysicalFile( );
-                // physicalFile.setValue( fileItem.get( ) );
-                // _folderHtml.setHtml( physicalFile.getValue( ) );
-                _folderHtml.setHtml( fileItem.getString( ) );
-                model.put( MARK_HTML, 1 );
-            }
-            else
-            {
-                if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_HTML ) ) )
-                {
-                    String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
-                    _folderHtml.setHtml( strHtml );
-                    model.put( MARK_HTML, 1 );
-                }
-            }
+	        if ( !request.getParameter( PARAMETER_FOLDER_ID ).equals( "0" ) )
+	        {
+		        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
+		        {
+		            int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
+		            Folder folder = _folderServices.findByPrimaryKey( idFolder );
+		            _folderHtml.setHtml( folder.getHtml( ) );
+		            model.put( MARK_HTML, 1 );
+		        }
+		        else
+		        {
+		            if ( request instanceof MultipartHttpServletRequest )
+		            {
+		                MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		                FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
+		
+		                // PhysicalFile physicalFile = new PhysicalFile( );
+		                // physicalFile.setValue( fileItem.get( ) );
+		                // _folderHtml.setHtml( physicalFile.getValue( ) );
+		                _folderHtml.setHtml( fileItem.getString( ) );
+		                model.put( MARK_HTML, 1 );
+		            }
+		            else
+		            {
+		                if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_HTML ) ) )
+		                {
+		                    String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
+		                    _folderHtml.setHtml( strHtml );
+		                    model.put( MARK_HTML, 1 );
+		                }
+		            }
+		        }
+	        }
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_FOLDER, getLocale( ), model );
