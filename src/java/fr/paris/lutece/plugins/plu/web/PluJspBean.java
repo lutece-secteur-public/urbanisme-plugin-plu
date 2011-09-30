@@ -338,9 +338,22 @@ public class PluJspBean extends PluginAdminPageJspBean
         List<Plu> pluList = _pluServices.findAll( );
         Plu pluWork = _pluServices.findPluWork( );
         Map<String, Object> model = new HashMap<String, Object>( );
+        
+        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_RESULT_PER_PAGE, 10 );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
+                _nDefaultItemsPerPage );
+        
+        Paginator<Plu> paginator = new Paginator<Plu>( (List<Plu>) pluList, _nItemsPerPage,
+                JSP_MANAGE_PLU + "?plugin_name=plu", PARAMETER_PAGE_INDEX,
+                _strCurrentPageIndex );
+        
+        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+        model.put( MARK_PAGINATOR, paginator );
+        model.put( MARK_LIST_PLU_LIST, paginator.getPageItems( ) );
         model.put( MARK_PLU_APPLIED, plu );
         model.put( MARK_PLU_WORK, pluWork );
-        model.put( MARK_LIST_PLU_LIST, pluList );
+        //model.put( MARK_LIST_PLU_LIST, pluList );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PLU, getLocale( ), model );
 

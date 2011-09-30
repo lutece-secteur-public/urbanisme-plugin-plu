@@ -5,6 +5,22 @@
 </div>
 
 <div class="content-box" >	
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/ManagePlu.jsp">
+	<@pagination paginator=paginator />
+
+		<!-- Number of contact per page selector -->
+		#i18n{plu.tree_plu.pageNumber} :
+		<select name="items_per_page">
+			<#list [ "10" , "20" , "30" , "50" ] as nb>
+			<#if nb_items_per_page = nb >
+			<option selected="selected" value="${nb}">${nb}</option>
+			<#else>
+			<option value="${nb}">${nb}</option>
+			</#if>
+			</#list>
+		</select>
+    	<input type="submit" value="#i18n{plu.tree_plu.buttonModify}" />
+	</form>
 	<table>
 	        <tr>
 	            <th width="5%">#i18n{plu.manage_plu.columnTitleVersion}</th>
@@ -133,5 +149,20 @@
 	    	</#list>			
 	
 	</table>
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/ManagePlu.jsp">
+	<@pagination paginator=paginator />
 
+		<!-- Number of contact per page selector -->
+		#i18n{plu.tree_plu.pageNumber} :
+		<select name="items_per_page">
+			<#list [ "10" , "20" , "30" , "50" ] as nb>
+			<#if nb_items_per_page = nb >
+			<option selected="selected" value="${nb}">${nb}</option>
+			<#else>
+			<option value="${nb}">${nb}</option>
+			</#if>
+			</#list>
+		</select>
+    	<input type="submit" value="#i18n{plu.tree_plu.buttonModify}" />
+	</form>
 </div>
