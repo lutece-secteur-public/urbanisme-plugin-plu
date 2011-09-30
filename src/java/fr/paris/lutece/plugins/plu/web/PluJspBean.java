@@ -1539,11 +1539,14 @@ public class PluJspBean extends PluginAdminPageJspBean
         Object[] args = { folderTitle };
         Folder folder = _folderServices.findForTestTitle( folderTitle );
 
-        if ( ( folder.getTitle( ) != null )
-                && !folder.getTitle( ).equals( request.getParameter( PARAMETER_FOLDER_TITLE_OLD ) ) )
+        if ( folder != null )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_CREATE, args,
-                    AdminMessage.TYPE_STOP );
+	        if ( ( folder.getTitle( ) != null )
+	                && !folder.getTitle( ).equals( request.getParameter( PARAMETER_FOLDER_TITLE_OLD ) ) )
+	        {
+	            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_CREATE, args,
+	                    AdminMessage.TYPE_STOP );
+	        }
         }
 
         if ( request instanceof MultipartHttpServletRequest )
