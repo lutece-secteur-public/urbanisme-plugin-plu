@@ -9,11 +9,15 @@
     	<p>
     		<div id="richtext" class="editor">
         		<textarea id="folder_html" class="richtext" name="folder_html" style="width:80%;" rows="50" cols="90">
-        		<#if folder_html?exists>${folder_html.html!}</#if>
+        		<#if html_utilisation! == "C">
+        			<#if folder_html?exists>${folder_html.html!}</#if>
+        		<#else>
+        			<#if folder_html?exists>${folder_html.htmlImpression!}</#if>
+        		</#if>
         		</textarea>
     	    </div>
     	</p>
-   	
+    	   	
    		<p>
    			<input class="button" type="button" value="#i18n{plu.create_html.buttonReturn}" onclick="javascript:history.go(-1);">
         	<#if one_folder?exists>
@@ -24,6 +28,7 @@
         	<input type="hidden" name="folder_title" value="${folder_title!}"/>
         	<input type="hidden" name="folder_image" value="${folder_image!}"/>
 	        <input type="hidden" name="id_folder" value="${id_folder!}"/>
+	        <input type="hidden" id="html_utilisation" name="html_utilisation" value="${html_utilisation!}"/>
         	<input type="hidden" name="folder_description" value="${folder_description!}"/>
         	<input type="submit" value="#i18n{plu.create_html.buttonValidate}" class="button" />
    		</p>

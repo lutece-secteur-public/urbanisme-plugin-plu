@@ -67,6 +67,7 @@ public class Folder
     private String _description;
     private byte[] _img;
     private String _html;
+    private String _htmlImpression;
 
     /**
      * Returns the identifier of this folder
@@ -189,7 +190,7 @@ public class Folder
      * Returns the html specific of this folder
      * @return the folder html specific
      */
-    @Column( name = "html_specifique" )
+    @Column( name = "html_specifique_c" )
     public String getHtml(  )
     {
         return _html;
@@ -202,5 +203,24 @@ public class Folder
     public void setHtml( String html )
     {
         _html = html;
+    }
+
+    /**
+     * Returns the html specific of this folder
+     * @return the folder html specific
+     */
+    @Column( name = "html_specifique_i" )
+    public String getHtmlImpression(  )
+    {
+        return _htmlImpression;
+    }
+
+    /**
+    * Sets the html specific of the folder to the specified byte
+    * @param htmlImpression the new html specific
+    */
+    public void setHtmlImpression( String htmlImpression )
+    {
+        _htmlImpression = htmlImpression;
     }
 }

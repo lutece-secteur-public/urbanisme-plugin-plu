@@ -1,4 +1,20 @@
 <#include "/admin/util/editor/editor.html" />
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#creerImpression').click(function () {
+			$('#html_utilisation').val('I');
+		});
+		$('#ModifierImpression').click(function () {
+			$('#html_utilisation').val('I');
+		});
+		$('#ImporterImpression').click(function () {
+			$('#html_utilisation').val('I');
+		});
+		$('#DupliquerImpression').click(function () {
+			$('#html_utilisation').val('I');
+		});
+	 });
+</script>
 
 <div class="content-box" >
 
@@ -42,6 +58,9 @@
         	</div>
         </p>
          
+         
+        <input type="hidden" id="html_utilisation" name="html_utilisation" value="C"/>
+        	
          <fieldset style="width:66%; margin:10px 0 0 17%; border-radius: 11px 11px 11px 11px;">
 			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage}</legend>
 			
@@ -57,6 +76,22 @@
 		        </p>
 		    </#if>
 	    </fieldset>
+         
+         <fieldset style="width:66%; margin:10px 0 0 17%; border-radius: 11px 11px 11px 11px;">
+			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage_impression}</legend>
+			
+			<p>
+   		  		<input type="submit" id="creerImpression" name="action" value="#i18n{plu.create_folder.rowTitleCreateHtml}" class="button" />
+   		  		<input type="submit" id="ModifierImpression" name="action" value="#i18n{plu.create_folder.rowTitleModifyHtml}" class="button" />
+   		  		<input type="submit" id="ImporterImpression" name="action" value="#i18n{plu.create_folder.rowTitleImportHtml}" class="button" />
+   		  		<input type="submit" id="DupliquerImpression" name="action" value="#i18n{plu.create_folder.rowTitleDuplicateHtml}" class="button" />
+	        </p>
+			<#if folder_html_impression?exists>
+		        <p>
+		        	<input type="checkbox" name="html_check_impression" value="true" checked/>nom_dossier-id_dossier.html
+		        </p>
+		    </#if>
+	    </fieldset>
 	    
         <p>
         	<A href="jsp/admin/plugins/plu/folder/ConfirmCancelCreateFolder.jsp?id_plu=${one_plu.id}" style="text-decoration:none" id="button">
@@ -66,6 +101,9 @@
         	<input type="hidden" name="page" value="folder/CreateFolder"/>
         	<#if folder_html?exists>
         		<input type="hidden" name="folder_html" value="${folder_html!}"/>
+        	</#if>
+        	<#if folder_html_impression?exists>
+        		<input type="hidden" name="folder_html_impression" value="${folder_html_impression!}"/>
         	</#if>
    		  	<input type="submit" name="action" value="#i18n{plu.create_folder.buttonValidate}" class="button" />
         </p>
