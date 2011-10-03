@@ -17,9 +17,9 @@
 					<select name="id_plu" style="width:331px;">
 						<#if one_plu.id != 0>
 						<option value="${one_plu.id}">${one_plu.id}</option>
-						<option value="0">none</option>
+						<option value="0"></option>
 						<#else>
-						<option value="0">none</option>
+						<option value="0"></option>
 						</#if>
 						<#list plu_list as plu>
 							<#if plu.id != one_plu.id>
