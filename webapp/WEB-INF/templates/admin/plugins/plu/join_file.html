@@ -5,7 +5,7 @@
 	<h2>#i18n{plu.create_atome.pageSubTitle} -> #i18n{plu.join_file.pageSubTitle}</h2>
 	
 	<form enctype="multipart/form-data" method=post action="jsp/admin/plugins/plu/${page}.jsp">
-		
+		<input type="hidden" name="page" value="${page}" />
 		<#if atome?exists>
 		<p>
         	<label for="atome_title" >#i18n{plu.create_atome.rowTitle} : </label>

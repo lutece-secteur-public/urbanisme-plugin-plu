@@ -73,23 +73,27 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
+import org.bouncycastle.asn1.ocsp.Request;
 
 
 /**
@@ -142,6 +146,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String TEMPLATE_CREATE_HTML = "/admin/plugins/plu/create_html.html";
     private static final String TEMPLATE_IMPORT_HTML = "/admin/plugins/plu/import_html.html";
     private static final String TEMPLATE_DUPLICATE_HTML = "/admin/plugins/plu/duplicate_html.html";
+    private static final String TEMPLATE_MESSAGE = "/admin/plugins/plu/message.html";
 
     /** Markers */
     private static final String MARK_LIST_PLU_LIST = "plu_list";
@@ -169,6 +174,8 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_PAGINATOR = "paginator";
+    private static final String MARK_ERROR_MESSAGE = "errorMessage";
+    private static final String MARK_PAGE_RETURN = "pageReturn";
 
     /** Messages */
     private static final String MESSAGE_CONFIRM_APPROVE_PLU = "plu.message.confirmApprovePlu";
@@ -282,6 +289,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String JSP_DO_ARCHIVE_ATOME = "jsp/admin/plugins/plu/atome/DoArchiveAtome.jsp";
     private static final String JSP_DO_UPLOAD_ATOME = "jsp/admin/plugins/plu/atome/DoUploadAtome.jsp";
     private static final String JSP_REDIRECT_TO_VIEW_ATOME = "jsp/admin/plugins/plu/atome/ViewAtome.jsp";
+    private static final String JSP_MESSAGE = "jsp/admin/plugins/plu/Message.jsp";
 
     /** Variables */
     private int _nDefaultItemsPerPage;
@@ -2239,7 +2247,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_ATOME_NAME ).matches( "[ \']+?" )
                 || request.getParameter( PARAMETER_ATOME_TITLE ).matches( "[ \']+?" ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
+        	return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         int nIdAtome = 0;
@@ -2250,7 +2258,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_ID_NUMBER, AdminMessage.TYPE_STOP );
+        	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_ID_NUMBER, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
         try
         {
@@ -2258,7 +2266,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_VERSION_NUMBER, AdminMessage.TYPE_STOP );
+        	return this.getMessageJsp( request, MESSAGE_ERROR_VERSION_NUMBER, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2273,8 +2281,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( check == null )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_CREATE_FILE_CHECK,
-                    AdminMessage.TYPE_STOP );
+        	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_FILE_CHECK, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         UrlItem url = new UrlItem( JSP_DO_CREATE_ATOME );
@@ -2290,20 +2297,17 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             if ( atome.getId( ) == nIdAtome )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_CREATE_ID, argsAtome,
-                        AdminMessage.TYPE_STOP );
+            	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_ID, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
             }
 
             if ( atome.getName( ).equals( atomeName ) )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_CREATE_NAME, argsAtome,
-                        AdminMessage.TYPE_STOP );
+            	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NAME, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
             }
 
             if ( atome.getTitle( ).equals( atomeTitle ) )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_CREATE_TITLE, argsAtome,
-                        AdminMessage.TYPE_STOP );
+            	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_TITLE, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
             }
         }
 
@@ -2337,20 +2341,17 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getSize( ) <= 0 )
                     {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_SIZE, argsFile,
-                                AdminMessage.TYPE_STOP );
+                    	return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
                     }
 
                     if ( testName.equals( file.getName( ) ) )
                     {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile,
-                                AdminMessage.TYPE_STOP );
+                    	return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
                     }
 
                     if ( testTitle.equals( file.getTitle( ) ) )
                     {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
-                                AdminMessage.TYPE_STOP );
+                    	return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
                     }
 
                     int endIndex = file.getName( ).lastIndexOf( "-V" );
@@ -2382,14 +2383,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( !impression )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
-                    AdminMessage.TYPE_STOP );
+        	return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         if ( !consultation )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps,
-                    AdminMessage.TYPE_STOP );
+        	return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CREATE_ATOME, argsAtome, url.getUrl( ),
@@ -4213,5 +4212,96 @@ public class PluJspBean extends PluginAdminPageJspBean
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_DUPLICATE_HTML, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
+    }
+    
+    public static final String[] LISTE_NOM_CHAMP = new String[]{ 
+    	PARAMETER_ATOME_DESCRIPTION, 
+    	PARAMETER_ATOME_ID,
+	    PARAMETER_PLU_ID,
+	    PARAMETER_PLU_TYPE,    
+	    PARAMETER_PLU_CAUSE,
+	    PARAMETER_PLU_REFERENCE,
+	    PARAMETER_FOLDER_ID,
+	    PARAMETER_FOLDER_ID_ATOME,
+	    PARAMETER_FOLDER_ID_RETURN,
+	    PARAMETER_FOLDER_TITLE,
+	    PARAMETER_FOLDER_TITLE_OLD,
+	    PARAMETER_FOLDER_DESCRIPTION,
+	    PARAMETER_FOLDER_PARENT_ID,
+	    PARAMETER_FOLDER_IMAGE,
+	    PARAMETER_FOLDER_IMAGE_CHECK,
+	    PARAMETER_FOLDER_HTML,
+	    PARAMETER_FOLDER_HTML_UTILISATION,
+	    PARAMETER_FOLDER_HTML_CHECK,
+	    PARAMETER_FOLDER_HTML_CHECK_IMPRESSION,
+	    PARAMETER_ATOME_ID,
+	    PARAMETER_ATOME_NUM,
+	    PARAMETER_ATOME_OLD_ID,
+	    PARAMETER_ATOME_NAME,
+	    PARAMETER_ATOME_TITLE,
+	    PARAMETER_ATOME_DESCRIPTION,
+	    PARAMETER_VERSION_ID,
+	    PARAMETER_VERSION_NUM,
+	    PARAMETER_VERSION_NUM_OLD,
+	    PARAMETER_VERSION_D1,
+	    PARAMETER_VERSION_D2,
+	    PARAMETER_VERSION_D3,
+	    PARAMETER_VERSION_D4,
+	    PARAMETER_DATE_JURIDIQUE,
+	    PARAMETER_DATE_APPLICATION,
+	    PARAMETER_FILE_NAME,
+	    PARAMETER_FILE_TITLE,
+	    PARAMETER_FILE_UTILISATION,
+	    PARAMETER_FILE_FORMAT,
+	    PARAMETER_FILE_CHECK,
+	    PARAMETER_FILE,
+	    PARAMETER_HISTORY_DESCRIPTION,
+	    PARAMETER_PAGE_INDEX
+	};
+    
+    public String getMessage( HttpServletRequest request )
+    {
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("LISTE_NOM_CHAMPS", LISTE_NOM_CHAMP);
+		
+		Map<String, Object> listeChamps = new HashMap<String, Object>(
+				LISTE_NOM_CHAMP.length);
+		for (String nomChamp : LISTE_NOM_CHAMP) 
+		{
+			listeChamps.put(nomChamp,
+					request.getParameter( nomChamp ) );
+		}
+		model.put("listeChamps", listeChamps);
+		model.put(MARK_ERROR_MESSAGE,
+				request.getSession().getAttribute(MARK_ERROR_MESSAGE));
+		request.getSession().removeAttribute( MARK_ERROR_MESSAGE );
+        model.put( MARK_PAGE_RETURN, request.getSession( ).getAttribute( MARK_PAGE_RETURN ) );
+        request.getSession( ).removeAttribute( MARK_PAGE_RETURN );
+        
+    	HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, getLocale( ), model );
+    	
+    	return template.getHtml( );
+    }
+    
+    public String getMessageJsp( HttpServletRequest request, String errorMessage, String pageReturn )
+    {
+    	request.getSession( ).setAttribute( MARK_ERROR_MESSAGE, errorMessage );
+    	request.getSession( ).setAttribute( MARK_PAGE_RETURN, pageReturn );
+        
+    	String parameters = "?";
+    	boolean first = true;
+    	
+    	Enumeration en = request.getParameterNames(); 
+    	while (en.hasMoreElements()) {
+    		if ( !first )
+    		{
+    			parameters += "&";
+    		}
+    		first = false;
+    		String pName = (String) en.nextElement();
+    		parameters += pName + "=" + request.getParameter( pName );
+    	}
+    	
+    	return AppPathService.getBaseUrl( request ) + JSP_MESSAGE + parameters;
     }
 }

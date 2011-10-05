@@ -1,0 +1,15 @@
+<div id="message-box">
+	<div class="content-box">
+		<img class="icon" alt="" src="images/admin/skin/messages/stop.png">
+		<h2>Stop</h2>
+		<p>#i18n{${errorMessage!}}</p>
+		<form target="_self" action="${pageReturn!}" method="post">
+			<p>
+				<#list LISTE_NOM_CHAMPS as nomChamp>
+					<input type="hidden" name="${nomChamp}" value="${listeChamps[nomChamp]!}" />
+				</#list> 
+				<input class="button" type="submit" value="OK">
+			</p>
+		</form>
+	</div>
+</div>
