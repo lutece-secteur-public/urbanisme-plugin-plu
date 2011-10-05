@@ -62,7 +62,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     private static final String SQL_QUERY_SELECT_BY_PARENT = "SELECT f FROM Folder f WHERE f.parentFolder = :idParentFolder";
     private static final String SQL_QUERY_SELECT_ALL = "SELECT f FROM Folder f";
     private static final String SQL_FILTER_ID_PLU = "f.plu = :idPlu";
-    private static final String SQL_FILTER_TITLE = "f.title = :title";
+    private static final String SQL_FILTER_TITLE = "f.title LIKE :title";
 
     //    private static final String SQL_QUERY_SELECT_IMAGE = "SELECT f.img FROM Folder f WHERE f.id = :idFolder";
     private static final String SQL_QUERY_SELECT_IMAGE = "SELECT d.image FROM plu_dossier d WHERE d.id_dossier = ?";
