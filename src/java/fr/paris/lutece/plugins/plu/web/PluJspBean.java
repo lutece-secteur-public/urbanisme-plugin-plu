@@ -73,7 +73,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import java.net.URLEncoder;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,14 +86,13 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.bouncycastle.asn1.ocsp.Request;
 
 
 /**
@@ -349,22 +348,21 @@ public class PluJspBean extends PluginAdminPageJspBean
         List<Plu> pluList = _pluServices.findAll( );
         Plu pluWork = _pluServices.findPluWork( );
         Map<String, Object> model = new HashMap<String, Object>( );
-        
+
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_RESULT_PER_PAGE, 10 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                 _nDefaultItemsPerPage );
-        
-        Paginator<Plu> paginator = new Paginator<Plu>( (List<Plu>) pluList, _nItemsPerPage,
-                JSP_MANAGE_PLU + "?plugin_name=plu", PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex );
-        
+
+        Paginator<Plu> paginator = new Paginator<Plu>( (List<Plu>) pluList, _nItemsPerPage, JSP_MANAGE_PLU
+                + "?plugin_name=plu", PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_LIST_PLU_LIST, paginator.getPageItems( ) );
         model.put( MARK_PLU_APPLIED, plu );
         model.put( MARK_PLU_WORK, pluWork );
-        //model.put( MARK_LIST_PLU_LIST, pluList );
+        // model.put( MARK_LIST_PLU_LIST, pluList );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PLU, getLocale( ), model );
 
@@ -564,12 +562,13 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );
         }
-        
+
         Object[] argsDate = { strDa, strDj };
-        
+
         if ( da.before( dj ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_APPLICATION_LOWER, argsDate, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_APPLICATION_LOWER, argsDate,
+                    AdminMessage.TYPE_STOP );
         }
 
         UrlItem url = new UrlItem( JSP_DO_APPLICABLE_PLU );
@@ -1179,7 +1178,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         Plu plu = _pluServices.findPluWork( );
 
         if ( plu.getId( ) == 0 )
-        {
+        { // FIXME renvoie l'url au lieu du message d'erreur
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_PLU_WORK, AdminMessage.TYPE_STOP );
         }
 
@@ -1194,78 +1193,78 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( PARAMETER_FOLDER_TITLE, request.getParameter( PARAMETER_FOLDER_TITLE ) );
         model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
         model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
-        
+
         if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
         {
-	        if ( !request.getParameter( PARAMETER_FOLDER_ID ).equals( "0" ) )
-	        {
-	            String utilisation = "";
-	            if ( request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION ) != null )
-	            {
-	            	utilisation = request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION );
-	            }
-	            
-		        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
-		        {
-		            int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
-		            Folder folder = _folderServices.findByPrimaryKey( idFolder );
-		            if ( utilisation.equals( "C" ) )
-		            {
-		            	_folderHtml.setHtml( folder.getHtml( ) );
-		            }
-		            else if ( utilisation.equals( "I" ) )
-		            {
-		            	_folderHtml.setHtmlImpression( folder.getHtmlImpression( ) );		
-		            }
-		        }
-		        else
-		        {
-		            if ( request instanceof MultipartHttpServletRequest )
-		            {
-		                MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		                FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
-		
-		                // PhysicalFile physicalFile = new PhysicalFile( );
-		                // physicalFile.setValue( fileItem.get( ) );
-		                // _folderHtml.setHtml( physicalFile.getValue( ) );
-		                if ( fileItem.getSize( ) != 0 )
-		                {
-				            if ( utilisation.equals( "C" ) )
-				            {
-				            	_folderHtml.setHtml( fileItem.getString( ) );
-				            }
-				            else if ( utilisation.equals( "I" ) )
-				            {
-				            	_folderHtml.setHtmlImpression( fileItem.getString( ) );
-				            }
-		                }
-		            }
-		            else
-		            {
-		                if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_HTML ) ) )
-		                {
-		                    String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
-				            if ( utilisation.equals( "C" ) )
-				            {
-				            	_folderHtml.setHtml( strHtml );
-				            }
-				            else if ( utilisation.equals( "I" ) )
-				            {
-			                    _folderHtml.setHtmlImpression( strHtml );
-					        }
-		                }
-		            }
-		        }
-	        }
+            if ( !request.getParameter( PARAMETER_FOLDER_ID ).equals( "0" ) )
+            {
+                String utilisation = "";
+                if ( request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION ) != null )
+                {
+                    utilisation = request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION );
+                }
+
+                if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
+                {
+                    int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
+                    Folder folder = _folderServices.findByPrimaryKey( idFolder );
+                    if ( utilisation.equals( "C" ) )
+                    {
+                        _folderHtml.setHtml( folder.getHtml( ) );
+                    }
+                    else if ( utilisation.equals( "I" ) )
+                    {
+                        _folderHtml.setHtmlImpression( folder.getHtmlImpression( ) );
+                    }
+                }
+                else
+                {
+                    if ( request instanceof MultipartHttpServletRequest )
+                    {
+                        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+                        FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
+
+                        // PhysicalFile physicalFile = new PhysicalFile( );
+                        // physicalFile.setValue( fileItem.get( ) );
+                        // _folderHtml.setHtml( physicalFile.getValue( ) );
+                        if ( fileItem.getSize( ) != 0 )
+                        {
+                            if ( utilisation.equals( "C" ) )
+                            {
+                                _folderHtml.setHtml( fileItem.getString( ) );
+                            }
+                            else if ( utilisation.equals( "I" ) )
+                            {
+                                _folderHtml.setHtmlImpression( fileItem.getString( ) );
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_HTML ) ) )
+                        {
+                            String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
+                            if ( utilisation.equals( "C" ) )
+                            {
+                                _folderHtml.setHtml( strHtml );
+                            }
+                            else if ( utilisation.equals( "I" ) )
+                            {
+                                _folderHtml.setHtmlImpression( strHtml );
+                            }
+                        }
+                    }
+                }
+            }
         }
-        
+
         if ( StringUtils.isNotEmpty( _folderHtml.getHtml( ) ) )
         {
-        	model.put( MARK_HTML, 1 );
+            model.put( MARK_HTML, 1 );
         }
         if ( StringUtils.isNotEmpty( _folderHtml.getHtmlImpression( ) ) )
         {
-        	model.put( MARK_HTML_IMPRESSION, 1 );
+            model.put( MARK_HTML_IMPRESSION, 1 );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_FOLDER, getLocale( ), model );
@@ -1323,7 +1322,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 url.addParameter( PARAMETER_FOLDER_HTML_CHECK, check[j] );
             }
         }
-        
+
         if ( request.getParameterValues( PARAMETER_FOLDER_HTML_CHECK_IMPRESSION ) != null )
         {
             String[] checkImpression = request.getParameterValues( PARAMETER_FOLDER_HTML_CHECK_IMPRESSION );
@@ -1397,7 +1396,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             folder.setHtml( _folderHtml.getHtml( ) );
         }
-        
+
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK_IMPRESSION ) ) )
         {
             folder.setHtmlImpression( _folderHtml.getHtmlImpression( ) );
@@ -1511,22 +1510,21 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
 
-
         String utilisation = "";
         if ( request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION ) != null )
         {
-        	utilisation = request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION );
+            utilisation = request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION );
         }
         if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
         {
             String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
             if ( utilisation.equals( "C" ) )
             {
-            	_folderHtml.setHtml( strHtml );
+                _folderHtml.setHtml( strHtml );
             }
             else if ( utilisation.equals( "I" ) )
             {
-            	_folderHtml.setHtmlImpression( strHtml );            	
+                _folderHtml.setHtmlImpression( strHtml );
             }
         }
         else if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
@@ -1535,16 +1533,16 @@ public class PluJspBean extends PluginAdminPageJspBean
             Folder folderDuplicate = _folderServices.findByPrimaryKey( idFolder );
             if ( utilisation.equals( "C" ) )
             {
-            	_folderHtml.setHtml( folderDuplicate.getHtml( ) );
+                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
             }
             else if ( utilisation.equals( "I" ) )
             {
-            	_folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
+                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
             }
             else
             {
-            	_folderHtml.setHtml( folderDuplicate.getHtml( ) );
-            	_folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );            	
+                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
+                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
             }
         }
         else if ( request instanceof MultipartHttpServletRequest )
@@ -1554,11 +1552,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
             if ( utilisation.equals( "C" ) )
             {
-            	_folderHtml.setHtml( fileItem.getString( ) );
+                _folderHtml.setHtml( fileItem.getString( ) );
             }
             else if ( utilisation.equals( "I" ) )
             {
-            	_folderHtml.setHtmlImpression( fileItem.getString( ) );
+                _folderHtml.setHtmlImpression( fileItem.getString( ) );
             }
         }
         else
@@ -1567,24 +1565,24 @@ public class PluJspBean extends PluginAdminPageJspBean
             {
                 if ( utilisation.equals( "C" ) )
                 {
-                	_folderHtml.setHtml( folder.getHtml( ) );
+                    _folderHtml.setHtml( folder.getHtml( ) );
                 }
                 else if ( utilisation.equals( "I" ) )
                 {
-                	_folderHtml.setHtmlImpression( folder.getHtmlImpression( ) );
+                    _folderHtml.setHtmlImpression( folder.getHtmlImpression( ) );
                 }
             }
         }
-        
+
         if ( StringUtils.isNotEmpty( _folderHtml.getHtml( ) ) )
         {
-        	model.put( MARK_HTML, 1 );
+            model.put( MARK_HTML, 1 );
         }
         if ( StringUtils.isNotEmpty( _folderHtml.getHtmlImpression( ) ) )
         {
-        	model.put( MARK_HTML_IMPRESSION, 1 );
+            model.put( MARK_HTML_IMPRESSION, 1 );
         }
-        
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_FOLDER, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -1669,12 +1667,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( folder != null )
         {
-	        if ( ( folder.getTitle( ) != null )
-	                && !folder.getTitle( ).equals( request.getParameter( PARAMETER_FOLDER_TITLE_OLD ) ) )
-	        {
-	            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_CREATE, args,
-	                    AdminMessage.TYPE_STOP );
-	        }
+            if ( ( folder.getTitle( ) != null )
+                    && !folder.getTitle( ).equals( request.getParameter( PARAMETER_FOLDER_TITLE_OLD ) ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_CREATE, args,
+                        AdminMessage.TYPE_STOP );
+            }
         }
 
         if ( request instanceof MultipartHttpServletRequest )
@@ -1731,7 +1729,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             folder.setHtml( _folderHtml.getHtml( ) );
         }
-        
+
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK_IMPRESSION ) ) )
         {
             folder.setHtmlImpression( _folderHtml.getHtmlImpression( ) );
@@ -2234,10 +2232,10 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getConfirmCreateAtome( HttpServletRequest request )
     {
-    	if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) == null )
-    	{
+        if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) == null )
+        {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
-    	}
+        }
         if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_NUM ).equals( "" )
                 || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" )
@@ -2247,7 +2245,8 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_ATOME_NAME ).matches( "[ \']+?" )
                 || request.getParameter( PARAMETER_ATOME_TITLE ).matches( "[ \']+?" ) )
         {
-        	return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD,
+                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         int nIdAtome = 0;
@@ -2258,7 +2257,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-        	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_ID_NUMBER, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_ID_NUMBER,
+                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
         try
         {
@@ -2266,7 +2266,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-        	return this.getMessageJsp( request, MESSAGE_ERROR_VERSION_NUMBER, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+            return this.getMessageJsp( request, MESSAGE_ERROR_VERSION_NUMBER,
+                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2281,7 +2282,8 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( check == null )
         {
-        	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_FILE_CHECK, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_FILE_CHECK,
+                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         UrlItem url = new UrlItem( JSP_DO_CREATE_ATOME );
@@ -2297,17 +2299,20 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             if ( atome.getId( ) == nIdAtome )
             {
-            	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_ID, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+                return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_ID,
+                        "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
             }
 
             if ( atome.getName( ).equals( atomeName ) )
             {
-            	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NAME, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+                return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NAME,
+                        "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
             }
 
             if ( atome.getTitle( ).equals( atomeTitle ) )
             {
-            	return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_TITLE, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+                return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_TITLE,
+                        "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
             }
         }
 
@@ -2341,17 +2346,20 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getSize( ) <= 0 )
                     {
-                    	return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE,
+                                "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
                     }
 
                     if ( testName.equals( file.getName( ) ) )
                     {
-                    	return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME,
+                                "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
                     }
 
                     if ( testTitle.equals( file.getTitle( ) ) )
                     {
-                    	return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE,
+                                "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
                     }
 
                     int endIndex = file.getName( ).lastIndexOf( "-V" );
@@ -2383,12 +2391,14 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( !impression )
         {
-        	return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS,
+                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         if ( !consultation )
         {
-        	return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS,
+                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CREATE_ATOME, argsAtome, url.getUrl( ),
@@ -2541,7 +2551,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         List<File> fileAllFormat = _fileServices.findAllMimeType( );
 
         Plu pluWork = _pluServices.findPluWork( );
-        
+
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PLU, plu );
         model.put( MARK_FOLDER, folder );
@@ -3309,8 +3319,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      * @param request the Http request
      * @throws ParseException
      * @return HTML
+     * @throws IOException
      */
-    public String doCorrectAtome( HttpServletRequest request ) throws ParseException
+    public String doCorrectAtome( HttpServletRequest request ) throws ParseException, IOException
     {
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
@@ -3363,13 +3374,18 @@ public class PluJspBean extends PluginAdminPageJspBean
                     file.setVersion( version.getId( ) );
                     file.setName( file.getName( ).substring( 0, file.getName( ).lastIndexOf( "-V" ) ) + strNumVersion );
 
-                    FileContent fileContent = new FileContent( );
-                    fileContent.setFile( file.getFile( ).getFile( ) );
-                    _fileContentServices.create( fileContent );
-                    fileContent = _fileContentServices.findLastFileContent( );
+                    java.io.File fileDest = new java.io.File( new java.io.File(
+                            AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
+                    FileUtils.writeByteArrayToFile( fileDest, file.getFile( ).getFile( ) );
+
+                    // FileContent fileContent = new FileContent( );
+                    // fileContent.setFile( file.getFile( ).getFile( ) );
+                    // _fileContentServices.create( fileContent );
+                    // fileContent = _fileContentServices.findLastFileContent(
+                    // );
 
                     file.setId( 0 );
-                    file.setFile( fileContent );
+                    // file.setFile( fileContent );
                     _fileServices.create( file );
 
                     order++;
@@ -4129,8 +4145,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             model.put( MARK_FOLDER, folder );
         }
 
-        if ( _folderHtml != null
-                && !request.getParameter( "action" ).equals( "Créer" ) )
+        if ( _folderHtml != null && !request.getParameter( "action" ).equals( "Créer" ) )
         {
             model.put( MARK_HTML, _folderHtml );
         }
@@ -4213,95 +4228,61 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         return getAdminPage( template.getHtml( ) );
     }
-    
-    public static final String[] LISTE_NOM_CHAMP = new String[]{ 
-    	PARAMETER_ATOME_DESCRIPTION, 
-    	PARAMETER_ATOME_ID,
-	    PARAMETER_PLU_ID,
-	    PARAMETER_PLU_TYPE,    
-	    PARAMETER_PLU_CAUSE,
-	    PARAMETER_PLU_REFERENCE,
-	    PARAMETER_FOLDER_ID,
-	    PARAMETER_FOLDER_ID_ATOME,
-	    PARAMETER_FOLDER_ID_RETURN,
-	    PARAMETER_FOLDER_TITLE,
-	    PARAMETER_FOLDER_TITLE_OLD,
-	    PARAMETER_FOLDER_DESCRIPTION,
-	    PARAMETER_FOLDER_PARENT_ID,
-	    PARAMETER_FOLDER_IMAGE,
-	    PARAMETER_FOLDER_IMAGE_CHECK,
-	    PARAMETER_FOLDER_HTML,
-	    PARAMETER_FOLDER_HTML_UTILISATION,
-	    PARAMETER_FOLDER_HTML_CHECK,
-	    PARAMETER_FOLDER_HTML_CHECK_IMPRESSION,
-	    PARAMETER_ATOME_ID,
-	    PARAMETER_ATOME_NUM,
-	    PARAMETER_ATOME_OLD_ID,
-	    PARAMETER_ATOME_NAME,
-	    PARAMETER_ATOME_TITLE,
-	    PARAMETER_ATOME_DESCRIPTION,
-	    PARAMETER_VERSION_ID,
-	    PARAMETER_VERSION_NUM,
-	    PARAMETER_VERSION_NUM_OLD,
-	    PARAMETER_VERSION_D1,
-	    PARAMETER_VERSION_D2,
-	    PARAMETER_VERSION_D3,
-	    PARAMETER_VERSION_D4,
-	    PARAMETER_DATE_JURIDIQUE,
-	    PARAMETER_DATE_APPLICATION,
-	    PARAMETER_FILE_NAME,
-	    PARAMETER_FILE_TITLE,
-	    PARAMETER_FILE_UTILISATION,
-	    PARAMETER_FILE_FORMAT,
-	    PARAMETER_FILE_CHECK,
-	    PARAMETER_FILE,
-	    PARAMETER_HISTORY_DESCRIPTION,
-	    PARAMETER_PAGE_INDEX
-	};
-    
+
+    public static final String[] LISTE_NOM_CHAMP = new String[] { PARAMETER_ATOME_DESCRIPTION, PARAMETER_ATOME_ID,
+            PARAMETER_PLU_ID, PARAMETER_PLU_TYPE, PARAMETER_PLU_CAUSE, PARAMETER_PLU_REFERENCE, PARAMETER_FOLDER_ID,
+            PARAMETER_FOLDER_ID_ATOME, PARAMETER_FOLDER_ID_RETURN, PARAMETER_FOLDER_TITLE, PARAMETER_FOLDER_TITLE_OLD,
+            PARAMETER_FOLDER_DESCRIPTION, PARAMETER_FOLDER_PARENT_ID, PARAMETER_FOLDER_IMAGE,
+            PARAMETER_FOLDER_IMAGE_CHECK, PARAMETER_FOLDER_HTML, PARAMETER_FOLDER_HTML_UTILISATION,
+            PARAMETER_FOLDER_HTML_CHECK, PARAMETER_FOLDER_HTML_CHECK_IMPRESSION, PARAMETER_ATOME_ID,
+            PARAMETER_ATOME_NUM, PARAMETER_ATOME_OLD_ID, PARAMETER_ATOME_NAME, PARAMETER_ATOME_TITLE,
+            PARAMETER_ATOME_DESCRIPTION, PARAMETER_VERSION_ID, PARAMETER_VERSION_NUM, PARAMETER_VERSION_NUM_OLD,
+            PARAMETER_VERSION_D1, PARAMETER_VERSION_D2, PARAMETER_VERSION_D3, PARAMETER_VERSION_D4,
+            PARAMETER_DATE_JURIDIQUE, PARAMETER_DATE_APPLICATION, PARAMETER_FILE_NAME, PARAMETER_FILE_TITLE,
+            PARAMETER_FILE_UTILISATION, PARAMETER_FILE_FORMAT, PARAMETER_FILE_CHECK, PARAMETER_FILE,
+            PARAMETER_HISTORY_DESCRIPTION, PARAMETER_PAGE_INDEX };
+
     public String getMessage( HttpServletRequest request )
     {
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("LISTE_NOM_CHAMPS", LISTE_NOM_CHAMP);
-		
-		Map<String, Object> listeChamps = new HashMap<String, Object>(
-				LISTE_NOM_CHAMP.length);
-		for (String nomChamp : LISTE_NOM_CHAMP) 
-		{
-			listeChamps.put(nomChamp,
-					request.getParameter( nomChamp ) );
-		}
-		model.put("listeChamps", listeChamps);
-		model.put(MARK_ERROR_MESSAGE,
-				request.getSession().getAttribute(MARK_ERROR_MESSAGE));
-		request.getSession().removeAttribute( MARK_ERROR_MESSAGE );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( "LISTE_NOM_CHAMPS", LISTE_NOM_CHAMP );
+
+        Map<String, Object> listeChamps = new HashMap<String, Object>( LISTE_NOM_CHAMP.length );
+        for ( String nomChamp : LISTE_NOM_CHAMP )
+        {
+            listeChamps.put( nomChamp, request.getParameter( nomChamp ) );
+        }
+        model.put( "listeChamps", listeChamps );
+        model.put( MARK_ERROR_MESSAGE, request.getSession( ).getAttribute( MARK_ERROR_MESSAGE ) );
+        request.getSession( ).removeAttribute( MARK_ERROR_MESSAGE );
         model.put( MARK_PAGE_RETURN, request.getSession( ).getAttribute( MARK_PAGE_RETURN ) );
         request.getSession( ).removeAttribute( MARK_PAGE_RETURN );
-        
-    	HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, getLocale( ), model );
-    	
-    	return template.getHtml( );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, getLocale( ), model );
+
+        return template.getHtml( );
     }
-    
+
     public String getMessageJsp( HttpServletRequest request, String errorMessage, String pageReturn )
     {
-    	request.getSession( ).setAttribute( MARK_ERROR_MESSAGE, errorMessage );
-    	request.getSession( ).setAttribute( MARK_PAGE_RETURN, pageReturn );
-        
-    	String parameters = "?";
-    	boolean first = true;
-    	
-    	Enumeration en = request.getParameterNames(); 
-    	while (en.hasMoreElements()) {
-    		if ( !first )
-    		{
-    			parameters += "&";
-    		}
-    		first = false;
-    		String pName = (String) en.nextElement();
-    		parameters += pName + "=" + request.getParameter( pName );
-    	}
-    	
-    	return AppPathService.getBaseUrl( request ) + JSP_MESSAGE + parameters;
+        request.getSession( ).setAttribute( MARK_ERROR_MESSAGE, errorMessage );
+        request.getSession( ).setAttribute( MARK_PAGE_RETURN, pageReturn );
+
+        String parameters = "?";
+        boolean first = true;
+
+        Enumeration en = request.getParameterNames( );
+        while ( en.hasMoreElements( ) )
+        {
+            if ( !first )
+            {
+                parameters += "&";
+            }
+            first = false;
+            String pName = (String) en.nextElement( );
+            parameters += pName + "=" + request.getParameter( pName );
+        }
+
+        return AppPathService.getBaseUrl( request ) + JSP_MESSAGE + parameters;
     }
 }
