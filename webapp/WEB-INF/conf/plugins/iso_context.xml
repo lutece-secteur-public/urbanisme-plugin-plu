@@ -7,6 +7,9 @@
         <property name="home">
             <ref bean="plu.isoHome" />
         </property>
+        <property name="pluHome">
+            <ref bean="plu.pluHome" />
+        </property>
     </bean>  
   	<bean id="plu.isoHome"  class="fr.paris.lutece.plugins.plu.business.iso.IsoHome" >
         <property name="dao">

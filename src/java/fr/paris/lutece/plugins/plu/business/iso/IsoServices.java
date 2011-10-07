@@ -33,10 +33,13 @@
  */
 package fr.paris.lutece.plugins.plu.business.iso;
 
+import fr.paris.lutece.plugins.plu.business.plu.IPluHome;
 import fr.paris.lutece.plugins.plu.business.plu.Plu;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -49,6 +52,7 @@ import java.util.TreeMap;
 public class IsoServices implements IIsoServices
 {
     private IIsoHome _home;
+    private IPluHome pluHome;
 
     /**
      * @return the _home
@@ -64,6 +68,22 @@ public class IsoServices implements IIsoServices
     public void setHome( IIsoHome home )
     {
         this._home = home;
+    }
+
+    /**
+     * @return the pluHome
+     */
+    public IPluHome getPluHome( )
+    {
+        return pluHome;
+    }
+
+    /**
+     * @param pluHome the pluHome to set
+     */
+    public void setPluHome( IPluHome pluHome )
+    {
+        this.pluHome = pluHome;
     }
 
     /**
@@ -98,21 +118,42 @@ public class IsoServices implements IIsoServices
             }
         }
 
+        Map<Integer, Date> listDateFinApplication = getListDateFinApplication( );
+
         // Get date of end of application and reverse order of list
         int i = isoPerPlu.size( );
         for ( Iso iso : isoPerPlu.values( ) )
         {
-            // Get the next plu
-            Iso isoNextPlu = isoPerPlu.get( iso.getPlu( ).getId( ) + 1 );
-            if ( isoNextPlu != null )
-            {
-                // Set the date of end with date application of next plu
-                iso.getPlu( ).setDateFin( isoNextPlu.getPlu( ).getDa( ) );
-            }
+            // Set the date of end with date application of next plu
+            iso.getPlu( ).setDateFin( listDateFinApplication.get( iso.getPlu( ).getId( ) ) );
             isoListToReturn.set( i - 1, iso );
             i--;
         }
 
         return isoListToReturn;
     }
+
+    /**
+     * Get a map of dates of end of application (key : id plu, value : date)
+     * @return map of dates of end of application (key : id plu, value : date)
+     */
+    private Map<Integer, Date> getListDateFinApplication( )
+    {
+        List<Plu> listPlu = this.getPluHome( ).findAll( );
+        Map<Integer, Date> listDateFinApplication = new HashMap<Integer, Date>( );
+
+        int i = 1;
+        for ( Plu plu : listPlu )
+        {
+            if ( i < listPlu.size( ) )
+            {
+                // La date de fin d'application du plu courant et celle de début
+                // du plu suivant
+                listDateFinApplication.put( plu.getId( ), listPlu.get( i ).getDa( ) );
+            }
+            i++;
+        }
+        return listDateFinApplication;
+    }
+
 }
