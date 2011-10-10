@@ -51,7 +51,6 @@ import fr.paris.lutece.plugins.plu.business.folderversion.IFolderVersionServices
 import fr.paris.lutece.plugins.plu.business.history.History;
 import fr.paris.lutece.plugins.plu.business.history.IHistoryServices;
 import fr.paris.lutece.plugins.plu.business.iso.IIsoServices;
-import fr.paris.lutece.plugins.plu.business.iso.Iso;
 import fr.paris.lutece.plugins.plu.business.plu.IPluServices;
 import fr.paris.lutece.plugins.plu.business.plu.Plu;
 import fr.paris.lutece.plugins.plu.business.type.ITypeServices;
@@ -601,9 +600,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         plu.setDa( da );
         _pluServices.update( plu );
 
-        Iso iso = new Iso( );
-        iso.setPlu( plu );
-        _isoServices.create( iso );
+        // Iso iso = new Iso( );
+        // iso.setPlu( plu );
+        // _isoServices.create( iso );
 
         List<Version> versionList = _versionServices.selectApplication( nIdPlu, da );
 
