@@ -41,8 +41,6 @@ import fr.paris.lutece.plugins.plu.business.etat.IEtatServices;
 import fr.paris.lutece.plugins.plu.business.file.File;
 import fr.paris.lutece.plugins.plu.business.file.FileFilter;
 import fr.paris.lutece.plugins.plu.business.file.IFileServices;
-import fr.paris.lutece.plugins.plu.business.file.content.FileContent;
-import fr.paris.lutece.plugins.plu.business.file.content.IFileContentServices;
 import fr.paris.lutece.plugins.plu.business.folder.Folder;
 import fr.paris.lutece.plugins.plu.business.folder.FolderFilter;
 import fr.paris.lutece.plugins.plu.business.folder.IFolderServices;
@@ -303,7 +301,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     private IVersionServices _versionServices;
     private IFolderVersionServices _folderVersionServices;
     private IFileServices _fileServices;
-    private IFileContentServices _fileContentServices;
     private IIsoServices _isoServices;
     private List<File> _fileList = new ArrayList<File>( );
     private Folder _folderHtml = new Folder( );
@@ -329,8 +326,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         _folderVersionServices = (IFolderVersionServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
                 "plu.folderVersionServices" );
         _fileServices = (IFileServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.fileServices" );
-        _fileContentServices = (IFileContentServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
-                "plu.fileContentServices" );
         _isoServices = (IIsoServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.isoServices" );
     }
 
@@ -2053,39 +2048,10 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( request instanceof MultipartHttpServletRequest )
         {
-            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
-            FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
-
-            if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null )
-                    && ( request.getParameter( PARAMETER_FILE_NAME ) != null )
-                    && ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
+            String ret = addFileToFileList( request );
+            if ( StringUtils.isNotEmpty( ret ) )
             {
-                File file = new File( );
-                FileContent fileContent = new FileContent( );
-                PhysicalFile physicalFile = new PhysicalFile( );
-                physicalFile.setValue( fileItem.get( ) );
-
-                fileContent.setFile( physicalFile.getValue( ) );
-
-                String name = fileItem.getName( );
-                String type = name.substring( name.lastIndexOf( "." ) );
-
-                if ( !request.getParameter( PARAMETER_FILE_NAME ).equals( "" ) )
-                {
-                    file.setName( request.getParameter( PARAMETER_FILE_NAME ).replace( " ", "-" ) );
-                }
-                else
-                {
-                    file.setName( name.substring( 0, name.lastIndexOf( "." ) ).replace( " ", "-" ) );
-                }
-
-                file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
-                file.setFile( fileContent );
-                file.setMimeType( type );
-                file.setSize( (int) fileItem.getSize( ) );
-                _fileList.add( file );
+            	return ret;
             }
         }
 
@@ -2098,13 +2064,66 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         return getAdminPage( template.getHtml( ) );
     }
+    
+    /**
+     * Add a file in _fileList
+     * @param request HttpServletRequest
+     * @return ret errorMessage
+     */
+	private String addFileToFileList(HttpServletRequest request)
+	{
+		String ret = "";
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+		FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
+
+		if ( ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FILE_TITLE ) ) )
+		        && ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FILE_NAME ) ) )
+		        && ( fileItem.get( ) != null ) )
+		{
+		    File file = new File( );
+		    PhysicalFile physicalFile = new PhysicalFile( );
+		    physicalFile.setValue( fileItem.get( ) );
+
+		    String name = fileItem.getName( );
+		    String type = name.substring( name.lastIndexOf( "." ) );
+		    
+		    for ( File fileTest : _fileList )
+		    {
+		        if ( fileTest.getName( ).equals( name ) )
+		        {
+		        	ret = AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME,
+		                    AdminMessage.TYPE_STOP );
+		        }
+		    }
+		    
+		    if ( !request.getParameter( PARAMETER_FILE_NAME ).equals( "" ) )
+		    {
+		        file.setName( request.getParameter( PARAMETER_FILE_NAME ).replace( " ", "-" ) );
+		    }
+		    else
+		    {
+		        file.setName( name.substring( 0, name.lastIndexOf( "." ) ).replace( " ", "-" ) );
+		    }
+
+		    file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
+		    file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
+		    file.setFile( physicalFile.getValue( ) );
+		    file.setMimeType( type );
+		    file.setSize( (int) fileItem.getSize( ) );
+		    _fileList.add( file );
+		}
+		
+		return ret;
+	}
 
     /**
      * Generates a HTML form for create a new atome with an existing atome
      * @param request the Http request
      * @return HTML
+     * @throws IOException 
      */
-    public String getCreateAtomeWithOld( HttpServletRequest request )
+    public String getCreateAtomeWithOld( HttpServletRequest request ) throws IOException
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
@@ -2120,7 +2139,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( _fileList.isEmpty( ) )
         {
-            _fileList.addAll( _fileServices.findByVersion( version.getId( ) ) );
+        	setFileList( version.getId( ) );
         }
 
         Map<String, Object> model = new HashMap<String, Object>( );
@@ -2151,49 +2170,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( request instanceof MultipartHttpServletRequest )
         {
-            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
-            FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
-
-            if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null )
-                    && ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
-            {
-                File file = new File( );
-                FileContent fileContent = new FileContent( );
-                PhysicalFile physicalFile = new PhysicalFile( );
-                physicalFile.setValue( fileItem.get( ) );
-
-                String name = fileItem.getName( );
-
-                for ( File fileTest : _fileList )
-                {
-                    if ( fileTest.getName( ).equals( name ) )
-                    {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME,
-                                AdminMessage.TYPE_STOP );
-                    }
-                }
-
-                fileContent.setFile( physicalFile.getValue( ) );
-
-                String type = name.substring( name.lastIndexOf( "." ) );
-
-                if ( !request.getParameter( PARAMETER_FILE_NAME ).equals( "" ) )
-                {
-                    file.setName( request.getParameter( PARAMETER_FILE_NAME ).replace( " ", "-" ) );
-                }
-                else
-                {
-                    file.setName( name.substring( 0, name.lastIndexOf( "." ) ).replace( " ", "-" ) );
-                }
-
-                file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
-                file.setFile( fileContent );
-                file.setMimeType( type );
-                file.setSize( (int) fileItem.getSize( ) );
-                _fileList.add( file );
-            }
+        	String ret = addFileToFileList( request );
+        	if ( StringUtils.isNotEmpty( ret ) )
+        	{
+        		return ret;
+        	}
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -2409,8 +2390,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      * @param request the Http request
      * @throws ParseException
      * @return HTML
+     * @throws IOException 
      */
-    public String doCreateAtome( HttpServletRequest request ) throws ParseException
+    public String doCreateAtome( HttpServletRequest request ) throws ParseException, IOException
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
@@ -2474,16 +2456,32 @@ public class PluJspBean extends PluginAdminPageJspBean
                     file.setAtome( nIdAtome );
                     file.setOrder( order );
                     file.setVersion( version2.getId( ) );
-                    file.setName( file.getName( ) + strNumVersion );
-
-                    FileContent fileContent = new FileContent( );
-                    fileContent.setFile( file.getFile( ).getFile( ) );
-                    _fileContentServices.create( fileContent );
-                    fileContent = _fileContentServices.findLastFileContent( );
-
+                    
+            		int a = file.getName( ).lastIndexOf( "-V" );
+            		if ( a > 0 )
+            		{
+            		    file.setName( file.getName( ).substring( 0, a ) + strNumVersion );
+            		}
+            		else
+            		{
+            		    file.setName( file.getName( ) + strNumVersion );
+            		}
                     file.setId( 0 );
-                    file.setFile( fileContent );
                     _fileServices.create( file );
+                    
+                    FileFilter fileFilter = new FileFilter( );
+                    fileFilter.set_name( file.getName( ) );
+                    fileFilter.set_title( file.getTitle( ) );
+                    AtomeFilter atomeFilter = new AtomeFilter( );
+                    atomeFilter.set_id( atome.getId( ) );
+                    
+                    List<File> fileCreate = _fileServices.findByFilter( fileFilter , atomeFilter );
+                    if ( fileCreate.size( ) == 1 )
+                    {
+                        java.io.File fileDest = new java.io.File( new java.io.File(
+                                AppPropertiesService.getProperty( "docs.path" ) ), fileCreate.get( 0 ).getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+                        FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
+                    }
 
                     order++;
                 }
@@ -2558,6 +2556,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_VERSION, version );
         model.put( MARK_LIST_FILE_ALL, fileAll );
         model.put( MARK_LIST_FILE_ALL_FORMAT, fileAllFormat );
+        java.io.File fileDest = new java.io.File( AppPropertiesService.getProperty( "docs.path" ) );
+        model.put( "atomeLink", fileDest.toString( ) + "/" );
 
         if ( request.getParameter( PARAMETER_FOLDER_TITLE ) != null )
         {
@@ -2697,8 +2697,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      * Generates a HTML form for modify an atome
      * @param request the Http request
      * @return HTML
+     * @throws IOException 
      */
-    public String getModifyAtome( HttpServletRequest request )
+    public String getModifyAtome( HttpServletRequest request ) throws IOException
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_ATOME );
 
@@ -2738,7 +2739,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( _fileList.isEmpty( ) )
         {
-            _fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
+        	setFileList( nIdVersion );
         }
 
         Map<String, Object> model = new HashMap<String, Object>( );
@@ -2751,49 +2752,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( request instanceof MultipartHttpServletRequest )
         {
-            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
-            FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
-
-            if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null )
-                    && ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
-            {
-                File file = new File( );
-                FileContent fileContent = new FileContent( );
-                PhysicalFile physicalFile = new PhysicalFile( );
-                physicalFile.setValue( fileItem.get( ) );
-
-                String name = fileItem.getName( );
-
-                for ( File fileTest : _fileList )
-                {
-                    if ( fileTest.getName( ).equals( name ) )
-                    {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME,
-                                AdminMessage.TYPE_STOP );
-                    }
-                }
-
-                fileContent.setFile( physicalFile.getValue( ) );
-
-                String type = name.substring( name.lastIndexOf( "." ) );
-
-                if ( !request.getParameter( PARAMETER_FILE_NAME ).equals( "" ) )
-                {
-                    file.setName( request.getParameter( PARAMETER_FILE_NAME ).replace( " ", "-" ) );
-                }
-                else
-                {
-                    file.setName( name.substring( 0, name.lastIndexOf( "." ) ).replace( " ", "-" ) );
-                }
-
-                file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
-                file.setFile( fileContent );
-                file.setMimeType( type );
-                file.setSize( (int) fileItem.getSize( ) );
-                _fileList.add( file );
-            }
+        	String ret = addFileToFileList( request );
+        	if ( StringUtils.isNotEmpty( ret ) )
+        	{
+        		return ret;
+        	}
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -2805,6 +2768,23 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         return getAdminPage( template.getHtml( ) );
     }
+
+    /**
+     * Set the fileList for an atome version
+     * @param nIdVersion version id
+     * @throws IOException
+     */
+	private void setFileList(int nIdVersion) throws IOException
+	{
+		List<File> listFile = _fileServices.findByVersion( nIdVersion );
+		for ( File file : listFile )
+		{
+		    java.io.File fileDest = new java.io.File( new java.io.File(
+		            AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+		    file.setFile( FileUtils.readFileToByteArray( fileDest ) );
+			_fileList.add( file );
+		}
+	}
 
     /**
      * Generates a message of confirmation of cancel for modify atome
@@ -2963,8 +2943,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      * @param request the Http request
      * @throws ParseException
      * @return HTML
+     * @throws IOException 
      */
-    public String doModifyAtome( HttpServletRequest request ) throws ParseException
+    public String doModifyAtome( HttpServletRequest request ) throws ParseException, IOException
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
@@ -3004,8 +2985,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         folderVersion.setFolder( folder );
         _folderVersionServices.update( folderVersion );
 
-        List<File> fileExistList = _fileServices.findByVersion( nIdVersion );
-
         String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE );
         String[] check = request.getParameterValues( PARAMETER_FILE_CHECK );
         int i = 0;
@@ -3021,6 +3000,8 @@ public class PluJspBean extends PluginAdminPageJspBean
             strNumVersion = "-V" + numVersion;
         }
 
+        boolean toDelete = true;
+        
         for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
@@ -3029,58 +3010,96 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 if ( c == i )
                 {
-                    if ( !file.getTitle( ).equals( fileTitle[i] ) )
-                    {
-                        file.setTitle( fileTitle[i] );
-                        _fileServices.update( file );
-                    }
-
-                    file.setAtome( nIdAtome );
-                    file.setOrder( order );
-                    file.setVersion( version.getId( ) );
-                    int a = file.getName( ).lastIndexOf( "-V" );
-                    if ( a > 0 )
-                    {
-                        file.setName( file.getName( ).substring( 0, a ) + strNumVersion );
-                    }
-                    else
-                    {
-                        file.setName( file.getName( ) + strNumVersion );
-                    }
-                    FileContent fileContent = new FileContent( );
-                    fileContent.setFile( file.getFile( ).getFile( ) );
-                    _fileContentServices.create( fileContent );
-                    fileContent = _fileContentServices.findLastFileContent( );
-
-                    file.setId( 0 );
-                    file.setFile( fileContent );
-                    _fileServices.create( file );
+                	toDelete = false;
+                	
+                    updateFile(nIdAtome, atome, version, fileTitle, i, order,
+							strNumVersion, file);
 
                     order++;
                 }
+            }
+            if ( toDelete )
+            {
+            	java.io.File fileDest = new java.io.File( new java.io.File(
+                        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+                if ( fileDest.exists( ) )
+                {
+                	fileDest.delete( );
+                }
+                if ( file.getId( ) != 0 )
+                {
+                	_fileServices.remove( file );
+                }
+            }
+            else
+            {
+            	toDelete = true;
             }
 
             i++;
         }
 
-        if ( !fileExistList.isEmpty( ) )
-        {
-            for ( File file : fileExistList )
-            {
-                _fileContentServices.remove( file.getFile( ) );
-                _fileServices.remove( file );
-            }
-        }
-
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
     }
+
+	private void updateFile(int nIdAtome, Atome atome, Version version,
+			String[] fileTitle, int i, int order, String strNumVersion,
+			File file) throws IOException
+	{
+		if ( !file.getTitle( ).equals( fileTitle[i] ) )
+		{
+		    file.setTitle( fileTitle[i] );
+		}
+
+		file.setAtome( nIdAtome );
+		file.setOrder( order );
+		file.setVersion( version.getId( ) );
+		int a = file.getName( ).lastIndexOf( "-V" );
+		if ( a > 0 )
+		{
+		    file.setName( file.getName( ).substring( 0, a ) + strNumVersion );
+		}
+		else
+		{
+		    file.setName( file.getName( ) + strNumVersion );
+		}
+
+		if ( file.getId( ) != 0 )
+		{
+			_fileServices.update( file );
+		}
+		else
+		{
+			_fileServices.create( file );
+		    FileFilter fileFilter = new FileFilter( );
+		    fileFilter.set_name( file.getName( ) );
+		    fileFilter.set_title( file.getTitle( ) );
+		    AtomeFilter atomeFilter = new AtomeFilter( );
+		    atomeFilter.set_id( atome.getId( ) );
+		    
+		    List<File> fileCreate = _fileServices.findByFilter( fileFilter , atomeFilter );
+		    if ( fileCreate.size( ) == 1 )
+		    {
+		    	file.setId( fileCreate.get( 0 ).getId( ) );
+		    }
+		}
+		                    
+		java.io.File fileDest = new java.io.File( new java.io.File(
+		        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+		if ( fileDest.exists( ) )
+		{
+			fileDest.delete( );
+		}
+		FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
+	}
 
     /**
      * Generates a HTML form for correct an atome
      * @param request the Http request
      * @return HTML
+     * @throws IOException 
      */
-    public String getCorrectAtome( HttpServletRequest request )
+    public String getCorrectAtome( HttpServletRequest request ) throws IOException
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CORRECT_ATOME );
 
@@ -3099,7 +3118,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( _fileList.isEmpty( ) )
         {
-            _fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
+        	setFileList( nIdVersion );
         }
 
         Map<String, Object> model = new HashMap<String, Object>( );
@@ -3111,49 +3130,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( request instanceof MultipartHttpServletRequest )
         {
-            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
-            FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
-
-            if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null )
-                    && ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
-            {
-                File file = new File( );
-                FileContent fileContent = new FileContent( );
-                PhysicalFile physicalFile = new PhysicalFile( );
-                physicalFile.setValue( fileItem.get( ) );
-
-                String name = fileItem.getName( );
-
-                for ( File fileTest : _fileList )
-                {
-                    if ( fileTest.getName( ).equals( name ) )
-                    {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME,
-                                AdminMessage.TYPE_STOP );
-                    }
-                }
-
-                fileContent.setFile( physicalFile.getValue( ) );
-
-                String type = name.substring( name.lastIndexOf( "." ) );
-
-                if ( !request.getParameter( PARAMETER_FILE_NAME ).equals( "" ) )
-                {
-                    file.setName( request.getParameter( PARAMETER_FILE_NAME ).replace( " ", "-" ) );
-                }
-                else
-                {
-                    file.setName( name.substring( 0, name.lastIndexOf( "." ) ).replace( " ", "-" ) );
-                }
-
-                file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
-                file.setFile( fileContent );
-                file.setMimeType( type );
-                file.setSize( (int) fileItem.getSize( ) );
-                _fileList.add( file );
-            }
+        	String ret = addFileToFileList( request );
+        	if( StringUtils.isNotEmpty( ret ) )
+        	{
+        		return ret;
+        	}
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -3337,8 +3318,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
 
-        List<File> fileExistList = _fileServices.findByVersion( nIdVersion );
-
         String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE );
         String[] check = request.getParameterValues( PARAMETER_FILE_CHECK );
         int i = 0;
@@ -3354,6 +3333,8 @@ public class PluJspBean extends PluginAdminPageJspBean
             strNumVersion = "-V" + version.getVersion( );
         }
 
+        boolean toDelete = true;
+        
         for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
@@ -3362,45 +3343,32 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 if ( c == i )
                 {
-                    if ( !file.getTitle( ).equals( fileTitle[i] ) )
-                    {
-                        file.setTitle( fileTitle[i] );
-                        _fileServices.update( file );
-                    }
-
-                    file.setAtome( nIdAtome );
-                    file.setOrder( order );
-                    file.setVersion( version.getId( ) );
-                    file.setName( file.getName( ).substring( 0, file.getName( ).lastIndexOf( "-V" ) ) + strNumVersion );
-
-                    java.io.File fileDest = new java.io.File( new java.io.File(
-                            AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
-                    FileUtils.writeByteArrayToFile( fileDest, file.getFile( ).getFile( ) );
-
-                    // FileContent fileContent = new FileContent( );
-                    // fileContent.setFile( file.getFile( ).getFile( ) );
-                    // _fileContentServices.create( fileContent );
-                    // fileContent = _fileContentServices.findLastFileContent(
-                    // );
-
-                    file.setId( 0 );
-                    // file.setFile( fileContent );
-                    _fileServices.create( file );
-
+                	toDelete = false;
+                	
+                	updateFile( nIdAtome, atome, version, fileTitle, i, order, strNumVersion, file );
+                    
                     order++;
                 }
             }
+            if ( toDelete )
+            {
+            	java.io.File fileDest = new java.io.File( new java.io.File(
+                        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+                if ( fileDest.exists( ) )
+                {
+                	fileDest.delete( );
+                }
+                if ( file.getId( ) != 0 )
+                {
+                	_fileServices.remove( file );
+                }
+            }
+            else
+            {
+            	toDelete = true;
+            }
 
             i++;
-        }
-
-        if ( !fileExistList.isEmpty( ) )
-        {
-            for ( File file : fileExistList )
-            {
-                _fileContentServices.remove( file.getFile( ) );
-                _fileServices.remove( file );
-            }
         }
 
         History history = new History( );
@@ -3426,8 +3394,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      * Generates a HTML form for evolve an atome
      * @param request the Http request
      * @return HTML
+     * @throws IOException 
      */
-    public String getEvolveAtome( HttpServletRequest request )
+    public String getEvolveAtome( HttpServletRequest request ) throws IOException
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_EVOLVE_ATOME );
 
@@ -3448,7 +3417,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( _fileList.isEmpty( ) )
         {
-            _fileList.addAll( _fileServices.findByVersion( nIdVersion ) );
+        	setFileList( nIdVersion );
         }
 
         Map<String, Object> model = new HashMap<String, Object>( );
@@ -3462,57 +3431,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( request instanceof MultipartHttpServletRequest )
         {
-            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
-            FileItem fileItem = multipartRequest.getFile( PARAMETER_FILE );
-
-            if ( ( request.getParameter( PARAMETER_FILE_TITLE ) != null )
-                    && ( multipartRequest.getFile( PARAMETER_FILE ) != null ) )
-            {
-                File file = new File( );
-                FileContent fileContent = new FileContent( );
-                PhysicalFile physicalFile = new PhysicalFile( );
-                physicalFile.setValue( fileItem.get( ) );
-
-                String name = fileItem.getName( );
-                String type = name.substring( name.lastIndexOf( "." ) );
-
-                if ( !request.getParameter( PARAMETER_FILE_NAME ).equals( "" ) )
-                {
-                    file.setName( request.getParameter( PARAMETER_FILE_NAME ).replace( " ", "-" ) );
-
-                    for ( File fileTest : _fileList )
-                    {
-                        if ( fileTest.getName( ).equals( file.getName( ) ) )
-                        {
-                            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME,
-                                    AdminMessage.TYPE_STOP );
-                        }
-                    }
-                }
-                else
-                {
-                    file.setName( name.substring( 0, name.lastIndexOf( "." ) ).replace( " ", "-" ) );
-
-                    for ( File fileTest : _fileList )
-                    {
-                        if ( fileTest.getName( ).equals( file.getName( ) ) )
-                        {
-                            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME,
-                                    AdminMessage.TYPE_STOP );
-                        }
-                    }
-                }
-
-                fileContent.setFile( physicalFile.getValue( ) );
-
-                file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
-                file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
-                file.setFile( fileContent );
-                file.setMimeType( type );
-                file.setSize( (int) fileItem.getSize( ) );
-                _fileList.add( file );
-            }
+        	String ret = addFileToFileList( request );
+        	if ( StringUtils.isNotEmpty( ret ) )
+        	{
+        		return ret;
+        	}
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -3681,8 +3604,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      * @param request the Http request
      * @throws ParseException
      * @return HTML
+     * @throws IOException 
      */
-    public String doEvolveAtome( HttpServletRequest request ) throws ParseException
+    public String doEvolveAtome( HttpServletRequest request ) throws ParseException, IOException
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
@@ -3731,6 +3655,8 @@ public class PluJspBean extends PluginAdminPageJspBean
             strNumVersion = "-V" + version.getVersion( );
         }
 
+        boolean toDelete = true;
+        
         for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
@@ -3739,29 +3665,30 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 if ( c == i )
                 {
-                    if ( !file.getTitle( ).equals( fileTitle[i] ) )
-                    {
-                        file.setTitle( fileTitle[i] );
-                    }
+                	toDelete = false;
 
-                    file.setAtome( nIdAtome );
-                    file.setOrder( order );
-                    file.setVersion( version.getId( ) );
-                    file.setName( file.getName( ).substring( 0, file.getName( ).lastIndexOf( "-V" ) ) + strNumVersion );
-
-                    FileContent fileContent = new FileContent( );
-                    fileContent.setFile( file.getFile( ).getFile( ) );
-                    _fileContentServices.create( fileContent );
-                    fileContent = _fileContentServices.findLastFileContent( );
-
-                    file.setId( 0 );
-                    file.setFile( fileContent );
-                    _fileServices.create( file );
+                	updateFile( nIdAtome, atome, version, fileTitle, i, order, strNumVersion, file );
 
                     order++;
                 }
             }
-
+            if ( toDelete )
+            {
+            	java.io.File fileDest = new java.io.File( new java.io.File(
+                        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+                if ( fileDest.exists( ) )
+                {
+                	fileDest.delete( );
+                }
+                if ( file.getId( ) != 0 )
+                {
+                	_fileServices.remove( file );
+                }
+            }
+            else
+            {
+            	toDelete = true;
+            }
             i++;
         }
 

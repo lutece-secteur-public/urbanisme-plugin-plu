@@ -33,9 +33,7 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
-import fr.paris.lutece.plugins.plu.business.file.content.FileContent;
 import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,6 +44,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Transient;
 
 
 /**
@@ -73,7 +72,7 @@ public class File
     private String _mimeType;
     private int _size;
     private char _utilisation;
-    private FileContent _file;
+    private byte[]  _file;
 
     /**
      * Returns the identifier of this file
@@ -253,9 +252,8 @@ public class File
      * Returns the physical file of this file
      * @return the physical file
      */
-    @OneToOne( fetch = FetchType.LAZY )
-    @JoinColumn( name = "id_fichier_contenu" )
-    public FileContent getFile(  )
+    @Transient
+    public byte[]  getFile(  )
     {
         return _file;
     }
@@ -264,7 +262,7 @@ public class File
      * Sets the physical file of the file to the specified byte
      * @param file the new physical file
      */
-    public void setFile( FileContent file )
+    public void setFile( byte[]  file )
     {
         _file = file;
     }
