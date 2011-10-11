@@ -58,6 +58,7 @@ import fr.paris.lutece.plugins.plu.business.version.Version;
 import fr.paris.lutece.plugins.plu.business.version.VersionFilter;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -71,6 +72,7 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -171,6 +173,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_ERROR_MESSAGE = "errorMessage";
+    private static final String MARK_ERROR_ARGS = "args";
     private static final String MARK_PAGE_RETURN = "pageReturn";
 
     /** Messages */
@@ -2218,7 +2221,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_ATOME_NAME ).matches( "[ \']+?" )
                 || request.getParameter( PARAMETER_ATOME_TITLE ).matches( "[ \']+?" ) )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD,
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null,
                     "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
@@ -2230,7 +2233,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_ID_NUMBER,
+            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_ID_NUMBER, null,
                     "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
         try
@@ -2239,7 +2242,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_VERSION_NUMBER,
+            return this.getMessageJsp( request, MESSAGE_ERROR_VERSION_NUMBER, null,
                     "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
@@ -2255,7 +2258,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( check == null )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_FILE_CHECK,
+            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_FILE_CHECK, null,
                     "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
@@ -2272,19 +2275,19 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             if ( atome.getId( ) == nIdAtome )
             {
-                return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_ID,
+                return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_ID, argsAtome,
                         "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
             }
 
             if ( atome.getName( ).equals( atomeName ) )
             {
-                return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NAME,
+                return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NAME, argsAtome,
                         "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
             }
 
             if ( atome.getTitle( ).equals( atomeTitle ) )
             {
-                return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_TITLE,
+                return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_TITLE, argsAtome,
                         "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
             }
         }
@@ -2319,19 +2322,19 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getSize( ) <= 0 )
                     {
-                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE,
+                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE, argsFile,
                                 "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
                     }
 
                     if ( testName.equals( file.getName( ) ) )
                     {
-                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME,
+                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile,
                                 "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
                     }
 
                     if ( testTitle.equals( file.getTitle( ) ) )
                     {
-                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE,
+                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
                                 "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
                     }
 
@@ -2364,13 +2367,13 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( !impression )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS,
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
                     "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
         if ( !consultation )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS,
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps,
                     "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
         }
 
@@ -2825,7 +2828,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_ATOME_TITLE ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp" );
         }
         
         int nIdAtome = 0;
@@ -2836,7 +2839,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_ID_NUMBER, AdminMessage.TYPE_STOP );
+            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_ID_NUMBER, null, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp" );
         }
         try
         {
@@ -2844,7 +2847,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_VERSION_NUMBER, AdminMessage.TYPE_STOP );
+			return this.getMessageJsp( request, MESSAGE_ERROR_VERSION_NUMBER, null, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp" );
         }
         
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2897,20 +2900,17 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getSize( ) <= 0 )
                     {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_SIZE, argsFile,
-                                AdminMessage.TYPE_STOP );
+						return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE, argsFile, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp" );
                     }
 
                     if ( testName.equals( file.getName( ) ) )
                     {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile,
-                                AdminMessage.TYPE_STOP );
+						return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp" );
                     }
 
                     if ( testTitle.equals( file.getTitle( ) ) )
                     {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
-                                AdminMessage.TYPE_STOP );
+						return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp" );
                     }
 
                     int endIndex = file.getName( ).lastIndexOf( "-V" );
@@ -2942,14 +2942,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( !impression )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
-                    AdminMessage.TYPE_STOP );
+			return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp" );
         }
 
         if ( !consultation )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps,
-                    AdminMessage.TYPE_STOP );
+			return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp" );
         }
 
         Object[] args = { atomeName, atomeTitle };
@@ -4209,7 +4207,23 @@ public class PluJspBean extends PluginAdminPageJspBean
             listeChamps.put( nomChamp, request.getParameter( nomChamp ) );
         }
         model.put( "listeChamps", listeChamps );
-        model.put( MARK_ERROR_MESSAGE, request.getSession( ).getAttribute( MARK_ERROR_MESSAGE ) );
+        
+        String strText = "";
+        if ( request.getSession( ).getAttribute( MARK_ERROR_ARGS ) != null )
+        {
+            strText = I18nService.getLocalizedString( request.getSession( ).getAttribute( MARK_ERROR_MESSAGE ).toString( ), 
+            		(Object[]) request.getSession( ).getAttribute( MARK_ERROR_ARGS ) , request.getLocale( ) );
+        }
+        else
+        {
+            strText = I18nService.getLocalizedString( request.getSession( ).getAttribute( MARK_ERROR_MESSAGE ).toString( ), 
+           		 request.getLocale( ) );
+        }
+        
+        
+        model.put( MARK_ERROR_MESSAGE, strText );
+
+        request.getSession( ).removeAttribute( MARK_ERROR_ARGS );
         request.getSession( ).removeAttribute( MARK_ERROR_MESSAGE );
         model.put( MARK_PAGE_RETURN, request.getSession( ).getAttribute( MARK_PAGE_RETURN ) );
         request.getSession( ).removeAttribute( MARK_PAGE_RETURN );
@@ -4219,9 +4233,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         return template.getHtml( );
     }
 
-    public String getMessageJsp( HttpServletRequest request, String errorMessage, String pageReturn )
+    public String getMessageJsp( HttpServletRequest request, String errorMessage, Object[] args, String pageReturn )
     {
         request.getSession( ).setAttribute( MARK_ERROR_MESSAGE, errorMessage );
+        request.getSession( ).setAttribute( MARK_ERROR_ARGS, args );
         request.getSession( ).setAttribute( MARK_PAGE_RETURN, pageReturn );
 
         String parameters = "?";
