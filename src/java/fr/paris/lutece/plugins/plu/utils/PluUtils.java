@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.utils;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -45,6 +47,13 @@ public final class PluUtils
 {
     public static final String CONSTANT_WHERE = " WHERE ";
     public static final String CONSTANT_AND = " AND ";
+
+    public static final BigDecimal BD_ONE_GO = new BigDecimal( FileUtils.ONE_GB );
+    public static final BigDecimal BD_ONE_MO = new BigDecimal( FileUtils.ONE_MB );
+    public static final BigDecimal BD_ONE_KO = new BigDecimal( FileUtils.ONE_KB );
+
+    public static final MathContext MC_2 = new MathContext( 2 );
+    public static final MathContext MC_1 = new MathContext( 1 );
 
     /**
      * empty constructor
@@ -102,6 +111,27 @@ public final class PluUtils
      */
     public static String formatSize( Long size )
     {
-        return FileUtils.byteCountToDisplaySize( size );
+        String displaySize;
+
+        if ( size / FileUtils.ONE_GB > 0 )
+        {
+            displaySize = String.valueOf( new BigDecimal( size ).divide( BD_ONE_GO, BigDecimal.ROUND_CEILING ) )
+                    + " GO";
+        }
+        else if ( size / FileUtils.ONE_MB > 0 )
+        {
+            displaySize = String.valueOf( new BigDecimal( size ).divide( BD_ONE_MO, BigDecimal.ROUND_CEILING ) )
+                    + " MO";
+        }
+        else if ( size / FileUtils.ONE_KB > 0 )
+        {
+            displaySize = String.valueOf( new BigDecimal( size ).divide( BD_ONE_KO, BigDecimal.ROUND_CEILING ) )
+                    + " KO";
+        }
+        else
+        {
+            displaySize = String.valueOf( size ) + " octets";
+        }
+        return displaySize;
     }
 }
