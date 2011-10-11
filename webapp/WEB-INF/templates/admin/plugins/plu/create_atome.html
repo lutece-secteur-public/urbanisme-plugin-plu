@@ -16,7 +16,7 @@
 			</#if>
 			<select name="id_folder_atome" style="width:331px;">
 				<#list folder_list as folder>
-     			<option value="${folder.id}" <#if folder.id?number==folder_atome?number>selected="selected"</#if>>${folder.title}</option>
+     			<option value="${folder.id}" <#if folder.id?number==one_folder.id?number>selected="selected"</#if>>${folder.title}</option>
      			</#list>
 			</select>
 		</p>
