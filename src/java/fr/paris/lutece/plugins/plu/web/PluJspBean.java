@@ -2097,15 +2097,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 		        }
 		    }
 		    
-		    if ( !request.getParameter( PARAMETER_FILE_NAME ).equals( "" ) )
-		    {
-		        file.setName( request.getParameter( PARAMETER_FILE_NAME ).replace( " ", "-" ) );
-		    }
-		    else
-		    {
-		        file.setName( name.substring( 0, name.lastIndexOf( "." ) ).replace( " ", "-" ) );
-		    }
-
+		    file.setName( request.getParameter( PARAMETER_FILE_NAME ).replace( " ", "-" ) );
 		    file.setTitle( request.getParameter( PARAMETER_FILE_TITLE ) );
 		    file.setUtilisation( request.getParameter( PARAMETER_FILE_UTILISATION ).charAt( 0 ) );
 		    file.setFile( physicalFile.getValue( ) );
@@ -2457,7 +2449,14 @@ public class PluJspBean extends PluginAdminPageJspBean
                     file.setOrder( order );
                     file.setVersion( version2.getId( ) );
                     
-            		int a = file.getName( ).lastIndexOf( "-V" );
+            		// Test if file name contains extension, if yes remove extension to file name
+            		int a = file.getName( ).lastIndexOf( file.getMimeType( ) );
+            		if ( a > 0 )
+            		{
+            			file.setName( file.getName( ).substring( 0, a ) );
+            		}
+            		
+            		a = file.getName( ).lastIndexOf( "-V" );
             		if ( a > 0 )
             		{
             		    file.setName( file.getName( ).substring( 0, a ) + strNumVersion );
@@ -2466,6 +2465,9 @@ public class PluJspBean extends PluginAdminPageJspBean
             		{
             		    file.setName( file.getName( ) + strNumVersion );
             		}
+            		
+            		file.setName( file.getName( ) + file.getMimeType( ) );
+            		
                     file.setId( 0 );
                     _fileServices.create( file );
                     
@@ -2824,13 +2826,30 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
         }
-
+        
+        int nIdAtome = 0;
+        int numVersion = 0;
+        try
+        {
+            nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_NUM ) );
+        }
+        catch ( NumberFormatException e )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_ID_NUMBER, AdminMessage.TYPE_STOP );
+        }
+        try
+        {
+            numVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_NUM ) );
+        }
+        catch ( NumberFormatException e )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_VERSION_NUMBER, AdminMessage.TYPE_STOP );
+        }
+        
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) );
-        int nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_NUM ) );
         int nIdAtomeOld = Integer.parseInt( request.getParameter( PARAMETER_ATOME_OLD_ID ) );
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
-        int numVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_NUM ) );
         String atomeName = request.getParameter( PARAMETER_ATOME_NAME );
         String atomeTitle = request.getParameter( PARAMETER_ATOME_TITLE );
         String atomeDescription = request.getParameter( PARAMETER_ATOME_DESCRIPTION );
@@ -3054,7 +3073,15 @@ public class PluJspBean extends PluginAdminPageJspBean
 		file.setAtome( nIdAtome );
 		file.setOrder( order );
 		file.setVersion( version.getId( ) );
-		int a = file.getName( ).lastIndexOf( "-V" );
+		
+		// Test if file name contains extension, if yes remove extension to file name
+		int a = file.getName( ).lastIndexOf( file.getMimeType( ) );
+		if ( a > 0 )
+		{
+			file.setName( file.getName( ).substring( 0, a ) );
+		}
+		
+		a = file.getName( ).lastIndexOf( "-V" );
 		if ( a > 0 )
 		{
 		    file.setName( file.getName( ).substring( 0, a ) + strNumVersion );
@@ -3064,6 +3091,8 @@ public class PluJspBean extends PluginAdminPageJspBean
 		    file.setName( file.getName( ) + strNumVersion );
 		}
 
+		file.setName( file.getName( ) + file.getMimeType( ) );
+		
 		if ( file.getId( ) != 0 )
 		{
 			_fileServices.update( file );
