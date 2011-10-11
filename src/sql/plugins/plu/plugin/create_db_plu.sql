@@ -194,8 +194,8 @@ create table plu_iso
    iso_c_nom                      varchar(255)                    not null,
    iso_i_nom                      varchar(255)                    not null,
    iso_date                       date                           not null,
-   iso_c_taille                   int(11) unsigned               not null,
-   iso_i_taille                   int(11) unsigned               not null,
+   iso_c_taille                   bigint unsigned               not null,
+   iso_i_taille                   bigint unsigned               not null,
    primary key (id_iso)
 )
 comment = "table contient les informations des fichiers iso"
