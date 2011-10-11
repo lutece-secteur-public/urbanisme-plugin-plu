@@ -2783,7 +2783,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 		for ( File file : listFile )
 		{
 		    java.io.File fileDest = new java.io.File( new java.io.File(
-		            AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+		            AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
 		    file.setFile( FileUtils.readFileToByteArray( fileDest ) );
 			_fileList.add( file );
 		}
