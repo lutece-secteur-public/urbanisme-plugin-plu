@@ -952,6 +952,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             if ( folder == null )
             {
                 folder = new Folder( );
+                folder.setPlu( nIdPlu );
             }
 
             model.put( MARK_FOLDER, folder );

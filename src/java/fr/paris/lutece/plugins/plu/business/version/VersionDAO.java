@@ -59,6 +59,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     private static final String SQL_QUERY_SELECT_MAX_VERSION = "SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome";
     private static final String SQL_QUERY_SELECT_BY_ATOME_AND_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = :numVersion";
     private static final String SQL_QUERY_SELECT_BY_PLU_AND_FOLDER = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu AND fv.folder.id = :idFolder";
+    private static final String SQL_QUERY_SELECT_BY_PLU = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu";
     private static final String SQL_QUERY_SELECT_ALL = "SELECT v FROM Version v";
     private static final String SQL_FILTER_ATOME_ID = "v.atome.id = :idAtome";
     private static final String SQL_FILTER_ATOME_NAME = "v.atome.name like :nameAtome";
@@ -197,10 +198,20 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder )
     {
         EntityManager em = getEM( );
-        Query q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_AND_FOLDER );
-        q.setParameter( "idPlu", nIdPlu );
-        q.setParameter( "idFolder", nIdFolder );
+        Query q;
+        
+        if ( nIdFolder != 0 )
+        {
+        	q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_AND_FOLDER );
+        	q.setParameter( "idFolder", nIdFolder );
+        }
+        else
+        {
+        	q = em.createQuery( SQL_QUERY_SELECT_BY_PLU );
+        }
 
+        q.setParameter( "idPlu", nIdPlu );
+        
         List<Version> versionList = q.getResultList( );
 
         return versionList;
