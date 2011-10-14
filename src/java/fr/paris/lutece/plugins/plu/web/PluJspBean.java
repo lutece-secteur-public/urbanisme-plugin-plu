@@ -2485,7 +2485,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     if ( fileCreate.size( ) == 1 )
                     {
                         java.io.File fileDest = new java.io.File( new java.io.File(
-                                AppPropertiesService.getProperty( "docs.path" ) ), fileCreate.get( 0 ).getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+                                AppPropertiesService.getProperty( "docs.path" ) ), fileCreate.get( 0 ).getId( ) + "_" + file.getName( ) );
                         FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
                     }
 
@@ -3039,7 +3039,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             if ( toDelete )
             {
             	java.io.File fileDest = new java.io.File( new java.io.File(
-                        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+                        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
                 if ( fileDest.exists( ) )
                 {
                 	fileDest.delete( );
@@ -3113,7 +3113,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 		}
 		                    
 		java.io.File fileDest = new java.io.File( new java.io.File(
-		        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+		        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
 		if ( fileDest.exists( ) )
 		{
 			fileDest.delete( );
@@ -3381,7 +3381,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             if ( toDelete )
             {
             	java.io.File fileDest = new java.io.File( new java.io.File(
-                        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+                        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
                 if ( fileDest.exists( ) )
                 {
                 	fileDest.delete( );
@@ -3703,7 +3703,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             if ( toDelete )
             {
             	java.io.File fileDest = new java.io.File( new java.io.File(
-                        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) + file.getMimeType( ) );
+                        AppPropertiesService.getProperty( "docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
                 if ( fileDest.exists( ) )
                 {
                 	fileDest.delete( );
