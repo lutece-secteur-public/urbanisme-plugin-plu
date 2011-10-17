@@ -65,7 +65,17 @@
 		        	<p>
 		        		<label for="file_title_atome" >#i18n{plu.join_file.rowTitle} :</label>
 		        		<input type="text" id="file_title_atome" name="file_title_atome" size="60" value="${file.title}" />
-		        		<input type="checkbox" name="file_check" value="${file_index}" checked/>${file.name}
+		        		<input type="checkbox" name="file_check" value="${file_index}" 
+		        		<#if file_check?exists>
+		        			<#list file_check as check>
+		        				<#if check?number==file_index>
+		        					checked
+		        				</#if>
+		        			</#list>
+		        		<#else>
+		        			checked
+		        		</#if>/>
+		        		${file.name}
 		        	</p>
 		        </#list>
 		    </#if>

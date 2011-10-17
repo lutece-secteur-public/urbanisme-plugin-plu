@@ -33,6 +33,28 @@
  */
 package fr.paris.lutece.plugins.plu.web;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.plugins.plu.business.atome.IAtomeServices;
@@ -70,30 +92,6 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import javassist.tools.rmi.AppletServer;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -2056,13 +2054,21 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
 
+        if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+        {
+        	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
+        }
+        
         if ( request instanceof MultipartHttpServletRequest )
         {
-            String ret = addFileToFileList( request );
-            if ( StringUtils.isNotEmpty( ret ) )
-            {
-            	return ret;
-            }
+        	String ret = addFileToFileList( request );
+        	if ( StringUtils.isNotEmpty( ret ) )
+        	{
+        		return ret;
+        	}
+        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -2181,6 +2187,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
 
+        if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+        {
+        	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
+        }
+        
         if ( request instanceof MultipartHttpServletRequest )
         {
         	String ret = addFileToFileList( request );
@@ -2188,6 +2199,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
+        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -2778,6 +2792,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
+
+        if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+        {
+        	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
+        }
         
         if ( request instanceof MultipartHttpServletRequest )
         {
@@ -2786,6 +2805,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
+        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -3186,13 +3208,21 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
 
+        if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+        {
+        	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
+        }
+        
         if ( request instanceof MultipartHttpServletRequest )
         {
         	String ret = addFileToFileList( request );
-        	if( StringUtils.isNotEmpty( ret ) )
+        	if ( StringUtils.isNotEmpty( ret ) )
         	{
         		return ret;
         	}
+        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -3502,6 +3532,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_LOCALE, getLocale( ) );
         model.put( MARK_NEW_VERSION, version.getVersion( ) + 1 );
 
+        if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+        {
+        	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
+        }
+        
         if ( request instanceof MultipartHttpServletRequest )
         {
         	String ret = addFileToFileList( request );
@@ -3509,6 +3544,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
+        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -4110,6 +4148,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             model.put( PARAMETER_FILE_TITLE_ATOME, request.getParameter( PARAMETER_FILE_TITLE_ATOME ) );
             model.put( PARAMETER_FILE_NAME, request.getParameter( PARAMETER_FILE_NAME ) );
             model.put( PARAMETER_FILE, request.getParameter( PARAMETER_FILE ) );
+        	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
         }
 
         if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )

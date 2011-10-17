@@ -55,6 +55,11 @@ $(document).ready(function() {
 	     			<input type="hidden" name="num_atome" value="${num_atome!}"/>
 	     			<input type="hidden" name="num_version_old" value="${num_version_old!}"/>
 	     			<input type="hidden" name="atome_description" value="${atome_description!}"/>
+	     			<#if file_check?exists>
+	     				<#list file_check as check>
+	     					<input type="hidden" name="file_check" value="${check!}" />
+	     				</#list>
+	     			</#if>
 				</#if>
 				
 				<input class="button" type="submit" value="#i18n{plu.create_atome.buttonReturn}" id="cancelButton">
