@@ -216,6 +216,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MESSAGE_ERROR_FILE_CREATE_SIZE = "plu.message.errorFileCreateSize";
     private static final String MESSAGE_ERROR_FILE_CREATE_NAME = "plu.message.errorFileCreateName";
     private static final String MESSAGE_ERROR_FILE_CREATE_TITLE = "plu.message.errorFileCreateTitle";
+    private static final String MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY = "plu.message.errorFileCreateTitleEmpty";
     private static final String MESSAGE_ERROR_REQUIRED_FILE_EPS = "plu.message.errorFileEps";
     private static final String MESSAGE_ERROR_REQUIRED_FILE_NO_EPS = "plu.message.errorFileNoEps";
     private static final String MESSAGE_ERROR_ATOME_CREATE_ID = "plu.message.errorAtomeCreateId";
@@ -2312,7 +2313,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         boolean consultation = false;
         boolean impression = false;
         String testName = _strVide;
-        String testTitle = _strVide;
+        List<String> listTitle = new ArrayList<String>( );
 
         for ( int j = 0; j < check.length; ++j )
         {
@@ -2334,7 +2335,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 if ( c == i )
                 {
-                    Object[] argsFile = { file.getTitle( ), file.getName( ) };
+                    Object[] argsFile = { fileTitle[j], file.getName( ) };
 
                     if ( file.getSize( ) <= 0 )
                     {
@@ -2348,10 +2349,16 @@ public class PluJspBean extends PluginAdminPageJspBean
                                 "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
                     }
 
-                    if ( testTitle.equals( file.getTitle( ) ) )
+                    if ( listTitle.contains( fileTitle[j] + file.getUtilisation( ) ) )
                     {
                         return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
                                 "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                    }
+                    
+                    if ( StringUtils.isEmpty( fileTitle[j]) )
+                    {
+                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY, argsFile,
+                                AdminMessage.TYPE_STOP );
                     }
 
                     int endIndex = file.getName( ).lastIndexOf( "-V" );
@@ -2365,7 +2372,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                         testName = file.getName( );
                     }
 
-                    testTitle = file.getTitle( );
+                    listTitle.add( fileTitle[j] + file.getUtilisation( ) );
 
                     if ( file.getUtilisation( ) == 'I' )
                     {
@@ -2771,7 +2778,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
-
+        
         if ( request instanceof MultipartHttpServletRequest )
         {
         	String ret = addFileToFileList( request );
@@ -2902,7 +2909,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         boolean consultation = false;
         boolean impression = false;
         String testName = _strVide;
-        String testTitle = _strVide;
+        List<String> listTitle = new ArrayList<String>( );
 
         for ( File file : _fileList )
         {
@@ -2912,7 +2919,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 if ( c == i )
                 {
-                    Object[] argsFile = { file.getTitle( ), file.getName( ) };
+                    Object[] argsFile = { fileTitle[j], file.getName( ) };
 
                     if ( file.getSize( ) <= 0 )
                     {
@@ -2924,9 +2931,15 @@ public class PluJspBean extends PluginAdminPageJspBean
 						return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
                     }
 
-                    if ( testTitle.equals( file.getTitle( ) ) )
+                    if ( listTitle.contains( fileTitle[j] + file.getUtilisation( ) ) )
                     {
-						return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
+                    	return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
+                    }
+                    
+                    if ( StringUtils.isEmpty( fileTitle[j]) )
+                    {
+                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY, argsFile,
+                                AdminMessage.TYPE_STOP );
                     }
 
                     int endIndex = file.getName( ).lastIndexOf( "-V" );
@@ -2940,7 +2953,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                         testName = file.getName( );
                     }
 
-                    testTitle = file.getTitle( );
+                    listTitle.add( fileTitle[j] + file.getUtilisation( ) );
 
                     if ( file.getUtilisation( ) == 'I' )
                     {
@@ -3264,7 +3277,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         boolean consultation = false;
         boolean impression = false;
         String testName = _strVide;
-        String testTitle = _strVide;
+        List<String> listTitle = new ArrayList<String>( );
 
         for ( File file : _fileList )
         {
@@ -3274,7 +3287,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 if ( c == i )
                 {
-                    Object[] argsFile = { file.getTitle( ), file.getName( ) };
+                    Object[] argsFile = { fileTitle[j], file.getName( ) };
 
                     if ( file.getSize( ) <= 0 )
                     {
@@ -3288,9 +3301,15 @@ public class PluJspBean extends PluginAdminPageJspBean
                                 AdminMessage.TYPE_STOP );
                     }
 
-                    if ( testTitle.equals( file.getTitle( ) ) )
+                    if ( listTitle.contains( fileTitle[j] + file.getUtilisation( ) ) )
                     {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
+                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
+	                                AdminMessage.TYPE_STOP );
+                    }
+                    
+                    if ( StringUtils.isEmpty( fileTitle[j]) )
+                    {
+                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY, argsFile,
                                 AdminMessage.TYPE_STOP );
                     }
 
@@ -3305,7 +3324,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                         testName = file.getName( );
                     }
 
-                    testTitle = file.getTitle( );
+                    listTitle.add( fileTitle[j] + file.getUtilisation( ) );
 
                     if ( file.getUtilisation( ) == 'I' )
                     {
@@ -3578,7 +3597,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         boolean consultation = false;
         boolean impression = false;
         String testName = _strVide;
-        String testTitle = _strVide;
+        List<String> listTitle = new ArrayList<String>( );
 
         for ( File file : _fileList )
         {
@@ -3588,7 +3607,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 if ( c == i )
                 {
-                    Object[] argsFile = { file.getTitle( ), file.getName( ) };
+                    Object[] argsFile = { fileTitle[j], file.getName( ) };
 
                     if ( file.getSize( ) <= 0 )
                     {
@@ -3602,10 +3621,16 @@ public class PluJspBean extends PluginAdminPageJspBean
                         "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
                     }
 
-                    if ( testTitle.equals( file.getTitle( ) ) )
+                    if ( listTitle.contains( fileTitle[j] + file.getUtilisation( ) ) )
                     {
                         return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
                         "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
+                    }
+                    
+                    if ( StringUtils.isEmpty( fileTitle[j]) )
+                    {
+                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY, argsFile,
+                                AdminMessage.TYPE_STOP );
                     }
 
                     int endIndex = file.getName( ).lastIndexOf( "-V" );
@@ -3619,7 +3644,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                         testName = file.getName( );
                     }
 
-                    testTitle = file.getTitle( );
+                    listTitle.add( fileTitle[j] + file.getUtilisation( ) );
 
                     if ( file.getUtilisation( ) == 'I' )
                     {
