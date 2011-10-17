@@ -1,14 +1,23 @@
 <div id="message-box">
 	<div class="content-box">
 		<img class="icon" alt="" src="images/admin/skin/messages/stop.png">
-		<h2>Stop</h2>
+		<#if pageTarget?exists>
+			<h2>Confirmation</h2>
+		<#else>
+			<h2>Stop</h2>
+		</#if>
 		<p>${errorMessage!}</p>
 		<form target="_self" action="${pageReturn!}" method="post">
 			<p>
 				<#list LISTE_NOM_CHAMPS as nomChamp>
 					<input type="hidden" name="${nomChamp}" value="${listeChamps[nomChamp]!}" />
-				</#list> 
-				<input class="button" type="submit" value="OK">
+				</#list> 		
+				<#if pageTarget?exists>
+					<input class="button" type="button" value="OK" onclick="javascript:window.location='${pageTarget}'">		
+					<input class="button" type="submit" value="Annuler">
+				<#else>
+					<input class="button" type="submit" value="OK">
+				</#if>
 			</p>
 		</form>
 	</div>

@@ -1,5 +1,12 @@
 <link rel="stylesheet" type="text/css" href="plugin-plu/plugin_plu.css" />
-
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#cancelButton').click(function(){
+		$('#joinFile').val('false');
+		$('#file_title').val('');
+	});
+});
+</script>
 <div class="content-box" >
 
 	<h2>#i18n{plu.create_atome.pageSubTitle} -> #i18n{plu.join_file.pageSubTitle}</h2>
@@ -15,17 +22,17 @@
     
     	<p>
         	<label for="file_title" >#i18n{plu.join_file.rowTitle} : </label>  
-        	<input type="text" id="file_title" name="file_title" size="60" maxlength="101" tabindex="2" />
+        	<input type="text" id="file_title" value="${file_title!}" name="file_title" size="60" maxlength="101" tabindex="2" />
     	</p>
     	
     	<p>
         	<label for="file_name" >#i18n{plu.join_file.rowTitleName} : </label>  
-        	<input type="text" id="file_name" name="file_name" size="60" maxlength="101" tabindex="2" />
+        	<input type="text" id="file_name" value="${file_name!}" name="file_name" size="60" maxlength="101" tabindex="2" />
     	</p>
     	
     	<p>
         	<label for="file" >#i18n{plu.join_file.rowTitleFile} : </label> 
-    	    <input type="file" id="file" name="file" size="60"/>
+    	    <input type="file" id="file" value="${file!}" name="file" size="60"/>
    		</p>
    		
    		<p>
@@ -36,44 +43,23 @@
    	
    		<p>
    			
-   			<#if one_atome?exists>
-				<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${one_plu.id}&id_atome=${one_atome.id}&id_folder=${one_folder.id}&id_version=${one_version.id}" style="text-decoration:none" id="button">
-	        	#i18n{plu.create_atome.buttonReturn}
-	        	</A>
-       			<input type="hidden" name="id_atome" value="${one_atome.id}"/>
-       			<input type="hidden" name="id_plu" value="${one_plu.id}"/>
-       			<input type="hidden" name="id_folder" value="${one_folder.id}"/>
-       			<input type="hidden" name="id_version" value="${one_version.id}"/>
-       			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
-   			<#else>
-   				<#if page="atome/CreateAtome" || page="atome/CreateAtomeWithOld" || page="atome/ModifyAtome">
-        			<input type="hidden" name="id_folder_atome" value="${id_folder_atome!}"/>
-        			<input type="hidden" name="atome_name" value="${atome_name!}"/>
-        			<input type="hidden" name="atome_title" value="${atome_title!}"/>
-        			<input type="hidden" name="id_atome" value="${id_atome!}"/>
-        			<input type="hidden" name="id_version" value="${id_version!}"/>
-        			<input type="hidden" name="num_version" value="${num_version!}"/>
-        			<input type="hidden" name="num_atome" value="${num_atome!}"/>
-        			<input type="hidden" name="atome_description" value="${atome_description!}"/>
-   				</#if>
-   				<#if one_folder?exists>
-   					<input class="button" type="button" value="#i18n{plu.create_atome.buttonReturn}" onclick="javascript:history.go(-1);">
-   					
-        			<input type="hidden" name="id_plu" value="${one_plu.id}"/>
-        			<input type="hidden" name="id_folder" value="${one_folder.id}"/>
-        			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
-   				</#if>
-   				<#if one_version?exists>
-   					<A href="jsp/admin/plugins/plu/${page}.jsp?id_plu=${one_plu.id}&id_version=${one_version.id}" style="text-decoration:none" id="button">
-   					#i18n{plu.create_atome.buttonReturn}
-        			</A>
-        			<input type="hidden" name="id_plu" value="${one_plu.id}"/>
-        			<input type="hidden" name="id_version" value="${one_version.id}"/>
-        			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />
-   				</#if>
-   				
-   			</#if>
-        	
+       		<input id="joinFile" type="hidden" name="joinFile" value="true"/>
+				<#if page="atome/CreateAtome" || page="atome/CreateAtomeWithOld" || page="atome/ModifyAtome" || page="atome/EvolveAtome">
+	     			<input type="hidden" name="id_folder_atome" value="${id_folder_atome!}"/>
+	     			<input type="hidden" name="atome_name" value="${atome_name!}"/>
+	     			<input type="hidden" name="atome_title" value="${atome_title!}"/>
+	     			<input type="hidden" name="id_atome" value="${id_atome!}"/>
+	     			<input type="hidden" name="id_version" value="${id_version!}"/>
+	     			<input type="hidden" name="id_folder" value="${id_folder!}"/>
+	     			<input type="hidden" name="num_version" value="${num_version!}"/>
+	     			<input type="hidden" name="num_atome" value="${num_atome!}"/>
+	     			<input type="hidden" name="num_version_old" value="${num_version_old!}"/>
+	     			<input type="hidden" name="atome_description" value="${atome_description!}"/>
+				</#if>
+				
+				<input class="button" type="submit" value="#i18n{plu.create_atome.buttonReturn}" id="cancelButton">
+     			<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+     			<input type="submit" value="#i18n{plu.join_file.buttonValidate}" class="button" />        	
    		</p>
    		
 	</form>

@@ -5,7 +5,7 @@
 
 	<h2>#i18n{plu.evolve_atome.pageSubTitle}</h2>
 	
-	<form enctype="multipart/form-data" method=post accept=application/pdf action="jsp/admin/plugins/plu/atome/ConfirmEvolveAtome.jsp">
+	<form enctype="multipart/form-data" method=post accept=application/pdf action="jsp/admin/plugins/plu/atome/ConfirmEvolveJoinFileAtome.jsp">
 		
 		<p>
 			<label for="id_folder" >#i18n{plu.evolve_atome.rowTitleParentFolder} : </label>
@@ -63,18 +63,14 @@
 	        <#if file_list?exists && file_list?size&gt;0 >
 		        <#list file_list as file >
 		        	<p>
-		        		<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
-		        		<input type="text" id="file_title" name="file_title" size="60" value="${file.title}" />
+		        		<label for="file_title_atome" >#i18n{plu.join_file.rowTitle} :</label>
+		        		<input type="text" id="file_title_atome" name="file_title_atome" size="60" value="${file.title}" />
 		        		<input type="checkbox" name="file_check" value="${file_index}" checked/>${file.name}
 		        	</p>
 		        </#list>
 		    </#if>
 		    
-	        <p style="margin-left:31%;">
-	        	<A href="jsp/admin/plugins/plu/file/JoinFile.jsp?page=atome/EvolveAtome&id_atome=${one_version.atome.id}&id_folder=${one_folder.id}&id_plu=${one_plu.id}&id_version=${one_version.id}" style="color:blue">
-	        		#i18n{plu.evolve_atome.rowTitleFile}
-	        	</A> 
-	        </p>
+   		  	<input type="submit" name="action" value="#i18n{plu.evolve_atome.rowTitleFile}" class="button"/>
 	    
 	    </fieldset>
         
@@ -83,6 +79,7 @@
         	#i18n{plu.evolve_atome.buttonReturn}
         	</A> 
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+        	<input type="hidden" name="page" value="atome/EvolveAtome"/>
         	<input type="hidden" name="id_version" value="${one_version.id}"/>
    		  	<input type="submit" value="#i18n{plu.evolve_atome.buttonValidate}" class="button" />
         </p>
