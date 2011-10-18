@@ -231,6 +231,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_PLU_CAUSE = "cause";
     private static final String PARAMETER_PLU_REFERENCE = "reference";
     private static final String PARAMETER_FOLDER_ID = "id_folder";
+    private static final String PARAMETER_FOLDER_ID_DUPLICATE = "id_folder_duplicate";
     private static final String PARAMETER_FOLDER_ID_ATOME = "id_folder_atome";
     private static final String PARAMETER_FOLDER_ID_RETURN = "id_folder_return";
     private static final String PARAMETER_FOLDER_TITLE = "folder_title";
@@ -238,6 +239,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_FOLDER_DESCRIPTION = "folder_description";
     private static final String PARAMETER_FOLDER_PARENT_ID = "id_parent_folder";
     private static final String PARAMETER_FOLDER_IMAGE = "folder_image";
+    private static final String PARAMETER_FOLDER_HTML_NOT_EMPTY = "joinHtml";
     private static final String PARAMETER_FOLDER_IMAGE_CHECK = "image_check";
     private static final String PARAMETER_FOLDER_HTML = "folder_html";
     private static final String PARAMETER_FOLDER_HTML_UTILISATION = "html_utilisation";
@@ -948,11 +950,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_PLU_WORK, pluWork );
         model.put( MARK_LIST_PLU_LIST, pluList );
 
-        if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
+        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
         {
             setPageTitleProperty( PROPERTY_PAGE_TITLE_TREE_ATOME );
 
-            int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
+            int nIdFolder = 0; 
+            	
+            if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
+            {
+            	nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
+            }
 
             Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
 
@@ -1196,68 +1203,71 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
         model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
 
-        if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
+        if ( request.getParameter( PARAMETER_FOLDER_ID ) != null && request.getParameter( PARAMETER_FOLDER_HTML_NOT_EMPTY ) != null )
         {
-            if ( !request.getParameter( PARAMETER_FOLDER_ID ).equals( "0" ) )
-            {
-                String utilisation = "";
-                if ( request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION ) != null )
-                {
-                    utilisation = request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION );
-                }
-
-                if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
-                {
-                    int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
-                    Folder folder = _folderServices.findByPrimaryKey( idFolder );
-                    if ( utilisation.equals( "C" ) )
-                    {
-                        _folderHtml.setHtml( folder.getHtml( ) );
-                    }
-                    else if ( utilisation.equals( "I" ) )
-                    {
-                        _folderHtml.setHtmlImpression( folder.getHtmlImpression( ) );
-                    }
-                }
-                else
-                {
-                    if ( request instanceof MultipartHttpServletRequest )
-                    {
-                        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-                        FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
-
-                        // PhysicalFile physicalFile = new PhysicalFile( );
-                        // physicalFile.setValue( fileItem.get( ) );
-                        // _folderHtml.setHtml( physicalFile.getValue( ) );
-                        if ( fileItem.getSize( ) != 0 )
-                        {
-                            if ( utilisation.equals( "C" ) )
-                            {
-                                _folderHtml.setHtml( fileItem.getString( ) );
-                            }
-                            else if ( utilisation.equals( "I" ) )
-                            {
-                                _folderHtml.setHtmlImpression( fileItem.getString( ) );
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_HTML ) ) )
-                        {
-                            String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
-                            if ( utilisation.equals( "C" ) )
-                            {
-                                _folderHtml.setHtml( strHtml );
-                            }
-                            else if ( utilisation.equals( "I" ) )
-                            {
-                                _folderHtml.setHtmlImpression( strHtml );
-                            }
-                        }
-                    }
-                }
-            }
+        	if ( request.getParameter( PARAMETER_FOLDER_HTML_NOT_EMPTY ).equals( "true" ) )
+        	{
+	            if ( !request.getParameter( PARAMETER_FOLDER_ID ).equals( "0" ) )
+	            {
+	                String utilisation = "";
+	                if ( request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION ) != null )
+	                {
+	                    utilisation = request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION );
+	                }
+	
+	                if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
+	                {
+	                    int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
+	                    Folder folder = _folderServices.findByPrimaryKey( idFolder );
+	                    if ( utilisation.equals( "C" ) )
+	                    {
+	                        _folderHtml.setHtml( folder.getHtml( ) );
+	                    }
+	                    else if ( utilisation.equals( "I" ) )
+	                    {
+	                        _folderHtml.setHtmlImpression( folder.getHtmlImpression( ) );
+	                    }
+	                }
+	                else
+	                {
+	                    if ( request instanceof MultipartHttpServletRequest )
+	                    {
+	                        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+	                        FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
+	
+	                        // PhysicalFile physicalFile = new PhysicalFile( );
+	                        // physicalFile.setValue( fileItem.get( ) );
+	                        // _folderHtml.setHtml( physicalFile.getValue( ) );
+	                        if ( fileItem.getSize( ) != 0 )
+	                        {
+	                            if ( utilisation.equals( "C" ) )
+	                            {
+	                                _folderHtml.setHtml( fileItem.getString( ) );
+	                            }
+	                            else if ( utilisation.equals( "I" ) )
+	                            {
+	                                _folderHtml.setHtmlImpression( fileItem.getString( ) );
+	                            }
+	                        }
+	                    }
+	                    else
+	                    {
+	                        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_HTML ) ) )
+	                        {
+	                            String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
+	                            if ( utilisation.equals( "C" ) )
+	                            {
+	                                _folderHtml.setHtml( strHtml );
+	                            }
+	                            else if ( utilisation.equals( "I" ) )
+	                            {
+	                                _folderHtml.setHtmlImpression( strHtml );
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+        	}
         }
 
         if ( StringUtils.isNotEmpty( _folderHtml.getHtml( ) ) )
@@ -1289,8 +1299,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Object[] args = { folderTitle };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CANCEL_CREATE_FOLDER, args, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CANCEL_CREATE_FOLDER, args, "jsp/admin/plugins/plu/folder/CreateFolder.jsp", url.getUrl( ) );
     }
 
     /**
@@ -1303,7 +1312,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         if ( request.getParameter( PARAMETER_FOLDER_TITLE ).equals( "" )
                 || request.getParameter( PARAMETER_FOLDER_DESCRIPTION ).equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, "jsp/admin/plugins/plu/folder/CreateFolder.jsp", null);
         }
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1341,8 +1350,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( folder != null )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_CREATE, args,
-                    AdminMessage.TYPE_STOP );
+            return this.getMessageJsp( request, MESSAGE_ERROR_FOLDER_CREATE, args, "jsp/admin/plugins/plu/folder/CreateFolder.jsp", null);
         }
 
         if ( request instanceof MultipartHttpServletRequest )
@@ -1357,8 +1365,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 if ( !type.equals( ".jpg" ) && !type.equals( ".png" ) && !type.equals( ".gif" ) )
                 {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args,
-                            AdminMessage.TYPE_STOP );
+                    return this.getMessageJsp( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, "jsp/admin/plugins/plu/folder/CreateFolder.jsp", null);
                 }
 
                 PhysicalFile physicalFile = new PhysicalFile( );
@@ -1368,8 +1375,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
         }
 
-        return AdminMessageService.getMessageUrl( (MultipartHttpServletRequest) request, MESSAGE_CONFIRM_CREATE_FOLDER,
-                args, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CREATE_FOLDER, args, "jsp/admin/plugins/plu/folder/CreateFolder.jsp", url.getUrl( ) );
     }
 
     /**
@@ -1468,7 +1474,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
 
         int nIdFolder = 0;
-        if ( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) != null )
+        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) ) )
         {
             nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) );
         }
@@ -1517,63 +1523,64 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             utilisation = request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION );
         }
-        if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
+        
+        if ( request.getParameter( PARAMETER_FOLDER_HTML_NOT_EMPTY ) != null )
         {
-            String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
-            if ( utilisation.equals( "C" ) )
-            {
-                _folderHtml.setHtml( strHtml );
-            }
-            else if ( utilisation.equals( "I" ) )
-            {
-                _folderHtml.setHtmlImpression( strHtml );
-            }
-        }
-        else if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
-        {
-            int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
-            Folder folderDuplicate = _folderServices.findByPrimaryKey( idFolder );
-            if ( utilisation.equals( "C" ) )
-            {
-                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
-            }
-            else if ( utilisation.equals( "I" ) )
-            {
-                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
-            }
-            else
-            {
-                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
-                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
-            }
-        }
-        else if ( request instanceof MultipartHttpServletRequest )
-        {
-            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-            FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
-
-            if ( utilisation.equals( "C" ) )
-            {
-                _folderHtml.setHtml( fileItem.getString( ) );
-            }
-            else if ( utilisation.equals( "I" ) )
-            {
-                _folderHtml.setHtmlImpression( fileItem.getString( ) );
-            }
+        	if ( request.getParameter( PARAMETER_FOLDER_HTML_NOT_EMPTY ).equals( "true" ) )
+        	{
+		        if ( request.getParameter( PARAMETER_FOLDER_HTML ) != null )
+		        {
+		            String strHtml = request.getParameter( PARAMETER_FOLDER_HTML );
+		            if ( utilisation.equals( "C" ) )
+		            {
+		                _folderHtml.setHtml( strHtml );
+		            }
+		            else if ( utilisation.equals( "I" ) )
+		            {
+		                _folderHtml.setHtmlImpression( strHtml );
+		            }
+		        }
+		        else if ( request.getParameter( PARAMETER_FOLDER_ID_DUPLICATE ) != null )
+		        {
+		            int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID_DUPLICATE ) );
+		            Folder folderDuplicate = _folderServices.findByPrimaryKey( idFolder );
+		            if ( utilisation.equals( "C" ) )
+		            {
+		                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
+		            }
+		            else if ( utilisation.equals( "I" ) )
+		            {
+		                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
+		            }
+		            else
+		            {
+		                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
+		                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
+		            }
+		        }
+		        else if ( request instanceof MultipartHttpServletRequest )
+		        {
+		            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		            FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
+		
+		            if ( utilisation.equals( "C" ) )
+		            {
+		                _folderHtml.setHtml( fileItem.getString( ) );
+		            }
+		            else if ( utilisation.equals( "I" ) )
+		            {
+		                _folderHtml.setHtmlImpression( fileItem.getString( ) );
+		            }
+		        }
+        	}
         }
         else
         {
-            if ( folder.getHtml( ) != null )
-            {
-                if ( utilisation.equals( "C" ) )
-                {
-                    _folderHtml.setHtml( folder.getHtml( ) );
-                }
-                else if ( utilisation.equals( "I" ) )
-                {
-                    _folderHtml.setHtmlImpression( folder.getHtmlImpression( ) );
-                }
-            }
+        	if ( _folderHtml.getHtml( ) == null && _folderHtml.getHtmlImpression( ) == null )
+        	{
+	        	_folderHtml.setHtml( folder.getHtml( ) );
+	        	_folderHtml.setHtmlImpression( folder.getHtmlImpression( ) );
+        	}
         }
 
         if ( StringUtils.isNotEmpty( _folderHtml.getHtml( ) ) )
@@ -1602,11 +1609,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         UrlItem url = new UrlItem( JSP_TREE_PLU );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
+        url.addParameter( PARAMETER_FOLDER_ID, "" );
+        url.addParameter( PARAMETER_FOLDER_TITLE, "" );
 
         Object[] args = { folderTitle };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CANCEL_MODIFY_FOLDER, args, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CANCEL_MODIFY_FOLDER, args, "jsp/admin/plugins/plu/folder/ModifyFolder.jsp", url.getUrl( ) );
     }
 
     /**

@@ -94,9 +94,7 @@
 	    </fieldset>
 	    
         <p>
-        	<A href="jsp/admin/plugins/plu/folder/ConfirmCancelCreateFolder.jsp?id_plu=${one_plu.id}" style="text-decoration:none" id="button">
-        	#i18n{plu.create_folder.buttonReturn}
-        	</A>
+   		  	<input type="submit" name="action" value="#i18n{plu.create_folder.buttonReturn}" class="button" />
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
         	<input type="hidden" name="page" value="folder/CreateFolder"/>
         	<#if folder_html?exists>

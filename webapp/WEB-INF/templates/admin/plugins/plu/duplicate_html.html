@@ -1,5 +1,13 @@
 <link rel="stylesheet" type="text/css" href="plugin-plu/plugin_plu.css" />
 
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#cancelHtml').click(function(){
+		$('#joinHtml').val('false');
+	});
+});
+</script>
+
 <div class="content-box" >
 
 	<h2>#i18n{plu.duplicate_html.pageSubTitle}</h2>
@@ -7,8 +15,8 @@
 	<form enctype="multipart/form-data" method=post action="jsp/admin/plugins/plu/${page}.jsp">
 		
     	<p>
-        	<label for="id_folder" >#i18n{plu.duplicate_html.rowTitleHtml} : </label> 
-    	    <select name="id_folder" style="width:331px;">
+        	<label for="id_folder_duplicate" >#i18n{plu.duplicate_html.rowTitleHtml} : </label> 
+    	    <select name="id_folder_duplicate" style="width:331px;">
 				<option value="0">none</option>
 				<#list folder_list as folder>
 					<#if folder.html?has_content>
@@ -19,12 +27,13 @@
    		</p>
    	
    		<p>
-   			<input class="button" type="button" value="#i18n{plu.duplicate_html.buttonReturn}" onclick="javascript:history.go(-1);">
+   			<input id="cancelHtml" class="button" type="submit" value="#i18n{plu.duplicate_html.buttonReturn}" />
 
         	<#if one_folder?exists>
 				<input type="hidden" name="id_folder_return" value="${one_folder.id}"/>
         	</#if>
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
+        	<input type="hidden" name="joinHtml" id="joinHtml" value="true" />
         	<input type="hidden" name="id_parent_folder" value="${id_parent_folder!}"/>
         	<input type="hidden" name="folder_title" value="${folder_title!}"/>
         	<input type="hidden" name="folder_image" value="${folder_image!}"/>

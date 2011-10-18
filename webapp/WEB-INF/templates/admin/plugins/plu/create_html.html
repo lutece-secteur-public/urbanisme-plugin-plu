@@ -1,5 +1,13 @@
 <#include "/admin/util/editor/editor.html" />
 
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#cancelHtml').click(function(){
+		$('#joinHtml').val('false');
+	});
+});
+</script>
+
 <div class="content-box" >
 
 	<h2>#i18n{plu.create_html.pageSubTitle}</h2>
@@ -19,7 +27,7 @@
     	</p>
     	   	
    		<p>
-   			<input class="button" type="button" value="#i18n{plu.create_html.buttonReturn}" onclick="javascript:history.go(-1);">
+   			<input id="cancelHtml" class="button" type="submit" value="#i18n{plu.create_html.buttonReturn}">
         	<#if one_folder?exists>
 				<input type="hidden" name="id_folder_return" value="${one_folder.id}"/>
         	</#if>
@@ -28,6 +36,7 @@
         	<input type="hidden" name="folder_title" value="${folder_title!}"/>
         	<input type="hidden" name="folder_image" value="${folder_image!}"/>
 	        <input type="hidden" name="id_folder" value="${id_folder!}"/>
+	        <input type="hidden" id="joinHtml" name="joinHtml" value="true"/>
 	        <input type="hidden" id="html_utilisation" name="html_utilisation" value="${html_utilisation!}"/>
         	<input type="hidden" name="folder_description" value="${folder_description!}"/>
         	<input type="submit" value="#i18n{plu.create_html.buttonValidate}" class="button" />
