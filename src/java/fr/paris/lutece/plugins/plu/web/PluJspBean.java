@@ -2066,9 +2066,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
-        	model.put( PARAMETER_FILE_CHECK, tmp );
+        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+        	{
+	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+	        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	model.put( PARAMETER_FILE_CHECK, tmp );
+        	}
         }
 
         if ( !_fileList.isEmpty( ) )
