@@ -66,7 +66,7 @@
 		        		<input type="checkbox" name="file_check" value="${file_index}" 
 		        		<#if file_check?exists>
 		        			<#list file_check as check>
-		        				<#if check?number==file_index>
+		        				<#if check?has_content && check?number==file_index>
 		        					checked
 		        				</#if>
 		        			</#list>
