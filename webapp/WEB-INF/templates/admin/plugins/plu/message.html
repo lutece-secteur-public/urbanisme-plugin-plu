@@ -1,3 +1,10 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#OK').click(function(){
+			$('#formConfirm').attr('action', '${pageTarget!}');
+		});
+	});
+</script>
 <div id="message-box">
 	<div class="content-box">
 		<img class="icon" alt="" src="images/admin/skin/messages/stop.png">
@@ -7,13 +14,13 @@
 			<h2>Stop</h2>
 		</#if>
 		<p>${errorMessage!}</p>
-		<form target="_self" action="${pageReturn!}" method="post">
+		<form id="formConfirm" target="_self" action="${pageReturn!}" method="post">
 			<p>
 				<#list LISTE_NOM_CHAMPS as nomChamp>
 					<input type="hidden" name="${nomChamp}" value="${listeChamps[nomChamp]!}" />
 				</#list> 		
 				<#if pageTarget?exists>
-					<input class="button" type="button" value="OK" onclick="javascript:window.location='${pageTarget}'">		
+					<input id="OK" class="button" type="submit" value="OK">		
 					<input class="button" type="submit" value="Annuler">
 				<#else>
 					<input class="button" type="submit" value="OK">
