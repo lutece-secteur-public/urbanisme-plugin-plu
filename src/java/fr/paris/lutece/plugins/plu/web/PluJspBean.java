@@ -222,6 +222,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MESSAGE_ERROR_ATOME_CREATE_TITLE = "plu.message.errorAtomeCreateTitle";
     private static final String MESSAGE_ERROR_ATOME_CREATE_FILE_CHECK = "plu.message.errorAtomeCreateFileCheck";
     private static final String MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_SUP = "plu.message.errorAtomeCreateNumVersionSup";
+    private static final String MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_EXISTS = "plu.message.errorAtomeCreateNumVersionExists";
     private static final String MESSAGE_ERROR_ATOME_ID_NUMBER = "plu.message.errorAtomeIdNumber";
     private static final String MESSAGE_ERROR_VERSION_NUMBER = "plu.message.errorVersionNumer";
 
@@ -3614,6 +3615,19 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_SUP, argsVersion,
             "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
+        }
+        
+        // Return error message if an atome allready exists on this version
+        AtomeFilter atomeFilter = new AtomeFilter( );
+        atomeFilter.set_name( atomeName );
+        atomeFilter.set_title( atomeTitle );
+        atomeFilter.set_id( nIdAtome );
+        VersionFilter versionFilter = new VersionFilter( );
+        versionFilter.set_version( numVersion );
+        if ( _versionServices.findByFilter(atomeFilter, versionFilter) != null )
+        {
+            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_EXISTS, argsVersion,
+                    "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );        	
         }
 
         for ( int j = 0; j < check.length; ++j )
