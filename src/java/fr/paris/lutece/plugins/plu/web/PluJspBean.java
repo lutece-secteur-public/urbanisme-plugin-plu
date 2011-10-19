@@ -1238,10 +1238,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 	                        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 	                        FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
 	
-	                        // PhysicalFile physicalFile = new PhysicalFile( );
-	                        // physicalFile.setValue( fileItem.get( ) );
-	                        // _folderHtml.setHtml( physicalFile.getValue( ) );
-	                        if ( fileItem.getSize( ) != 0 )
+	                        if ( fileItem != null && fileItem.getSize( ) != 0 )
 	                        {
 	                            if ( utilisation.equals( "C" ) )
 	                            {
