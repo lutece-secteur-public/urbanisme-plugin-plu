@@ -5,7 +5,7 @@
 
 	<h2>#i18n{plu.correct_atome.pageSubTitle}</h2>
 	
-	<form enctype="multipart/form-data" method=post accept=application/pdf action="jsp/admin/plugins/plu/atome/ConfirmCorrectAtome.jsp">
+	<form enctype="multipart/form-data" method=post accept=application/pdf action="jsp/admin/plugins/plu/atome/ConfirmCorrectAtomeJoinFile.jsp">
 		
 		<p>
 			<label for="id_folder" >#i18n{plu.correct_atome.rowTitleParentFolder} : </label>
@@ -46,7 +46,7 @@
 
 		<p>
         	<label for="description" >#i18n{plu.correct_atome.rowTitleDescription} :</label>
-        	<textarea id="description" name="description" cols="59" rows="3" style="border: 1px solid rgb(85, 180, 229);"></textarea>
+        	<textarea id="description" name="description" cols="59" rows="3" style="border: 1px solid rgb(85, 180, 229);">${description!}</textarea>
         </p>
 
         <p>
@@ -66,9 +66,8 @@
 	        <#if file_list?exists && file_list?size&gt;0 >
 		        <#list file_list as file >
 		        	<p>
-		        		<label for="file_title" >#i18n{plu.join_file.rowTitle} :</label>
-		        		<input type="text" id="file_title" name="file_title" size="60" value="${file.title}" />
-		        		<input type="checkbox" checked  disabled="disabled" />${file.name}
+		        		<label for="file_title_atome" >#i18n{plu.join_file.rowTitle} :</label>
+		        		<input type="text" id="file_title_atome" name="file_title_atome" size="60" value="${file.title}" />
 		        		<input type="checkbox" name="file_check" value="${file_index}" 
 		        		<#if file_check?exists>
 		        			<#list file_check as check>
@@ -84,11 +83,7 @@
 		        </#list>
 		    </#if>
 		    
-	        <p style="margin-left:31%;">
-	        	<A style="color:#989898;" disabled="disabled" >
-	        		#i18n{plu.correct_atome.rowTitleFile}
-	        	</A> 
-	        </p>
+   		  	<input type="submit" name="action" value="#i18n{plu.correct_atome.rowTitleFile}" class="button"/>
 	    
 	    </fieldset>
         
@@ -98,8 +93,9 @@
         	</A> 
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
         	<input type="hidden" name="id_version" value="${one_version.id}"/>
+        	<input type="hidden" name="page" value="atome/CorrectAtome"/>
         	<input type="hidden" name="id_atome_old" value="${one_version.atome.id}"/>
-   		  	<input type="submit" value="#i18n{plu.correct_atome.buttonValidate}" class="button" />
+   		  	<input type="submit" name="action" value="#i18n{plu.correct_atome.buttonValidate}" class="button" />
         </p>
         
 	</form>

@@ -44,7 +44,7 @@ $(document).ready(function() {
    		<p>
    			
        		<input id="joinFile" type="hidden" name="joinFile" value="true"/>
-				<#if page="atome/CreateAtome" || page="atome/CreateAtomeWithOld" || page="atome/ModifyAtome" || page="atome/EvolveAtome">
+				<#if page="atome/CreateAtome" || page="atome/CreateAtomeWithOld" || page="atome/CorrectAtome" || page="atome/ModifyAtome" || page="atome/EvolveAtome">
 	     			<input type="hidden" name="id_folder_atome" value="${id_folder_atome!}"/>
 	     			<input type="hidden" name="atome_name" value="${atome_name!}"/>
 	     			<input type="hidden" name="atome_title" value="${atome_title!}"/>
@@ -54,6 +54,7 @@ $(document).ready(function() {
 	     			<input type="hidden" name="num_version" value="${num_version!}"/>
 	     			<input type="hidden" name="num_atome" value="${num_atome!}"/>
 	     			<input type="hidden" name="num_version_old" value="${num_version_old!}"/>
+	     			<input type="hidden" name="description" value="${description!}" />
 	     			<input type="hidden" name="atome_description" value="${atome_description!}"/>
 	     			<#if file_check?exists>
 	     				<#list file_check as check>
