@@ -3501,10 +3501,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
 
-        if ( request.getParameter( PARAMETER_VERSION_NUM ) != null )
-        {
-            version.setVersion( Integer.parseInt( request.getParameter( PARAMETER_VERSION_NUM ) ) );
-        }
         if ( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) != null )
         {
             version.getAtome( ).setDescription( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
@@ -3522,7 +3518,14 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
-        model.put( MARK_NEW_VERSION, version.getVersion( ) + 1 );
+        if ( request.getParameter( PARAMETER_VERSION_NUM ) != null )
+        {
+            model.put( MARK_NEW_VERSION, request.getParameter( PARAMETER_VERSION_NUM ) );
+        }
+        else
+        {
+            model.put( MARK_NEW_VERSION, version.getVersion( ) + 1 );
+        }
         if ( request.getParameter( PARAMETER_REINIT ) != null )
         {
         	model.put( PARAMETER_REINIT, request.getParameter( PARAMETER_REINIT ) );
@@ -3624,7 +3627,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         atomeFilter.set_id( nIdAtome );
         VersionFilter versionFilter = new VersionFilter( );
         versionFilter.set_version( numVersion );
-        if ( _versionServices.findByFilter(atomeFilter, versionFilter) != null )
+        if ( !_versionServices.findByFilter(atomeFilter, versionFilter).isEmpty( ) )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_EXISTS, argsVersion,
                     "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );        	
