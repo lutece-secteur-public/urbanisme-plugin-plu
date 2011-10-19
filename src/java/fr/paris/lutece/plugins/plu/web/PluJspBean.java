@@ -33,28 +33,6 @@
  */
 package fr.paris.lutece.plugins.plu.web;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.plugins.plu.business.atome.IAtomeServices;
@@ -92,6 +70,28 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -1398,15 +1398,27 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             folder.setImg( _folderImage.getImg( ) );
         }
+        else
+        {
+            folder.setImg( null );
+        }
 
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
         {
             folder.setHtml( _folderHtml.getHtml( ) );
         }
+        else
+        {
+            folder.setHtml( null );
+        }
 
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK_IMPRESSION ) ) )
         {
             folder.setHtmlImpression( _folderHtml.getHtmlImpression( ) );
+        }
+        else
+        {
+            folder.setHtmlImpression( null );
         }
 
         _folderServices.create( folder );
@@ -1733,16 +1745,22 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             folder.setImg( _folderImage.getImg( ) );
         }
+        else
+            folder.setImg( null );
 
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
         {
             folder.setHtml( _folderHtml.getHtml( ) );
         }
+        else
+            folder.setHtml( null );
 
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK_IMPRESSION ) ) )
         {
             folder.setHtmlImpression( _folderHtml.getHtmlImpression( ) );
         }
+        else
+            folder.setHtmlImpression( null );
 
         _folderServices.update( folder );
 

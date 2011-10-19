@@ -74,13 +74,13 @@
 	        </p>
 			<#if folder_html?exists>
 		        <p>
-		        	<input type="checkbox" name="html_check" value="true" checked/>nom_dossier-id_dossier.html
+		        	<input type="checkbox" name="html_check" value="true" checked/> ${one_folder.title!"titre_dossier"}-${one_folder.id!"id_dossier"}-C.html
 		        </p>
 		    </#if>
 	    </fieldset>
         
          <fieldset style="width:66%; margin:10px 0 0 17%; border-radius: 11px 11px 11px 11px;">
-			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage}</legend>
+			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage_impression}</legend>
 			
 			<p>
    		  		<input type="submit" id="creerImpression" name="action" value="#i18n{plu.create_folder.rowTitleCreateHtml}" class="button" />
@@ -90,7 +90,7 @@
 	        </p>
 			<#if folder_html_impression?exists>
 		        <p>
-		        	<input type="checkbox" name="html_check_impression" value="true" checked/>nom_dossier-id_dossier.html
+		        	<input type="checkbox" name="html_check_impression" value="true" checked/> ${one_folder.title!"titre_dossier"}-${one_folder.id!"id_dossier"}-I.html
 		        </p>
 		    </#if>
 	    </fieldset>

@@ -19,8 +19,8 @@ $(document).ready(function() {
     	    <select name="id_folder_duplicate" style="width:331px;">
 				<option value="0">none</option>
 				<#list folder_list as folder>
-					<#if folder.html?has_content>
-     				<option value="${folder.id}">${folder.title}${folder.id}.html</option>
+					<#if (html_utilisation == 'C' && folder.html?has_content) || (html_utilisation == 'I' && folder.htmlImpression?has_content)>
+     				<option value="${folder.id}">${folder.title}-${folder.id}-${html_utilisation!}.html</option>
      				</#if>
      			</#list>
 			</select>
