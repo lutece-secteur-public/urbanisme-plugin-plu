@@ -38,11 +38,14 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * PluServices
  * @author vLopez
  */
+@Transactional
 public class PluServices implements IPluServices
 {
     private IPluHome _home;
