@@ -76,9 +76,6 @@ public class PluApp implements XPageApplication
     /** Templates */
     private static final String TEMPLATE_XPAGE_PLU_SEARCH = "skin/plugins/plu/plu_search.html";
 
-    /** Public Fields */
-    public Plugin _plugin;
-
     /**
      * renvoie la page.
      * @param request le requête http
@@ -105,6 +102,10 @@ public class PluApp implements XPageApplication
         return page;
     }
 
+    /**
+     * @param request the request
+     * @return the search
+     */
     private String getPluSearch( HttpServletRequest request )
     {
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_PLU_SEARCH );
@@ -112,6 +113,11 @@ public class PluApp implements XPageApplication
         return template.getHtml( );
     }
 
+    
+    /**
+     * @param request the request
+     * @return the search
+     */
     private String doPluSearch( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>( );

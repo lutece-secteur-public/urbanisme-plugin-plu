@@ -49,7 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PluServices implements IPluServices
 {
     private IPluHome _home;
-    private IIsoHome isoHome;
+    private IIsoHome _isoHome;
 
     /**
      * @return the instance of the service
@@ -151,7 +151,7 @@ public class PluServices implements IPluServices
      */
     public IIsoHome getIsoHome( )
     {
-        return isoHome;
+        return _isoHome;
     }
 
     /**
@@ -159,6 +159,6 @@ public class PluServices implements IPluServices
      */
     public void setIsoHome( IIsoHome isoHome )
     {
-        this.isoHome = isoHome;
+        this._isoHome = isoHome;
     }
 }

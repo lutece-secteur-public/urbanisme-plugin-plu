@@ -47,7 +47,7 @@ public class FolderFilter
      * Get the plu id filtered
      * @return the plu id
      */
-    public Integer get_plu(  )
+    public Integer getPlu(  )
     {
         return _plu;
     }
@@ -56,7 +56,7 @@ public class FolderFilter
      * Set the plu id to filter
      * @param plu the plu id
      */
-    public void set_plu( Integer plu )
+    public void setPlu( Integer plu )
     {
         this._plu = plu;
     }
@@ -74,7 +74,7 @@ public class FolderFilter
      * Get the folder title filtered
      * @return the folder title
      */
-    public String get_title(  )
+    public String getTitle(  )
     {
         return _title;
     }
@@ -83,7 +83,7 @@ public class FolderFilter
      * Set the folder title to filter
      * @param title the folder title
      */
-    public void set_title( String title )
+    public void setTitle( String title )
     {
         this._title = title;
     }

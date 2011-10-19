@@ -138,22 +138,22 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
 
         if ( fileFilter.containsTitle(  ) )
         {
-            q.setParameter( "titleFile", fileFilter.get_title(  ) );
+            q.setParameter( "titleFile", fileFilter.getTitle(  ) );
         }
 
         if ( fileFilter.containsName(  ) )
         {
-            q.setParameter( "nameFile", fileFilter.get_name(  ) );
+            q.setParameter( "nameFile", fileFilter.getName(  ) );
         }
 
         if ( fileFilter.containsMimeType(  ) )
         {
-            q.setParameter( "typeFile", fileFilter.get_mimeType(  ) );
+            q.setParameter( "typeFile", fileFilter.getMimeType(  ) );
         }
 
         if ( atomeFilter.containsName(  ) )
         {
-            q.setParameter( "nameAtome", atomeFilter.get_name(  ) );
+            q.setParameter( "nameAtome", atomeFilter.getName(  ) );
         }
 
         List<File> fileList = q.getResultList(  );

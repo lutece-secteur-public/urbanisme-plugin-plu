@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 public class PluVersionInclude implements PageInclude
 {
 
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.portal.service.includes.PageInclude#fillTemplate(java.util.Map, fr.paris.lutece.portal.service.content.PageData, int, javax.servlet.http.HttpServletRequest)
+     */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
     	DateFormat dateFormatPLU = new SimpleDateFormat( "dd/MM/yyyy" );

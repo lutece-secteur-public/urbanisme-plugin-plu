@@ -125,15 +125,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
         EntityManager em = getEM( );
         Query q = em.createQuery( SQL_QUERY_SELECT_PLU_APPLIED );
         Plu plu = null;
-        try
-        {
-            plu = (Plu) q.getSingleResult( );
-
-        }
-        catch ( NoResultException e )
-        {
-        }
-
+        plu = (Plu) q.getSingleResult( );
         return plu;
     }
 }

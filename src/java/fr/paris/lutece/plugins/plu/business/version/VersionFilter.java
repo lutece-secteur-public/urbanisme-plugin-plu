@@ -52,7 +52,7 @@ public class VersionFilter
      * Get the version version filtered
      * @return the version version
      */
-    public Integer get_version(  )
+    public Integer getVersion(  )
     {
         return _version;
     }
@@ -61,7 +61,7 @@ public class VersionFilter
      * Set the version version to filter
      * @param version the version version
      */
-    public void set_version( Integer version )
+    public void setVersion( Integer version )
     {
         this._version = version;
     }
@@ -79,7 +79,7 @@ public class VersionFilter
      * Get the version d1 filtered
      * @return the version d1
      */
-    public Date get_d1(  )
+    public Date getD1(  )
     {
         return _d1;
     }
@@ -88,7 +88,7 @@ public class VersionFilter
      * Set the version d1 to filter
      * @param d1 the version d1
      */
-    public void set_d1( Date d1 )
+    public void setD1( Date d1 )
     {
         this._d1 = d1;
     }
@@ -106,7 +106,7 @@ public class VersionFilter
      * Get the version d2 filtered
      * @return the version d2
      */
-    public Date get_d2(  )
+    public Date getD2(  )
     {
         return _d2;
     }
@@ -115,7 +115,7 @@ public class VersionFilter
      * Set the version d2 to filter
      * @param d2 the version d2
      */
-    public void set_d2( Date d2 )
+    public void setD2( Date d2 )
     {
         this._d2 = d2;
     }
@@ -133,7 +133,7 @@ public class VersionFilter
      * Get the version d3 filtered
      * @return the version d3
      */
-    public Date get_d3(  )
+    public Date getD3(  )
     {
         return _d3;
     }
@@ -142,7 +142,7 @@ public class VersionFilter
      * Set the version d3 to filter
      * @param d3 the version d3
      */
-    public void set_d3( Date d3 )
+    public void setD3( Date d3 )
     {
         this._d3 = d3;
     }
@@ -160,7 +160,7 @@ public class VersionFilter
      * Get the version d4 filtered
      * @return the version d4
      */
-    public Date get_d4(  )
+    public Date getD4(  )
     {
         return _d4;
     }
@@ -169,7 +169,7 @@ public class VersionFilter
      * Set the version d4 to filter
      * @param d4 the version d4
      */
-    public void set_d4( Date d4 )
+    public void setD4( Date d4 )
     {
         this._d4 = d4;
     }

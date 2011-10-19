@@ -33,20 +33,19 @@
  */
 package fr.paris.lutece.plugins.plu.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.plugins.plu.business.iso.IIsoServices;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -55,21 +54,20 @@ import javax.servlet.http.HttpServletRequest;
 public class IsoListApp implements XPageApplication
 {
     /** Parameters */
-    private static final String PARAMETER_PAGE = "page";
     private static final String PROPERTY_PAGE_TITLE = "plu.page_iso.pageTitle";
     private static final String PROPERTY_PAGE_PATH = "plu.page_iso.pageTitle";
 
     /** Templates */
     private static final String TEMPLATE_XPAGE_ISO_LIST = "skin/plugins/plu/iso_list.html";
 
-    /** Public Fields */
-    public Plugin _plugin;
+    private IIsoServices _isoServices;
 
-    private IIsoServices isoServices;
-
+    /**
+     * Constructor
+     */
     public IsoListApp( )
     {
-        isoServices = (IIsoServices) SpringContextService.getBean( "plu.isoServices" );
+        _isoServices = (IIsoServices) SpringContextService.getBean( "plu.isoServices" );
     }
 
     /**
@@ -83,9 +81,6 @@ public class IsoListApp implements XPageApplication
     {
         XPage page = new XPage( );
 
-        String strPluginName = request.getParameter( PARAMETER_PAGE );
-        _plugin = PluginService.getPlugin( strPluginName );
-
         page.setTitle( I18nService.getLocalizedString( PROPERTY_PAGE_TITLE, I18nService.getDefaultLocale( ) ) );
         page.setPathLabel( I18nService.getLocalizedString( PROPERTY_PAGE_PATH, I18nService.getDefaultLocale( ) ) );
 
@@ -96,13 +91,13 @@ public class IsoListApp implements XPageApplication
 
     /**
      * Renvoie le code html de la page listant les iso à télécharger
-     * @param request
-     * @return
+     * @param request the request
+     * @return the iso list
      */
     private String getIsoLists( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( "isoList", isoServices.findList( ) );
+        model.put( "isoList", _isoServices.findList( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_ISO_LIST, request.getLocale( ), model );
 

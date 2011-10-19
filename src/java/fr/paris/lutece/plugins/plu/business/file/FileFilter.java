@@ -48,7 +48,7 @@ public class FileFilter
      * Get the file name filtered
      * @return the file name
      */
-    public String get_name(  )
+    public String getName(  )
     {
         return _name;
     }
@@ -57,7 +57,7 @@ public class FileFilter
      * Set the file name to filter
      * @param name the file name
      */
-    public void set_name( String name )
+    public void setName( String name )
     {
         this._name = name;
     }
@@ -75,7 +75,7 @@ public class FileFilter
      * Get the file title filtered
      * @return the file title
      */
-    public String get_title(  )
+    public String getTitle(  )
     {
         return _title;
     }
@@ -84,7 +84,7 @@ public class FileFilter
      * Set the file title to filter
      * @param title the file title
      */
-    public void set_title( String title )
+    public void setTitle( String title )
     {
         this._title = title;
     }
@@ -102,7 +102,7 @@ public class FileFilter
      * Get the file mime type filtered
      * @return the file mime type
      */
-    public String get_mimeType(  )
+    public String getMimeType(  )
     {
         return _mimeType;
     }
@@ -111,7 +111,7 @@ public class FileFilter
      * Set the file mime type to filter
      * @param mimeType the file mime type
      */
-    public void set_mimeType( String mimeType )
+    public void setMimeType( String mimeType )
     {
         this._mimeType = mimeType;
     }

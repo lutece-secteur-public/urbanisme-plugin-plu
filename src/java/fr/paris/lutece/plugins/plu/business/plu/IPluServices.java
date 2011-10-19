@@ -79,5 +79,10 @@ public interface IPluServices
      */
     Plu findPluApplied( );
 
+    /**
+     * @param dateDebut date de début
+     * @param dateFin date de fin
+     * @return la liste de plu correspondant
+     */
     List<Plu> findWithFilters( String dateDebut, String dateFin );
 }

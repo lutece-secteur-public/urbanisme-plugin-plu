@@ -279,14 +279,20 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( bUpdateFile )
         {
-            new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile(  ) ).delete(  );
+            if( !new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile(  ) ).delete(  ) )
+            {
+            	throw new AppException("An error occured when trying to delete file");
+            }
             pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
             writeTemplateFile( strFileName, strPathFilePageTemplate, fileTemplate );
         }
 
         if ( bUpdatePicture )
         {
-            new File( strPathImagePageTemplate, pageTemplate.getPicture(  ) ).delete(  );
+        	if( !new File( strPathImagePageTemplate, pageTemplate.getPicture(  ) ).delete(  ) )
+        	{
+        		throw new AppException("An error occured when trying to delete file");
+        	}
             pageTemplate.setPicture( strPictureName );
             writeTemplateFile( strPictureName, strPathImagePageTemplate, filePicture );
         }
@@ -347,14 +353,20 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( ( filePageTemplateToDelete != null ) && filePageTemplateToDelete.exists(  ) )
         {
-            filePageTemplateToDelete.delete(  );
+            if ( !filePageTemplateToDelete.delete(  ) )
+         	{
+        		throw new AppException("An error occured when trying to delete file");
+        	}
         }
 
         File filePictureToDelete = new File( strPathImagePageTemplate, pageTemplate.getPicture(  ) );
 
         if ( ( filePictureToDelete != null ) && filePictureToDelete.exists(  ) )
         {
-            filePictureToDelete.delete(  );
+            if ( !filePictureToDelete.delete(  ) )
+         	{
+        		throw new AppException("An error occured when trying to delete file");
+        	}
         }
 
         PageTemplateHome.remove( nId );
@@ -382,7 +394,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
             if ( file.exists(  ) )
             {
-                file.delete(  );
+                if ( !file.delete(  ) )
+             	{
+            		throw new AppException("An error occured when trying to delete file");
+            	}
             }
         	fosFile = new FileOutputStream( file );
             fosFile.flush(  );

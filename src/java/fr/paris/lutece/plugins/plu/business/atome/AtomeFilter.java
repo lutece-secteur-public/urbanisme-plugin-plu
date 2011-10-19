@@ -48,7 +48,7 @@ public class AtomeFilter
      * Get the atome id filtered
      * @return the atome title
      */
-    public Integer get_id(  )
+    public Integer getId(  )
     {
         return _id;
     }
@@ -57,7 +57,7 @@ public class AtomeFilter
      * Set the atome id to filter
      * @param id the atome id
      */
-    public void set_id( Integer id )
+    public void setId( Integer id )
     {
         this._id = id;
     }
@@ -75,7 +75,7 @@ public class AtomeFilter
      * Get the atome name filtered
      * @return the atome name
      */
-    public String get_name(  )
+    public String getName(  )
     {
         return _name;
     }
@@ -84,7 +84,7 @@ public class AtomeFilter
      * Set the atome name to filter
      * @param name the atome name
      */
-    public void set_name( String name )
+    public void setName( String name )
     {
         this._name = name;
     }
@@ -102,7 +102,7 @@ public class AtomeFilter
      * Get the atome title filtered
      * @return the atome title
      */
-    public String get_title(  )
+    public String getTitle(  )
     {
         return _title;
     }
@@ -111,7 +111,7 @@ public class AtomeFilter
      * Set the atome title to filter
      * @param title the atome title
      */
-    public void set_title( String title )
+    public void setTitle( String title )
     {
         this._title = title;
     }

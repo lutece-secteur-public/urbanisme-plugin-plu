@@ -257,45 +257,45 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 
         if ( atomeFilter.containsId( ) )
         {
-            q.setParameter( "idAtome", atomeFilter.get_id( ) );
+            q.setParameter( "idAtome", atomeFilter.getId( ) );
         }
 
         if ( atomeFilter.containsName( ) )
         {
-            q.setParameter( "nameAtome", "%" + atomeFilter.get_name( ) + "%" );
+            q.setParameter( "nameAtome", "%" + atomeFilter.getName( ) + "%" );
         }
 
         if ( atomeFilter.containsTitle( ) )
         {
-            q.setParameter( "titleAtome", "%" + atomeFilter.get_title( ) + "%" );
+            q.setParameter( "titleAtome", "%" + atomeFilter.getTitle( ) + "%" );
         }
 
         if ( versionFilter.containsVersion( ) )
         {
-            q.setParameter( "numVersion", versionFilter.get_version( ) );
+            q.setParameter( "numVersion", versionFilter.getVersion( ) );
         }
 
         if ( versionFilter.containsD1( ) )
         {
-            java.sql.Date sqlD1 = new java.sql.Date( versionFilter.get_d1( ).getTime( ) );
+            java.sql.Date sqlD1 = new java.sql.Date( versionFilter.getD1( ).getTime( ) );
             q.setParameter( "d1", sqlD1 );
         }
 
         if ( versionFilter.containsD2( ) )
         {
-            java.sql.Date sqlD2 = new java.sql.Date( versionFilter.get_d2( ).getTime( ) );
+            java.sql.Date sqlD2 = new java.sql.Date( versionFilter.getD2( ).getTime( ) );
             q.setParameter( "d2", sqlD2 );
         }
 
         if ( versionFilter.containsD3( ) )
         {
-            java.sql.Date sqlD3 = new java.sql.Date( versionFilter.get_d3( ).getTime( ) );
+            java.sql.Date sqlD3 = new java.sql.Date( versionFilter.getD3( ).getTime( ) );
             q.setParameter( "d3", sqlD3 );
         }
 
         if ( versionFilter.containsD4( ) )
         {
-            java.sql.Date sqlD4 = new java.sql.Date( versionFilter.get_d4( ).getTime( ) );
+            java.sql.Date sqlD4 = new java.sql.Date( versionFilter.getD4( ).getTime( ) );
             q.setParameter( "d4", sqlD4 );
         }
 

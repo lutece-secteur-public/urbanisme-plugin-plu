@@ -244,12 +244,12 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         TypedQuery<Folder> q = em.createQuery( strSQL, Folder.class );
         if ( filter.containsPlu(  ) )
         {
-            q.setParameter( "idPlu", filter.get_plu(  ) );
+            q.setParameter( "idPlu", filter.getPlu(  ) );
         }
 
         if ( filter.containsTitle(  ) )
         {
-            q.setParameter( "title", filter.get_title(  ) );
+            q.setParameter( "title", filter.getTitle(  ) );
         }
 
         List<Folder> folderList = q.getResultList(  );

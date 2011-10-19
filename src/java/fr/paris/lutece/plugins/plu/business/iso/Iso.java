@@ -70,11 +70,11 @@ public class Iso
     private static final String JPA_COLUMN_NAME = "plu_iso_id";
     private int _id;
     private Plu _plu;
-    private String nomConsultation;
-    private String nomImpression;
-    private Date date;
-    private Long tailleConsultation;
-    private Long tailleImpression;
+    private String _nomConsultation;
+    private String _nomImpression;
+    private Date _date;
+    private Long _tailleConsultation;
+    private Long _tailleImpression;
 
     /**
      * Returns the identifier of this iso
@@ -124,7 +124,7 @@ public class Iso
     @Column( name = "iso_c_nom" )
     public String getNomConsultation( )
     {
-        return nomConsultation;
+        return _nomConsultation;
     }
 
     /**
@@ -132,7 +132,7 @@ public class Iso
      */
     public void setNomConsultation( String nom )
     {
-        this.nomConsultation = nom;
+        this._nomConsultation = nom;
     }
 
     /**
@@ -141,7 +141,7 @@ public class Iso
     @Column( name = "iso_i_nom" )
     public String getNomImpression( )
     {
-        return nomImpression;
+        return _nomImpression;
     }
 
     /**
@@ -149,7 +149,7 @@ public class Iso
      */
     public void setNomImpression( String nom )
     {
-        this.nomImpression = nom;
+        this._nomImpression = nom;
     }
 
     /**
@@ -158,7 +158,7 @@ public class Iso
     @Column( name = "iso_date" )
     public Date getDate( )
     {
-        return date;
+        return _date;
     }
 
     /**
@@ -166,7 +166,7 @@ public class Iso
      */
     public void setDate( Date date )
     {
-        this.date = date;
+        this._date = date;
     }
 
     /**
@@ -175,7 +175,7 @@ public class Iso
     @Column( name = "iso_c_taille" )
     public Long getTailleConsultation( )
     {
-        return tailleConsultation;
+        return _tailleConsultation;
     }
 
     /**
@@ -183,7 +183,7 @@ public class Iso
      */
     public void setTailleConsultation( Long taille )
     {
-        this.tailleConsultation = taille;
+        this._tailleConsultation = taille;
     }
 
     /**
@@ -192,7 +192,7 @@ public class Iso
     @Column( name = "iso_i_taille" )
     public Long getTailleImpression( )
     {
-        return tailleImpression;
+        return _tailleImpression;
     }
 
     /**
@@ -200,18 +200,24 @@ public class Iso
      */
     public void setTailleImpression( Long taille )
     {
-        this.tailleImpression = taille;
+        this._tailleImpression = taille;
     }
 
+    /**
+     * @return the size
+     */
     @Transient
     public String getTailleImpressionString( )
     {
-        return PluUtils.formatSize( this.tailleImpression );
+        return PluUtils.formatSize( this._tailleImpression );
     }
 
+    /**
+     * @return the size
+     */
     @Transient
     public String getTailleConsultationString( )
     {
-        return PluUtils.formatSize( this.tailleConsultation );
+        return PluUtils.formatSize( this._tailleConsultation );
     }
 }

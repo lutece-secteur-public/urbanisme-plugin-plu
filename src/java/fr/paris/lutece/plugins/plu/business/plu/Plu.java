@@ -77,11 +77,11 @@ public class Plu
     private String _reference;
     private Date _dj;
     private Date _da;
-    private Date dateFin;
+    private Date _dateFin;
     private Date _dg;
     private Etat _etat;
-    private Set<Iso> isoList;
-    private Iso lastIso;
+    private Set<Iso> _isoList;
+    private Iso _lastIso;
 
     /**
      * Returns the identifier of this plu
@@ -207,16 +207,16 @@ public class Plu
     @Transient
     public Date getDateFin( )
     {
-        return dateFin;
+        return _dateFin;
     }
 
     /**
      * Sets the da of the plu to the specified date
-     * @param da the new da
+     * @param dateFin 
      */
     public void setDateFin( Date dateFin )
     {
-        this.dateFin = dateFin;
+        this._dateFin = dateFin;
     }
 
     /**
@@ -264,7 +264,7 @@ public class Plu
     @OneToMany( mappedBy = "plu" )
     public Set<Iso> getIsoList( )
     {
-        return isoList;
+        return _isoList;
     }
 
     /**
@@ -272,7 +272,7 @@ public class Plu
      */
     public void setIsoList( Set<Iso> isoList )
     {
-        this.isoList = isoList;
+        this._isoList = isoList;
     }
 
     /**
@@ -281,7 +281,7 @@ public class Plu
     @Transient
     public Iso getLastIso( )
     {
-        return lastIso;
+        return _lastIso;
     }
 
     /**
@@ -289,7 +289,7 @@ public class Plu
      */
     public void setLastIso( Iso lastIso )
     {
-        this.lastIso = lastIso;
+        this._lastIso = lastIso;
     }
 
 }
