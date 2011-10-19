@@ -1362,7 +1362,8 @@ public class PluJspBean extends PluginAdminPageJspBean
                 String name = fileItem.getName( );
                 String type = name.substring( name.lastIndexOf( "." ) );
 
-                if ( !type.equals( ".jpg" ) && !type.equals( ".png" ) && !type.equals( ".gif" ) )
+                if ( !type.equalsIgnoreCase( ".jpg" ) && !type.equalsIgnoreCase( ".png" )
+                        && !type.equalsIgnoreCase( ".gif" ) )
                 {
                     return this.getMessageJsp( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, "jsp/admin/plugins/plu/folder/CreateFolder.jsp", null);
                 }
