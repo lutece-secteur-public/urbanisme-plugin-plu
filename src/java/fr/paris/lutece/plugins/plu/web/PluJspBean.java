@@ -3531,11 +3531,13 @@ public class PluJspBean extends PluginAdminPageJspBean
     public String getConfirmEvolveAtome( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_FOLDER_ID ).equals( "" )
-                || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" ) )
+                || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" ) 
+                || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null,
+                    "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
         }
-
+        
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         int nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_ID ) );
