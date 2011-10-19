@@ -1560,18 +1560,22 @@ public class PluJspBean extends PluginAdminPageJspBean
 		        {
 		            int idFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID_DUPLICATE ) );
 		            Folder folderDuplicate = _folderServices.findByPrimaryKey( idFolder );
-		            if ( utilisation.equals( "C" ) )
+		            
+		            if ( folderDuplicate != null )
 		            {
-		                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
-		            }
-		            else if ( utilisation.equals( "I" ) )
-		            {
-		                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
-		            }
-		            else
-		            {
-		                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
-		                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
+			            if ( utilisation.equals( "C" ) )
+			            {
+			                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
+			            }
+			            else if ( utilisation.equals( "I" ) )
+			            {
+			                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
+			            }
+			            else
+			            {
+			                _folderHtml.setHtml( folderDuplicate.getHtml( ) );
+			                _folderHtml.setHtmlImpression( folderDuplicate.getHtmlImpression( ) );
+			            }
 		            }
 		        }
 		        else if ( request instanceof MultipartHttpServletRequest )
