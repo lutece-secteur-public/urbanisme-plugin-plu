@@ -726,8 +726,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         String strReference = request.getParameter( PARAMETER_PLU_REFERENCE );
         String strDate = request.getParameter( PARAMETER_DATE_JURIDIQUE );
 
-        if ( StringUtils.isEmpty( request.getParameter( PARAMETER_PLU_CAUSE ) )
-                || StringUtils.isEmpty( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) ) )
+        if ( StringUtils.isEmpty( request.getParameter( PARAMETER_PLU_CAUSE ) ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
         }
