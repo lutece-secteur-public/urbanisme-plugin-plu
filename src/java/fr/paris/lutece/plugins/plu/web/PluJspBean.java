@@ -1713,7 +1713,8 @@ public class PluJspBean extends PluginAdminPageJspBean
                 String name = fileItem.getName( );
                 String type = name.substring( name.lastIndexOf( "." ) );
 
-                if ( !type.equals( ".jpg" ) && !type.equals( ".png" ) && !type.equals( ".gif" ) )
+                if ( !type.equalsIgnoreCase( ".jpg" ) && !type.equalsIgnoreCase( ".png" )
+                        && !type.equalsIgnoreCase( ".gif" ) )
                 {
                     return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args,
                             AdminMessage.TYPE_STOP );
@@ -1748,26 +1749,32 @@ public class PluJspBean extends PluginAdminPageJspBean
         folder.setDescription( description );
         folder.setParentFolder( idParentFolder );
 
-        if ( "true".equals( request.getParameter( PARAMETER_FOLDER_IMAGE_CHECK ) ) )
+        if ( _folderImage.getImg( ) != null )
         {
             folder.setImg( _folderImage.getImg( ) );
         }
         else
+        {
             folder.setImg( null );
+        }
 
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
         {
             folder.setHtml( _folderHtml.getHtml( ) );
         }
         else
+        {
             folder.setHtml( null );
+        }
 
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK_IMPRESSION ) ) )
         {
             folder.setHtmlImpression( _folderHtml.getHtmlImpression( ) );
         }
         else
+        {
             folder.setHtmlImpression( null );
+        }
 
         _folderServices.update( folder );
 
@@ -1908,7 +1915,8 @@ public class PluJspBean extends PluginAdminPageJspBean
                 String name = fileItem.getName( );
                 String type = name.substring( name.lastIndexOf( "." ) );
 
-                if ( !type.equals( ".jpg" ) && !type.equals( ".png" ) && !type.equals( ".gif" ) )
+                if ( !type.equalsIgnoreCase( ".jpg" ) && !type.equalsIgnoreCase( ".png" )
+                        && !type.equalsIgnoreCase( ".gif" ) )
                 {
                     return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args,
                             AdminMessage.TYPE_STOP );
