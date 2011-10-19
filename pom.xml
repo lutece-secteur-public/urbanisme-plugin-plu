@@ -76,5 +76,18 @@
 			</build>
 		</profile>
 	</profiles>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<configuration>
+					<excludeFilterFile>
+						${basedir}/src/test/resources/findbugs-exclude.xml
+					</excludeFilterFile>
+				</configuration>
+			</plugin>	
+		</plugins>
+	</reporting>
 	
 </project>

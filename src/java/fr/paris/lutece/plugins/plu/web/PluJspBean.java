@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2008, Mairie de Paris
+ * Copyright (c) 2002-2011, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -3771,7 +3771,10 @@ public class PluJspBean extends PluginAdminPageJspBean
                         AppPropertiesService.getProperty( "plu.docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
                 if ( fileDest.exists( ) )
                 {
-                	fileDest.delete( );
+                	if ( !fileDest.delete( ) )
+                	{
+                		throw new AppException("An error occured when trying to delete file");
+                	}
                 }
                 if ( file.getId( ) != 0 )
                 {
