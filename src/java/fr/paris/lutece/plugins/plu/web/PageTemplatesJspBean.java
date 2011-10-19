@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -50,6 +51,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
 
 //import com.oreilly.servlet.MultipartRequest;
 import java.io.File;
@@ -148,8 +150,16 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
         PageTemplate pageTemplate = new PageTemplate(  );
 
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
+        MultipartHttpServletRequest multipartRequest = null;
+        if (request instanceof MultipartHttpServletRequest )
+        {
+        	multipartRequest = ( MultipartHttpServletRequest ) request;
+        }
+        else
+        {
+        	throw new AppException("Request cannont be cast in MultipartHttpServletRequest in doCretaePageTemplate");
+        }
+        
         String strDescription = multipartRequest.getParameter( Parameters.PAGE_TEMPLATE_DESCRIPTION );
 
         //Mandatory fields
@@ -212,7 +222,16 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyPageTemplate( HttpServletRequest request )
     {
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+        MultipartHttpServletRequest multipartRequest = null;
+        if (request instanceof MultipartHttpServletRequest )
+        {
+        	multipartRequest = ( MultipartHttpServletRequest ) request;
+        }
+        else
+        {
+        	throw new AppException("Request cannont be cast in MultipartHttpServletRequest in doCretaePageTemplate");
+        }
 
         String strId = multipartRequest.getParameter( Parameters.PAGE_TEMPLATE_ID );
         String strDescription = multipartRequest.getParameter( Parameters.PAGE_TEMPLATE_DESCRIPTION );
@@ -355,6 +374,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      */
     private void writeTemplateFile( String strFileName, String strPath, FileItem fileItem )
     {
+    	
+    	FileOutputStream fosFile = null;
         try
         {
             File file = new File( strPath + strFileName );
@@ -363,15 +384,17 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             {
                 file.delete(  );
             }
-
-            FileOutputStream fosFile = new FileOutputStream( file );
+        	fosFile = new FileOutputStream( file );
             fosFile.flush(  );
             fosFile.write( fileItem.get(  ) );
-            fosFile.close(  );
         }
         catch ( IOException e )
         {
             AppLogService.error( e.getMessage(  ), e );
+        }
+        finally
+        {
+        	IOUtils.closeQuietly(fosFile);
         }
     }
 }

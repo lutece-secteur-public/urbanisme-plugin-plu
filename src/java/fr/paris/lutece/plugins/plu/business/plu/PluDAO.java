@@ -54,20 +54,6 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
     private static final String SQL_QUERY_SELECT_PLU_WORK = "SELECT p FROM Plu p WHERE p.da IS NULL";
     private static final String SQL_QUERY_SELECT_PLU_APPLIED = "SELECT p FROM Plu p WHERE p.id = ( SELECT MAX(p.id) - 1 FROM Plu p )";
     private static final String SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION = "SELECT p FROM Plu p WHERE p.da > date1 AND p.da < date2";
-    private static PluDAO _singleton;
-
-    /**
-     * @return the instance of the service
-     */
-    public static PluDAO getInstance( )
-    {
-        if ( _singleton == null )
-        {
-            _singleton = new PluDAO( );
-        }
-
-        return _singleton;
-    }
 
     /**
      * Returns the list of plu with find with filters

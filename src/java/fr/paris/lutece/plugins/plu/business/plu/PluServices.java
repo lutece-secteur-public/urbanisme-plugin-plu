@@ -138,7 +138,7 @@ public class PluServices implements IPluServices
      */
     public List<Plu> findWithFilters( String dateDebut, String dateFin )
     {
-        List<Plu> pluList = PluHome.getInstance( ).findWithFilters( dateDebut, dateFin );
+        List<Plu> pluList = _home.findWithFilters( dateDebut, dateFin );
         for ( Plu plu : pluList )
         {
             plu.setLastIso( getIsoHome( ).findLastGenerated( plu.getId( ) ) );

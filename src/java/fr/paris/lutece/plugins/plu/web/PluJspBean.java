@@ -432,22 +432,20 @@ public class PluJspBean extends PluginAdminPageJspBean
         String strReference = request.getParameter( PARAMETER_PLU_REFERENCE );
         String strDate = request.getParameter( PARAMETER_DATE_JURIDIQUE );
 
-        Date dj = new Date( );
         try
         {
-            dj = stringToDate( strDate, "dd/MM/yyyy" );
+            Date date = new Date( );
+            if ( stringToDate( strDate, "dd/MM/yyyy" ).after( date ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_APPROVE, AdminMessage.TYPE_STOP );
+            }
         }
         catch ( ParseException e )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );
         }
 
-        Date date = new Date( );
 
-        if ( dj.after( date ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_APPROVE, AdminMessage.TYPE_STOP );
-        }
 
         UrlItem url = new UrlItem( JSP_DO_APPROVE_PLU );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
@@ -4323,7 +4321,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             request.getSession( ).setAttribute( MARK_PAGE_TARGET, pageTarget );
         }
 
-        String parameters = "?";
+        StringBuilder parameters = new StringBuilder( "?" );
         boolean first = true;
 
         @SuppressWarnings("unchecked")
@@ -4332,11 +4330,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             if ( !first )
             {
-                parameters += "&";
+            	parameters.append( "&" );
             }
             first = false;
             String pName = (String) en.nextElement( );
-            parameters += pName + "=" + request.getParameter( pName );
+            parameters.append( pName ).append( "=" ).append( request.getParameter( pName ) );
         }
 
         return AppPathService.getBaseUrl( request ) + JSP_MESSAGE + parameters;

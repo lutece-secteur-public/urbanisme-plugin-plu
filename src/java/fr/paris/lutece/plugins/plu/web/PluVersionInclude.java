@@ -14,17 +14,21 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 
+/**
+ * PluVersionInclude
+ *
+ */
 public class PluVersionInclude implements PageInclude
 {
-    public static final DateFormat DATE_FORMAT_PLU = new SimpleDateFormat( "dd/MM/yyyy" );
 
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
+    	DateFormat dateFormatPLU = new SimpleDateFormat( "dd/MM/yyyy" );
         IPluServices pluServices = (IPluServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
                 "plu.pluServices" );
         Plu pluApplied = pluServices.findPluApplied( );
         rootModel.put( "current_plu_version", pluApplied.getId( ) );
-        rootModel.put( "current_plu_date", DATE_FORMAT_PLU.format( pluApplied.getDa( ) ) );
+        rootModel.put( "current_plu_date", dateFormatPLU.format( pluApplied.getDa( ) ) );
     }
 
 }
