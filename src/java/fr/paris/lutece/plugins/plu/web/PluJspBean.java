@@ -33,6 +33,28 @@
  */
 package fr.paris.lutece.plugins.plu.web;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.plugins.plu.business.atome.IAtomeServices;
@@ -70,28 +92,6 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -2099,6 +2099,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
+        if ( request.getParameter( PARAMETER_REINIT ) != null )
+        {
+        	model.put( PARAMETER_REINIT, request.getParameter( PARAMETER_REINIT ) );
+        }
 
         if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         {
@@ -2112,15 +2116,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
-        	{
-	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-	        	if ( tmp.size() < _fileList.size() )
-	        	{
-	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
-	        	}
-	        	model.put( PARAMETER_FILE_CHECK, tmp );
-        	}
+        	getFileCheck( request, model );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -2241,6 +2237,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_ATOME, atome );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
+        if ( request.getParameter( PARAMETER_REINIT ) != null )
+        {
+        	model.put( PARAMETER_REINIT, request.getParameter( PARAMETER_REINIT ) );
+        }
 
         if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         {
@@ -2254,15 +2254,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
-        	{
-	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-	        	if ( tmp.size() < _fileList.size() )
-	        	{
-	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
-	        	}
-	        	model.put( PARAMETER_FILE_CHECK, tmp );
-        	}
+        	getFileCheck( request, model );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -2311,7 +2303,8 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_ATOME_TITLE ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_NAME ).matches( "[ \']+?" )
-                || request.getParameter( PARAMETER_ATOME_TITLE ).matches( "[ \']+?" ) )
+                || request.getParameter( PARAMETER_ATOME_TITLE ).matches( "[ \']+?" )
+                || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null,
                     "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
@@ -2884,6 +2877,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
+        if ( request.getParameter( PARAMETER_REINIT ) != null )
+        {
+        	model.put( PARAMETER_REINIT, request.getParameter( PARAMETER_REINIT ) );
+        }
 
         if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         {
@@ -2897,15 +2894,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
-        	{
-	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-	        	if ( tmp.size() < _fileList.size() )
-	        	{
-	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
-	        	}
-	        	model.put( PARAMETER_FILE_CHECK, tmp );
-        	}
+        	getFileCheck( request, model );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -2917,6 +2906,29 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         return getAdminPage( template.getHtml( ) );
     }
+
+	/**
+	 * Get file check
+	 * @param requestHttpServletRequest
+	 * @param model model
+	 */
+	private void getFileCheck(HttpServletRequest request,
+			Map<String, Object> model)
+	{
+		List<String> tmp = new ArrayList<String>( );
+		if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+		{
+			tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+		}
+		if ( request.getParameter( "joinFile" ) != null )
+		{
+			if ( request.getParameter( "joinFile" ).equals( "true" )  )
+			{
+				tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+			}
+		}
+		model.put( PARAMETER_FILE_CHECK, tmp );
+	}
 
     /**
      * Set the fileList for an atome version
@@ -2969,7 +2981,8 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_NAME ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_TITLE ).equals( "" )
-                || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" ) )
+                || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" )
+                || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
         }
@@ -3251,6 +3264,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_FOLDER, folder );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
+        if ( request.getParameter( PARAMETER_REINIT ) != null )
+        {
+        	model.put( PARAMETER_REINIT, request.getParameter( PARAMETER_REINIT ) );
+        }
 
         if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         {
@@ -3264,15 +3281,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
-        	{
-	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-	        	if ( tmp.size() < _fileList.size() )
-	        	{
-	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
-	        	}
-	        	model.put( PARAMETER_FILE_CHECK, tmp );
-        	}
+        	getFileCheck( request, model );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -3316,7 +3325,8 @@ public class PluJspBean extends PluginAdminPageJspBean
     {
         if ( request.getParameter( PARAMETER_ATOME_TITLE ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" )
-                || request.getParameter( PARAMETER_HISTORY_DESCRIPTION ).equals( "" ) )
+                || request.getParameter( PARAMETER_HISTORY_DESCRIPTION ).equals( "" )
+                || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, "jsp/admin/plugins/plu/atome/CorrectAtome.jsp", null );
         }
@@ -3512,6 +3522,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
         model.put( MARK_NEW_VERSION, version.getVersion( ) + 1 );
+        if ( request.getParameter( PARAMETER_REINIT ) != null )
+        {
+        	model.put( PARAMETER_REINIT, request.getParameter( PARAMETER_REINIT ) );
+        }
 
         if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         {
@@ -3525,15 +3539,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
-        	{
-	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-	        	if ( tmp.size() < _fileList.size() )
-	        	{
-	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
-	        	}
-	        	model.put( PARAMETER_FILE_CHECK, tmp );
-        	}
+        	getFileCheck( request, model );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -3577,7 +3583,8 @@ public class PluJspBean extends PluginAdminPageJspBean
     {
         if ( request.getParameter( PARAMETER_FOLDER_ID ).equals( "" )
                 || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" ) 
-                || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" ) )
+                || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" )
+                || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null,
                     "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
