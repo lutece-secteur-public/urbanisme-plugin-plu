@@ -2077,7 +2077,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         	{
 	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-	        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	if ( tmp.size() < _fileList.size() )
+	        	{
+	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	}
 	        	model.put( PARAMETER_FILE_CHECK, tmp );
         	}
         }
@@ -2211,7 +2214,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         		return ret;
         	}
         	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	if ( tmp.size() < _fileList.size() )
+        	{
+        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	}
         	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
@@ -2339,6 +2345,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         boolean impression = false;
         String testName = _strVide;
         List<String> listTitle = new ArrayList<String>( );
+        List<String> listCheck = new ArrayList<String>( );
 
         for ( int j = 0; j < check.length; ++j )
         {
@@ -2817,7 +2824,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         		return ret;
         	}
         	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	if ( tmp.size() < _fileList.size() )
+        	{
+        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	}
         	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
@@ -3232,7 +3242,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         		return ret;
         	}
         	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	if ( tmp.size() < _fileList.size() )
+        	{
+        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	}
         	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
@@ -3556,7 +3569,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         		return ret;
         	}
         	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-        	tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	if ( tmp.size() < _fileList.size() )
+        	{
+        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+        	}
         	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
@@ -4322,7 +4338,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             PARAMETER_ATOME_DESCRIPTION, PARAMETER_VERSION_ID, PARAMETER_VERSION_NUM, PARAMETER_VERSION_NUM_OLD,
             PARAMETER_VERSION_D1, PARAMETER_VERSION_D2, PARAMETER_VERSION_D3, PARAMETER_VERSION_D4,
             PARAMETER_DATE_JURIDIQUE, PARAMETER_DATE_APPLICATION, PARAMETER_FILE_NAME, PARAMETER_FILE_TITLE,
-            PARAMETER_FILE_UTILISATION, PARAMETER_FILE_FORMAT, PARAMETER_FILE_CHECK, PARAMETER_FILE,
+            PARAMETER_FILE_UTILISATION, PARAMETER_FILE_FORMAT, PARAMETER_FILE,
             PARAMETER_HISTORY_DESCRIPTION, PARAMETER_PAGE_INDEX, PARAMETER_PAGE };
 
     public String getMessage( HttpServletRequest request )
