@@ -35,11 +35,14 @@ package fr.paris.lutece.plugins.plu.business.atome;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * AtomeServices
  * @author vLopez
  */
+@Transactional
 public class AtomeServices implements IAtomeServices
 {
     private IAtomeHome _home;

@@ -33,11 +33,14 @@
  */
 package fr.paris.lutece.plugins.plu.business.history;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * HistoryServices
  * @author vLopez
  */
+@Transactional
 public class HistoryServices implements IHistoryServices
 {
     private IHistoryHome _home;

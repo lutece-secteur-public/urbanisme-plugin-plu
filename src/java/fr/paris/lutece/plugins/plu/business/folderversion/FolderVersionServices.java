@@ -38,11 +38,14 @@ import fr.paris.lutece.plugins.plu.business.version.Version;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * FolderVersionServices
  * @author vLopez
  */
+@Transactional
 public class FolderVersionServices implements IFolderVersionServices
 {
     private IFolderVersionHome _home;

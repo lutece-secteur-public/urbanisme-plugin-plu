@@ -44,11 +44,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * IsoServices
  * @author vLopez
  */
+@Transactional
 public class IsoServices implements IIsoServices
 {
     private IIsoHome _home;

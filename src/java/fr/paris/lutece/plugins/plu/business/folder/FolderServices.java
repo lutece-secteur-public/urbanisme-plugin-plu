@@ -37,11 +37,14 @@ import fr.paris.lutece.portal.service.image.ImageResource;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * FolderServices
  * @author vLopez
  */
+@Transactional
 public class FolderServices implements IFolderServices
 {
     private IFolderHome _home;

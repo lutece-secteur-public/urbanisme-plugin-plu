@@ -35,11 +35,14 @@ package fr.paris.lutece.plugins.plu.business.etat;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * EtatServices
  * @author vLopez
  */
+@Transactional
 public class EtatServices implements IEtatServices
 {
     private IEtatHome _home;

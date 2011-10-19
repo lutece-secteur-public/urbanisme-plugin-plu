@@ -35,11 +35,14 @@ package fr.paris.lutece.plugins.plu.business.type;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * TypeServices
  * @author vLopez
  */
+@Transactional
 public class TypeServices implements ITypeServices
 {
     private ITypeHome _home;

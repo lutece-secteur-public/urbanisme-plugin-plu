@@ -38,11 +38,14 @@ import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * VersionServices
  * @author vLopez
  */
+@Transactional
 public class VersionServices implements IVersionServices
 {
     private IVersionHome _home;

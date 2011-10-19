@@ -37,11 +37,14 @@ import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * FileServices
  * @author vLopez
  */
+@Transactional
 public class FileServices implements IFileServices
 {
     private IFileHome _home;
