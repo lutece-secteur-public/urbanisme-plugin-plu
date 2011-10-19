@@ -80,9 +80,7 @@
 	    </fieldset>
         
         <p>
-      		<A href="jsp/admin/plugins/plu/atome/ConfirmCancelCreateAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}" style="text-decoration:none" id="button">
-        	#i18n{plu.create_atome.buttonReturn}
-        	</A>
+   		  	<input type="submit" name="action" value="#i18n{plu.create_atome.buttonReturn}" class="button"/>
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
         	<input type="hidden" name="id_folder" value="${one_folder.id}"/>
         	<input type="hidden" name="id_atome" value="${one_atome.id}"/>

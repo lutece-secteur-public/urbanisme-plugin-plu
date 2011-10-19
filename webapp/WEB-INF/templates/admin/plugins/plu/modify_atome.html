@@ -83,9 +83,7 @@
 	    </fieldset>
         
         <p>
-        	<A href="jsp/admin/plugins/plu/atome/ConfirmCancelModifyAtome.jsp?id_version=${one_version.id}&id_folder=${one_folder.id}&id_plu=${one_plu.id}&atome_name=${one_version.atome.name}&atome_title=${one_version.atome.title}" style="text-decoration:none" id="button">
-        	#i18n{plu.modify_atome.buttonReturn}
-        	</A> 
+   		  	<input type="submit" name="action" value="#i18n{plu.modify_atome.buttonReturn}" class="button"/>
         	<input type="hidden" name="id_plu" value="${one_plu.id}"/>
         	<input type="hidden" name="id_version" value="${one_version.id}"/>
         	<input type="hidden" name="id_folder" value="${one_folder.id}"/>
