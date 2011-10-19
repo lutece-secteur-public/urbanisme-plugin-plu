@@ -98,7 +98,7 @@
 					<form method="post" action="jsp/admin/plugins/plu/folder/ModifyFolder.jsp">
 		           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
 			    		<input type="hidden" name="id_folder" value="${folder.id}"/>
-				        <input src="images/admin/skin/plugins/plu/folder_modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_folder.modify}" title="#i18n{plu.modify_folder.modify}"  type="image">
+				        <input <#if one_plu_work.dj?has_content>style="border: none; opacity:0.4;filter:alpha(opacity=40)" disabled=disabled</#if> src="images/admin/skin/plugins/plu/folder_modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_folder.modify}" title="#i18n{plu.modify_folder.modify}"  type="image">
 				   	</form>
 				</#if>
 			</#list>
@@ -108,7 +108,7 @@
 	           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
 		    		<input type="hidden" name="id_folder" value="${folder.id}"/>
 		    		<input type="hidden" name="folder_title" value="${folder.title}"/>
- 			        <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.delete_folder.delete}" title="#i18n{plu.delete_folder.delete}"  type="image">
+ 			        <input <#if one_plu_work.dj?has_content>style="border: none; opacity:0.4;filter:alpha(opacity=40)" disabled=disabled</#if> src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.delete_folder.delete}" title="#i18n{plu.delete_folder.delete}"  type="image">
 			   	</form>
 			</td>
 		</tr>
@@ -135,7 +135,7 @@
 	
 	<form method="post"  action="jsp/admin/plugins/plu/folder/CreateFolder.jsp">
 		<input type="hidden" name="id_plu" value="${one_plu.id}"/>
-		<input type="submit" value="#i18n{plu.tree_plu.buttonAddFolder}" class="button" />
+		<input <#if one_plu_work.dj?has_content>style="opacity:0.4;filter:alpha(opacity=40)" disabled=disabled</#if> type="submit" value="#i18n{plu.tree_plu.buttonAddFolder}" class="button" />
 	</form>
 	</#if>
 	
@@ -280,7 +280,7 @@
 				</A>
 			</td>
 			<td style="text-align:center;">
-			<#if (version.d2?exists && !version.d3?exists) || version.d4?exists >
+			<#if ( (version.d2?exists && !version.d3?exists) || version.d4?exists ) && !one_plu_work.dj?has_content>
 				<A href="jsp/admin/plugins/plu/atome/CorrectAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
    					<img src="images/admin/skin/plugins/plu/atome_correct.png" title="#i18n{plu.correct_atome.correct}" alt="#i18n{plu.correct_atome.correct}" style="border: 0pt none ; vertical-align: bottom;" />
 				</A>
@@ -289,23 +289,23 @@
 			</#if>
 			</td>
 			<td style="text-align:center;">
-			<#if !version.d2?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) >
+			<#if ( !version.d2?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) ) && !one_plu_work.dj?has_content >
 				<A href="jsp/admin/plugins/plu/atome/ModifyAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
-   					<img src="images/admin/skin/plugins/plu/atome_modify.png" title="#i18n{plu.modify_atome.modify}" alt="#i18n{plu.modify_atome.modify}" style="border: 0pt none ; vertical-align: bottom;" />
+   					<img <#if one_plu_work.dj?has_content>style="opacity:0.4;filter:alpha(opacity=40)" disabled=disabled</#if> src="images/admin/skin/plugins/plu/atome_modify.png" title="#i18n{plu.modify_atome.modify}" alt="#i18n{plu.modify_atome.modify}" style="border: 0pt none ; vertical-align: bottom;" />
 				</A>
 			<#else>
 				<img disabled="disabled" src="images/admin/skin/plugins/plu/atome_modify.png" style="opacity:0.4;filter:alpha(opacity=40)" title="#i18n{plu.modify_atome.modify}" alt="#i18n{plu.modify_atome.modify}" />
 			</#if>
 	        </td>
-	        <#if version.d2?exists && !version.d3?exists && !version.d4?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) && version.archive!='O' >
+	        <#if ( version.d2?exists && !version.d3?exists && !version.d4?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) && version.archive!='O' ) && !one_plu_work.dj?has_content>
 	        <td style="text-align:center;">
 	           	<A href="jsp/admin/plugins/plu/atome/EvolveAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
-   					<img src="images/admin/skin/plugins/plu/atome_evolve.png" title="#i18n{plu.evolve_atome.evolve}" alt="#i18n{plu.evolve_atome.evolve}" style="border: 0pt none ; vertical-align: bottom;" />
+   					<img <#if one_plu_work.dj?has_content>style="opacity:0.4;filter:alpha(opacity=40)" disabled=disabled</#if> src="images/admin/skin/plugins/plu/atome_evolve.png" title="#i18n{plu.evolve_atome.evolve}" alt="#i18n{plu.evolve_atome.evolve}" style="border: 0pt none ; vertical-align: bottom;" />
 				</A>
 			</td>
 			<td style="text-align:center;">
 	        	<A href="jsp/admin/plugins/plu/atome/ConfirmArchiveAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
-   					<img src="images/admin/skin/plugins/plu/atome_archive.png" title="#i18n{plu.archive_atome.archive}" alt="#i18n{plu.archive_atome.archive}" style="border: 0pt none ; vertical-align: bottom;" />
+   					<img <#if one_plu_work.dj?has_content>style="opacity:0.4;filter:alpha(opacity=40)" disabled=disabled</#if> src="images/admin/skin/plugins/plu/atome_archive.png" title="#i18n{plu.archive_atome.archive}" alt="#i18n{plu.archive_atome.archive}" style="border: 0pt none ; vertical-align: bottom;" />
 				</A>
 			</td>
 			<#else>
@@ -317,7 +317,7 @@
 			</td>
 			</#if>
 	    </tr>
-	    </#list>				
+	    </#list>
 	</table>
 	
 	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}
@@ -345,7 +345,7 @@
 	<form method="post"  action="jsp/admin/plugins/plu/atome/ChoiceCreateAtome.jsp">
 		<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 		<input type="hidden" name="id_folder" value="${one_folder.id}"/>
-		<input type="submit" value="#i18n{plu.tree_plu.buttonAddAtome}" class="button" />
+		<input <#if one_plu_work.dj?has_content>style="opacity:0.4;filter:alpha(opacity=40)" disabled=disabled</#if> type="submit" value="#i18n{plu.tree_plu.buttonAddAtome}" class="button" />
 	</form>
 	
 	</#if>

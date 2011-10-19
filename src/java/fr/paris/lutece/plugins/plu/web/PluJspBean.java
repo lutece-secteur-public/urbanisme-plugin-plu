@@ -3766,7 +3766,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version versionOld = _versionServices.findByPrimaryKey( nIdVersion );
 
-        versionOld.setD3( new Date( ) );
+        Date d3 = stringToDate( "01/01/0001", "dd/MM/yyyy" );
+        versionOld.setD3( d3 );
         _versionServices.update( versionOld );
 
         FolderVersion folderVersion = _folderVersionServices.findByMaxFolderAndVersion( versionOld );
@@ -3891,7 +3892,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
 
         version.setArchive( 'O' );
-        version.setD4( new Date( ) );
         _versionServices.update( version );
 
         FolderVersion folderVersion = _folderVersionServices.findByMaxFolderAndVersion( version );
