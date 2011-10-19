@@ -3812,6 +3812,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 {
                 	toDelete = false;
 
+                	file.setId( 0 );
                 	updateFile( nIdAtome, atome, version, fileTitle, i, order, strNumVersion, file );
 
                     order++;
