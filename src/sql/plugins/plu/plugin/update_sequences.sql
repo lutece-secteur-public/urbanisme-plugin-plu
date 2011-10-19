@@ -1,4 +1,4 @@
-UPDATE `plu_sequences` SET next_val= ( SELECT max( id_histo ) FROM plu_historique ) +1 WHERE sequence_name="plu_historique_id";
+UPDATE `plu_sequences` SET next_val= 1 WHERE sequence_name="plu_historique_id";
 UPDATE `plu_sequences` SET next_val= ( SELECT max( id_iso ) FROM plu_iso ) +1 WHERE sequence_name="plu_iso_id";
 UPDATE `plu_sequences` SET next_val= ( SELECT max( id_plu ) FROM plu_plu ) +1 WHERE sequence_name="plu_id";
 UPDATE `plu_sequences` SET next_val= ( SELECT max( id_dossier ) FROM plu_dossier ) +1 WHERE sequence_name="plu_dossier_id";
