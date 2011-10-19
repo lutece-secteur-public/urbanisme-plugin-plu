@@ -270,6 +270,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_HISTORY_DESCRIPTION = "description";
     private static final String PARAMETER_PAGE_INDEX = "page_index";
     private static final String PARAMETER_PAGE = "page";
+    private static final String PARAMETER_REINIT = "reinit";
 
     /** Jsp Definition */
     private static final String JSP_REDIRECT_TO_MANAGE_PLU = "../plu/ManagePlu.jsp";
@@ -1181,6 +1182,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getCreateFolder( HttpServletRequest request )
     {
+    	//Clean _listFile
+    	this.reinitListFile( request );
+    	
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_FOLDER );
 
         Plu plu = _pluServices.findPluWork( );
@@ -1480,6 +1484,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getModifyFolder( HttpServletRequest request )
     {
+    	//Clean _listFile
+    	this.reinitListFile( request );
+    	
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_FOLDER );
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1775,6 +1782,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getCorrectFolder( HttpServletRequest request )
     {
+    	//Clean _listFile
+    	this.reinitListFile( request );
+    	
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CORRECT_FOLDER );
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2047,6 +2057,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getCreateAtome( HttpServletRequest request )
     {
+    	//Clean _listFile
+    	this.reinitListFile( request );
+    	
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_ATOME );
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2176,6 +2189,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getCreateAtomeWithOld( HttpServletRequest request ) throws IOException
     {
+    	//Clean _listFile
+    	this.reinitListFile( request );
+    	
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
 
@@ -2810,6 +2826,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getModifyAtome( HttpServletRequest request ) throws IOException
     {
+    	//Clean _listFile
+    	this.reinitListFile( request );
+    	
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_ATOME );
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
@@ -3187,6 +3206,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getCorrectAtome( HttpServletRequest request ) throws IOException
     {
+    	//Clean _listFile
+    	this.reinitListFile( request );
+    	
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CORRECT_ATOME );
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
@@ -3441,6 +3463,9 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getEvolveAtome( HttpServletRequest request ) throws IOException
     {
+    	//Clean _listFile
+    	this.reinitListFile( request );
+    	
         setPageTitleProperty( PROPERTY_PAGE_TITLE_EVOLVE_ATOME );
 
         Plu plu = _pluServices.findPluWork( );
@@ -4275,5 +4300,20 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
 
         return AppPathService.getBaseUrl( request ) + JSP_MESSAGE + parameters;
+    }
+    
+    /**
+     * Clean _fileList, _folderHtml and _folderImage
+     * @param request HttpServletRequest
+     */
+    public void reinitListFile( HttpServletRequest request )
+    {
+    	if ( request.getParameter( PARAMETER_REINIT ) != null )
+    	{
+            _fileList.clear( );
+            _folderHtml.setHtml( null );
+            _folderHtml.setHtmlImpression( null );
+            _folderImage.setImg( null );
+    	}
     }
 }
