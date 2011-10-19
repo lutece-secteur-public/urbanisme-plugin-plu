@@ -88,10 +88,6 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
         try
         {
             listPlu = (ArrayList<Plu>) q.getResultList( );
-            for ( Plu plu : listPlu )
-            {
-
-            }
         }
         catch ( NoResultException e )
         {
