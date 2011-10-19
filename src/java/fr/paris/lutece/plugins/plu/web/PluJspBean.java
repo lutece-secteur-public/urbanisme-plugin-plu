@@ -1579,14 +1579,17 @@ public class PluJspBean extends PluginAdminPageJspBean
 		            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		            FileItem fileItem = multipartRequest.getFile( PARAMETER_FOLDER_HTML );
 		
-		            if ( utilisation.equals( "C" ) )
-		            {
-		                _folderHtml.setHtml( fileItem.getString( ) );
-		            }
-		            else if ( utilisation.equals( "I" ) )
-		            {
-		                _folderHtml.setHtmlImpression( fileItem.getString( ) );
-		            }
+                    if ( fileItem != null && fileItem.getSize( ) != 0 )
+                    {
+			            if ( utilisation.equals( "C" ) )
+			            {
+			                _folderHtml.setHtml( fileItem.getString( ) );
+			            }
+			            else if ( utilisation.equals( "I" ) )
+			            {
+			                _folderHtml.setHtmlImpression( fileItem.getString( ) );
+			            }
+                    }
 		        }
         	}
         }
