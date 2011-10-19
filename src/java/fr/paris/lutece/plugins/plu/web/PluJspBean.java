@@ -1656,7 +1656,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         if ( request.getParameter( PARAMETER_FOLDER_TITLE ).equals( "" )
                 || request.getParameter( PARAMETER_FOLDER_DESCRIPTION ).equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, "jsp/admin/plugins/plu/folder/ModifyFolder.jsp", null);
         }
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -1709,8 +1709,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             if ( ( folder.getTitle( ) != null )
                     && !folder.getTitle( ).equals( request.getParameter( PARAMETER_FOLDER_TITLE_OLD ) ) )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_CREATE, args,
-                        AdminMessage.TYPE_STOP );
+                return this.getMessageJsp( request, MESSAGE_ERROR_FOLDER_CREATE, args, "jsp/admin/plugins/plu/folder/ModifyFolder.jsp", null);
             }
         }
 
@@ -1727,8 +1726,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 if ( !type.equalsIgnoreCase( ".jpg" ) && !type.equalsIgnoreCase( ".png" )
                         && !type.equalsIgnoreCase( ".gif" ) )
                 {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args,
-                            AdminMessage.TYPE_STOP );
+                    return this.getMessageJsp( request, MESSAGE_ERROR_FOLDER_IMAGE_TYPE, args, "jsp/admin/plugins/plu/folder/ModifyFolder.jsp", null);
                 }
 
                 PhysicalFile physicalFile = new PhysicalFile( );
@@ -1737,8 +1735,8 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
         }
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_MODIFY_FOLDER, args, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_MODIFY_FOLDER, args, "jsp/admin/plugins/plu/folder/ModifyFolder.jsp", url.getUrl( ) );
     }
 
     /**
