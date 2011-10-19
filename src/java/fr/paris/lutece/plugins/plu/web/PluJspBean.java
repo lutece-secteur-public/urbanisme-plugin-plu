@@ -2231,12 +2231,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-        	if ( tmp.size() < _fileList.size() )
+        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         	{
-        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+	        	if ( tmp.size() < _fileList.size() )
+	        	{
+	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	}
+	        	model.put( PARAMETER_FILE_CHECK, tmp );
         	}
-        	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -2868,12 +2871,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-        	if ( tmp.size() < _fileList.size() )
+        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         	{
-        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+	        	if ( tmp.size() < _fileList.size() )
+	        	{
+	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	}
+	        	model.put( PARAMETER_FILE_CHECK, tmp );
         	}
-        	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -3229,12 +3235,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-        	if ( tmp.size() < _fileList.size() )
+        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         	{
-        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+	        	if ( tmp.size() < _fileList.size() )
+	        	{
+	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	}
+	        	model.put( PARAMETER_FILE_CHECK, tmp );
         	}
-        	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
         if ( !_fileList.isEmpty( ) )
@@ -3484,12 +3493,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
-        	if ( tmp.size() < _fileList.size() )
+        	if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         	{
-        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	List<String> tmp = new ArrayList<String>(Arrays.asList(request.getParameterValues( PARAMETER_FILE_CHECK ) ));
+	        	if ( tmp.size() < _fileList.size() )
+	        	{
+	        		tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
+	        	}
+	        	model.put( PARAMETER_FILE_CHECK, tmp );
         	}
-        	model.put( PARAMETER_FILE_CHECK, tmp );
         }
 
         if ( !_fileList.isEmpty( ) )
