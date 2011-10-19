@@ -2357,12 +2357,6 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
         }
 
-        Object[] argsEps = { atomeName, atomeTitle, numVersion };
-        boolean consultation = false;
-        boolean impression = false;
-        String testName = _strVide;
-        List<String> listTitle = new ArrayList<String>( );
-        List<String> listCheck = new ArrayList<String>( );
 
         for ( int j = 0; j < check.length; ++j )
         {
@@ -2374,8 +2368,42 @@ public class PluJspBean extends PluginAdminPageJspBean
             url.addParameter( PARAMETER_FILE_TITLE_ATOME, fileTitle[j] );
         }
 
-        int i = 0;
+        // Check atome's file
+        String confirmFile = "";
+        confirmFile = getConfirmAtomeFile(request, numVersion, atomeName, atomeTitle, check,
+				fileTitle, "jsp/admin/plugins/plu/atome/CreateAtome.jsp");
+        if ( StringUtils.isNotEmpty( confirmFile ) )
+        {
+        	return confirmFile;
+        }
 
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CREATE_ATOME, argsAtome,
+                "jsp/admin/plugins/plu/atome/CreateAtome.jsp", url.getUrl( ) );
+    }
+
+	/**
+	 * Confirm method for atome files
+	 * @param request HttpServletRequest
+	 * @param numVersion num version
+	 * @param atomeName atome name
+	 * @param atomeTitle atome title
+	 * @param check list of checkbox for atome file
+	 * @param fileTitle file title
+	 * @return ret error message
+	 */
+	private String getConfirmAtomeFile(HttpServletRequest request,
+			int numVersion, String atomeName, String atomeTitle,
+			String[] check, String[] fileTitle, String pageReturn) 
+	{
+		String ret = "";		
+		int i = 0;
+
+        Object[] argsEps = { atomeName, atomeTitle, numVersion };
+        boolean consultation = false;
+        boolean impression = false;
+        String testName = _strVide;
+        List<String> listTitle = new ArrayList<String>( );
+        
         for ( File file : _fileList )
         {
             for ( int j = 0; j < check.length; ++j )
@@ -2388,26 +2416,26 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                     if ( file.getSize( ) <= 0 )
                     {
-                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE, argsFile,
-                                "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                    	ret =  this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE, argsFile,
+                    			pageReturn, null );
                     }
 
                     if ( testName.equals( file.getName( ) ) )
                     {
-                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile,
-                                "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                    	ret =  this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile,
+                    			pageReturn, null );
                     }
 
                     if ( listTitle.contains( fileTitle[j] + file.getUtilisation( ) ) )
                     {
-                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
-                                "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                    	ret =  this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
+                    			pageReturn, null );
                     }
                     
                     if ( StringUtils.isEmpty( fileTitle[j]) )
                     {
-                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY, argsFile,
-                                AdminMessage.TYPE_STOP );
+                    	ret =  this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY, argsFile,
+                    			pageReturn, null );
                     }
 
                     int endIndex = file.getName( ).lastIndexOf( "-V" );
@@ -2439,19 +2467,18 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( !impression )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
-                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+        	ret =  this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
+        			pageReturn, null );
         }
 
         if ( !consultation )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps,
-                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+        	ret = this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps,
+        			pageReturn, null );
         }
-
-        return this.getMessageJsp( request, MESSAGE_CONFIRM_CREATE_ATOME, argsAtome,
-                "jsp/admin/plugins/plu/atome/CreateAtome.jsp", url.getUrl( ) );
-    }
+        
+        return ret;
+	}
 
     /**
      * Create an atome and return to the choice create atome
@@ -2964,79 +2991,13 @@ public class PluJspBean extends PluginAdminPageJspBean
             url.addParameter( PARAMETER_FILE_TITLE_ATOME, fileTitle[j] );
         }
 
-        int i = 0;
-        Object[] argsEps = { atomeName, atomeTitle, numVersion };
-        boolean consultation = false;
-        boolean impression = false;
-        String testName = _strVide;
-        List<String> listTitle = new ArrayList<String>( );
-
-        for ( File file : _fileList )
+        // Check atome's file
+        String confirmFile = "";
+        confirmFile = getConfirmAtomeFile(request, numVersion, atomeName, atomeTitle, check,
+				fileTitle, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp");
+        if ( StringUtils.isNotEmpty( confirmFile ) )
         {
-            for ( int j = 0; j < check.length; ++j )
-            {
-                int c = Integer.parseInt( check[j] );
-
-                if ( c == i )
-                {
-                    Object[] argsFile = { fileTitle[j], file.getName( ) };
-
-                    if ( file.getSize( ) <= 0 )
-                    {
-						return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE, argsFile, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
-                    }
-
-                    if ( testName.equals( file.getName( ) ) )
-                    {
-						return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
-                    }
-
-                    if ( listTitle.contains( fileTitle[j] + file.getUtilisation( ) ) )
-                    {
-                    	return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
-                    }
-                    
-                    if ( StringUtils.isEmpty( fileTitle[j]) )
-                    {
-                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY, argsFile,
-                                AdminMessage.TYPE_STOP );
-                    }
-
-                    int endIndex = file.getName( ).lastIndexOf( "-V" );
-
-                    if ( endIndex != -1 )
-                    {
-                        testName = file.getName( ).substring( 0, endIndex );
-                    }
-                    else
-                    {
-                        testName = file.getName( );
-                    }
-
-                    listTitle.add( fileTitle[j] + file.getUtilisation( ) );
-
-                    if ( file.getUtilisation( ) == 'I' )
-                    {
-                        impression = true;
-                    }
-                    else
-                    {
-                        consultation = true;
-                    }
-                }
-            }
-
-            i++;
-        }
-
-        if ( !impression )
-        {
-			return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
-        }
-
-        if ( !consultation )
-        {
-			return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
+        	return confirmFile;
         }
 
         Object[] args = { atomeName, atomeTitle };
@@ -3221,25 +3182,34 @@ public class PluJspBean extends PluginAdminPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CORRECT_ATOME );
 
-        int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
-        Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
-
-        if ( plu == null )
-        {
-            plu = new Plu( );
-        }
-
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
+        
+        Map<String, Object> model = new HashMap<String, Object>( );
+        
+        // Restore correct description and atome title
+        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) ) )
+        {
+        	model.put( PARAMETER_HISTORY_DESCRIPTION, request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
+        }
+        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_ATOME_TITLE ) ) )
+        {
+        	version.getAtome( ).setTitle( request.getParameter( PARAMETER_ATOME_TITLE ) );
+        }
+        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) ) )
+        {
+        	version.getAtome( ).setDescription( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
+        }
 
         Folder folder = _folderServices.findByVersion( nIdVersion );
-
+        
+        Plu plu = _pluServices.findByPrimaryKey( folder.getPlu( ) );
+        
         if ( _fileList.isEmpty( ) )
         {
         	setFileList( nIdVersion );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PLU, plu );
         model.put( MARK_VERSION, version );
         model.put( MARK_FOLDER, folder );
@@ -3309,7 +3279,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" )
                 || request.getParameter( PARAMETER_HISTORY_DESCRIPTION ).equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, "jsp/admin/plugins/plu/atome/CorrectAtome.jsp", null );
         }
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -3322,7 +3292,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         String atomeDescription = request.getParameter( PARAMETER_ATOME_DESCRIPTION );
         String strDescription = request.getParameter( PARAMETER_HISTORY_DESCRIPTION );
         String[] check = request.getParameterValues( PARAMETER_FILE_CHECK );
-        String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE );
+        String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE_ATOME );
 
         UrlItem url = new UrlItem( JSP_DO_CORRECT_ATOME );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
@@ -3340,93 +3310,21 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         for ( int j = 0; j < fileTitle.length; ++j )
         {
-            url.addParameter( PARAMETER_FILE_TITLE, fileTitle[j] );
+            url.addParameter( PARAMETER_FILE_TITLE_ATOME, fileTitle[j] );
         }
 
-        int i = 0;
-        Object[] argsEps = { atomeName, atomeTitle, numVersion };
-        boolean consultation = false;
-        boolean impression = false;
-        String testName = _strVide;
-        List<String> listTitle = new ArrayList<String>( );
-
-        for ( File file : _fileList )
+        // Check atome's file
+        String confirmFile = "";
+        confirmFile = getConfirmAtomeFile(request, numVersion, atomeName, atomeTitle, check,
+				fileTitle, "jsp/admin/plugins/plu/atome/CorrectAtome.jsp");
+        if ( StringUtils.isNotEmpty( confirmFile ) )
         {
-            for ( int j = 0; j < check.length; ++j )
-            {
-                int c = Integer.parseInt( check[j] );
-
-                if ( c == i )
-                {
-                    Object[] argsFile = { fileTitle[j], file.getName( ) };
-
-                    if ( file.getSize( ) <= 0 )
-                    {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_SIZE, argsFile,
-                                AdminMessage.TYPE_STOP );
-                    }
-
-                    if ( testName.equals( file.getName( ) ) )
-                    {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile,
-                                AdminMessage.TYPE_STOP );
-                    }
-
-                    if ( listTitle.contains( fileTitle[j] + file.getUtilisation( ) ) )
-                    {
-                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
-	                                AdminMessage.TYPE_STOP );
-                    }
-                    
-                    if ( StringUtils.isEmpty( fileTitle[j]) )
-                    {
-                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY, argsFile,
-                                AdminMessage.TYPE_STOP );
-                    }
-
-                    int endIndex = file.getName( ).lastIndexOf( "-V" );
-
-                    if ( endIndex != -1 )
-                    {
-                        testName = file.getName( ).substring( 0, endIndex );
-                    }
-                    else
-                    {
-                        testName = file.getName( );
-                    }
-
-                    listTitle.add( fileTitle[j] + file.getUtilisation( ) );
-
-                    if ( file.getUtilisation( ) == 'I' )
-                    {
-                        impression = true;
-                    }
-                    else
-                    {
-                        consultation = true;
-                    }
-                }
-            }
-
-            i++;
-        }
-
-        if ( !impression )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
-                    AdminMessage.TYPE_STOP );
-        }
-
-        if ( !consultation )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps,
-                    AdminMessage.TYPE_STOP );
+        	return confirmFile;
         }
 
         Object[] args = { atomeName, atomeTitle };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CORRECT_ATOME, args, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CORRECT_ATOME, args, "jsp/admin/plugins/plu/atome/CorrectAtome.jsp", url.getUrl( ) );
     }
 
     /**
@@ -3453,7 +3351,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
 
-        String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE );
+        String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE_ATOME );
         String[] check = request.getParameterValues( PARAMETER_FILE_CHECK );
         int i = 0;
         int order = 1;
@@ -3674,84 +3572,13 @@ public class PluJspBean extends PluginAdminPageJspBean
             url.addParameter( PARAMETER_FILE_TITLE_ATOME, fileTitle[j] );
         }
 
-        int i = 0;
-        Object[] argsEps = { atomeName, atomeTitle, numVersion };
-        boolean consultation = false;
-        boolean impression = false;
-        String testName = _strVide;
-        List<String> listTitle = new ArrayList<String>( );
-
-        for ( File file : _fileList )
+        // Check atome's file
+        String confirmFile = "";
+        confirmFile = getConfirmAtomeFile(request, numVersion, atomeName, atomeTitle, check,
+				fileTitle, "jsp/admin/plugins/plu/atome/EvolveAtome.jsp");
+        if ( StringUtils.isNotEmpty( confirmFile ) )
         {
-            for ( int j = 0; j < check.length; ++j )
-            {
-                int c = Integer.parseInt( check[j] );
-
-                if ( c == i )
-                {
-                    Object[] argsFile = { fileTitle[j], file.getName( ) };
-
-                    if ( file.getSize( ) <= 0 )
-                    {
-                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_SIZE, argsFile,
-                        "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
-                    }
-
-                    if ( testName.equals( file.getName( ) ) )
-                    {
-                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, argsFile,
-                        "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
-                    }
-
-                    if ( listTitle.contains( fileTitle[j] + file.getUtilisation( ) ) )
-                    {
-                        return this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_TITLE, argsFile,
-                        "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
-                    }
-                    
-                    if ( StringUtils.isEmpty( fileTitle[j]) )
-                    {
-                    	return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_FILE_CREATE_TITLE_EMPTY, argsFile,
-                                AdminMessage.TYPE_STOP );
-                    }
-
-                    int endIndex = file.getName( ).lastIndexOf( "-V" );
-
-                    if ( endIndex != -1 )
-                    {
-                        testName = file.getName( ).substring( 0, endIndex );
-                    }
-                    else
-                    {
-                        testName = file.getName( );
-                    }
-
-                    listTitle.add( fileTitle[j] + file.getUtilisation( ) );
-
-                    if ( file.getUtilisation( ) == 'I' )
-                    {
-                        impression = true;
-                    }
-                    else
-                    {
-                        consultation = true;
-                    }
-                }
-            }
-
-            i++;
-        }
-
-        if ( !impression )
-        {
-            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_EPS, argsEps,
-                    "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
-        }
-
-        if ( !consultation )
-        {
-            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FILE_NO_EPS, argsEps,
-                    "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
+        	return confirmFile;
         }
 
         Object[] args = { atomeName, atomeTitle, numVersionOld, numVersion };
@@ -4157,6 +3984,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE_ATOME );
         int i = 0;
         
+        // Save file title
         if ( check != null && fileTitle != null )
         {        
 	        for ( File file : _fileList )
@@ -4178,7 +4006,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( "page", page );
         model.put( MARK_PLU, plu );
         if ( page.equals( "atome/CreateAtome" ) || page.equals( "atome/CreateAtomeWithOld" )
-                || page.equals( "atome/ModifyAtome" ) || page.equals( "atome/EvolveAtome" ) )
+                || page.equals( "atome/ModifyAtome" ) || page.equals( "atome/EvolveAtome" )
+                || page.equals( "atome/CorrectAtome" ) )
         {
             model.put( PARAMETER_FOLDER_ID_ATOME, request.getParameter( PARAMETER_FOLDER_ID_ATOME ) );
             model.put( PARAMETER_FOLDER_ID, request.getParameter( PARAMETER_FOLDER_ID ) );
@@ -4195,6 +4024,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             model.put( PARAMETER_FILE_NAME, request.getParameter( PARAMETER_FILE_NAME ) );
             model.put( PARAMETER_FILE, request.getParameter( PARAMETER_FILE ) );
         	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
+        	model.put( PARAMETER_HISTORY_DESCRIPTION, request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
         }
 
         if ( request.getParameter( PARAMETER_FOLDER_ID ) != null )
