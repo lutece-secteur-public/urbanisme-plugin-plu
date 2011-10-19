@@ -62,5 +62,5 @@ public interface IPluHome extends IGenericHome<Integer, Plu>
      * @param dateFin the end application date
      * @return the list of plu
      */
-	List<Plu> findWithFilters(String dateDebut, String dateFin);
+	List<Plu> findWithFilters( String dateDebut, String dateFin );
 }

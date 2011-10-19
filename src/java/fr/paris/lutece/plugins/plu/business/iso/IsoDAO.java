@@ -59,8 +59,9 @@ public class IsoDAO extends JPALuteceDAO<Integer, Iso> implements IIsoDAO
         return PluPlugin.PLUGIN_NAME;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.plu.business.iso.IIsoDAO#findList()
+    /**
+     * Returns list of all isos (one iso per plu version)
+     * @return list of all isos (one iso per plu version)
      */
     public List<Iso> findList( )
     {
@@ -70,8 +71,10 @@ public class IsoDAO extends JPALuteceDAO<Integer, Iso> implements IIsoDAO
         return resultList;
     }
 
-    /* (non-Javadoc)
-     * @see fr.paris.lutece.plugins.plu.business.iso.IIsoDAO#findLastGenerated(java.lang.Integer)
+    /**
+     * Return the last generated iso of a plu
+     * @param idPlu id plu
+     * @return last generated iso
      */
     public Iso findLastGenerated( Integer idPlu )
     {

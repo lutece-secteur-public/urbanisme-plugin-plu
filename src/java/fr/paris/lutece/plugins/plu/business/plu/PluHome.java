@@ -68,7 +68,7 @@ public class PluHome extends AbstractLuteceHome<Integer, Plu, IPluDAO> implement
      * @param dateFin the end application date
      * @return the list of plu
      */
-	public List<Plu> findWithFilters(String dateDebut, String dateFin)
+	public List<Plu> findWithFilters( String dateDebut, String dateFin )
 	{
 		return getDao(  ).findPluWithFilters( dateDebut, dateFin );
 	}

@@ -212,7 +212,7 @@ public class Plu
 
     /**
      * Sets the da of the plu to the specified date
-     * @param dateFin 
+     * @param dateFin date de fin
      */
     public void setDateFin( Date dateFin )
     {

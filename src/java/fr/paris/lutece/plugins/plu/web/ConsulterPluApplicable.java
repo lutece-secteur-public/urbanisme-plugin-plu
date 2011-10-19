@@ -52,10 +52,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ConsulterPluApplicable extends HttpServlet
 {
-    private static final String PREFIX_WEBSITE_URL = "sites-plu/site_statique_";
-    private static final String SUFFIX_WEBSITE_URL = "/index_plu.html";
 
-    private IPluServices _pluServices;
+    private static final long serialVersionUID = 6696862304846317051L;
+	private static final String PREFIX_WEBSITE_URL = "sites-plu/site_statique_";
+    private static final String SUFFIX_WEBSITE_URL = "/index_plu.html";
+	private IPluServices _pluServices;
 
     /**
      * Constructor
@@ -65,11 +66,6 @@ public class ConsulterPluApplicable extends HttpServlet
         super( );
         _pluServices = (IPluServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.pluServices" );
     }
-
-    /**  
-     *
-     */
-    private static final long serialVersionUID = 6696862304846317051L;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

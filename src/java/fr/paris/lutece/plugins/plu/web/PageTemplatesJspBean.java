@@ -151,13 +151,13 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         PageTemplate pageTemplate = new PageTemplate(  );
 
         MultipartHttpServletRequest multipartRequest = null;
-        if (request instanceof MultipartHttpServletRequest )
+        if ( request instanceof MultipartHttpServletRequest )
         {
         	multipartRequest = ( MultipartHttpServletRequest ) request;
         }
         else
         {
-        	throw new AppException("Request cannont be cast in MultipartHttpServletRequest in doCretaePageTemplate");
+        	throw new AppException( "Request cannont be cast in MultipartHttpServletRequest in doCretaePageTemplate" );
         }
         
         String strDescription = multipartRequest.getParameter( Parameters.PAGE_TEMPLATE_DESCRIPTION );
@@ -224,13 +224,13 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
 
         MultipartHttpServletRequest multipartRequest = null;
-        if (request instanceof MultipartHttpServletRequest )
+        if ( request instanceof MultipartHttpServletRequest )
         {
         	multipartRequest = ( MultipartHttpServletRequest ) request;
         }
         else
         {
-        	throw new AppException("Request cannont be cast in MultipartHttpServletRequest in doCretaePageTemplate");
+        	throw new AppException( "Request cannont be cast in MultipartHttpServletRequest in doCretaePageTemplate" );
         }
 
         String strId = multipartRequest.getParameter( Parameters.PAGE_TEMPLATE_ID );
@@ -281,7 +281,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         {
             if( !new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile(  ) ).delete(  ) )
             {
-            	throw new AppException("An error occured when trying to delete file");
+            	throw new AppException( "An error occured when trying to delete file" );
             }
             pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
             writeTemplateFile( strFileName, strPathFilePageTemplate, fileTemplate );
@@ -291,7 +291,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         {
         	if( !new File( strPathImagePageTemplate, pageTemplate.getPicture(  ) ).delete(  ) )
         	{
-        		throw new AppException("An error occured when trying to delete file");
+        		throw new AppException( "An error occured when trying to delete file" );
         	}
             pageTemplate.setPicture( strPictureName );
             writeTemplateFile( strPictureName, strPathImagePageTemplate, filePicture );
@@ -355,7 +355,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         {
             if ( !filePageTemplateToDelete.delete(  ) )
          	{
-        		throw new AppException("An error occured when trying to delete file");
+        		throw new AppException( "An error occured when trying to delete file" );
         	}
         }
 
@@ -365,7 +365,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         {
             if ( !filePictureToDelete.delete(  ) )
          	{
-        		throw new AppException("An error occured when trying to delete file");
+        		throw new AppException( "An error occured when trying to delete file" );
         	}
         }
 
@@ -396,7 +396,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             {
                 if ( !file.delete(  ) )
              	{
-            		throw new AppException("An error occured when trying to delete file");
+            		throw new AppException( "An error occured when trying to delete file" );
             	}
             }
         	fosFile = new FileOutputStream( file );
@@ -409,7 +409,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         }
         finally
         {
-        	IOUtils.closeQuietly(fosFile);
+        	IOUtils.closeQuietly( fosFile );
         }
     }
 }
