@@ -104,24 +104,20 @@ public class VersionServices implements IVersionServices
 
     /**
      * Returns a list of version objects for the evolution
-     * @param idPlu The plu identifier
-     * @param date The date of evolution
      * @return A list of version
      */
-    public List<Version> selectEvolution( int idPlu, Date date )
+    public List<Version> selectEvolution( )
     {
-        return _home.selectEvolution( idPlu, date );
+        return _home.selectEvolution( );
     }
 
     /**
      * Returns a list of version objects for the archive
-     * @param idPlu The plu identifier
-     * @param date The date of archivage
      * @return A list of version
      */
-    public List<Version> selectArchive( int idPlu, Date date )
+    public List<Version> selectArchive( )
     {
-        return _home.selectArchive( idPlu, date );
+        return _home.selectArchive( );
     }
 
     /**

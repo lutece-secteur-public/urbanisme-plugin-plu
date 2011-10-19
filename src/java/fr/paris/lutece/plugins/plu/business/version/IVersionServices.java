@@ -74,19 +74,15 @@ public interface IVersionServices
 
     /**
      * Returns a list of version objects for the evolution
-     * @param idPlu The plu identifier
-     * @param date The date of evolution
      * @return A list of version
      */
-    List<Version> selectEvolution( int idPlu, Date date );
+    List<Version> selectEvolution( );
 
     /**
      * Returns a list of version objects for the archive
-     * @param idPlu The plu identifier
-     * @param date The date of archivage
      * @return A list of version
      */
-    List<Version> selectArchive( int idPlu, Date date );
+    List<Version> selectArchive( );
 
     /**
      * Returns an integer

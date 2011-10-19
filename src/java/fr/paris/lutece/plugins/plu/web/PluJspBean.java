@@ -617,7 +617,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
 
         versionList.clear( );
-        versionList = _versionServices.selectEvolution( nIdPlu - 1, dj );
+
+        versionList = _versionServices.selectEvolution( );
 
         for ( Version version : versionList )
         {
@@ -629,15 +630,13 @@ public class PluJspBean extends PluginAdminPageJspBean
         calendar.setTime( da );
         calendar.add( Calendar.DATE, -1 );
 
-        Date date = calendar.getTime( );
-
         versionList.clear( );
-        versionList = _versionServices.selectArchive( nIdPlu - 1, date );
+        versionList = _versionServices.selectArchive( );
 
         for ( Version version : versionList )
         {
-            version.setD3( dj );
-            version.setD4( date );
+            version.setD4( dj );
+            version.setArchive( 'N' );
             _versionServices.update( version );
         }
 
@@ -3768,6 +3767,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Date d3 = stringToDate( "01/01/0001", "dd/MM/yyyy" );
         versionOld.setD3( d3 );
+        versionOld.setArchive( 'O' );
         _versionServices.update( versionOld );
 
         FolderVersion folderVersion = _folderVersionServices.findByMaxFolderAndVersion( versionOld );

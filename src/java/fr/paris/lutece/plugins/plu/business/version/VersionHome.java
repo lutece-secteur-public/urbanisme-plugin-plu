@@ -69,24 +69,20 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
 
     /**
      * Returns a list of version objects for the evolution
-     * @param idPlu The plu identifier
-     * @param date The date of evolution
      * @return A list of version
      */
-    public List<Version> selectEvolution( int idPlu, Date date )
+    public List<Version> selectEvolution( )
     {
-        return getDao(  ).selectEvolution( idPlu, date );
+        return getDao(  ).selectEvolution( );
     }
 
     /**
      * Returns a list of version objects for the archive
-     * @param idPlu The plu identifier
-     * @param date The date of archivage
      * @return A list of version
      */
-    public List<Version> selectArchive( int idPlu, Date date )
+    public List<Version> selectArchive( )
     {
-        return getDao(  ).selectArchive( idPlu, date );
+        return getDao(  ).selectArchive( );
     }
 
     /**

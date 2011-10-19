@@ -54,8 +54,8 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 {
     private static final String SQL_QUERY_SELECT_APPROVE = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d1 IS NULL AND v.d2 IS NULL AND v.d3 IS NULL AND v.d4 IS NULL AND fv.folder.plu = :idPlu";
     private static final String SQL_QUERY_SELECT_APPLICATION = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d1 <= :d2 AND v.d2 IS NULL AND v.d3 IS NULL AND v.d4 IS NULL AND fv.folder.plu = :idPlu";
-    private static final String SQL_QUERY_SELECT_EVOLUTION = "SELECT v FROM FolderVersion fv JOIN fv.version v WHERE v.d2 < :d3 AND v.d3 = '0001-01-01' AND v.d4 IS NULL AND fv.folder.id = :idPlu";
-    private static final String SQL_QUERY_SELECT_ARCHIVE = "SELECT v FROM FolderVersion fv JOIN fv.version v  WHERE v.d4 IS NULL AND ( v.archive = 'O' OR ( v.d3 < :d4 AND fv.folder.id = :idPlu ) )";
+    private static final String SQL_QUERY_SELECT_EVOLUTION = "SELECT v FROM Version v WHERE v.d3 = '0001-01-01'";
+    private static final String SQL_QUERY_SELECT_ARCHIVE = "SELECT v FROM Version v  WHERE v.archive = 'O'";
     private static final String SQL_QUERY_SELECT_MAX_VERSION = "SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome";
     private static final String SQL_QUERY_SELECT_BY_ATOME_AND_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = :numVersion";
     private static final String SQL_QUERY_SELECT_BY_PLU_AND_FOLDER = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu AND fv.folder.id = :idFolder";
@@ -117,18 +117,12 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 
     /**
      * Returns a list of version objects for the evolution
-     * @param idPlu The plu identifier
-     * @param date The date of evolution
      * @return A list of version
      */
-    public List<Version> selectEvolution( int idPlu, Date date )
+    public List<Version> selectEvolution( )
     {
-        java.sql.Date sqlD3 = new java.sql.Date( date.getTime( ) );
-
         EntityManager em = getEM( );
         Query q = em.createQuery( SQL_QUERY_SELECT_EVOLUTION );
-        q.setParameter( "d3", sqlD3 );
-        q.setParameter( "idPlu", idPlu );
 
         List<Version> versionList = q.getResultList( );
 
@@ -137,18 +131,13 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 
     /**
      * Returns a list of version objects for the archive
-     * @param idPlu The plu identifier
-     * @param date The date of archivage
      * @return A list of version
      */
-    public List<Version> selectArchive( int idPlu, Date date )
+    public List<Version> selectArchive( )
     {
-        java.sql.Date sqlD4 = new java.sql.Date( date.getTime( ) );
 
         EntityManager em = getEM( );
         Query q = em.createQuery( SQL_QUERY_SELECT_ARCHIVE );
-        q.setParameter( "d4", sqlD4 );
-        q.setParameter( "idPlu", idPlu );
 
         List<Version> versionList = q.getResultList( );
 
