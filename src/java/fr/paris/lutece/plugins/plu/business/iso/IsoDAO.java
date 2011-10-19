@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.plugins.plu.business.iso;
 
-import fr.paris.lutece.plugins.plu.services.PluPlugin;
-import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-
 import java.util.List;
 
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
 
 /**
@@ -61,14 +61,15 @@ public class IsoDAO extends JPALuteceDAO<Integer, Iso> implements IIsoDAO
 
     public List<Iso> findList( )
     {
-        Query query = this.getEM( ).createQuery( FIND_LIST_JPQL );
+    	TypedQuery<Iso> query = this.getEM( ).createQuery( FIND_LIST_JPQL, Iso.class );
+
         List<Iso> resultList = query.getResultList( );
         return resultList;
     }
 
     public Iso findLastGenerated( Integer idPlu )
     {
-        Query query = this.getEM( ).createQuery( FIND_LAST_GENERATED_JPQL );
+    	TypedQuery<Iso> query = this.getEM( ).createQuery( FIND_LAST_GENERATED_JPQL, Iso.class );
         query.setParameter( "idPlu", idPlu );
         List<Iso> resultList = query.getResultList( );
         if ( !resultList.isEmpty( ) )

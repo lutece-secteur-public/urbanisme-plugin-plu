@@ -33,17 +33,18 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
-import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
-import fr.paris.lutece.plugins.plu.services.PluPlugin;
-import fr.paris.lutece.plugins.plu.utils.PluUtils;
-import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.plugins.plu.utils.PluUtils;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
 
 /**
@@ -86,8 +87,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
      */
     public List<Version> selectApprove( int idPlu )
     {
-        EntityManager em = getEM( );
-        Query q = em.createQuery( SQL_QUERY_SELECT_APPROVE );
+        TypedQuery<Version> q = this.getEM( ).createQuery( SQL_QUERY_SELECT_APPROVE, Version.class );
         q.setParameter( "idPlu", idPlu );
 
         List<Version> versionList = q.getResultList( );
@@ -105,8 +105,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     {
         java.sql.Date sqlD2 = new java.sql.Date( date.getTime( ) );
 
-        EntityManager em = getEM( );
-        Query q = em.createQuery( SQL_QUERY_SELECT_APPLICATION );
+        TypedQuery<Version> q = this.getEM( ).createQuery( SQL_QUERY_SELECT_APPLICATION, Version.class );
         q.setParameter( "d2", sqlD2 );
         q.setParameter( "idPlu", idPlu );
 
@@ -121,8 +120,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
      */
     public List<Version> selectEvolution( )
     {
-        EntityManager em = getEM( );
-        Query q = em.createQuery( SQL_QUERY_SELECT_EVOLUTION );
+        TypedQuery<Version> q = this.getEM( ).createQuery( SQL_QUERY_SELECT_EVOLUTION, Version.class );
 
         List<Version> versionList = q.getResultList( );
 
@@ -136,9 +134,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     public List<Version> selectArchive( )
     {
 
-        EntityManager em = getEM( );
-        Query q = em.createQuery( SQL_QUERY_SELECT_ARCHIVE );
-
+        TypedQuery<Version> q = this.getEM( ).createQuery( SQL_QUERY_SELECT_ARCHIVE, Version.class );
         List<Version> versionList = q.getResultList( );
 
         return versionList;
@@ -186,17 +182,16 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
      */
     public List<Version> findByPluAndFolder( int nIdPlu, int nIdFolder )
     {
-        EntityManager em = getEM( );
-        Query q;
+        TypedQuery<Version> q;
         
         if ( nIdFolder != 0 )
         {
-        	q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_AND_FOLDER );
+        	q = this.getEM( ).createQuery( SQL_QUERY_SELECT_BY_PLU_AND_FOLDER, Version.class );
         	q.setParameter( "idFolder", nIdFolder );
         }
         else
         {
-        	q = em.createQuery( SQL_QUERY_SELECT_BY_PLU );
+        	q = this.getEM( ).createQuery( SQL_QUERY_SELECT_BY_PLU, Version.class );
         }
 
         q.setParameter( "idPlu", nIdPlu );
@@ -258,8 +253,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 
         String strSQL = PluUtils.buildRequetteWithFilter( SQL_QUERY_SELECT_ALL, listStrFilter );
 
-        EntityManager em = getEM( );
-        Query q = em.createQuery( strSQL );
+        TypedQuery<Version> q = this.getEM( ).createQuery( strSQL, Version.class );
 
         if ( atomeFilter.containsId( ) )
         {
@@ -310,40 +304,4 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
         return versionList;
     }
 
-    // public List<Version> findByFilter( VersionFilter filter )
-    // {
-    // EntityManager em = getEM( );
-    // CriteriaBuilder cb = em.getCriteriaBuilder( );
-    //
-    // CriteriaQuery<Version> cq = cb.createQuery( Version.class );
-    //
-    // Root<Version> root = cq.from( Version.class );
-    //
-    // buildCriteriaQuery( filter, root, cq, cb );
-    //
-    // cq.distinct( true );
-    //
-    // TypedQuery<Version> query = em.createQuery( cq );
-    //
-    // return query.getResultList( );
-    // }
-    //
-    // private void buildCriteriaQuery( VersionFilter filter, Root<Version>
-    // root, CriteriaQuery<Version> cq,
-    // CriteriaBuilder cb )
-    // {
-    // List<Predicate> listPredicates = new ArrayList<Predicate>( );
-    //
-    // if ( StringUtils.isNotBlank( filter.get_d1( ) ) )
-    // {
-    // listPredicates.add( cb.like( root.get( Version_.d1 ),
-    // PluJPAUtils.buildCriteriaLikeString2( filter.get_d1( ) ) ) );
-    // }
-    //
-    // if ( !listPredicates.isEmpty( ) )
-    // {
-    // // add existing predicates to Where clause
-    // cq.where( listPredicates.toArray( new Predicate[0] ) );
-    // }
-    // }
 }

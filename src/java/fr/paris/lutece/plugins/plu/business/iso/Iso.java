@@ -74,9 +74,7 @@ public class Iso
     private String nomImpression;
     private Date date;
     private Long tailleConsultation;
-    private String tailleConsultationString;
     private Long tailleImpression;
-    private String tailleImpressionString;
 
     /**
      * Returns the identifier of this iso

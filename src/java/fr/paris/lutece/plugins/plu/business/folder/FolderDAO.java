@@ -33,17 +33,18 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
-import fr.paris.lutece.plugins.plu.services.PluPlugin;
-import fr.paris.lutece.plugins.plu.utils.PluUtils;
-import fr.paris.lutece.portal.service.image.ImageResource;
-import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-import fr.paris.lutece.util.sql.DAOUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.plugins.plu.utils.PluUtils;
+import fr.paris.lutece.portal.service.image.ImageResource;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**
@@ -98,7 +99,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public Folder findForTestTitle( String title )
     {
         EntityManager em = getEM(  );
-        Query q = em.createQuery( SQL_QUERY_SELECT_BY_TITLE );
+        TypedQuery<Folder> q = em.createQuery( SQL_QUERY_SELECT_BY_TITLE, Folder.class );
         q.setParameter( "title", title );
 
         List<Folder> folderList = q.getResultList(  );
@@ -120,7 +121,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public Folder findByAtome( int nIdAtome )
     {
         EntityManager em = getEM(  );
-        Query q = em.createQuery( SQL_QUERY_SELECT_BY_ATOME );
+        TypedQuery<Folder> q = em.createQuery( SQL_QUERY_SELECT_BY_ATOME, Folder.class );
         q.setParameter( "idAtome", nIdAtome );
 
         List<Folder> folderList = q.getResultList(  );
@@ -142,7 +143,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public Folder findByVersion( int nIdVersion )
     {
         EntityManager em = getEM(  );
-        Query q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION );
+        TypedQuery<Folder> q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION, Folder.class );
         q.setParameter( "idVersion", nIdVersion );
 
         List<Folder> folderList = q.getResultList(  );
@@ -160,7 +161,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public Folder findForDelete( int nKey )
     {
         EntityManager em = getEM(  );
-        Query q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_PARENT );
+        TypedQuery<Folder> q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_PARENT, Folder.class );
         q.setParameter( "idParentFolder", nKey );
 
         List<Folder> folderList = q.getResultList(  );
@@ -172,7 +173,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         }
         else
         {
-            q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_ATOME );
+            q = em.createQuery( SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_ATOME, Folder.class );
             q.setParameter( "idFolder", nKey );
             folderList = q.getResultList(  );
 
@@ -193,7 +194,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public List<Folder> findByPluId( int pluId )
     {
         EntityManager em = getEM(  );
-        Query q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_ID );
+        TypedQuery<Folder> q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_ID, Folder.class );
         q.setParameter( "idPlu", pluId );
 
         List<Folder> folderList = q.getResultList(  );
@@ -209,7 +210,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public List<Folder> findByParent( int parentId )
     {
         EntityManager em = getEM(  );
-        Query q = em.createQuery( SQL_QUERY_SELECT_BY_PARENT );
+        TypedQuery<Folder> q = em.createQuery( SQL_QUERY_SELECT_BY_PARENT, Folder.class );
         q.setParameter( "idParentFolder", parentId );
 
         List<Folder> folderList = q.getResultList(  );
@@ -240,8 +241,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         strSQL += " ORDER BY f.parentFolder ";
 
         EntityManager em = getEM(  );
-        Query q = em.createQuery( strSQL );
-
+        TypedQuery<Folder> q = em.createQuery( strSQL, Folder.class );
         if ( filter.containsPlu(  ) )
         {
             q.setParameter( "idPlu", filter.get_plu(  ) );

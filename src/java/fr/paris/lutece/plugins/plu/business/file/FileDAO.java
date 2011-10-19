@@ -33,16 +33,16 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
-import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
-import fr.paris.lutece.plugins.plu.services.PluPlugin;
-import fr.paris.lutece.plugins.plu.utils.PluUtils;
-import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.plugins.plu.utils.PluUtils;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
 
 /**
@@ -76,7 +76,7 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
     public List<File> findAllMimeType(  )
     {
         EntityManager em = getEM(  );
-        Query q = em.createQuery( SQL_QUERY_SELECT_ALL_FORMAT );
+        TypedQuery<File> q = em.createQuery( SQL_QUERY_SELECT_ALL_FORMAT, File.class );
 
         List<File> fileList = q.getResultList(  );
 
@@ -91,7 +91,7 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
     public List<File> findByVersion( int nIdVersion )
     {
         EntityManager em = getEM(  );
-        Query q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION );
+        TypedQuery<File> q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION, File.class );
         q.setParameter( "idVersion", nIdVersion );
 
         List<File> fileList = q.getResultList(  );
@@ -134,7 +134,7 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
         String strSQL = PluUtils.buildRequetteWithFilter( SQL_SEARCH, listStrFilter );
 
         EntityManager em = getEM(  );
-        Query q = em.createQuery( strSQL );
+        TypedQuery<File> q = em.createQuery( strSQL, File.class );
 
         if ( fileFilter.containsTitle(  ) )
         {

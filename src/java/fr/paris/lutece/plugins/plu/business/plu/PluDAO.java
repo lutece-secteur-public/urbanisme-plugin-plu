@@ -33,15 +33,16 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
-import fr.paris.lutece.plugins.plu.services.PluPlugin;
-import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
 
 /**
@@ -76,14 +77,13 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
      */
     public List<Plu> findPluWithFilters( String dateApplicationDebut, String dateApplicationFin )
     {
-        EntityManager em = getEM( );
+
         String query = SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION;
         query = query.replace( "date1", "'" + dateApplicationDebut + "'" );
         query = query.replace( "date2", "'" + dateApplicationFin + "'" );
+        TypedQuery<Plu> q = this.getEM( ).createQuery( query, Plu.class );
 
-        Query q = em.createQuery( query );
-
-        ArrayList<Plu> listPlu;
+        List<Plu> listPlu;
 
         try
         {

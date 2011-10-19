@@ -70,7 +70,6 @@ import fr.paris.lutece.plugins.plu.business.folderversion.FolderVersion;
 import fr.paris.lutece.plugins.plu.business.folderversion.IFolderVersionServices;
 import fr.paris.lutece.plugins.plu.business.history.History;
 import fr.paris.lutece.plugins.plu.business.history.IHistoryServices;
-import fr.paris.lutece.plugins.plu.business.iso.IIsoServices;
 import fr.paris.lutece.plugins.plu.business.plu.IPluServices;
 import fr.paris.lutece.plugins.plu.business.plu.Plu;
 import fr.paris.lutece.plugins.plu.business.type.ITypeServices;
@@ -312,7 +311,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     private IVersionServices _versionServices;
     private IFolderVersionServices _folderVersionServices;
     private IFileServices _fileServices;
-    private IIsoServices _isoServices;
     private List<File> _fileList = new ArrayList<File>( );
     private Folder _folderHtml = new Folder( );
     private Folder _folderImage = new Folder( );
@@ -337,7 +335,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         _folderVersionServices = (IFolderVersionServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME,
                 "plu.folderVersionServices" );
         _fileServices = (IFileServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.fileServices" );
-        _isoServices = (IIsoServices) SpringContextService.getPluginBean( PluPlugin.PLUGIN_NAME, "plu.isoServices" );
     }
 
     /**
@@ -4331,7 +4328,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         String parameters = "?";
         boolean first = true;
 
-        Enumeration en = request.getParameterNames( );
+        @SuppressWarnings("unchecked")
+		Enumeration<String> en = request.getParameterNames( );
         while ( en.hasMoreElements( ) )
         {
             if ( !first )

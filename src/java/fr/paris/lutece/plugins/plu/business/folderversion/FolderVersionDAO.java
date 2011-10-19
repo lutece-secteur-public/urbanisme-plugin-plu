@@ -42,6 +42,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 
 /**
@@ -70,7 +71,7 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
     public List<FolderVersion> findByFolder( Folder folder )
     {
         EntityManager em = getEM(  );
-        Query q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER );
+        TypedQuery<FolderVersion> q = em.createQuery( SQL_QUERY_SELECT_BY_FOLDER, FolderVersion.class );
         q.setParameter( "idFolder", folder.getId(  ) );
 
         List<FolderVersion> folderVersionList = q.getResultList(  );

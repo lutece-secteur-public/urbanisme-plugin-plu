@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.plu.business.plu;
 import java.util.List;
 
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 
 /**

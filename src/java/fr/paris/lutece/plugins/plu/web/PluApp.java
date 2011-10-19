@@ -60,8 +60,6 @@ import org.apache.commons.lang.StringUtils;
  */
 public class PluApp implements XPageApplication
 {
-    private PluServices _pluServices;
-
     /** Parameters */
     private static final String PARAMETER_DATE_APPLICATION_DEBUT = "dateApplicationDebut";
     private static final String PARAMETER_DATE_APPLICATION_FIN = "dateApplicationFin";
