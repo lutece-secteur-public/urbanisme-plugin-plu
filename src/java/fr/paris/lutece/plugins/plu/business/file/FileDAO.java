@@ -73,12 +73,12 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
      * Returns a list of file objects
      * @return A list of all mime type file
      */
-    public List<File> findAllMimeType(  )
+    public List<String> findAllMimeType(  )
     {
         EntityManager em = getEM(  );
-        TypedQuery<File> q = em.createQuery( SQL_QUERY_SELECT_ALL_FORMAT, File.class );
+        TypedQuery<String> q = em.createQuery( SQL_QUERY_SELECT_ALL_FORMAT, String.class );
 
-        List<File> fileList = q.getResultList(  );
+        List<String> fileList = q.getResultList(  );
 
         return fileList;
     }

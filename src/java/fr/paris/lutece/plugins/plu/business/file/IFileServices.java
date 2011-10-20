@@ -72,7 +72,7 @@ public interface IFileServices
      * Returns a list of file objects
      * @return A list of all mime type file
      */
-    List<File> findAllMimeType(  );
+    List<String> findAllMimeType(  );
 
     /**
      * Returns a list of file objects

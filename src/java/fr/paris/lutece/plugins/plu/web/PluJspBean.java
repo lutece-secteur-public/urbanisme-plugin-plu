@@ -926,7 +926,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         plu.setEtat( etat );
         _pluServices.update( plu );
 
-        // FIXME pourquoi créer l'iso en base maintenant ?? plutot dans le batch
+        // FIXME pourquoi crï¿½er l'iso en base maintenant ?? plutot dans le batch
         // ?
         // Iso iso = new Iso( );
         // iso.setPlu( plu.getId( ) );
@@ -2691,7 +2691,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
 
         List<File> fileAll = _fileServices.findAll( );
-        List<File> fileAllFormat = _fileServices.findAllMimeType( );
+        List<String> fileAllFormat = _fileServices.findAllMimeType( );
 
         Plu pluWork = _pluServices.findPluWork( );
 
@@ -3986,7 +3986,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             model.put( MARK_FOLDER, folder );
         }
 
-        if ( _folderHtml != null && !request.getParameter( "action" ).equals( "Créer" ) )
+        if ( _folderHtml != null && !request.getParameter( "action" ).equals( "Crï¿½er" ) )
         {
             model.put( MARK_HTML, _folderHtml );
         }

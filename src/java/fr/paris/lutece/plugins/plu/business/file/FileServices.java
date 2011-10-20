@@ -106,7 +106,7 @@ public class FileServices implements IFileServices
      * Returns a list of file objects
      * @return A list of all mime type file
      */
-    public List<File> findAllMimeType(  )
+    public List<String> findAllMimeType(  )
     {
         return _home.findAllMimeType(  );
     }

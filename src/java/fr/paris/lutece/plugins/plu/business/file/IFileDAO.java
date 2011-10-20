@@ -49,7 +49,7 @@ public interface IFileDAO extends IGenericDAO<Integer, File>
      * Returns a list of file objects
      * @return A list of all mime type file
      */
-    List<File> findAllMimeType(  );
+    List<String> findAllMimeType(  );
 
     /**
      * Returns a list of file objects
