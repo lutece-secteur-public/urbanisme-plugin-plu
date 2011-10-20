@@ -9,7 +9,7 @@
 		response.sendRedirect(plu.getConfirmCorrectAtome(request));
 	else if ( request.getParameter( "action" ).equals( I18nService.getLocalizedString( "plu.correct_atome.buttonReturn", request.getLocale( ) ) ) )
 	{
-		response.sendRedirect(plu.getConfirmCancelCreateAtome(request));
+		response.sendRedirect(plu.getConfirmCancelCorrectAtome(request));
 	}
 	else {
 %>

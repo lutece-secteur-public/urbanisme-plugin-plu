@@ -55,7 +55,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
@@ -303,6 +302,10 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String JSP_DO_UPLOAD_ATOME = "jsp/admin/plugins/plu/atome/DoUploadAtome.jsp";
     private static final String JSP_REDIRECT_TO_VIEW_ATOME = "jsp/admin/plugins/plu/atome/ViewAtome.jsp";
     private static final String JSP_MESSAGE = "jsp/admin/plugins/plu/Message.jsp";
+    private static final String JSP_EVOLVE_ATOME = "jsp/admin/plugins/plu/atome/EvolveAtome.jsp";
+    private static final String JSP_CORRECT_ATOME = "jsp/admin/plugins/plu/atome/CorrectAtome.jsp";
+    private static final String JSP_CREATE_ATOME = "jsp/admin/plugins/plu/atome/CreateAtome.jsp";
+    private static final String JSP_MODIFY_ATOME = "jsp/admin/plugins/plu/atome/ModifyAtome.jsp";
 
     private static final String[] LISTE_NOM_CHAMP = new String[] { PARAMETER_ATOME_DESCRIPTION, PARAMETER_ATOME_ID,
         PARAMETER_PLU_ID, PARAMETER_PLU_TYPE, PARAMETER_PLU_CAUSE, PARAMETER_PLU_REFERENCE, PARAMETER_FOLDER_ID,
@@ -2353,8 +2356,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_FOLDER_ID, nIdFolder );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CANCEL_CREATE_ATOME, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CANCEL_CREATE_ATOME, null, JSP_CREATE_ATOME, url.getUrl( ) ); 
     }
 
     /**
@@ -2379,7 +2381,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null,
-                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                    JSP_CREATE_ATOME, null );
         }
 
         int nIdAtome = 0;
@@ -2391,7 +2393,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         catch ( NumberFormatException e )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_ID_NUMBER, null,
-                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                    JSP_CREATE_ATOME, null );
         }
         try
         {
@@ -2400,7 +2402,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         catch ( NumberFormatException e )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_VERSION_NUMBER, null,
-                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                    JSP_CREATE_ATOME, null );
         }
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -2416,7 +2418,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         if ( check == null )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_FILE_CHECK, null,
-                    "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                    JSP_CREATE_ATOME, null );
         }
 
         UrlItem url = new UrlItem( JSP_DO_CREATE_ATOME );
@@ -2441,19 +2443,19 @@ public class PluJspBean extends PluginAdminPageJspBean
             if ( atome.getId( ) == nIdAtome )
             {
                 return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_ID, argsAtome,
-                        "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                        JSP_CREATE_ATOME, null );
             }
 
             if ( atome.getName( ).equals( atomeName ) )
             {
                 return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NAME, argsAtome,
-                        "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                        JSP_CREATE_ATOME, null );
             }
 
             if ( atome.getTitle( ).equals( atomeTitle ) )
             {
                 return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_TITLE, argsAtome,
-                        "jsp/admin/plugins/plu/atome/CreateAtome.jsp", null );
+                        JSP_CREATE_ATOME, null );
             }
         }
 
@@ -2471,14 +2473,14 @@ public class PluJspBean extends PluginAdminPageJspBean
         // Check atome's file
         String confirmFile = "";
         confirmFile = getConfirmAtomeFile( request, numVersion, atomeName, atomeTitle, check,
-				fileTitle, "jsp/admin/plugins/plu/atome/CreateAtome.jsp" );
+				fileTitle, JSP_CREATE_ATOME );
         if ( StringUtils.isNotEmpty( confirmFile ) )
         {
         	return confirmFile;
         }
 
         return this.getMessageJsp( request, MESSAGE_CONFIRM_CREATE_ATOME, argsAtome,
-                "jsp/admin/plugins/plu/atome/CreateAtome.jsp", url.getUrl( ) );
+                JSP_CREATE_ATOME, url.getUrl( ) );
     }
 
 	/**
@@ -2969,6 +2971,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 	 * @param request HttpServletRequest
 	 * @param model model
 	 */
+	@SuppressWarnings("unchecked")
 	private void getFileCheck( HttpServletRequest request,
 			Map<String, Object> model )
 	{
@@ -3041,8 +3044,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Object[] args = { atomeName, atomeTitle };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CANCEL_MODIFY_ATOME, args, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CANCEL_MODIFY_ATOME, args, JSP_MODIFY_ATOME, url.getUrl( ) ); 
     }
 
     /**
@@ -3060,7 +3062,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" )
                 || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, JSP_MODIFY_ATOME, null );
         }
         
         int nIdAtome = 0;
@@ -3071,7 +3073,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_ID_NUMBER, null, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
+            return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_ID_NUMBER, null, JSP_MODIFY_ATOME, null );
         }
         try
         {
@@ -3079,7 +3081,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         catch ( NumberFormatException e )
         {
-			return this.getMessageJsp( request, MESSAGE_ERROR_VERSION_NUMBER, null, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", null );
+			return this.getMessageJsp( request, MESSAGE_ERROR_VERSION_NUMBER, null, JSP_MODIFY_ATOME, null );
         }
         
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -3123,7 +3125,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         // Check atome's file
         String confirmFile = "";
         confirmFile = getConfirmAtomeFile( request, numVersion, atomeName, atomeTitle, check,
-				fileTitle, "jsp/admin/plugins/plu/atome/ModifyAtome.jsp" );
+				fileTitle, JSP_MODIFY_ATOME );
         if ( StringUtils.isNotEmpty( confirmFile ) )
         {
         	return confirmFile;
@@ -3133,7 +3135,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
 
         return this.getMessageJsp( request, MESSAGE_CONFIRM_MODIFY_ATOME, args,
-                "jsp/admin/plugins/plu/atome/ModifyAtome.jsp", url.getUrl( ) );
+                JSP_MODIFY_ATOME, url.getUrl( ) );
     }
 
     /**
@@ -3412,8 +3414,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Object[] args = { atomeName, atomeTitle };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CANCEL_CORRECT_ATOME, args, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CANCEL_CORRECT_ATOME, args, JSP_CORRECT_ATOME, url.getUrl( ) );
     }
 
     /**
@@ -3428,7 +3429,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_HISTORY_DESCRIPTION ).equals( "" )
                 || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
-            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, "jsp/admin/plugins/plu/atome/CorrectAtome.jsp", null );
+            return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, JSP_CORRECT_ATOME, null );
         }
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -3472,7 +3473,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         // Check atome's file
         String confirmFile = "";
         confirmFile = getConfirmAtomeFile( request, numVersion, atomeName, atomeTitle, check,
-				fileTitle, "jsp/admin/plugins/plu/atome/CorrectAtome.jsp" );
+				fileTitle, JSP_CORRECT_ATOME );
         if ( StringUtils.isNotEmpty( confirmFile ) )
         {
         	return confirmFile;
@@ -3480,7 +3481,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Object[] args = { atomeName, atomeTitle };
 
-        return this.getMessageJsp( request, MESSAGE_CONFIRM_CORRECT_ATOME, args, "jsp/admin/plugins/plu/atome/CorrectAtome.jsp", url.getUrl( ) );
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CORRECT_ATOME, args, JSP_CORRECT_ATOME, url.getUrl( ) );
     }
 
     /**
@@ -3684,8 +3685,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Object[] args = { atomeName, atomeTitle };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_CANCEL_EVOLVE_ATOME, args, url.getUrl( ),
-                AdminMessage.TYPE_CONFIRMATION );
+        return this.getMessageJsp( request, MESSAGE_CONFIRM_CANCEL_EVOLVE_ATOME, args, JSP_EVOLVE_ATOME, url.getUrl( ) );
     }
 
     /**
@@ -3701,7 +3701,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null,
-                    "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
+                    JSP_EVOLVE_ATOME, null );
         }
         
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -3727,7 +3727,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         if ( numVersion < numVersionOld )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_SUP, argsVersion,
-            "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );
+            JSP_EVOLVE_ATOME, null );
         }
         
         // Return error message if an atome allready exists on this version
@@ -3740,7 +3740,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         if ( !_versionServices.findByFilter( atomeFilter, versionFilter ).isEmpty( ) )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_ATOME_CREATE_NUM_VERSION_EXISTS, argsVersion,
-                    "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", null );        	
+                    JSP_EVOLVE_ATOME, null );        	
         }
 
         for ( int j = 0; j < check.length; ++j )
@@ -3763,7 +3763,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         // Check atome's file
         String confirmFile = "";
         confirmFile = getConfirmAtomeFile( request, numVersion, atomeName, atomeTitle, check,
-				fileTitle, "jsp/admin/plugins/plu/atome/EvolveAtome.jsp" );
+				fileTitle, JSP_EVOLVE_ATOME );
         if ( StringUtils.isNotEmpty( confirmFile ) )
         {
         	return confirmFile;
@@ -3773,7 +3773,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
 
         return this.getMessageJsp( request, MESSAGE_CONFIRM_EVOLVE_ATOME, args,
-                "jsp/admin/plugins/plu/atome/EvolveAtome.jsp", url.getUrl( ) );
+                JSP_EVOLVE_ATOME, url.getUrl( ) );
     }
 
     /**
