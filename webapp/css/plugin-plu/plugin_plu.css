@@ -43,3 +43,7 @@ a.button {
     text-decoration:none;
     margin-left: 5px;
 }
+.errors p {
+	color: red;
+	font-weight: bold;
+}

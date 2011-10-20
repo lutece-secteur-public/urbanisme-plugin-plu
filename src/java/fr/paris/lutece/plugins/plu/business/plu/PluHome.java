@@ -33,9 +33,10 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
-import java.util.List;
-
 import fr.paris.lutece.portal.service.jpa.AbstractLuteceHome;
+
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -68,7 +69,7 @@ public class PluHome extends AbstractLuteceHome<Integer, Plu, IPluDAO> implement
      * @param dateFin the end application date
      * @return the list of plu
      */
-	public List<Plu> findWithFilters( String dateDebut, String dateFin )
+    public List<Plu> findWithFilters( Date dateDebut, Date dateFin )
 	{
 		return getDao(  ).findPluWithFilters( dateDebut, dateFin );
 	}

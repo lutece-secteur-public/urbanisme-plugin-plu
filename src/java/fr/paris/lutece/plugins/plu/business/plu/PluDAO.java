@@ -35,11 +35,9 @@ package fr.paris.lutece.plugins.plu.business.plu;
 
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-import fr.paris.lutece.portal.service.util.AppException;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -57,7 +55,9 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
     private static final String SQL_QUERY_SELECT_PLU_WORK = "SELECT p FROM Plu p WHERE p.da IS NULL";
     private static final String SQL_QUERY_SELECT_PLU_APPLIED = "SELECT p FROM Plu p WHERE p.id = ( SELECT MAX(p.id) - 1 FROM Plu p )";
     private static final String SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION = "SELECT p FROM Plu p WHERE p.da > ? AND p.da < ?";
-    private static final SimpleDateFormat SDF = new SimpleDateFormat( "yyyy-MM-dd" );
+
+    // private static final SimpleDateFormat SDF = new SimpleDateFormat(
+    // "yyyy-MM-dd" );
 
     /**
      * Returns the list of plu with find with filters
@@ -65,7 +65,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
      * @param dateApplicationFin the end application date
      * @return the list of plu
      */
-    public List<Plu> findPluWithFilters( String dateApplicationDebut, String dateApplicationFin )
+    public List<Plu> findPluWithFilters( Date dateApplicationDebut, Date dateApplicationFin )
     {
 
         String query = SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION;
@@ -73,15 +73,8 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
 
         List<Plu> listPlu;
 
-        try
-        {
-            q.setParameter( 1, SDF.parse( dateApplicationDebut ) );
-            q.setParameter( 2, SDF.parse( dateApplicationFin ) );
-        }
-        catch ( ParseException e1 )
-        {
-            throw new AppException( "Erreur lors de la récupération de la date d'application.", e1 );
-        }
+        q.setParameter( 1, dateApplicationDebut );
+        q.setParameter( 2, dateApplicationFin );
 
         try
         {

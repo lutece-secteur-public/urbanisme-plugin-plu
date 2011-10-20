@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.plu.business.plu;
 import fr.paris.lutece.plugins.plu.business.iso.IIsoHome;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -136,7 +137,7 @@ public class PluServices implements IPluServices
      * @param dateFin the end application date
      * @return the list of plu
      */
-    public List<Plu> findWithFilters( String dateDebut, String dateFin )
+    public List<Plu> findWithFilters( Date dateDebut, Date dateFin )
     {
         List<Plu> pluList = _home.findWithFilters( dateDebut, dateFin );
         for ( Plu plu : pluList )

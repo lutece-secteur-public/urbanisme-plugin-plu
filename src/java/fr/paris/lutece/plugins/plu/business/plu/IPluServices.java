@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.plu.business.plu;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -84,5 +85,5 @@ public interface IPluServices
      * @param dateFin date de fin
      * @return la liste de plu correspondant
      */
-    List<Plu> findWithFilters( String dateDebut, String dateFin );
+    List<Plu> findWithFilters( Date dateDebut, Date dateFin );
 }

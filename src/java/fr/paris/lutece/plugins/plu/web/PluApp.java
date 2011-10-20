@@ -37,12 +37,11 @@ import fr.paris.lutece.plugins.plu.business.plu.PluServices;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import java.text.ParsePosition;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -122,41 +121,36 @@ public class PluApp implements XPageApplication
     {
         Map<String, Object> model = new HashMap<String, Object>( );
 
-        String dateDebut = request.getParameter( PARAMETER_DATE_APPLICATION_DEBUT );
-        String dateFin = request.getParameter( PARAMETER_DATE_APPLICATION_FIN );
-        model.put( PARAMETER_DATE_APPLICATION_DEBUT, dateDebut );
-        model.put( PARAMETER_DATE_APPLICATION_FIN, dateFin );
+        String sDateDebut = request.getParameter( PARAMETER_DATE_APPLICATION_DEBUT );
+        String sDateFin = request.getParameter( PARAMETER_DATE_APPLICATION_FIN );
+        model.put( PARAMETER_DATE_APPLICATION_DEBUT, sDateDebut );
+        model.put( PARAMETER_DATE_APPLICATION_FIN, sDateFin );
 
         List<String> errors = new ArrayList<String>( );
 
-        if ( StringUtils.isEmpty( dateDebut ) || StringUtils.isEmpty( dateFin ) )
+        if ( StringUtils.isEmpty( sDateDebut ) || StringUtils.isEmpty( sDateFin ) )
         {
-            errors.add( AppPropertiesService.getProperty( PROPERTY_ERROR_DATE_REQUIRED ) );
-            model.put( PARAMETER_ERRORS, errors );
+            errors.add( I18nService.getLocalizedString( PROPERTY_ERROR_DATE_REQUIRED, I18nService.getDefaultLocale( ) ) );
         }
         else
         {
             try
             {
-                Date d;
+                Date dateDebut;
                 SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy" );
-                ParsePosition pos = new ParsePosition( 0 );
-                d = formatter.parse( dateDebut, pos );
-                formatter = new SimpleDateFormat( "yyyy-MM-dd" );
-                dateDebut = formatter.format( d );
+                dateDebut = formatter.parse( sDateDebut );
 
-                formatter = new SimpleDateFormat( "dd/MM/yyyy" );
-                pos = new ParsePosition( 0 );
-                d = formatter.parse( dateFin, pos );
-                formatter = new SimpleDateFormat( "yyyy-MM-dd" );
-                dateFin = formatter.format( d );
+                Date dateFin;
+                dateFin = formatter.parse( sDateFin );
+
+                model.put( PARAMETER_LIST_PLU, PluServices.getInstance( ).findWithFilters( dateDebut, dateFin ) );
             }
-            catch ( RuntimeException e )
+            catch ( ParseException e )
             {
-                errors.add( AppPropertiesService.getProperty( PROPERTY_ERROR_DATE_FORMAT ) );
+                errors.add( I18nService.getLocalizedString( PROPERTY_ERROR_DATE_FORMAT, I18nService.getDefaultLocale( ) ) );
             }
-            model.put( PARAMETER_LIST_PLU, PluServices.getInstance( ).findWithFilters( dateDebut, dateFin ) );
         }
+        model.put( PARAMETER_ERRORS, errors );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_PLU_SEARCH, request.getLocale( ), model );
 
