@@ -33,31 +33,6 @@
  */
 package fr.paris.lutece.plugins.plu.web;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
 import fr.paris.lutece.plugins.plu.business.atome.IAtomeServices;
@@ -95,6 +70,33 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
+
+import freemarker.template.utility.StringUtil;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.util.URIUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -4236,8 +4238,10 @@ public class PluJspBean extends PluginAdminPageJspBean
      * @param pageReturn the page return
      * @param pageTarget the page target
      * @return the message jsp
+     * @throws UnsupportedEncodingException
      */
-    public String getMessageJsp( HttpServletRequest request, String errorMessage, Object[] args, String pageReturn, String pageTarget )
+    public String getMessageJsp( HttpServletRequest request, String errorMessage, Object[] args, String pageReturn,
+            String pageTarget )
     {
         request.getSession( ).setAttribute( MARK_ERROR_MESSAGE, errorMessage );
         request.getSession( ).setAttribute( MARK_ERROR_ARGS, args );
@@ -4267,7 +4271,14 @@ public class PluJspBean extends PluginAdminPageJspBean
             first = false;
             String pName = (String) en.nextElement( );
             String paramValue = request.getParameter( pName );
-            parameters.append( pName ).append( "=" ).append( paramValue );
+            try
+            {
+                parameters.append( pName ).append( "=" ).append( StringUtil.URLEnc( paramValue, "UTF-8" ) );
+            }
+            catch ( UnsupportedEncodingException e )
+            {
+                throw new AppException( "Problème lors de l'encoding.", e );
+            }
         }
 
         return AppPathService.getBaseUrl( request ) + JSP_MESSAGE + parameters;
