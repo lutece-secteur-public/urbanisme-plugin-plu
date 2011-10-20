@@ -1088,7 +1088,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     }
                     catch ( ParseException e )
                     {
-                    	throw new AppException( "An exception occured during date parsing", e );
+                    	//throw new AppException( "An exception occured during date parsing", e );
                     }
                 }
 
@@ -1103,7 +1103,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     }
                     catch ( ParseException e )
                     {
-                    	throw new AppException( "An exception occured during date parsing", e );
+                    	//throw new AppException( "An exception occured during date parsing", e );
                     }
                 }
 
@@ -1118,7 +1118,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     }
                     catch ( ParseException e )
                     {
-                    	throw new AppException( "An exception occured during date parsing", e );
+                    	//throw new AppException( "An exception occured during date parsing", e );
                     }
                 }
 
@@ -1133,7 +1133,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     }
                     catch ( ParseException e )
                     {
-                    	throw new AppException( "An exception occured during date parsing", e );
+                    	//throw new AppException( "An exception occured during date parsing", e );
                     }
                 }
 
@@ -2999,6 +2999,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 		// if a new file is add, add new entry in tmp, else restore tmp
 		if ( request.getParameter( "joinFile" ) != null )
 		{
+			tmp = (List<String>) request.getSession( ).getAttribute( PARAMETER_FILE_CHECK );
 			if ( request.getParameter( "joinFile" ).equals( "true" )  )
 			{
 				tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
