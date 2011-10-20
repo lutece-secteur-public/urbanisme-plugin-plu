@@ -56,6 +56,7 @@ import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
 import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
@@ -2894,7 +2895,14 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         if ( request.getParameter( PARAMETER_ATOME_NUM ) != null )
         {
-            version.getAtome( ).setId( Integer.parseInt( request.getParameter( PARAMETER_ATOME_NUM ) ) );
+        	try
+        	{
+        		version.getAtome( ).setId( Integer.parseInt( request.getParameter( PARAMETER_ATOME_NUM ) ) );
+        	}
+        	catch( NumberFormatException n )
+        	{
+        		//If request.getParameter( PARAMETER_ATOME_NUM ) isn't Integer, keep the original id
+        	}
         }
         if ( request.getParameter( PARAMETER_ATOME_NAME ) != null )
         {
@@ -2906,7 +2914,14 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         if ( request.getParameter( PARAMETER_VERSION_NUM ) != null )
         {
-            version.setVersion( Integer.parseInt( request.getParameter( PARAMETER_VERSION_NUM ) ) );
+        	try
+        	{
+        		version.setVersion( Integer.parseInt( request.getParameter( PARAMETER_VERSION_NUM ) ) );
+	    	}
+	    	catch( NumberFormatException n )
+	    	{
+	    		//If request.getParameter( PARAMETER_VERSION_NUM ) isn't Integer, keep the original version
+	    	}
         }
         if ( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) != null )
         {
