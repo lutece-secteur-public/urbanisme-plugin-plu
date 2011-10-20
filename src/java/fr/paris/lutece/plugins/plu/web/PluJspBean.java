@@ -2676,23 +2676,29 @@ public class PluJspBean extends PluginAdminPageJspBean
                     file.setVersion( version2.getId( ) );
                     
             		// Test if file name contains extension, if yes remove extension to file name
-            		int a = file.getName( ).lastIndexOf( file.getMimeType( ) );
-            		if ( a > 0 )
-            		{
-            			file.setName( file.getName( ).substring( 0, a ) );
-            		}
-            		
-            		a = file.getName( ).lastIndexOf( "-V" );
-            		if ( a > 0 )
-            		{
-            		    file.setName( file.getName( ).substring( 0, a ) + strNumVersion );
-            		}
-            		else
-            		{
-            		    file.setName( file.getName( ) + strNumVersion );
-            		}
-            		
-            		file.setName( file.getName( ) + file.getMimeType( ) );
+
+                    // Test if file name contains extension, if yes remove
+                    // extension to file name
+                    int a = file.getName( ).lastIndexOf( "." );
+                    String nameWithoutExt = file.getName( );
+                    String nameExt = "";
+                    if ( a > 0 )
+                    {
+                        nameWithoutExt = file.getName( ).substring( 0, a );
+                        nameExt = file.getName( ).substring( a );
+                    }
+
+                    a = nameWithoutExt.lastIndexOf( "-V" );
+                    if ( a > 0 )
+                    {
+                        nameWithoutExt = nameWithoutExt.substring( 0, a ) + strNumVersion;
+                    }
+                    else
+                    {
+                        nameWithoutExt = nameWithoutExt + strNumVersion;
+                    }
+
+                    file.setName( nameWithoutExt + nameExt );
             		
                     file.setId( 0 );
                     _fileServices.create( file );
@@ -3305,23 +3311,26 @@ public class PluJspBean extends PluginAdminPageJspBean
 		file.setVersion( version.getId( ) );
 		
 		// Test if file name contains extension, if yes remove extension to file name
-		int a = file.getName( ).lastIndexOf( file.getMimeType( ) );
+        int a = file.getName( ).lastIndexOf( "." );
+        String nameWithoutExt = file.getName( );
+        String nameExt = "";
 		if ( a > 0 )
 		{
-			file.setName( file.getName( ).substring( 0, a ) );
+            nameWithoutExt = file.getName( ).substring( 0, a );
+            nameExt = file.getName( ).substring( a );
 		}
 		
-		a = file.getName( ).lastIndexOf( "-V" );
+        a = nameWithoutExt.lastIndexOf( "-V" );
 		if ( a > 0 )
 		{
-		    file.setName( file.getName( ).substring( 0, a ) + strNumVersion );
+            nameWithoutExt = nameWithoutExt.substring( 0, a ) + strNumVersion;
 		}
 		else
 		{
-		    file.setName( file.getName( ) + strNumVersion );
+            nameWithoutExt = nameWithoutExt + strNumVersion;
 		}
 
-		file.setName( file.getName( ) + file.getMimeType( ) );
+        file.setName( nameWithoutExt + nameExt );
 		
 		if ( file.getId( ) != 0 )
 		{
@@ -3342,8 +3351,10 @@ public class PluJspBean extends PluginAdminPageJspBean
 		                    
 		java.io.File fileDest = new java.io.File( new java.io.File(
 		        AppPropertiesService.getProperty( "plu.docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
+
 		if ( !fileDest.exists( ) )
 		{
+            System.out.println( "Fichier pas existant : " + fileDest.getAbsolutePath( ) );
 			FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
 		}
 	}
@@ -3648,7 +3659,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( nIdVersion, model, request, false );
+            setFileList( nIdVersion, model, request, true );
         }
 
         model.put( MARK_PLU, plu );
