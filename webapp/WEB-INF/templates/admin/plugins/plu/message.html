@@ -17,7 +17,12 @@
 		<form id="formConfirm" target="_self" action="${pageReturn!}" method="post">
 			<p>
 				<#list LISTE_NOM_CHAMPS as nomChamp>
-					<input type="hidden" name="${nomChamp}" value="${listeChamps[nomChamp]!}" />
+					<input type="hidden" name="${nomChamp}" value=
+					<#if nomChamp == "folder_description">
+						"${listeChamps[nomChamp]!?html}" />
+					<#else>
+						"${listeChamps[nomChamp]!}" />
+					</#if>
 				</#list> 		
 				<#if pageTarget?exists>
 					<input id="OK" class="button" type="submit" value="OK">		
