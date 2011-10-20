@@ -68,7 +68,7 @@ public class File
     private String _name;
     private String _title;
     private String _mimeType;
-    private int _size;
+    private long _size;
     private char _utilisation;
     private byte[]  _file;
 
@@ -213,7 +213,7 @@ public class File
      * @return the file size
      */
     @Column( name = "taille" )
-    public int getSize(  )
+    public long getSize(  )
     {
         return _size;
     }
@@ -222,7 +222,7 @@ public class File
      * Sets the size of the file to the specified long
      * @param size the new size
      */
-    public void setSize( int size )
+    public void setSize( long size )
     {
         _size = size;
     }

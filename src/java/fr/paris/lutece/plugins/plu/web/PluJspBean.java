@@ -3031,9 +3031,6 @@ public class PluJspBean extends PluginAdminPageJspBean
 		
 		for ( File file : listFile )
 		{
-		    java.io.File fileDest = new java.io.File( new java.io.File(
-		            AppPropertiesService.getProperty( "plu.docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
-		    file.setFile( FileUtils.readFileToByteArray( fileDest ) );
 			_fileList.add( file );
 			checkFileList.add( Integer.toString( _fileList.size( ) - 1 ) );
 		}
@@ -3325,14 +3322,10 @@ public class PluJspBean extends PluginAdminPageJspBean
 		                    
 		java.io.File fileDest = new java.io.File( new java.io.File(
 		        AppPropertiesService.getProperty( "plu.docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
-		if ( fileDest.exists( ) )
+		if ( !fileDest.exists( ) )
 		{
-        	if ( !fileDest.delete( ) )
-        	{
-        		throw new AppException( "An error occured when trying to delete file" );
-        	}
+			FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
 		}
-		FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
 	}
 
     /**
