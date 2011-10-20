@@ -53,6 +53,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.plugins.plu.business.atome.Atome;
@@ -2266,7 +2267,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
         }
         
-        if ( request instanceof MultipartHttpServletRequest )
+        if ( request instanceof MultipartHttpServletRequest && request.getParameter( PARAMETER_REINIT ) == null )
         {
         	String ret = addFileToFileList( request );
         	if ( StringUtils.isNotEmpty( ret ) )
@@ -4149,7 +4150,8 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
             first = false;
             String pName = (String) en.nextElement( );
-            parameters.append( pName ).append( "=" ).append( request.getParameter( pName ) );
+            String paramValue = request.getParameter( pName );
+            parameters.append( pName ).append( "=" ).append( paramValue );
         }
 
         return AppPathService.getBaseUrl( request ) + JSP_MESSAGE + parameters;

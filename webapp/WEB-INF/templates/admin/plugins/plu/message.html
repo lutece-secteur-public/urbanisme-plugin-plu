@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#OK').click(function(){
-			$('#formConfirm').attr('action', "${pageTarget!}");
+			$('#formConfirm').attr('action', "${pageTarget!?j_string}");
 		});
 	});
 </script>
@@ -18,7 +18,7 @@
 			<p>
 				<#list LISTE_NOM_CHAMPS as nomChamp>
 					<input type="hidden" name="${nomChamp}" value=
-					<#if nomChamp == "folder_description">
+					<#if nomChamp == "folder_description" || nomChamp == "atome_description" >
 						"${listeChamps[nomChamp]!?html}" />
 					<#else>
 						"${listeChamps[nomChamp]!}" />
