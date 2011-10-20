@@ -280,6 +280,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_PAGE_INDEX = "page_index";
     private static final String PARAMETER_PAGE = "page";
     private static final String PARAMETER_REINIT = "reinit";
+    private static final String PARAMETER_CLEAR = "clear";
 
     /** Jsp Definition */
     private static final String JSP_REDIRECT_TO_MANAGE_PLU = "../plu/ManagePlu.jsp";
@@ -320,7 +321,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         PARAMETER_ATOME_DESCRIPTION, PARAMETER_VERSION_ID, PARAMETER_VERSION_NUM, PARAMETER_VERSION_NUM_OLD,
         PARAMETER_VERSION_D1, PARAMETER_VERSION_D2, PARAMETER_VERSION_D3, PARAMETER_VERSION_D4,
         PARAMETER_DATE_JURIDIQUE, PARAMETER_DATE_APPLICATION, PARAMETER_FILE_NAME, PARAMETER_FILE_TITLE,
-        PARAMETER_FILE_UTILISATION, PARAMETER_FILE_FORMAT, PARAMETER_FILE,
+        PARAMETER_FILE_UTILISATION, PARAMETER_FILE_FORMAT, PARAMETER_FILE, PARAMETER_CLEAR,
         PARAMETER_HISTORY_DESCRIPTION, PARAMETER_PAGE_INDEX, PARAMETER_PAGE, };
 
     
@@ -1043,6 +1044,14 @@ public class PluJspBean extends PluginAdminPageJspBean
                 String strD2 = request.getParameter( PARAMETER_VERSION_D2 );
                 String strD3 = request.getParameter( PARAMETER_VERSION_D3 );
                 String strD4 = request.getParameter( PARAMETER_VERSION_D4 );
+                
+                if ( request.getParameter( PARAMETER_CLEAR ) != null )
+                {
+                    atomeName = "";
+                    atomeTitle = "";
+                    strAtomeId = "";
+                    strNumVersion = "";                	
+                }
 
                 AtomeFilter atomeFilter = new AtomeFilter( );
                 VersionFilter versionFilter = new VersionFilter( );
@@ -1066,6 +1075,10 @@ public class PluJspBean extends PluginAdminPageJspBean
                         int atomeId = Integer.parseInt( strAtomeId );
                         atomeFilter.setId( atomeId );
                     }
+                    else
+                    {
+                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_ATOME_ID_NUMBER, AdminMessage.TYPE_STOP );
+                    }
                 }
 
                 if ( !strNumVersion.equals( "" ) )
@@ -1076,6 +1089,10 @@ public class PluJspBean extends PluginAdminPageJspBean
                     {
                         int numVersion = Integer.parseInt( strNumVersion );
                         versionFilter.setVersion( numVersion );
+                    }
+                    else
+                    {
+                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_VERSION_NUMBER, AdminMessage.TYPE_STOP );
                     }
                 }
 
