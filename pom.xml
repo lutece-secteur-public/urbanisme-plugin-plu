@@ -9,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>plugin-plu</artifactId>
 	<packaging>${packaging}</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>Lutece PLU plugin</name>
 
 	<repositories>
@@ -40,13 +40,13 @@
 		<packaging>lutece-plugin</packaging>
 		<componentName>plu</componentName>
 		<jiraProjectName>PLU</jiraProjectName>
-		<jiraComponentId></jiraComponentId>
+		<jiraComponentId />
 	</properties>
 	
 	<scm>
-        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/applications/plu/trunk/plugin-plu</connection>
-        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/applications/plu/trunk/plugin-plu</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/lutece/applications/plu/trunk/plugin-plu</url>
+        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/applications/plu/tags/plugin-plu-1.0.0</connection>
+        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/applications/plu/tags/plugin-plu-1.0.0</developerConnection>
+        <url>http://dev.lutece.paris.fr/viewvc/lutece/applications/plu/tags/plugin-plu-1.0.0</url>
     </scm>
 	
 	<profiles>
