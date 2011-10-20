@@ -1088,7 +1088,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     }
                     catch ( ParseException e )
                     {
-                    	//throw new AppException( "An exception occured during date parsing", e );
+                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );
                     }
                 }
 
@@ -1103,7 +1103,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     }
                     catch ( ParseException e )
                     {
-                    	//throw new AppException( "An exception occured during date parsing", e );
+                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );
                     }
                 }
 
@@ -1118,7 +1118,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     }
                     catch ( ParseException e )
                     {
-                    	//throw new AppException( "An exception occured during date parsing", e );
+                        return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_DATE_FORMAT, AdminMessage.TYPE_STOP );
                     }
                 }
 
@@ -3318,10 +3318,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 		    atomeFilter.setId( atome.getId( ) );
 		    
 		    List<File> fileCreate = _fileServices.findByFilter( fileFilter , atomeFilter );
-		    if ( fileCreate.size( ) == 1 )
-		    {
-		    	file.setId( fileCreate.get( 0 ).getId( ) );
-		    }
+		    file.setId( fileCreate.get( fileCreate.size( ) -1 ).getId( ) );
 		}
 		                    
 		java.io.File fileDest = new java.io.File( new java.io.File(
