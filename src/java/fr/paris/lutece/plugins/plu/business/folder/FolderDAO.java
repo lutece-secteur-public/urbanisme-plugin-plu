@@ -33,18 +33,18 @@
  */
 package fr.paris.lutece.plugins.plu.business.folder;
 
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.plugins.plu.utils.PluUtils;
+import fr.paris.lutece.portal.service.image.ImageResource;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+import fr.paris.lutece.util.sql.DAOUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
-import fr.paris.lutece.plugins.plu.services.PluPlugin;
-import fr.paris.lutece.plugins.plu.utils.PluUtils;
-import fr.paris.lutece.portal.service.image.ImageResource;
-import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
-import fr.paris.lutece.util.sql.DAOUtil;
 
 
 /**
@@ -249,7 +249,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
 
         if ( filter.containsTitle(  ) )
         {
-            q.setParameter( "title", filter.getTitle(  ) );
+            q.setParameter( "title", "%" + filter.getTitle( ) + "%" );
         }
 
         List<Folder> folderList = q.getResultList(  );
