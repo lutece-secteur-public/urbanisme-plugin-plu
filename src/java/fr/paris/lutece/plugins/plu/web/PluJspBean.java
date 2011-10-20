@@ -2136,8 +2136,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	getFileCheck( request, model );
         }
+    	getFileCheck( request, model );
 
         if ( !_fileList.isEmpty( ) )
         {
@@ -2227,12 +2227,13 @@ public class PluJspBean extends PluginAdminPageJspBean
         int numVersion = _versionServices.findMaxVersion( nIdAtome );
         Version version = _versionServices.findByAtomeAndNumVersion( nIdAtome, numVersion );
 
+        Map<String, Object> model = new HashMap<String, Object>( );
+        
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( version.getId( ) );
+        	setFileList( version.getId( ), model, request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PLU, plu );
         if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) != null )
         {
@@ -2274,8 +2275,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	getFileCheck( request, model );
         }
+    	getFileCheck( request, model );
 
         if ( !_fileList.isEmpty( ) )
         {
@@ -2861,12 +2862,13 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Plu plu = _pluServices.findByPrimaryKey( folder.getPlu( ) );
 
+        Map<String, Object> model = new HashMap<String, Object>( );
+        
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( nIdVersion );
+        	setFileList( nIdVersion, model, request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PLU, plu );
         model.put( MARK_VERSION, version );
         model.put( MARK_FOLDER, folder );
@@ -2890,8 +2892,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	getFileCheck( request, model );
         }
+    	getFileCheck( request, model );
 
         if ( !_fileList.isEmpty( ) )
         {
@@ -2912,18 +2914,32 @@ public class PluJspBean extends PluginAdminPageJspBean
 			Map<String, Object> model )
 	{
 		List<String> tmp = new ArrayList<String>( );
+		// if PARAMETER_FILE_CHECK exists, set tmp
 		if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
 		{
 			tmp = new ArrayList<String>( Arrays.asList( request.getParameterValues( PARAMETER_FILE_CHECK ) ) );
 		}
+		// if a new file is add, add new entry in tmp, else restore tmp
 		if ( request.getParameter( "joinFile" ) != null )
 		{
 			if ( request.getParameter( "joinFile" ).equals( "true" )  )
 			{
 				tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
 			}
+			else if ( request.getParameter( "joinFile" ).equals( "false" ) && tmp.isEmpty( ) && request.getSession( ).getAttribute( PARAMETER_FILE_CHECK ) != null )
+			{
+				tmp = (List<String>) request.getSession( ).getAttribute( PARAMETER_FILE_CHECK );
+			}
 		}
-		model.put( PARAMETER_FILE_CHECK, tmp );
+		else if ( request.getParameter( PARAMETER_REINIT ) == null )
+		{
+			tmp = (List<String>) request.getSession( ).getAttribute( PARAMETER_FILE_CHECK );
+		}
+		if ( request.getParameter( PARAMETER_REINIT ) == null )
+		{
+			model.put( PARAMETER_FILE_CHECK, tmp );
+		}
+		request.getSession( ).setAttribute( PARAMETER_FILE_CHECK, tmp );
 	}
 
     /**
@@ -2931,16 +2947,21 @@ public class PluJspBean extends PluginAdminPageJspBean
      * @param nIdVersion version id
      * @throws IOException IOException
      */
-	private void setFileList( int nIdVersion ) throws IOException
+	private void setFileList( int nIdVersion, Map<String, Object> model, HttpServletRequest request ) throws IOException
 	{
+		List<String> checkFileList = new ArrayList<String>( );		
 		List<File> listFile = _fileServices.findByVersion( nIdVersion );
+		
 		for ( File file : listFile )
 		{
 		    java.io.File fileDest = new java.io.File( new java.io.File(
 		            AppPropertiesService.getProperty( "plu.docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
 		    file.setFile( FileUtils.readFileToByteArray( fileDest ) );
 			_fileList.add( file );
+			checkFileList.add( Integer.toString( _fileList.size( ) - 1 ) );
 		}
+		model.put( PARAMETER_FILE_CHECK, checkFileList );
+		request.getSession( ).setAttribute( PARAMETER_FILE_CHECK, checkFileList );
 	}
 
     /**
@@ -3269,7 +3290,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( nIdVersion );
+        	setFileList( nIdVersion, model, request );
         }
 
         model.put( MARK_PLU, plu );
@@ -3294,8 +3315,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	getFileCheck( request, model );
         }
+    	getFileCheck( request, model );
 
         if ( !_fileList.isEmpty( ) )
         {
@@ -3520,13 +3541,14 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             version.getAtome( ).setDescription( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
         }
+
+        Map<String, Object> model = new HashMap<String, Object>( );
         
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( nIdVersion );
+        	setFileList( nIdVersion, model, request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PLU, plu );
         model.put( MARK_VERSION, version );
         model.put( MARK_FOLDER, folder );
@@ -3558,8 +3580,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         	{
         		return ret;
         	}
-        	getFileCheck( request, model );
         }
+    	getFileCheck( request, model );
 
         if ( !_fileList.isEmpty( ) )
         {
@@ -4132,6 +4154,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         request.getSession( ).setAttribute( MARK_ERROR_ARGS, args );
         request.getSession( ).setAttribute( MARK_PAGE_RETURN, pageReturn );
         
+        if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+        {
+        	request.getSession( ).setAttribute( PARAMETER_FILE_CHECK, new ArrayList<String>( Arrays.asList( request.getParameterValues( PARAMETER_FILE_CHECK ) ) ) );
+        }
+        
         if ( pageTarget != null )
         {
             request.getSession( ).setAttribute( MARK_PAGE_TARGET, pageTarget );
@@ -4169,6 +4196,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             _folderHtml.setHtml( null );
             _folderHtml.setHtmlImpression( null );
             _folderImage.setImg( null );
+            request.getSession( ).getAttribute( PARAMETER_FILE_CHECK );
     	}
     }
 }
