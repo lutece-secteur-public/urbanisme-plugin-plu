@@ -2286,7 +2286,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( version.getId( ), model, request );
+        	setFileList( version.getId( ), model, request, true );
         }
 
         model.put( MARK_PLU, plu );
@@ -2685,12 +2685,9 @@ public class PluJspBean extends PluginAdminPageJspBean
                     atomeFilter.setId( atome.getId( ) );
                     
                     List<File> fileCreate = _fileServices.findByFilter( fileFilter , atomeFilter );
-                    if ( fileCreate.size( ) == 1 )
-                    {
-                        java.io.File fileDest = new java.io.File( new java.io.File(
-                                AppPropertiesService.getProperty( "plu.docs.path" ) ), fileCreate.get( 0 ).getId( ) + "_" + file.getName( ) );
-                        FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
-                    }
+                    java.io.File fileDest = new java.io.File( new java.io.File(
+                            AppPropertiesService.getProperty( "plu.docs.path" ) ), fileCreate.get( fileCreate.size( ) - 1 ).getId( ) + "_" + file.getName( ) );
+                    FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
 
                     order++;
                 }
@@ -2942,7 +2939,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( nIdVersion, model, request );
+        	setFileList( nIdVersion, model, request, false );
         }
 
         model.put( MARK_PLU, plu );
@@ -3025,13 +3022,19 @@ public class PluJspBean extends PluginAdminPageJspBean
      * @param nIdVersion version id
      * @throws IOException IOException
      */
-	private void setFileList( int nIdVersion, Map<String, Object> model, HttpServletRequest request ) throws IOException
+	private void setFileList( int nIdVersion, Map<String, Object> model, HttpServletRequest request, boolean createWithOld ) throws IOException
 	{
 		List<String> checkFileList = new ArrayList<String>( );		
 		List<File> listFile = _fileServices.findByVersion( nIdVersion );
 		
 		for ( File file : listFile )
 		{
+			if ( createWithOld )
+			{
+            	java.io.File fileDest = new java.io.File( new java.io.File(
+                        AppPropertiesService.getProperty( "plu.docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
+				file.setFile( FileUtils.readFileToByteArray( fileDest ) );
+			}
 			_fileList.add( file );
 			checkFileList.add( Integer.toString( _fileList.size( ) - 1 ) );
 		}
@@ -3367,7 +3370,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( nIdVersion, model, request );
+        	setFileList( nIdVersion, model, request, false );
         }
 
         model.put( MARK_PLU, plu );
@@ -3629,7 +3632,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( nIdVersion, model, request );
+        	setFileList( nIdVersion, model, request, false );
         }
 
         model.put( MARK_PLU, plu );
