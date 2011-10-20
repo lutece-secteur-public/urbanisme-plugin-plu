@@ -52,6 +52,8 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -469,9 +471,17 @@ public class PluJspBean extends PluginAdminPageJspBean
         UrlItem url = new UrlItem( JSP_DO_APPROVE_PLU );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_PLU_TYPE, nIdType );
-        url.addParameter( PARAMETER_PLU_CAUSE, strCause );
-        url.addParameter( PARAMETER_PLU_REFERENCE, strReference );
-        url.addParameter( PARAMETER_DATE_JURIDIQUE, strDate );
+        
+        try {
+			url.addParameter( PARAMETER_PLU_CAUSE, URIUtil.encodeAll( strCause ) );
+	        url.addParameter( PARAMETER_PLU_REFERENCE, URIUtil.encodeAll( strReference ) );
+	        url.addParameter( PARAMETER_DATE_JURIDIQUE, URIUtil.encodeAll( strDate ) );
+		}
+        catch ( URIException e )
+        {
+			new AppException( "An error occured while encoding request parameters" );
+		}
+
 
         Object[] args = { nIdPlu, strCause, strDate };
 
@@ -592,8 +602,16 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         UrlItem url = new UrlItem( JSP_DO_APPLICABLE_PLU );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
-        url.addParameter( PARAMETER_DATE_JURIDIQUE, strDj );
-        url.addParameter( PARAMETER_DATE_APPLICATION, strDa );
+        
+        try
+        {
+	        url.addParameter( PARAMETER_DATE_JURIDIQUE, URIUtil.encodeAll( strDj ) );
+	        url.addParameter( PARAMETER_DATE_APPLICATION, URIUtil.encodeAll( strDa ) );
+        }
+        catch ( URIException e )
+        {
+			new AppException( "An error occured while encoding request parameters" );
+		}
 
         Object[] args = { nIdPlu, strCause, strDa };
 
@@ -749,9 +767,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         UrlItem url = new UrlItem( JSP_DO_MODIFY_PLU );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_PLU_TYPE, nIdType );
-        url.addParameter( PARAMETER_PLU_CAUSE, strCause );
-        url.addParameter( PARAMETER_PLU_REFERENCE, strReference );
-        url.addParameter( PARAMETER_DATE_JURIDIQUE, strDate );
+	    try
+	    {
+	    	url.addParameter( PARAMETER_PLU_CAUSE, URIUtil.encodeAll( strCause ) );
+	        url.addParameter( PARAMETER_PLU_REFERENCE, URIUtil.encodeAll( strReference ) );
+	        url.addParameter( PARAMETER_DATE_JURIDIQUE, URIUtil.encodeAll( strDate ) );
+	    }
+	    catch ( URIException e )
+        {
+			new AppException( "An error occured while encoding request parameters" );
+		}
 
         Date dj;
 
@@ -840,8 +865,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         String strReference = request.getParameter( PARAMETER_PLU_REFERENCE );
         String strDescription = request.getParameter( PARAMETER_HISTORY_DESCRIPTION );
 
-        if ( StringUtils.isEmpty( request.getParameter( PARAMETER_PLU_CAUSE ) )
-                || StringUtils.isEmpty( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) ) )
+        if ( StringUtils.isEmpty( strCause ) || StringUtils.isEmpty( strDescription ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_REQUIRED_FIELD, AdminMessage.TYPE_STOP );
         }
@@ -849,9 +873,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         UrlItem url = new UrlItem( JSP_DO_CORRECT_PLU );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_PLU_TYPE, nIdType );
-        url.addParameter( PARAMETER_PLU_CAUSE, strCause );
-        url.addParameter( PARAMETER_PLU_REFERENCE, strReference );
-        url.addParameter( PARAMETER_HISTORY_DESCRIPTION, strDescription );
+        try {
+			url.addParameter( PARAMETER_PLU_CAUSE, URIUtil.encodeAll( strCause ) );
+	        url.addParameter( PARAMETER_PLU_REFERENCE, URIUtil.encodeAll( strReference ) );
+	        url.addParameter( PARAMETER_HISTORY_DESCRIPTION, URIUtil.encodeAll( strDescription ) );
+		}
+        catch ( URIException e )
+        {
+			throw new AppException( "An error occured while parsing request parameters" );
+		}
 
         Object[] args = { nIdPlu, strCause };
 
@@ -1340,9 +1370,16 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         UrlItem url = new UrlItem( JSP_DO_CREATE_FOLDER );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
-        url.addParameter( PARAMETER_FOLDER_PARENT_ID, request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
-        url.addParameter( PARAMETER_FOLDER_TITLE, folderTitle );
-        url.addParameter( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
+        try
+        {
+	        url.addParameter( PARAMETER_FOLDER_PARENT_ID, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_PARENT_ID ) ) );
+	        url.addParameter( PARAMETER_FOLDER_TITLE, URIUtil.encodeAll( folderTitle ) );
+	        url.addParameter( PARAMETER_FOLDER_DESCRIPTION, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) ) );
+        }
+	    catch ( URIException e )
+        {
+			throw new AppException( "An error occured while parsing request parameters" );
+		}
 
         if ( request.getParameterValues( PARAMETER_FOLDER_HTML_CHECK ) != null )
         {
@@ -1678,9 +1715,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         UrlItem url = new UrlItem( JSP_DO_MODIFY_FOLDER );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_FOLDER_ID, nIdFolder );
-        url.addParameter( PARAMETER_FOLDER_PARENT_ID, request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
-        url.addParameter( PARAMETER_FOLDER_TITLE, folderTitle );
-        url.addParameter( PARAMETER_FOLDER_DESCRIPTION, description );
+        try
+        {
+            url.addParameter( PARAMETER_FOLDER_PARENT_ID, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_PARENT_ID ) ) );
+            url.addParameter( PARAMETER_FOLDER_TITLE, URIUtil.encodeAll( folderTitle ) );
+            url.addParameter( PARAMETER_FOLDER_DESCRIPTION, URIUtil.encodeAll( description ) );
+        }
+	    catch ( URIException e )
+        {
+			throw new AppException( "An error occured while parsing request parameters" );
+		}
 
         if ( request.getParameterValues( PARAMETER_FOLDER_IMAGE_CHECK ) != null )
         {
@@ -1890,11 +1934,18 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         UrlItem url = new UrlItem( JSP_DO_CORRECT_FOLDER );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
-        url.addParameter( PARAMETER_FOLDER_ID, request.getParameter( PARAMETER_FOLDER_ID ) );
-        url.addParameter( PARAMETER_FOLDER_PARENT_ID, request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
-        url.addParameter( PARAMETER_FOLDER_TITLE, folderTitle );
-        url.addParameter( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
-        url.addParameter( PARAMETER_HISTORY_DESCRIPTION, request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
+        try
+        {
+        	url.addParameter( PARAMETER_FOLDER_ID, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_ID ) ) );
+	        url.addParameter( PARAMETER_FOLDER_PARENT_ID, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_PARENT_ID ) ) );
+	        url.addParameter( PARAMETER_FOLDER_TITLE, URIUtil.encodeAll( folderTitle ) );
+	        url.addParameter( PARAMETER_FOLDER_DESCRIPTION, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) ) );
+	        url.addParameter( PARAMETER_HISTORY_DESCRIPTION, URIUtil.encodeAll( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) ) );
+	    }
+	    catch ( URIException e )
+	    {
+			throw new AppException( "An error occured while parsing request parameters" );
+		}
 
         if ( request.getParameterValues( PARAMETER_FOLDER_IMAGE_CHECK ) != null )
         {
@@ -2373,9 +2424,17 @@ public class PluJspBean extends PluginAdminPageJspBean
         url.addParameter( PARAMETER_FOLDER_ID_ATOME, nIdFolder );
         url.addParameter( PARAMETER_ATOME_NUM, nIdAtome );
         url.addParameter( PARAMETER_VERSION_NUM, numVersion );
-        url.addParameter( PARAMETER_ATOME_NAME, atomeName );
-        url.addParameter( PARAMETER_ATOME_TITLE, atomeTitle );
-        url.addParameter( PARAMETER_ATOME_DESCRIPTION, atomeDescription );
+        try
+        {
+	        url.addParameter( PARAMETER_ATOME_NAME, URIUtil.encodeAll( atomeName ) );
+	        url.addParameter( PARAMETER_ATOME_TITLE, URIUtil.encodeAll( atomeTitle ) );
+	        url.addParameter( PARAMETER_ATOME_DESCRIPTION, URIUtil.encodeAll( atomeDescription ) );
+	    }
+	    catch ( URIException e )
+	    {
+			throw new AppException( "An error occured while parsing request parameters" );
+		}
+
 
         for ( Atome atome : _atomeServices.findAll( ) )
         {
@@ -3040,9 +3099,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         url.addParameter( PARAMETER_ATOME_OLD_ID, nIdAtomeOld );
         url.addParameter( PARAMETER_VERSION_ID, nIdVersion );
         url.addParameter( PARAMETER_VERSION_NUM, numVersion );
-        url.addParameter( PARAMETER_ATOME_NAME, atomeName );
-        url.addParameter( PARAMETER_ATOME_TITLE, atomeTitle );
-        url.addParameter( PARAMETER_ATOME_DESCRIPTION, atomeDescription );
+        try
+        {
+	        url.addParameter( PARAMETER_ATOME_NAME, URIUtil.encodeAll( atomeName ) );
+	        url.addParameter( PARAMETER_ATOME_TITLE, URIUtil.encodeAll( atomeTitle ) );
+	        url.addParameter( PARAMETER_ATOME_DESCRIPTION, URIUtil.encodeAll( atomeDescription ) );
+	    }
+	    catch ( URIException e )
+	    {
+			throw new AppException( "An error occured while parsing request parameters" );
+		}
 
         for ( int j = 0; j < check.length; ++j )
         {
@@ -3382,9 +3448,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         url.addParameter( PARAMETER_FOLDER_ID, nIdFolder );
         url.addParameter( PARAMETER_ATOME_ID, nIdAtome );
         url.addParameter( PARAMETER_VERSION_ID, nIdVersion );
-        url.addParameter( PARAMETER_ATOME_TITLE, atomeTitle );
-        url.addParameter( PARAMETER_ATOME_DESCRIPTION, atomeDescription );
-        url.addParameter( PARAMETER_HISTORY_DESCRIPTION, strDescription );
+        try
+        {
+        	url.addParameter( PARAMETER_ATOME_TITLE, URIUtil.encodeAll( atomeTitle ) );
+	        url.addParameter( PARAMETER_ATOME_DESCRIPTION, URIUtil.encodeAll( atomeDescription ) );
+	        url.addParameter( PARAMETER_HISTORY_DESCRIPTION, URIUtil.encodeAll( strDescription ) );
+	    }
+	    catch ( URIException e )
+	    {
+			throw new AppException( "An error occured while parsing request parameters" );
+		}
 
         for ( int j = 0; j < check.length; ++j )
         {
@@ -3677,7 +3750,14 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         for ( int j = 0; j < fileTitle.length; ++j )
         {
-            url.addParameter( PARAMETER_FILE_TITLE_ATOME, fileTitle[j] );
+            try
+            {
+        		url.addParameter( PARAMETER_FILE_TITLE_ATOME, URIUtil.encodeAll( fileTitle[j] ) );
+		    }
+		    catch ( URIException e )
+		    {
+				throw new AppException( "An error occured while parsing request parameters" );
+			}
         }
 
         // Check atome's file
