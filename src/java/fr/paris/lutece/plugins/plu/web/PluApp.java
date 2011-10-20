@@ -69,7 +69,6 @@ public class PluApp implements XPageApplication
     /** Properties */
     private static final String PROPERTY_PAGE_TITLE = "plu.search.title";
     private static final String PROPERTY_PAGE_PATH = "plu.search.title";
-    private static final String PROPERTY_ERROR_DATE_REQUIRED = "plu.error.date.required";
     private static final String PROPERTY_ERROR_DATE_FORMAT = "plu.error.date.format";
 
     /** Templates */
@@ -128,27 +127,28 @@ public class PluApp implements XPageApplication
 
         List<String> errors = new ArrayList<String>( );
 
-        if ( StringUtils.isEmpty( sDateDebut ) || StringUtils.isEmpty( sDateFin ) )
+        if ( StringUtils.isEmpty( sDateDebut ) )
         {
-            errors.add( I18nService.getLocalizedString( PROPERTY_ERROR_DATE_REQUIRED, I18nService.getDefaultLocale( ) ) );
+        	sDateDebut = "01/01/1900";
         }
-        else
+        if ( StringUtils.isEmpty( sDateFin ) )
         {
-            try
-            {
-                Date dateDebut;
-                SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy" );
-                dateDebut = formatter.parse( sDateDebut );
+        	sDateFin = "01/01/2100";
+        }
+        try
+        {
+            Date dateDebut;
+            SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy" );
+            dateDebut = formatter.parse( sDateDebut );
 
-                Date dateFin;
-                dateFin = formatter.parse( sDateFin );
+            Date dateFin;
+            dateFin = formatter.parse( sDateFin );
 
-                model.put( PARAMETER_LIST_PLU, PluServices.getInstance( ).findWithFilters( dateDebut, dateFin ) );
-            }
-            catch ( ParseException e )
-            {
-                errors.add( I18nService.getLocalizedString( PROPERTY_ERROR_DATE_FORMAT, I18nService.getDefaultLocale( ) ) );
-            }
+            model.put( PARAMETER_LIST_PLU, PluServices.getInstance( ).findWithFilters( dateDebut, dateFin ) );
+        }
+        catch ( ParseException e )
+        {
+            errors.add( I18nService.getLocalizedString( PROPERTY_ERROR_DATE_FORMAT, I18nService.getDefaultLocale( ) ) );
         }
         model.put( PARAMETER_ERRORS, errors );
 
