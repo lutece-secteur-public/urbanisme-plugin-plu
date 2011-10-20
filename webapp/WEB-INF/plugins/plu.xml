@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
-
-<plug-in>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><plug-in>
 
    <!-- Plugin Informations -->
    <name>plu</name>
    <class>fr.paris.lutece.plugins.plu.services.PluPlugin</class>
-   <version>1</version>
-   <documentation></documentation>
-   <installation></installation>
-   <changes></changes>
-   <user-guide></user-guide>
+   <version>1.0.0</version>
+   <documentation/>
+   <installation/>
+   <changes/>
+   <user-guide/>
    <description>Gestion du PLU</description>
    <provider>Mairie de Paris</provider>
    <provider-url>http://lutece.paris.fr</provider-url>
@@ -33,7 +31,7 @@
             <feature-description>plu.adminFeature.plu_management.description</feature-description>
             <feature-level>0</feature-level>
             <feature-url>jsp/admin/plugins/plu/plu/ManagePlu.jsp</feature-url>
-            <feature-icon-url></feature-icon-url>
+            <feature-icon-url/>
        	</admin-feature>
     </admin-features>
     
