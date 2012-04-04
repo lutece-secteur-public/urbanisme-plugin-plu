@@ -2875,7 +2875,6 @@ public class PluJspBean extends PluginAdminPageJspBean
             model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
             model.put( MARK_PAGINATOR, paginator );
             model.put( MARK_LIST_FILE_LIST, paginator.getPageItems( ) );
-            model.put( MARK_LIST_FILE_LIST, fileList );
             model.put( PARAMETER_FILE_TITLE, fileTitle );
             model.put( PARAMETER_FILE_NAME, fileName );
             model.put( PARAMETER_FILE_FORMAT, fileFormat );
@@ -2891,7 +2890,6 @@ public class PluJspBean extends PluginAdminPageJspBean
             model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
             model.put( MARK_PAGINATOR, paginator );
             model.put( MARK_LIST_FILE_LIST, paginator.getPageItems( ) );
-            model.put( MARK_LIST_FILE_LIST, fileList );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_ATOME, getLocale( ), model );
@@ -4305,7 +4303,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
             catch ( UnsupportedEncodingException e )
             {
-                throw new AppException( "Problème lors de l'encoding.", e );
+                throw new AppException( "Problï¿½me lors de l'encoding.", e );
             }
         }
 
