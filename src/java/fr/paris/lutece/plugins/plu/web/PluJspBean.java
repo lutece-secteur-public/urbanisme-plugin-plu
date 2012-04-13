@@ -260,6 +260,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_ATOME_NAME = "atome_name";
     private static final String PARAMETER_ATOME_TITLE = "atome_title";
     private static final String PARAMETER_ATOME_DESCRIPTION = "atome_description";
+    private static final String PARAMETER_ATOME_ALL = "atome_all";
     private static final String PARAMETER_VERSION_ID = "id_version";
     private static final String PARAMETER_VERSION_NUM = "num_version";
     private static final String PARAMETER_VERSION_NUM_OLD = "num_version_old";
@@ -1001,6 +1002,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_PLU_WORK, pluWork );
         model.put( MARK_LIST_PLU_LIST, pluList );
 
+        //gestion des atomes
         if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
         {
             setPageTitleProperty( PROPERTY_PAGE_TITLE_TREE_ATOME );
@@ -1179,17 +1181,34 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
             else
             {
-                List<Version> versionList = _versionServices.findByPluAndFolder( folder.getPlu( ), nIdFolder );
+                if ( request.getParameter( PARAMETER_ATOME_ALL ) != null )
+                {
+                    List<Version> versionList = _versionServices.findAll( );
 
-                Paginator<Version> paginator = new Paginator<Version>( (List<Version>) versionList, _nItemsPerPage,
-                        JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ),
-                        PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+                    Paginator<Version> paginator = new Paginator<Version>( (List<Version>) versionList, _nItemsPerPage,
+                            JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ),
+                            PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
-                model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-                model.put( MARK_PAGINATOR, paginator );
-                model.put( MARK_LIST_VERSION_LIST, paginator.getPageItems( ) );
+                    model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+                    model.put( MARK_PAGINATOR, paginator );
+                    model.put( MARK_LIST_VERSION_LIST, paginator.getPageItems( ) );
+                }
+                else
+                {
+                    List<Version> versionList = _versionServices.findByPluAndFolder( folder.getPlu( ), nIdFolder );
+
+                    Paginator<Version> paginator = new Paginator<Version>( (List<Version>) versionList, _nItemsPerPage,
+                            JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ),
+                            PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+
+                    model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+                    model.put( MARK_PAGINATOR, paginator );
+                    model.put( MARK_LIST_VERSION_LIST, paginator.getPageItems( ) );
+                }
+
             }
         }
+        //gestion des dossiers
         else
         {
             setPageTitleProperty( PROPERTY_PAGE_TITLE_TREE_FOLDER );

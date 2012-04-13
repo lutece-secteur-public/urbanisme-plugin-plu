@@ -19,7 +19,7 @@
 		<br/>
 		<#if version_list?has_content || folder_child_list?has_content>
 			<p style="clear:left; font-size:12px;">
-				Ce document est composé des éléments suivant:
+				Ce document est compos&eacute; des &eacute;l&eacute;ments suivants :
 			</p>
 			<ul>
 			<#if version_list?has_content>
@@ -54,7 +54,7 @@
 		</#if>
 		<#if one_folder_parent?exists >
 			<p style="font-size:12px;">
-				Ce document fait partie du document "${one_folder_parent.title} " qui contient aussi les documents suivant:
+				Ce document fait partie du document "${one_folder_parent.title} " qui contient aussi les documents suivants :
 			</p>
 			<ul>
 			<#list folder_parent_child_list as child>

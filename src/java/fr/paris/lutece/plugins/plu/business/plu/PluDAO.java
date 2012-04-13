@@ -54,7 +54,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
 {
     private static final String SQL_QUERY_SELECT_PLU_WORK = "SELECT p FROM Plu p WHERE p.da IS NULL";
     private static final String SQL_QUERY_SELECT_PLU_APPLIED = "SELECT p FROM Plu p WHERE p.id = ( SELECT MAX(p.id) - 1 FROM Plu p )";
-    private static final String SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION = "SELECT p FROM Plu p WHERE p.da > ? AND p.da < ?";
+    private static final String SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION = "SELECT p FROM Plu p WHERE p.da >= ? AND p.da <= ?";
 
     // private static final SimpleDateFormat SDF = new SimpleDateFormat(
     // "yyyy-MM-dd" );
