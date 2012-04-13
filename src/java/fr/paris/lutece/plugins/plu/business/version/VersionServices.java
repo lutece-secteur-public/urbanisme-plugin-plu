@@ -175,4 +175,13 @@ public class VersionServices implements IVersionServices
     {
         return _home.findByFilter( atomeFilter, versionFilter );
     }
+
+    /**
+     * Finds all versions
+     * @return the version list
+     */
+    public List<Version> findAll( )
+    {
+        return _home.findAll( );
+    }
 }

@@ -33,6 +33,11 @@
  */
 package fr.paris.lutece.plugins.plu.business.version;
 
+import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
+import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.plugins.plu.utils.PluUtils;
+import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,11 +45,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
-import fr.paris.lutece.plugins.plu.business.atome.AtomeFilter;
-import fr.paris.lutece.plugins.plu.services.PluPlugin;
-import fr.paris.lutece.plugins.plu.utils.PluUtils;
-import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
 
 /**
@@ -302,6 +302,18 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
         List<Version> versionList = q.getResultList( );
 
         return versionList;
+    }
+
+    /**
+     * Finds all
+     * @return the version list
+     */
+    public List<Version> findAll( )
+    {
+        List<String> listFilters = new ArrayList<String>( );
+        String strSQL = PluUtils.buildRequetteWithFilter( SQL_QUERY_SELECT_ALL, listFilters );
+        TypedQuery<Version> q = this.getEM( ).createQuery( strSQL, Version.class );
+        return q.getResultList( );
     }
 
 }

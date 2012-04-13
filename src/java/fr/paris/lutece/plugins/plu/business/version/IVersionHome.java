@@ -103,4 +103,10 @@ public interface IVersionHome extends IGenericHome<Integer, Version>
      * @return the version list
      */
     List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );
+
+    /**
+     * Finds all
+     * @return the version list
+     */
+    List<Version> findAll( );
 }

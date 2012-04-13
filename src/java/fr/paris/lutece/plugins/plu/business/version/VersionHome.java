@@ -127,4 +127,13 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
     {
         return getDao(  ).findByFilter( atomeFilter, versionFilter );
     }
+
+    /**
+     * Finds all
+     * @return the version list
+     */
+    public List<Version> findAll( )
+    {
+        return getDao( ).findAll( );
+    }
 }

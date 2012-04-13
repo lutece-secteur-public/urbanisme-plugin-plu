@@ -121,4 +121,10 @@ public interface IVersionServices
      * @return the version list
      */
     List<Version> findByFilter( AtomeFilter atomeFilter, VersionFilter versionFilter );
+
+    /**
+     * Finds all versions
+     * @return the version list
+     */
+    List<Version> findAll( );
 }
