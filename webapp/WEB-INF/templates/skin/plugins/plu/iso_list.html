@@ -8,8 +8,9 @@
 				<th>#i18n{plu.page_iso.list.periodeApplicable.columnTitle}</th>
 				<th>#i18n{plu.page_iso.list.consultation.columnTitle}</th>
 				<th>#i18n{plu.page_iso.list.taille.columnTitle}</th>
+				<!-- Suite Evolution Mantis n°60 : on ne génère plus les ISO d'impression car trop goumandes en espace disque
 				<th>#i18n{plu.page_iso.list.impression.columnTitle}</th>
-				<th>#i18n{plu.page_iso.list.taille.columnTitle}</th>
+				<th>#i18n{plu.page_iso.list.taille.columnTitle}</th>-->
 			</tr>
 		</thead>
 		<tbody>
@@ -23,8 +24,9 @@
 				</#if>
 				<td><a href="iso/${iso.nomConsultation}">${iso.nomConsultation}</a></td>
 				<td>${iso.tailleConsultationString}</td>
+				<!-- Suite Evolution Mantis n°60 : on ne génère plus les ISO d'impression car trop goumandes en espace disque
 				<td><a href="iso/${iso.nomImpression}">${iso.nomImpression}</a></td>
-				<td>${iso.tailleImpressionString}</td>
+				<td>${iso.tailleImpressionString}</td>-->
 			</tr>
 		</#list>
 		</tbody>

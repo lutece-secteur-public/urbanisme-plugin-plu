@@ -30,7 +30,8 @@
 				<th>#i18n{plu.search.dateApplication}</th>
 				<th>#i18n{plu.search.versionEnLigne}</th>
 				<th>#i18n{plu.search.versionConsultation}</th>
-				<th>#i18n{plu.search.versionImpression}</th>
+				<!-- Suite Evolution Mantis n°60 : on ne génère plus les ISO d'impression car trop goumandes en espace disque
+				<th>#i18n{plu.search.versionImpression}</th>-->
 			</thead>
 			<tbody>
 				<#list listPlu as plu>
@@ -63,11 +64,12 @@
 						<a href="iso/${plu.lastIso.nomConsultation!}"><img src="images/local/skin/site/version_consultation.png"/></a>
 						</#if>
 						</td>
+						<!-- Suite Evolution Mantis n°60 : on ne génère plus les ISO d'impression car trop goumandes en espace disque
 						<td>
 						<#if plu.lastIso?has_content>
 						<a href="iso/${plu.lastIso.nomImpression!}"><img src="images/local/skin/site/version_impression.png"/></a>
 						</#if>
-						</td>
+						</td>-->
 					</tr>
 				</#list>
 			</tbody>
