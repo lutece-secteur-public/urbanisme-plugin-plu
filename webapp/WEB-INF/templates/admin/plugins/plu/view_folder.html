@@ -35,7 +35,7 @@
 					<#list file_list as file>
 						<#if version.id == file.version>
 						<li>
-							${file.title} (fichier ${file.mimeType?upper_case})<br/>
+							${file.title} (fichier ${file.mimeType?upper_case})  (${file.utilisation})<br/>
 						</li>
 						</#if>
 					</#list>
