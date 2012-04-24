@@ -55,6 +55,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
     private static final String SQL_QUERY_SELECT_PLU_WORK = "SELECT p FROM Plu p WHERE p.da IS NULL";
     private static final String SQL_QUERY_SELECT_PLU_APPLIED = "SELECT p FROM Plu p WHERE p.id = ( SELECT MAX(p.id) - 1 FROM Plu p )";
     private static final String SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION = "SELECT p FROM Plu p WHERE p.da >= ? AND p.da <= ?";
+    private static final String SQL_QUERY_SELECT_PLU_ALL = "SELECT p FROM Plu p ORDER BY p.id";
 
     // private static final SimpleDateFormat SDF = new SimpleDateFormat(
     // "yyyy-MM-dd" );
@@ -68,14 +69,12 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
     public List<Plu> findPluWithFilters( Date dateApplicationDebut, Date dateApplicationFin )
     {
 
-        String query = SQL_QUERY_SELECT_PLU_SEARCH_BY_DATE_APPLICATION;
+        String query = SQL_QUERY_SELECT_PLU_ALL;
         TypedQuery<Plu> q = this.getEM( ).createQuery( query, Plu.class );
 
         List<Plu> listPlu;
 
-        q.setParameter( 1, dateApplicationDebut );
-        q.setParameter( 2, dateApplicationFin );
-
+        /* get every PLU */
         try
         {
             listPlu = (ArrayList<Plu>) q.getResultList( );
@@ -85,7 +84,44 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
             listPlu = new ArrayList<Plu>( );
         }
 
-        return listPlu;
+        List<Integer> listIdPlu = new ArrayList<Integer>( );
+        for ( Plu plu : listPlu )
+        {
+            listIdPlu.add( plu.getId( ) );
+        }
+
+        /* Apply filter on dates */
+        List<Plu> listRetournee = new ArrayList<Plu>( );
+        Plu plu = new Plu( );
+        Plu pluSuivant = new Plu( );
+        for ( int index = 0; index < listPlu.size( ) - 1; index++ )
+        {
+            plu = listPlu.get( index );
+            if ( index < listIdPlu.size( ) - 1 )
+            {
+                pluSuivant = listPlu.get( index + 1 );
+            }
+            if ( plu.getId( ) != pluSuivant.getId( ) )
+            {
+                if ( ( plu.getDa( ).compareTo( dateApplicationDebut ) > 0 && plu.getDa( )
+                        .compareTo( dateApplicationFin ) < 0 )
+                        || ( plu.getDa( ).compareTo( dateApplicationDebut ) < 0 && pluSuivant.getDa( ).compareTo(
+                                dateApplicationDebut ) > 0 ) )
+                {
+                    listRetournee.add( plu );
+                }
+            }
+            else
+            {
+                if ( plu.getDa( ).compareTo( dateApplicationDebut ) > 0
+                        && plu.getDa( ).compareTo( dateApplicationFin ) < 0 )
+                {
+                    listRetournee.add( plu );
+                }
+            }
+        }
+
+        return listRetournee;
     }
 
     /**

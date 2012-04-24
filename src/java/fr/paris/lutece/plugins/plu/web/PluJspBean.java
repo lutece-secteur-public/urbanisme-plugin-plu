@@ -1186,7 +1186,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     List<Version> versionList = _versionServices.findAll( );
 
                     Paginator<Version> paginator = new Paginator<Version>( (List<Version>) versionList, _nItemsPerPage,
-                            JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ),
+                            JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ) + "&atome_all=1",
                             PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
                     model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
@@ -1198,7 +1198,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                     List<Version> versionList = _versionServices.findByPluAndFolder( folder.getPlu( ), nIdFolder );
 
                     Paginator<Version> paginator = new Paginator<Version>( (List<Version>) versionList, _nItemsPerPage,
-                            JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ),
+                            JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ) + "&atome_all=1",
                             PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
                     model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
@@ -1570,6 +1570,11 @@ public class PluJspBean extends PluginAdminPageJspBean
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
         _folderServices.remove( folder );
 
+        /* Set the PLU's state to "à relancer" */
+        Etat etat = _etatServices.findByPrimaryKey( 5 );
+        plu.setEtat( etat );
+        _pluServices.update( plu );
+
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId( );
     }
 
@@ -1882,6 +1887,11 @@ public class PluJspBean extends PluginAdminPageJspBean
             folder.setHtmlImpression( null );
         }
 
+        /* Set the PLU's state to "à relancer" */
+        Etat etat = _etatServices.findByPrimaryKey( 5 );
+        plu.setEtat( etat );
+        _pluServices.update( plu );
+
         _folderServices.update( folder );
 
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId( );
@@ -2084,8 +2094,8 @@ public class PluJspBean extends PluginAdminPageJspBean
         history.setDescription( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
         _historyServices.create( history );
 
+        /* Set the PLU's state to "à relancer" */
         Etat etat = _etatServices.findByPrimaryKey( 5 );
-
         plu.setEtat( etat );
         _pluServices.update( plu );
 

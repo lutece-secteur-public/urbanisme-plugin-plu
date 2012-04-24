@@ -239,7 +239,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
         }
 
         String strSQL = PluUtils.buildRequetteWithFilter( SQL_QUERY_SELECT_ALL, listStrFilter );
-        strSQL += " ORDER BY f.plu, f.parentFolder, f.id";
+        strSQL += " ORDER BY f.plu, f.title, f.parentFolder, f.id";
 
         EntityManager em = getEM(  );
         TypedQuery<Folder> q = em.createQuery( strSQL, Folder.class );

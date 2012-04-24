@@ -34,7 +34,7 @@
 		</form>
 	</div>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&atome_all=1
 	<#if folder_title?exists>&folder_title=${folder_title}</#if>">
 	<@pagination paginator=paginator />
 
@@ -75,6 +75,8 @@
 	            <form method="post" action="jsp/admin/plugins/plu/plu/TreePlu.jsp">
 	            	<input type="hidden" name="id_plu" value="${folder.plu}"/>
 	            	<input type="hidden" name="id_folder" value="${folder.id}"/>
+	            	<input type="hidden" name="atome_all" value="1"/>
+	            	
 	            	<#if folder_title?exists>
 	           		<input type="hidden" name="folder_title" value="${folder_title}"/>
 	           		</#if>
@@ -82,7 +84,7 @@
 			   	</form>
 	       	</td>
 	       	<td style="text-align:center;">
-	       		<form method="post" action="jsp/admin/plugins/plu/folder/ViewFolder.jsp?id_plu=${folder.plu}&id_folder=${folder.id}">
+	       		<form method="post" action="jsp/admin/plugins/plu/folder/ViewFolder.jsp?id_plu=${folder.plu}&id_folder=${folder.id}&atome_all=1">
 		      		<input src="images/admin/skin/plugins/plu/atome_view.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.view_folder.view}${folder.id}" title="#i18n{plu.view_folder.view}${folder.id}" type="image" />
 			   	</form>
 	       	</td>
@@ -91,14 +93,16 @@
 		        <#if plu.id==folder.plu && plu.da?exists >
 		           	<form method="post" action="jsp/admin/plugins/plu/folder/CorrectFolder.jsp">
 		           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
-			    		<input type="hidden" name="id_folder" value="${folder.id}"/>
+		            	<input type="hidden" name="id_folder" value="${folder.id}"/>
+		            	<input type="hidden" name="atome_all" value="1"/>
 			    		<input type="hidden" name="reinit" value="true"/>
 				        <input src="images/admin/skin/plugins/plu/folder_modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.correct_folder.correct}" title="#i18n{plu.correct_folder.correct}"  type="image">
 				   	</form>
 				<#elseif plu.id==folder.plu >
 					<form method="post" action="jsp/admin/plugins/plu/folder/ModifyFolder.jsp">
 		           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
-			    		<input type="hidden" name="id_folder" value="${folder.id}"/>
+		            	<input type="hidden" name="id_folder" value="${folder.id}"/>
+		            	<input type="hidden" name="atome_all" value="1"/>
 			    		<input type="hidden" name="reinit" value="true"/>
 				        <input src="images/admin/skin/plugins/plu/folder_modify.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.modify_folder.modify}" title="#i18n{plu.modify_folder.modify}"  type="image">
 				   	</form>
@@ -108,7 +112,8 @@
 	        <td style="text-align:center;">
 	           	<form method="post" action="jsp/admin/plugins/plu/folder/RemoveFolder.jsp">
 	           		<input type="hidden" name="id_plu" value="${folder.plu}"/>
-		    		<input type="hidden" name="id_folder" value="${folder.id}"/>
+	            	<input type="hidden" name="id_folder" value="${folder.id}"/>
+	            	<input type="hidden" name="atome_all" value="1"/>
 		    		<input type="hidden" name="folder_title" value="${folder.title}"/>
  			        <input src="images/admin/skin/actions/delete.png" style="border: 0pt none ; vertical-align: bottom;" alt="#i18n{plu.delete_folder.delete}" title="#i18n{plu.delete_folder.delete}"  type="image">
 			   	</form>
@@ -117,7 +122,7 @@
 	    </#list>
 	</table>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&atome_all=1
 	<#if folder_title?exists>&folder_title=${folder_title}</#if>">
 	<@pagination paginator=paginator />
 
@@ -194,12 +199,13 @@
 			<p>
 				<input type="hidden" name="id_plu" value="0"/>
 				<input type="hidden" name="id_folder" value="0"/>
+				<input type="hidden" name="atome_all" value="1"/>
 		       	<input type="submit" value="#i18n{plu.search_atome.buttonSearch}" class="button"/>   
 		    </p>
 		</form>
 	</div>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&atome_all=1
 	<#if atome_name?exists>&atome_name=${atome_name}</#if><#if atome_title?exists>&atome_title=${atome_title}</#if>
 	<#if id_atome?exists>&id_atome=${id_atome!}</#if>
 	<#if num_version?exists>&num_version=${num_version}</#if><#if version_d1?exists>&version_d1=${version_d1}</#if>
@@ -329,7 +335,7 @@
 	    </#list>
 	</table>
 	
-	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}
+	<form method="post" rm action="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&atome_all=1
 	<#if atome_name?exists>&atome_name=${atome_name}</#if><#if atome_title?exists>&atome_title=${atome_title}</#if>
 	<#if id_atome?exists>&id_atome=${id_atome!}</#if>
 	<#if num_version?exists>&num_version=${num_version}</#if><#if version_d1?exists>&version_d1=${version_d1}</#if>
@@ -365,11 +371,11 @@
 </A>
 <#if version_list?exists>
 	<#if folder_title?exists>
-		<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&folder_title=${folder_title}" class="button" style="text-decoration:none" >
+		<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&folder_title=${folder_title}&atome_all=1" class="button" style="text-decoration:none" >
 		   	#i18n{plu.tree_plu.buttonListFolder}
 		</A>
 	<#else>
-		<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}" class="button" style="text-decoration:none" >
+		<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu.id}&atome_all=1" class="button" style="text-decoration:none" >
 		   	#i18n{plu.tree_plu.buttonListFolder}
 		</A>
 	</#if>
