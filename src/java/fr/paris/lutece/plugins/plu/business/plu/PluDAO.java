@@ -103,8 +103,8 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
             }
             if ( plu.getId( ) != pluSuivant.getId( ) )
             {
-                if ( ( plu.getDa( ).compareTo( dateApplicationDebut ) > 0 && plu.getDa( )
-                        .compareTo( dateApplicationFin ) < 0 )
+                if ( ( plu.getDa( ).compareTo( dateApplicationDebut ) >= 0 && plu.getDa( ).compareTo(
+                        dateApplicationFin ) <= 0 )
                         || ( plu.getDa( ).compareTo( dateApplicationDebut ) < 0 && pluSuivant.getDa( ).compareTo(
                                 dateApplicationDebut ) > 0 ) )
                 {
