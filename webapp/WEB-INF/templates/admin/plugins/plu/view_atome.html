@@ -5,7 +5,7 @@
 	<A href="jsp/admin/plugins/plu/plu/TreePlu.jsp?id_plu=${one_plu_work.id!}" style="text-decoration:none" class="button">
 		#i18n{plu.manage_folder.buttonListFolder}
 	</A>
-	<A href="jsp/admin/plugins/plu/plu/TreePluAtome.jsp?id_plu=${one_plu_work.id!}&id_folder=0" style="text-decoration:none" class="button">
+	<A href="jsp/admin/plugins/plu/plu/TreePluAtome.jsp?id_plu=${one_plu_work.id!}&id_folder=0&atome_all=1" style="text-decoration:none" class="button">
 		#i18n{plu.manage_atome.buttonListAtome}
 	</A>
 </div>
@@ -28,14 +28,14 @@
 						<#if file_format != "0" >
 						<option value="${file_format}">${file_format}</option>
 						</#if>
-						<option value="0">none</option>
+						<option value="0"></option>
 						<#list file_all_format as format >
 							<#if format != file_format>
 		     				<option value="${format}">${format}</option>
 		     				</#if>
 		     			</#list>
 					<#else>
-						<option value="0">none</option>
+						<option value="0"></option>
 						<#list file_all_format as format >
 		     				<option value="${format}">${format}</option>
 		     			</#list>

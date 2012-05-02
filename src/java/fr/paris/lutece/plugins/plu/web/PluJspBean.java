@@ -916,12 +916,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdType = Integer.parseInt( request.getParameter( PARAMETER_PLU_TYPE ) );
         Type type = _typeServices.findByPrimaryKey( nIdType );
 
-        Etat etat = _etatServices.findByPrimaryKey( 5 );
 
+
+        if ( plu.getDa( ) != null )
+        {
+            Etat etat = _etatServices.findByPrimaryKey( 5 );
+            plu.setEtat( etat );
+        }
         plu.setType( type );
         plu.setCause( request.getParameter( PARAMETER_PLU_CAUSE ) );
         plu.setReference( request.getParameter( PARAMETER_PLU_REFERENCE ) );
-        plu.setEtat( etat );
         _pluServices.update( plu );
 
         History history = new History( );
@@ -1616,9 +1620,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         _folderServices.remove( folder );
 
         /* Set the PLU's state to "à relancer" */
-        Etat etat = _etatServices.findByPrimaryKey( 5 );
-        plu.setEtat( etat );
-        _pluServices.update( plu );
+        if ( plu.getDa( ) != null )
+        {
+            Etat etat = _etatServices.findByPrimaryKey( 5 );
+            plu.setEtat( etat );
+            _pluServices.update( plu );
+        }
 
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId( );
     }
@@ -1933,9 +1940,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
 
         /* Set the PLU's state to "à relancer" */
-        Etat etat = _etatServices.findByPrimaryKey( 5 );
-        plu.setEtat( etat );
-        _pluServices.update( plu );
+        if ( plu.getDa( ) != null )
+        {
+            Etat etat = _etatServices.findByPrimaryKey( 5 );
+            plu.setEtat( etat );
+            _pluServices.update( plu );
+        }
 
         _folderServices.update( folder );
 
@@ -2140,9 +2150,12 @@ public class PluJspBean extends PluginAdminPageJspBean
         _historyServices.create( history );
 
         /* Set the PLU's state to "à relancer" */
-        Etat etat = _etatServices.findByPrimaryKey( 5 );
-        plu.setEtat( etat );
-        _pluServices.update( plu );
+        if ( plu.getDa( ) != null )
+        {
+            Etat etat = _etatServices.findByPrimaryKey( 5 );
+            plu.setEtat( etat );
+            _pluServices.update( plu );
+        }
 
         return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId( );
     }
@@ -2318,7 +2331,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 		    physicalFile.setValue( fileItem.get( ) );
 
 		    String name = fileItem.getName( );
-		    String type = name.substring( name.lastIndexOf( "." ) );
+            String type = name.substring( name.lastIndexOf( "." ) + 1 ).toUpperCase( );
 		    
 		    for ( File fileTest : _fileList )
 		    {
@@ -2804,7 +2817,8 @@ public class PluJspBean extends PluginAdminPageJspBean
             _pluServices.create( newPlu );
         }
 
-        return JSP_REDIRECT_TO_CHOICE_CREATE_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
+        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( )
+                + "&atome_all=1";
     }
 
     /**
@@ -2929,7 +2943,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 fileFilter.setName( fileName );
             }
 
-            if ( fileFormat != null )
+            if ( fileFormat != null && !fileFilter.equals( "0" ) )
             {
                 fileFilter.setMimeType( fileFormat );
             }
@@ -3355,7 +3369,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             i++;
         }
 
-        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
+        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ) + "&atome_all=1";
     }
 
 	/**
@@ -3685,13 +3699,15 @@ public class PluJspBean extends PluginAdminPageJspBean
         history.setDescription( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
         _historyServices.create( history );
 
-        Etat etat = _etatServices.findByPrimaryKey( 5 );
-
         Plu plu = _pluServices.findByPrimaryKey( folder.getPlu( ) );
-        plu.setEtat( etat );
-        _pluServices.update( plu );
+        if ( plu.getDa( ) != null )
+        {
+            Etat etat = _etatServices.findByPrimaryKey( 5 );
+            plu.setEtat( etat );
+            _pluServices.update( plu );
+        }
 
-        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + folder.getPlu( ) + "&id_folder=" + folder.getId( );
+        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + folder.getPlu( ) + "&id_folder=" + folder.getId( ) + "&atome_all=1";
     }
 
     /**
@@ -3985,7 +4001,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             i++;
         }
 
-        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
+        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ) + "&atome_all=1";
     }
 
     /**

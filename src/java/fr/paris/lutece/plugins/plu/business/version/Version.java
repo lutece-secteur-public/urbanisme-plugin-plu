@@ -235,11 +235,11 @@ public class Version implements Comparable
     {
         Version v = (Version) o;
         int retour = 0;
-        if ( this.getId( ) > v.getId( ) )
+        if ( this.getAtome( ).getId( ) > v.getAtome( ).getId( ) )
         {
             retour += 100;
         }
-        else if ( this.getId( ) < v.getId( ) )
+        else if ( this.getAtome( ).getId( ) < v.getAtome( ).getId( ) )
         {
             retour -= 100;
         }
