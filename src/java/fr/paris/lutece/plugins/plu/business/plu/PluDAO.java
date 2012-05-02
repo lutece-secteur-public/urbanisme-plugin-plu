@@ -100,9 +100,18 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
             if ( index < listIdPlu.size( ) - 1 )
             {
                 pluSuivant = listPlu.get( index + 1 );
+                
             }
-            if ( plu.getId( ) != pluSuivant.getId( ) )
+            if ( pluSuivant.getDa( ) == null
+                    && ( plu.getDa( ).compareTo( dateApplicationDebut ) < 0 && plu.getDa( ).compareTo(
+                            dateApplicationFin ) < 0 ) )
             {
+                listRetournee.add( plu );
+            }
+            else if ( plu.getId( ) != pluSuivant.getId( ) && pluSuivant.getDa( ) != null )
+            {
+                //Si la date d'application du PLU est comprise entre les deux dates renseignées
+                //OU si la date de début est entre deux dates d'application de PLU
                 if ( ( plu.getDa( ).compareTo( dateApplicationDebut ) >= 0 && plu.getDa( ).compareTo(
                         dateApplicationFin ) <= 0 )
                         || ( plu.getDa( ).compareTo( dateApplicationDebut ) < 0 && pluSuivant.getDa( ).compareTo(
@@ -111,7 +120,7 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
                     listRetournee.add( plu );
                 }
             }
-            else
+            else 
             {
                 if ( plu.getDa( ).compareTo( dateApplicationDebut ) > 0
                         && plu.getDa( ).compareTo( dateApplicationFin ) < 0 )

@@ -289,6 +289,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     /** Jsp Definition */
     private static final String JSP_REDIRECT_TO_MANAGE_PLU = "../plu/ManagePlu.jsp";
     private static final String JSP_REDIRECT_TO_TREE_PLU = "../plu/TreePlu.jsp";
+    private static final String JSP_REDIRECT_TO_TREE_PLU_ATOME = "../plu/TreePluAtome.jsp";
     private static final String JSP_REDIRECT_TO_CHOICE_CREATE_ATOME = "../atome/ChoiceCreateAtome.jsp";
     private static final String JSP_MANAGE_PLU = "jsp/admin/plugins/plu/plu/ManagePlu.jsp";
     private static final String JSP_TREE_PLU = "jsp/admin/plugins/plu/plu/TreePlu.jsp";
@@ -3150,7 +3151,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         String atomeName = request.getParameter( PARAMETER_ATOME_NAME );
         String atomeTitle = request.getParameter( PARAMETER_ATOME_TITLE );
 
-        UrlItem url = new UrlItem( JSP_TREE_PLU );
+        UrlItem url = new UrlItem( JSP_TREE_PLU_ATOME );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_FOLDER_ID, nIdFolder );
 
@@ -3354,7 +3355,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             i++;
         }
 
-        return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
+        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
     }
 
 	/**
@@ -3518,7 +3519,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         String atomeName = request.getParameter( PARAMETER_ATOME_NAME );
         String atomeTitle = request.getParameter( PARAMETER_ATOME_TITLE );
 
-        UrlItem url = new UrlItem( JSP_TREE_PLU );
+        UrlItem url = new UrlItem( JSP_TREE_PLU_ATOME );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_FOLDER_ID, nIdFolder );
 
@@ -3690,7 +3691,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         plu.setEtat( etat );
         _pluServices.update( plu );
 
-        return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + folder.getPlu( ) + "&id_folder=" + folder.getId( );
+        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + folder.getPlu( ) + "&id_folder=" + folder.getId( );
     }
 
     /**
@@ -3789,7 +3790,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         String atomeName = request.getParameter( PARAMETER_ATOME_NAME );
         String atomeTitle = request.getParameter( PARAMETER_ATOME_TITLE );
 
-        UrlItem url = new UrlItem( JSP_TREE_PLU );
+        UrlItem url = new UrlItem( JSP_TREE_PLU_ATOME );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_FOLDER_ID, nIdFolder );
 
@@ -3984,7 +3985,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             i++;
         }
 
-        return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
+        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
     }
 
     /**
@@ -4044,7 +4045,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         FolderVersion folderVersion = _folderVersionServices.findByMaxFolderAndVersion( version );
         _folderVersionServices.remove( folderVersion );
 
-        return JSP_REDIRECT_TO_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
+        return JSP_REDIRECT_TO_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( );
     }
 
 
@@ -4068,7 +4069,7 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String doUploadAtome( HttpServletRequest request )
     {
-        return JSP_REDIRECT_TO_TREE_PLU;
+        return JSP_REDIRECT_TO_TREE_PLU_ATOME;
     }
 
     /**
