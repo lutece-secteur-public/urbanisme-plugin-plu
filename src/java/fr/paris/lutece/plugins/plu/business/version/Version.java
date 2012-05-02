@@ -56,7 +56,7 @@ import javax.persistence.TableGenerator;
  */
 @Entity
 @Table( name = "plu_version_atome" )
-public class Version
+public class Version implements Comparable
 {
     /** Constants */
     public static final String RESOURCE_TYPE = "VERSION_RESOURCE";
@@ -230,4 +230,37 @@ public class Version
     {
         _archive = archive;
     }
+
+    public int compareTo( Object o )
+    {
+        Version v = (Version) o;
+        int retour = 0;
+        if ( this.getId( ) > v.getId( ) )
+        {
+            retour += 100;
+        }
+        else if ( this.getId( ) < v.getId( ) )
+        {
+            retour -= 100;
+        }
+        if ( this.getAtome( ).getTitle( ).compareTo( v.getAtome( ).getTitle( ) ) > 0 )
+        {
+            retour += 10;
+        }
+        else if ( this.getAtome( ).getTitle( ).compareTo( v.getAtome( ).getTitle( ) ) < 0 )
+        {
+            retour -= 10;
+        }
+        if ( this.getVersion( ) > v.getVersion( ) )
+        {
+            retour += 1;
+        }
+        else if ( this.getVersion( ) < v.getVersion( ) )
+        {
+            retour -= 1;
+        }
+
+        return retour;
+    }
+
 }

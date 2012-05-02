@@ -39,6 +39,7 @@ import fr.paris.lutece.plugins.plu.utils.PluUtils;
 import fr.paris.lutece.portal.service.jpa.JPALuteceDAO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -301,6 +302,8 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
 
         List<Version> versionList = q.getResultList( );
 
+        Collections.sort( versionList );
+
         return versionList;
     }
 
@@ -313,7 +316,11 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
         List<String> listFilters = new ArrayList<String>( );
         String strSQL = PluUtils.buildRequetteWithFilter( SQL_QUERY_SELECT_ALL, listFilters );
         TypedQuery<Version> q = this.getEM( ).createQuery( strSQL, Version.class );
-        return q.getResultList( );
+        List<Version> versionList = q.getResultList( );
+
+        Collections.sort( versionList );
+
+        return versionList;
     }
 
 }

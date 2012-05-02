@@ -133,6 +133,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     /** Templates */
     private static final String TEMPLATE_MANAGE_PLU = "/admin/plugins/plu/manage_plu.html";
     private static final String TEMPLATE_TREE_PLU = "/admin/plugins/plu/tree_plu.html";
+    private static final String TEMPLATE_TREE_PLU_ATOME = "/admin/plugins/plu/tree_plu_atome.html";
     private static final String TEMPLATE_APPROVE_PLU = "/admin/plugins/plu/approve_plu.html";
     private static final String TEMPLATE_APPLICABLE_PLU = "/admin/plugins/plu/applicable_plu.html";
     private static final String TEMPLATE_MODIFY_PLU = "/admin/plugins/plu/modify_plu.html";
@@ -180,6 +181,8 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MARK_LOCALE = "locale";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_PAGINATOR = "paginator";
+    private static final String MARK_PAGINATOR_DOSSER = "paginatorDossier";
+    private static final String MARK_PAGINATOR_ATOME = "paginatorAtome";
     private static final String MARK_ERROR_MESSAGE = "errorMessage";
     private static final String MARK_ERROR_ARGS = "args";
     private static final String MARK_PAGE_RETURN = "pageReturn";
@@ -289,6 +292,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String JSP_REDIRECT_TO_CHOICE_CREATE_ATOME = "../atome/ChoiceCreateAtome.jsp";
     private static final String JSP_MANAGE_PLU = "jsp/admin/plugins/plu/plu/ManagePlu.jsp";
     private static final String JSP_TREE_PLU = "jsp/admin/plugins/plu/plu/TreePlu.jsp";
+    private static final String JSP_TREE_PLU_ATOME = "jsp/admin/plugins/plu/plu/TreePluAtome.jsp";
     private static final String JSP_CHOICE_CREATE_ATOME = "jsp/admin/plugins/plu/atome/ChoiceCreateAtome.jsp";
     private static final String JSP_DO_APPROVE_PLU = "jsp/admin/plugins/plu/plu/DoApprovePlu.jsp";
     private static final String JSP_DO_APPLICABLE_PLU = "jsp/admin/plugins/plu/plu/DoApplicablePlu.jsp";
@@ -974,11 +978,89 @@ public class PluJspBean extends PluginAdminPageJspBean
     }
 
     /**
-     * Generates a HTML form that displays the Folder or the Atome manage
+     * Generates a HTML form that displays the Folder manage
      * @param request the Http request
      * @return HTML
      */
     public String getTreePlu( HttpServletRequest request )
+    {
+        int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
+
+        Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
+
+        if ( plu == null )
+        {
+            plu = new Plu( );
+        }
+
+        Plu pluWork = _pluServices.findPluWork( );
+        List<Plu> pluList = _pluServices.findAll( );
+
+        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_RESULT_PER_PAGE, 10 );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
+                _nDefaultItemsPerPage );
+
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_PLU, plu );
+        model.put( MARK_PLU_WORK, pluWork );
+        model.put( MARK_LIST_PLU_LIST, pluList );
+
+        setPageTitleProperty( PROPERTY_PAGE_TITLE_TREE_FOLDER );
+
+        if ( request.getParameter( PARAMETER_FOLDER_TITLE ) != null )
+        {
+            String folderTitle = request.getParameter( PARAMETER_FOLDER_TITLE );
+
+            FolderFilter folderFilter = new FolderFilter( );
+
+            if ( nIdPlu != 0 )
+            {
+                folderFilter.setPlu( nIdPlu );
+            }
+
+            if ( !folderTitle.equals( "" ) )
+            {
+                folderFilter.setTitle( folderTitle );
+            }
+
+            List<Folder> folderList = _folderServices.findByFilter( folderFilter );
+
+            Paginator<Folder> paginatorDossier = new Paginator<Folder>( (List<Folder>) folderList, _nItemsPerPage,
+                    JSP_TREE_PLU + "?id_plu=" + nIdPlu + "&folder_title=" + folderTitle, PARAMETER_PAGE_INDEX,
+                    _strCurrentPageIndex );
+
+            model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+            model.put( MARK_PAGINATOR_DOSSER, paginatorDossier );
+            model.put( MARK_LIST_FOLDER_LIST, paginatorDossier.getPageItems( ) );
+            model.put( PARAMETER_FOLDER_TITLE, folderTitle );
+        }
+        else
+        {
+            List<Folder> folderList = _folderServices.findByPluId( nIdPlu );
+            Paginator<Folder> paginator = new Paginator<Folder>( (List<Folder>) folderList, _nItemsPerPage,
+                    JSP_TREE_PLU + "?id_plu=" + nIdPlu, PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+            model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+            model.put( MARK_PAGINATOR_DOSSER, paginator );
+            model.put( MARK_LIST_FOLDER_LIST, paginator.getPageItems( ) );
+        }
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TREE_PLU, getLocale( ), model );
+
+        _fileList.clear( );
+        _folderHtml.setHtml( null );
+        _folderHtml.setHtmlImpression( null );
+        _folderImage.setImg( null );
+
+        return getAdminPage( template.getHtml( ) );
+    }
+
+    /**
+     * Generates a HTML form that displays the Atome manage
+     * @param request the Http request
+     * @return HTML
+     */
+    public String getTreePluAtome( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
 
@@ -1008,10 +1090,10 @@ public class PluJspBean extends PluginAdminPageJspBean
             setPageTitleProperty( PROPERTY_PAGE_TITLE_TREE_ATOME );
 
             int nIdFolder = 0; 
-            	
+
             if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
             {
-            	nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
+                nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
             }
 
             Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
@@ -1154,22 +1236,24 @@ public class PluJspBean extends PluginAdminPageJspBean
                     }
                     catch ( ParseException e )
                     {
-                    	//throw new AppException( "An exception occured during date parsing", e );
+                        //throw new AppException( "An exception occured during date parsing", e );
                     }
                 }
 
                 List<Version> versionList = _versionServices.findByFilter( atomeFilter, versionFilter );
 
-                Paginator<Version> paginator = new Paginator<Version>( (List<Version>) versionList, _nItemsPerPage,
-                        JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ) + "&atome_name="
-                                + atomeName + "&atome_title=" + atomeTitle + "&id_atome=" + strAtomeId
+                Paginator<Version> paginatorAtome = new Paginator<Version>( (List<Version>) versionList,
+                        _nItemsPerPage,
+ JSP_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( )
+                                + "&atome_name="
+ + atomeName + "&atome_title=" + atomeTitle + "&id_atome=" + strAtomeId
                                 + "&num_version=" + strNumVersion + "&version_d1=" + strD1 + "&version_d2=" + strD2
                                 + "&version_d3=" + strD3 + "&version_d4=" + strD4, PARAMETER_PAGE_INDEX,
                         _strCurrentPageIndex );
 
                 model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-                model.put( MARK_PAGINATOR, paginator );
-                model.put( MARK_LIST_VERSION_LIST, paginator.getPageItems( ) );
+                model.put( MARK_PAGINATOR_ATOME, paginatorAtome );
+                model.put( MARK_LIST_VERSION_LIST, paginatorAtome.getPageItems( ) );
                 model.put( PARAMETER_ATOME_NAME, atomeName );
                 model.put( PARAMETER_ATOME_TITLE, atomeTitle );
                 model.put( PARAMETER_ATOME_ID, strAtomeId );
@@ -1185,73 +1269,33 @@ public class PluJspBean extends PluginAdminPageJspBean
                 {
                     List<Version> versionList = _versionServices.findAll( );
 
-                    Paginator<Version> paginator = new Paginator<Version>( (List<Version>) versionList, _nItemsPerPage,
-                            JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ) + "&atome_all=1",
+                    Paginator<Version> paginatorAtomeAll = new Paginator<Version>( (List<Version>) versionList,
+                            _nItemsPerPage,
+ JSP_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder="
+                                    + folder.getId( ) + "&atome_all=1",
                             PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
                     model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-                    model.put( MARK_PAGINATOR, paginator );
-                    model.put( MARK_LIST_VERSION_LIST, paginator.getPageItems( ) );
+                    model.put( MARK_PAGINATOR_ATOME, paginatorAtomeAll );
+                    model.put( MARK_LIST_VERSION_LIST, paginatorAtomeAll.getPageItems( ) );
                 }
                 else
                 {
                     List<Version> versionList = _versionServices.findByPluAndFolder( folder.getPlu( ), nIdFolder );
 
-                    Paginator<Version> paginator = new Paginator<Version>( (List<Version>) versionList, _nItemsPerPage,
-                            JSP_TREE_PLU + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( ) + "&atome_all=1",
-                            PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+                    Paginator<Version> paginatorAtomeFind = new Paginator<Version>( (List<Version>) versionList,
+                            _nItemsPerPage, JSP_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder="
+                                    + folder.getId( ) + "&atome_all=1", PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
 
                     model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-                    model.put( MARK_PAGINATOR, paginator );
-                    model.put( MARK_LIST_VERSION_LIST, paginator.getPageItems( ) );
+                    model.put( MARK_PAGINATOR_ATOME, paginatorAtomeFind );
+                    model.put( MARK_LIST_VERSION_LIST, paginatorAtomeFind.getPageItems( ) );
                 }
 
             }
         }
-        //gestion des dossiers
-        else
-        {
-            setPageTitleProperty( PROPERTY_PAGE_TITLE_TREE_FOLDER );
 
-            if ( request.getParameter( PARAMETER_FOLDER_TITLE ) != null )
-            {
-                String folderTitle = request.getParameter( PARAMETER_FOLDER_TITLE );
-
-                FolderFilter folderFilter = new FolderFilter( );
-
-                if ( nIdPlu != 0 )
-                {
-                    folderFilter.setPlu( nIdPlu );
-                }
-
-                if ( !folderTitle.equals( "" ) )
-                {
-                    folderFilter.setTitle( folderTitle );
-                }
-
-                List<Folder> folderList = _folderServices.findByFilter( folderFilter );
-
-                Paginator<Folder> paginator = new Paginator<Folder>( (List<Folder>) folderList, _nItemsPerPage,
-                        JSP_TREE_PLU + "?id_plu=" + nIdPlu + "&folder_title=" + folderTitle, PARAMETER_PAGE_INDEX,
-                        _strCurrentPageIndex );
-
-                model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-                model.put( MARK_PAGINATOR, paginator );
-                model.put( MARK_LIST_FOLDER_LIST, paginator.getPageItems( ) );
-                model.put( PARAMETER_FOLDER_TITLE, folderTitle );
-            }
-            else
-            {
-                List<Folder> folderList = _folderServices.findByPluId( nIdPlu );
-                Paginator<Folder> paginator = new Paginator<Folder>( (List<Folder>) folderList, _nItemsPerPage,
-                        JSP_TREE_PLU + "?id_plu=" + nIdPlu, PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-                model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-                model.put( MARK_PAGINATOR, paginator );
-                model.put( MARK_LIST_FOLDER_LIST, paginator.getPageItems( ) );
-            }
-        }
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TREE_PLU, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TREE_PLU_ATOME, getLocale( ), model );
 
         _fileList.clear( );
         _folderHtml.setHtml( null );
