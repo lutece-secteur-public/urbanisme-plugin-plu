@@ -8,7 +8,7 @@
 		
 		<p>
 			<label for="id_parent_folder" >#i18n{plu.correct_folder.rowTitleParentFolder} : </label>
-			<select name="id_parent_folder">
+			<select name="id_parent_folder" disabled="disabled">
 				<#if one_folder_parent?has_content>
 					<option style="color:#989898;" value="${one_folder_parent.id}">${one_folder_parent.title}</option>
 				<#else>
