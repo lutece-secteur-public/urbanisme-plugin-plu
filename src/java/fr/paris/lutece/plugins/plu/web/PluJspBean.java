@@ -3110,6 +3110,14 @@ public class PluJspBean extends PluginAdminPageJspBean
 			tmp = (List<String>) request.getSession( ).getAttribute( PARAMETER_FILE_CHECK );
 			if ( request.getParameter( "joinFile" ).equals( "true" )  )
 			{
+                if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+                {
+                    tmp = new ArrayList<String>( Arrays.asList( request.getParameterValues( PARAMETER_FILE_CHECK ) ) );
+                }
+                else
+                {
+                    tmp = new ArrayList<String>( );
+                }
 				tmp.add( Integer.toString( _fileList.size( ) - 1 ) );
 			}
 			else if ( request.getParameter( "joinFile" ).equals( "false" ) && tmp.isEmpty( ) && request.getSession( ).getAttribute( PARAMETER_FILE_CHECK ) != null )
