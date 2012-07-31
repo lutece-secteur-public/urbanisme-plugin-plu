@@ -12,14 +12,14 @@
 	            		<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 						<input type="hidden" name="reinit" value="true" />
 	            		<input type="hidden" name="id_folder" value="${one_folder.id}"/>
-		      			<input style="border: 0pt none ; vertical-align: bottom; background: none;cursor: pointer;" value="Nouvel Atome" type="submit" />
+		      			<input class="button" value="Nouvel Atome" type="submit" />
 			   		</form>
 			   	</td>
 			   	<td>
 			   		<form enctype="multipart/form-data"  method="post" action="jsp/admin/plugins/plu/atome/CreateAtomeWithOld.jsp">
 			   			<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 						<input type="hidden" name="reinit" value="true" />
-			        	<input style="border: 0pt none ; vertical-align: bottom; background: none;cursor: pointer;" value="Ancien Atome" type="submit" />
+			        	<input class="button" value="Ancien Atome" type="submit" />
 			        	<select name="id_atome" style="width: 400px;">
 							<#list atome_list as atome>
      						<option title="${atome.title}" value="${atome.id}">${atome.title}</option>
