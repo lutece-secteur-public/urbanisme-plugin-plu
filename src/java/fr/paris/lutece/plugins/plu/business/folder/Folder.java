@@ -68,6 +68,7 @@ public class Folder
     private byte[] _img;
     private String _html;
     private String _htmlImpression;
+    private String _nomImage;
 
     /**
      * Returns the identifier of this folder
@@ -223,4 +224,22 @@ public class Folder
     {
         _htmlImpression = htmlImpression;
     }
+
+    /**
+     * @return the _nomImage
+     */
+    @Column( name = "nom_image" )
+    public String getNomImage( )
+    {
+        return _nomImage;
+    }
+
+    /**
+     * @param _nomImage the _nomImage to set
+     */
+    public void setNomImage( String _nomImage )
+    {
+        this._nomImage = _nomImage;
+    }
+
 }

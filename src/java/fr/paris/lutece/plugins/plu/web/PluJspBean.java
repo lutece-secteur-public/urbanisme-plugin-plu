@@ -1887,6 +1887,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 PhysicalFile physicalFile = new PhysicalFile( );
                 physicalFile.setValue( fileItem.get( ) );
                 _folderImage.setImg( physicalFile.getValue( ) );
+                _folderImage.setNomImage( fileItem.getName( ) );
             }
         }
 
@@ -1913,14 +1914,18 @@ public class PluJspBean extends PluginAdminPageJspBean
         folder.setDescription( description );
         folder.setParentFolder( idParentFolder );
 
+        if ( !"true".equals( request.getParameter( PARAMETER_FOLDER_IMAGE_CHECK ) ) )
+        {
+            folder.setImg( _folderImage.getImg( ) );
+            folder.setNomImage( null );
+        }
+
         if ( _folderImage.getImg( ) != null )
         {
             folder.setImg( _folderImage.getImg( ) );
+            folder.setNomImage( _folderImage.getNomImage( ) );
         }
-        else
-        {
-            folder.setImg( null );
-        }
+
 
         if ( "true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
         {
@@ -2104,6 +2109,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 PhysicalFile physicalFile = new PhysicalFile( );
                 physicalFile.setValue( fileItem.get( ) );
                 _folderImage.setImg( physicalFile.getValue( ) );
+                _folderImage.setNomImage( fileItem.getName( ) );
             }
         }
 
@@ -2132,6 +2138,13 @@ public class PluJspBean extends PluginAdminPageJspBean
         if ( !"true".equals( request.getParameter( PARAMETER_FOLDER_IMAGE_CHECK ) ) )
         {
             folder.setImg( _folderImage.getImg( ) );
+            folder.setNomImage( null );
+        }
+
+        if ( _folderImage.getImg( ) != null )
+        {
+            folder.setImg( _folderImage.getImg( ) );
+            folder.setNomImage( _folderImage.getNomImage( ) );
         }
 
         if ( !"true".equals( request.getParameter( PARAMETER_FOLDER_HTML_CHECK ) ) )
@@ -4436,4 +4449,5 @@ public class PluJspBean extends PluginAdminPageJspBean
             request.getSession( ).getAttribute( PARAMETER_FILE_CHECK );
     	}
     }
+
 }
