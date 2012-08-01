@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.plu.business.file;
 
+import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,8 +43,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
-
-import fr.paris.lutece.plugins.plu.utils.jpa.PluJPAUtils;
 
 
 /**
@@ -264,4 +264,44 @@ public class File
     {
         _file = file;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals( Object obj )
+    {
+        if ( this == obj )
+            return true;
+        if ( obj == null )
+            return false;
+        if ( getClass( ) != obj.getClass( ) )
+            return false;
+        File other = (File) obj;
+        if ( _mimeType == null )
+        {
+            if ( other._mimeType != null )
+                return false;
+        }
+        else if ( !_mimeType.equals( other._mimeType ) )
+            return false;
+        if ( _name == null )
+        {
+            if ( other._name != null )
+                return false;
+        }
+        else if ( !_name.equals( other._name ) )
+            return false;
+        if ( _title == null )
+        {
+            if ( other._title != null )
+                return false;
+        }
+        else if ( !_title.equals( other._title ) )
+            return false;
+        return true;
+    }
+
 }

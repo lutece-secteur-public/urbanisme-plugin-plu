@@ -56,6 +56,7 @@ import fr.paris.lutece.plugins.plu.business.version.IVersionServices;
 import fr.paris.lutece.plugins.plu.business.version.Version;
 import fr.paris.lutece.plugins.plu.business.version.VersionFilter;
 import fr.paris.lutece.plugins.plu.services.PluPlugin;
+import fr.paris.lutece.plugins.plu.utils.PluUtils;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -3348,7 +3349,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	toDelete = false;
                 	
                     updateFile( nIdAtome, atome, version, fileTitle, i, order,
-							strNumVersion, file );
+ strNumVersion, file, nIdVersion );
 
                     order++;
                 }
@@ -3391,10 +3392,13 @@ public class PluJspBean extends PluginAdminPageJspBean
 	 * @param file file
 	 * @throws IOException IOException
 	 */
-	private void updateFile( int nIdAtome, Atome atome, Version version,
-			String[] fileTitle, int i, int order, String strNumVersion,
-			File file ) throws IOException
+    private void updateFile( int nIdAtome, Atome atome, Version version, String[] fileTitle, int i, int order,
+            String strNumVersion, File file, int nIdVersion ) throws IOException
 	{
+
+        List<File> oldFileList = new ArrayList<File>( );
+        oldFileList = _fileServices.findByVersion( nIdVersion );
+
 		if ( !file.getTitle( ).equals( fileTitle[i] ) )
 		{
 		    file.setTitle( fileTitle[i] );
@@ -3417,7 +3421,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         a = nameWithoutExt.lastIndexOf( "-V" );
 		if ( a > 0 )
 		{
-            nameWithoutExt = nameWithoutExt.substring( 0, a ) + strNumVersion;
+            if ( !oldFileList.contains( file ) )
+            {
+                nameWithoutExt = nameWithoutExt.substring( 0, a ) + strNumVersion;
+            }
+            else
+            {
+                String strNumOldVersion = PluUtils.getFileVersion( file.getName( ) );
+                nameWithoutExt = nameWithoutExt.substring( 0, a ) + strNumOldVersion;
+            }
+
 		}
 		else
 		{
@@ -3668,7 +3681,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 {
                 	toDelete = false;
                 	
-                	updateFile( nIdAtome, atome, version, fileTitle, i, order, strNumVersion, file );
+                    updateFile( nIdAtome, atome, version, fileTitle, i, order, strNumVersion, file, nIdVersion );
                     
                     order++;
                 }
@@ -3980,8 +3993,8 @@ public class PluJspBean extends PluginAdminPageJspBean
                 {
                 	toDelete = false;
 
-                	file.setId( 0 );
-                	updateFile( nIdAtome, atome, version, fileTitle, i, order, strNumVersion, file );
+                    file.setId( 0 );
+                    updateFile( nIdAtome, atome, version, fileTitle, i, order, strNumVersion, file, nIdVersion );
 
                     order++;
                 }
