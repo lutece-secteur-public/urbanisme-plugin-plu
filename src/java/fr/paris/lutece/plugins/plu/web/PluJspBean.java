@@ -286,6 +286,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_PAGE = "page";
     private static final String PARAMETER_REINIT = "reinit";
     private static final String PARAMETER_CLEAR = "clear";
+    private static final String PARAMETER_CANCEL_CREATE_FOLDER = "cancel_create_folder";
 
     /** Jsp Definition */
     private static final String JSP_REDIRECT_TO_MANAGE_PLU = "../plu/ManagePlu.jsp";
@@ -1014,7 +1015,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         setPageTitleProperty( PROPERTY_PAGE_TITLE_TREE_FOLDER );
 
-        if ( request.getParameter( PARAMETER_FOLDER_TITLE ) != null )
+        String isCancelCreateFolder = request.getParameter( PARAMETER_CANCEL_CREATE_FOLDER );
+
+        //Si on vient de l'annulation de la creation d'un dossier on ne renseigner pas le crière
+        // titre du dossier dans le champ de recherche.
+        if ( ( StringUtils.isBlank( isCancelCreateFolder ) || !isCancelCreateFolder.equals( "true" ) )
+                && request.getParameter( PARAMETER_FOLDER_TITLE ) != null )
         {
             String folderTitle = request.getParameter( PARAMETER_FOLDER_TITLE );
 
@@ -1434,12 +1440,13 @@ public class PluJspBean extends PluginAdminPageJspBean
     public String getConfirmCancelCreateFolder( HttpServletRequest request )
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
-        String folderTitle = request.getParameter( PARAMETER_FOLDER_TITLE );
 
         UrlItem url = new UrlItem( JSP_TREE_PLU );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
+        url.addParameter( PARAMETER_CANCEL_CREATE_FOLDER, "true" );
 
-        Object[] args = { folderTitle };
+        Object[] args = {};
+
 
         return this.getMessageJsp( request, MESSAGE_CONFIRM_CANCEL_CREATE_FOLDER, args, "jsp/admin/plugins/plu/folder/CreateFolder.jsp", url.getUrl( ) );
     }
