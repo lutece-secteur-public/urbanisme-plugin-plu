@@ -3849,7 +3849,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         String atomeTitle = request.getParameter( PARAMETER_ATOME_TITLE );
         String[] check = request.getParameterValues( PARAMETER_FILE_CHECK );
         String[] fileTitle = request.getParameterValues( PARAMETER_FILE_TITLE_ATOME );
-        String atomeDescription = request.getParameter( PARAMETER_ATOME_DESCRIPTION );
 
         UrlItem url = new UrlItem( JSP_DO_EVOLVE_ATOME );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
@@ -3857,7 +3856,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         url.addParameter( PARAMETER_ATOME_ID, nIdAtome );
         url.addParameter( PARAMETER_VERSION_ID, nIdVersion );
         url.addParameter( PARAMETER_VERSION_NUM, numVersion );
-        url.addParameter( PARAMETER_ATOME_DESCRIPTION, atomeDescription );
 
         Object[] argsVersion = { atomeName, atomeTitle, numVersion, numVersionOld };
 
@@ -3930,14 +3928,6 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_ID ) );
         Atome atome = _atomeServices.findByPrimaryKey( nIdAtome );
-
-        //Save atome description
-        String atomeDescription = request.getParameter( PARAMETER_ATOME_DESCRIPTION );
-        if ( StringUtils.isNotBlank( atomeDescription ) && !atomeDescription.equals( atome.getDescription( ) ) )
-        {
-            atome.setDescription( atomeDescription );
-            _atomeServices.update( atome );
-        }
 
         int numVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_NUM ) );
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
