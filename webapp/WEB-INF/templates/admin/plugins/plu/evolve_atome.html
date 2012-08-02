@@ -46,16 +46,13 @@
         	<input type="text" id="num_version" name="num_version" value="${new_version}" size="30" maxlength="20" tabindex="1" />
         </p>
 
-        <p>
-        	<label for="atome_description" >#i18n{plu.evolve_atome.rowTitleDescription} :</label>
-        </p>
-       	<p>
-	       	<div id="richtext" class="editor">
-    	    	<textarea id="atome_description" class="richtext" name="atome_description" style="width:80%; color:#989898;"" rows="15" cols="90" >
+        
+        
+        <fieldset style="width:66%; margin:10px 0 0 17%; border-radius: 11px 11px 11px 11px;">
+			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.evolve_atome.rowTitleDescription}</legend>
         			${one_version.atome.description}
-        		</textarea>
-        	</div>
-        </p>
+
+        </fieldset>
         
         <fieldset style="width:66%; margin:10px 0 0 17%; border-radius: 11px 11px 11px 11px;">
 			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.evolve_atome.rowTitleDocument}</legend>

@@ -3866,7 +3866,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     {
         if ( request.getParameter( PARAMETER_FOLDER_ID ).equals( "" )
                 || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" ) 
-                || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" )
                 || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null,
