@@ -147,4 +147,46 @@ public final class PluUtils
         version = fileName.substring( indexOfVersion, fileName.length( ) );
         return version;
     }
+
+    /**
+     * Return a file name without version (-Vxx) and without extension.
+     * @param strfileName
+     * @return file name without version and extension
+     */
+    public static String getFileNameForDB( String strfileName, String strVersion )
+    {
+
+        int a = strfileName.lastIndexOf( "." );
+        String strNameWithoutExt = strfileName;
+        String strNameExt = "";
+        String strNameWithoutVersion = strfileName;
+        String strNameForDB = strfileName;
+
+        //Cut extension
+        if ( a > 0 )
+        {
+            strNameForDB = strfileName.substring( 0, a );
+            strNameExt = strfileName.substring( a );
+        }
+
+        //Cut version
+        a = strNameWithoutExt.lastIndexOf( "-V" );
+        if ( a > 0 )
+        {
+            strNameWithoutVersion = strNameWithoutExt.substring( 0, a );
+        }
+
+        //Delete spaces
+        String strNameWithoutSpace = strNameWithoutVersion.replace( " ", "-" );
+
+        if ( strVersion.length( ) == 1 )
+        {
+            strVersion = "0" + strVersion;
+        }
+        //Add version and extension
+        strNameForDB = strNameWithoutSpace + "-V" + strVersion + strNameExt;
+
+        return strNameForDB;
+
+    }
 }
