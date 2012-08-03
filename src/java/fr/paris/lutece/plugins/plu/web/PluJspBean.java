@@ -3448,7 +3448,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
             else
             {
-                String strNumOldVersion = PluUtils.getFileVersion( file.getName( ) );
+                String strNumOldVersion = PluUtils.getFileVersion( nameWithoutExt );
                 nameWithoutExt = nameWithoutExt.substring( 0, a ) + strNumOldVersion;
             }
 
@@ -3483,7 +3483,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 		if ( !fileDest.exists( ) )
 		{
             System.out.println( "Fichier pas existant : " + fileDest.getAbsolutePath( ) );
-			FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
+            FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
 		}
 	}
 
