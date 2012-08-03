@@ -60,8 +60,8 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     private static final String SQL_QUERY_SELECT_ARCHIVE = "SELECT v FROM Version v  WHERE v.archive = 'O'";
     private static final String SQL_QUERY_SELECT_MAX_VERSION = "SELECT MAX(v.version) FROM Version v WHERE v.atome.id = :idAtome";
     private static final String SQL_QUERY_SELECT_BY_ATOME_AND_VERSION = "SELECT v FROM Version v WHERE v.atome.id = :idAtome AND v.version = :numVersion";
-    private static final String SQL_QUERY_SELECT_BY_PLU_AND_FOLDER = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu AND fv.folder.id = :idFolder";
-    private static final String SQL_QUERY_SELECT_BY_PLU = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu";
+    private static final String SQL_QUERY_SELECT_BY_PLU_AND_FOLDER = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu AND fv.folder.id = :idFolder ORDER BY a.id";
+    private static final String SQL_QUERY_SELECT_BY_PLU = "SELECT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a WHERE fv.folder.plu = :idPlu ORDER BY a.id";
     private static final String SQL_QUERY_SELECT_ALL = "SELECT DISTINCT v FROM FolderVersion fv JOIN fv.version v JOIN v.atome a";
     private static final String SQL_FILTER_ATOME_ID = "v.atome.id = :idAtome";
     private static final String SQL_FILTER_ATOME_NAME = "v.atome.name like :nameAtome";
