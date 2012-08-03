@@ -135,18 +135,6 @@ public final class PluUtils
         return displaySize;
     }
 
-    /**
-     * Get the version (-Vxx) of a file name
-     * @param fileName
-     * @return version of file name
-     */
-    public static String getFileVersion( String fileName )
-    {
-        int indexOfVersion = fileName.lastIndexOf( "-V" );
-        String version = "";
-        version = fileName.substring( indexOfVersion, fileName.length( ) );
-        return version;
-    }
 
     /**
      * Return a file name without version (-Vxx) and without extension.

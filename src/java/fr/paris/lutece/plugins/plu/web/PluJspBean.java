@@ -3446,11 +3446,6 @@ public class PluJspBean extends PluginAdminPageJspBean
             {
                 nameWithoutExt = nameWithoutExt.substring( 0, a ) + strNumVersion;
             }
-            else
-            {
-                String strNumOldVersion = PluUtils.getFileVersion( nameWithoutExt );
-                nameWithoutExt = nameWithoutExt.substring( 0, a ) + strNumOldVersion;
-            }
 
 		}
 		else
