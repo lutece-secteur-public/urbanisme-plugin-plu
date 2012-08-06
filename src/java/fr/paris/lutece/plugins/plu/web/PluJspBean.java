@@ -2374,11 +2374,16 @@ public class PluJspBean extends PluginAdminPageJspBean
             fileFilter.setName( strFileDBName );
             List<File> listFileByName = _fileServices.findByFilter( fileFilter, new AtomeFilter( ) );
 
+            //If a file with the same name exist in DB or a new atome file have the same name : error
+            if ( !listFileByName.isEmpty( ) )
+            {
+                Object[] args = { "", request.getParameter( PARAMETER_FILE_NAME ) };
+                ret = this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, args,
+                        "jsp/admin/plugins/plu/file/JoinFile.jsp", null );
+            }
 		    for ( File fileTest : _fileList )
 		    {
-                //If a file with the same name exist in DB or a new atome file have the same name : error
-                if ( !listFileByName.isEmpty( )
-                        || fileTest.getName( ).equals( request.getParameter( PARAMETER_FILE_NAME ) ) )
+                if ( fileTest.getName( ).equals( request.getParameter( PARAMETER_FILE_NAME ) ) )
 		        {
 		        	Object[] args = {"", request.getParameter( PARAMETER_FILE_NAME )};
 	                ret = this.getMessageJsp( request, MESSAGE_ERROR_FILE_CREATE_NAME, args,
