@@ -184,4 +184,13 @@ public class VersionServices implements IVersionServices
     {
         return _home.findAll( );
     }
+
+    /**
+     * Return a list of Version having an Atome having only one Version
+     * @return list of version
+     */
+    public List<Version> findVersionWithAtomeWithSingleVersion( )
+    {
+        return _home.findVersionWithAtomeWithSingleVersion( );
+    }
 }

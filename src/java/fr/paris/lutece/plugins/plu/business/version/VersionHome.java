@@ -136,4 +136,13 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
     {
         return getDao( ).findAll( );
     }
+
+    /**
+     * Return a list of Version having an Atome having only one Version
+     * @return list of version
+     */
+    public List<Version> findVersionWithAtomeWithSingleVersion( )
+    {
+        return getDao( ).findVersionWithAtomeWithSingleVersion( );
+    }
 }

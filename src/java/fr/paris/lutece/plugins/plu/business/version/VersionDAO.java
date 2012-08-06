@@ -71,6 +71,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     private static final String SQL_FILTER_VERSION_D2 = "v.d2 = :d2";
     private static final String SQL_FILTER_VERSION_D3 = "v.d3 = :d3";
     private static final String SQL_FILTER_VERSION_D4 = "v.d4 = :d4";
+    private static final String SQL_QUERY_SELECT_ATOME_WITH_SINGLE_VERSION = "SELECT v FROM Version v GROUP BY v.atome.id HAVING count(v.atome.id) = 1";
 
     /**
      * @return the plugin name
@@ -321,6 +322,21 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
         Collections.sort( versionList );
 
         return versionList;
+    }
+
+    /**
+     * Return a list of Version having an Atome having only one Version
+     * @return list of version
+     */
+    public List<Version> findVersionWithAtomeWithSingleVersion( )
+    {
+
+        EntityManager em = getEM( );
+        TypedQuery<Version> q = em.createQuery( SQL_QUERY_SELECT_ATOME_WITH_SINGLE_VERSION, Version.class );
+
+        List<Version> listAtomeWithSingleVersion = q.getResultList( );
+
+        return listAtomeWithSingleVersion;
     }
 
 }

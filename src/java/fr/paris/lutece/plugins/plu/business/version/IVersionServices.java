@@ -127,4 +127,10 @@ public interface IVersionServices
      * @return the version list
      */
     List<Version> findAll( );
+
+    /**
+     * Return a list of Version having an Atome having only one Version
+     * @return list of version
+     */
+    public List<Version> findVersionWithAtomeWithSingleVersion( );
 }

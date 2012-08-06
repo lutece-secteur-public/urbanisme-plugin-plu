@@ -130,4 +130,46 @@ public class Atome
     {
         _description = description;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals( Object obj )
+    {
+        if ( this == obj )
+            return true;
+        if ( obj == null )
+            return false;
+        if ( getClass( ) != obj.getClass( ) )
+            return false;
+        Atome other = (Atome) obj;
+        if ( _description == null )
+        {
+            if ( other._description != null )
+                return false;
+        }
+        else if ( !_description.equals( other._description ) )
+            return false;
+        if ( _id != other._id )
+            return false;
+        if ( _name == null )
+        {
+            if ( other._name != null )
+                return false;
+        }
+        else if ( !_name.equals( other._name ) )
+            return false;
+        if ( _title == null )
+        {
+            if ( other._title != null )
+                return false;
+        }
+        else if ( !_title.equals( other._title ) )
+            return false;
+        return true;
+    }
+
 }

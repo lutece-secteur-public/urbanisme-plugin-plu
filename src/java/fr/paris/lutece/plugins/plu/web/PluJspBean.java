@@ -1096,6 +1096,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( MARK_PLU_WORK, pluWork );
         model.put( MARK_LIST_PLU_LIST, pluList );
 
+        //Get the list of version with atome with a single version
+        List<Version> listVersionWithAtomeWithSingleVersion = _versionServices.findVersionWithAtomeWithSingleVersion( );
+
         //gestion des atomes
         if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
         {
@@ -1254,6 +1257,9 @@ public class PluJspBean extends PluginAdminPageJspBean
 
                 List<Version> versionList = _versionServices.findByFilter( atomeFilter, versionFilter );
 
+                //Set the version list to indicate if contain an atome with a single version
+                this.setAtomeVersionHaveSingleVersion( listVersionWithAtomeWithSingleVersion, versionList );
+
                 Paginator<Version> paginatorAtome = new Paginator<Version>( (List<Version>) versionList,
                         _nItemsPerPage,
  JSP_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( )
@@ -1281,6 +1287,9 @@ public class PluJspBean extends PluginAdminPageJspBean
                 {
                     List<Version> versionList = _versionServices.findAll( );
 
+                    //Set the version list to indicate if contain an atome with a single version
+                    this.setAtomeVersionHaveSingleVersion( listVersionWithAtomeWithSingleVersion, versionList );
+
                     Paginator<Version> paginatorAtomeAll = new Paginator<Version>( (List<Version>) versionList,
                             _nItemsPerPage,
  JSP_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder="
@@ -1294,6 +1303,9 @@ public class PluJspBean extends PluginAdminPageJspBean
                 else
                 {
                     List<Version> versionList = _versionServices.findByPluAndFolder( folder.getPlu( ), nIdFolder );
+
+                    //Set the version list to indicate if contain an atome with a single version
+                    this.setAtomeVersionHaveSingleVersion( listVersionWithAtomeWithSingleVersion, versionList );
 
                     Paginator<Version> paginatorAtomeFind = new Paginator<Version>( (List<Version>) versionList,
                             _nItemsPerPage, JSP_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder="
@@ -4450,6 +4462,20 @@ public class PluJspBean extends PluginAdminPageJspBean
             _folderImage.setImg( null );
             request.getSession( ).getAttribute( PARAMETER_FILE_CHECK );
     	}
+    }
+
+    private List<Version> setAtomeVersionHaveSingleVersion( List<Version> listVersionWithAtomeWithSingleVersion,
+            List<Version> listVersion )
+    {
+
+        for ( Version version : listVersion )
+        {
+            if ( listVersionWithAtomeWithSingleVersion.contains( version ) )
+            {
+                version.setAtomeHaveSingleVersion( true );
+            }
+        }
+        return listVersion;
     }
 
 }

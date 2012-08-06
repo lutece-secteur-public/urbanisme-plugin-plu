@@ -48,6 +48,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Transient;
 
 
 /**
@@ -74,6 +75,8 @@ public class Version implements Comparable
     private Date _d3;
     private Date _d4;
     private char _archive;
+    //Set to false by default
+    private boolean _atomeHaveSingleVersion = false;
 
     /**
      * Returns the identifier of this version
@@ -231,6 +234,23 @@ public class Version implements Comparable
         _archive = archive;
     }
 
+    /**
+     * @return the _atomeHaveSingleVersion
+     */
+    @Transient
+    public boolean getAtomeHaveSingleVersion( )
+    {
+        return _atomeHaveSingleVersion;
+    }
+
+    /**
+     * @param _atomeHaveSingleVersion the _atomeHaveSingleVersion to set
+     */
+    public void setAtomeHaveSingleVersion( boolean atomeHaveSingleVersion )
+    {
+        this._atomeHaveSingleVersion = atomeHaveSingleVersion;
+    }
+
     public int compareTo( Object o )
     {
         Version v = (Version) o;
@@ -262,5 +282,66 @@ public class Version implements Comparable
 
         return retour;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals( Object obj )
+    {
+        if ( this == obj )
+            return true;
+        if ( obj == null )
+            return false;
+        if ( getClass( ) != obj.getClass( ) )
+            return false;
+        Version other = (Version) obj;
+        if ( _archive != other._archive )
+            return false;
+        if ( _atome == null )
+        {
+            if ( other._atome != null )
+                return false;
+        }
+        else if ( !_atome.equals( other._atome ) )
+            return false;
+        if ( _d1 == null )
+        {
+            if ( other._d1 != null )
+                return false;
+        }
+        else if ( !_d1.equals( other._d1 ) )
+            return false;
+        if ( _d2 == null )
+        {
+            if ( other._d2 != null )
+                return false;
+        }
+        else if ( !_d2.equals( other._d2 ) )
+            return false;
+        if ( _d3 == null )
+        {
+            if ( other._d3 != null )
+                return false;
+        }
+        else if ( !_d3.equals( other._d3 ) )
+            return false;
+        if ( _d4 == null )
+        {
+            if ( other._d4 != null )
+                return false;
+        }
+        else if ( !_d4.equals( other._d4 ) )
+            return false;
+        if ( _id != other._id )
+            return false;
+        if ( _version != other._version )
+            return false;
+        return true;
+    }
+
+
 
 }

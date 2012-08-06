@@ -165,7 +165,7 @@
 			</td>
 			
 			<td style="text-align:center;">
-			<#if ( ( !version.d2?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) ) && !one_plu_work.da?has_content ) >
+			<#if ( ( !version.d2?exists && (one_plu.id==one_plu_work.id || one_plu.id==0) ) && !one_plu_work.da?has_content && version.atomeHaveSingleVersion) >
 				<A href="jsp/admin/plugins/plu/atome/ModifyAtome.jsp?id_plu=${one_plu.id}&reinit=true&id_folder=${one_folder.id}&id_version=${version.id}" style="text-decoration:none">
    					<img  src="images/admin/skin/plugins/plu/atome_modify.png" title="#i18n{plu.modify_atome.modify}" alt="#i18n{plu.modify_atome.modify}" style="border: 0pt none ; vertical-align: bottom;" />
 				</A>
