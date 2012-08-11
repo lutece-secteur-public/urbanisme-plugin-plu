@@ -106,6 +106,9 @@ import org.apache.commons.lang.StringUtils;
  */
 public class PluJspBean extends PluginAdminPageJspBean
 {
+    // if parameter value exceed this length, it puts it in session
+    private static final int BIG_DATA_FIELD_LENGTH = 250;
+
     /**
      * RIGHT_MANAGE_PLU
      */
@@ -1485,12 +1488,18 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
 	        url.addParameter( PARAMETER_FOLDER_PARENT_ID, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_PARENT_ID ) ) );
 	        url.addParameter( PARAMETER_FOLDER_TITLE, URIUtil.encodeAll( folderTitle ) );
-	        url.addParameter( PARAMETER_FOLDER_DESCRIPTION, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) ) );
+            // url.addParameter( PARAMETER_FOLDER_DESCRIPTION,
+            // URIUtil.encodeAll( request.getParameter(
+            // PARAMETER_FOLDER_DESCRIPTION ) ) );
         }
 	    catch ( URIException e )
         {
 			throw new AppException( "An error occured while parsing request parameters" );
 		}
+
+        // save description into session because it's too large for url
+        request.getSession( ).setAttribute( PARAMETER_FOLDER_DESCRIPTION,
+                request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
 
         if ( request.getParameterValues( PARAMETER_FOLDER_HTML_CHECK ) != null )
         {
@@ -1838,12 +1847,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             url.addParameter( PARAMETER_FOLDER_PARENT_ID, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_PARENT_ID ) ) );
             url.addParameter( PARAMETER_FOLDER_TITLE, URIUtil.encodeAll( folderTitle ) );
-            url.addParameter( PARAMETER_FOLDER_DESCRIPTION, URIUtil.encodeAll( description ) );
+            // url.addParameter( PARAMETER_FOLDER_DESCRIPTION,
+            // URIUtil.encodeAll( description ) );
         }
 	    catch ( URIException e )
         {
 			throw new AppException( "An error occured while parsing request parameters" );
 		}
+
+        // save description into session because it's too large for url
+        request.getSession( ).setAttribute( PARAMETER_FOLDER_DESCRIPTION, description );
 
         if ( request.getParameterValues( PARAMETER_FOLDER_IMAGE_CHECK ) != null )
         {
@@ -2071,13 +2084,18 @@ public class PluJspBean extends PluginAdminPageJspBean
         	url.addParameter( PARAMETER_FOLDER_ID, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_ID ) ) );
 	        url.addParameter( PARAMETER_FOLDER_PARENT_ID, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_PARENT_ID ) ) );
 	        url.addParameter( PARAMETER_FOLDER_TITLE, URIUtil.encodeAll( folderTitle ) );
-	        url.addParameter( PARAMETER_FOLDER_DESCRIPTION, URIUtil.encodeAll( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) ) );
+            // url.addParameter( PARAMETER_FOLDER_DESCRIPTION,
+            // URIUtil.encodeAll( request.getParameter(
+            // PARAMETER_FOLDER_DESCRIPTION ) ) );
 	        url.addParameter( PARAMETER_HISTORY_DESCRIPTION, URIUtil.encodeAll( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) ) );
 	    }
 	    catch ( URIException e )
 	    {
 			throw new AppException( "An error occured while parsing request parameters" );
 		}
+        // save description into session because it's too large for url
+        request.getSession( ).setAttribute( PARAMETER_FOLDER_DESCRIPTION,
+                request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
 
         if ( request.getParameterValues( PARAMETER_FOLDER_IMAGE_CHECK ) != null )
         {
@@ -2585,13 +2603,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
 	        url.addParameter( PARAMETER_ATOME_NAME, URIUtil.encodeAll( atomeName ) );
 	        url.addParameter( PARAMETER_ATOME_TITLE, URIUtil.encodeAll( atomeTitle ) );
-	        url.addParameter( PARAMETER_ATOME_DESCRIPTION, URIUtil.encodeAll( atomeDescription ) );
+            // url.addParameter( PARAMETER_ATOME_DESCRIPTION, URIUtil.encodeAll(
+            // atomeDescription ) );
 	    }
 	    catch ( URIException e )
 	    {
 			throw new AppException( "An error occured while parsing request parameters" );
 		}
 
+        // save description into session because it's too large for url
+        request.getSession( ).setAttribute( PARAMETER_ATOME_DESCRIPTION, atomeDescription );
 
         for ( Atome atome : _atomeServices.findAll( ) )
         {
@@ -3279,12 +3300,16 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
 	        url.addParameter( PARAMETER_ATOME_NAME, URIUtil.encodeAll( atomeName ) );
 	        url.addParameter( PARAMETER_ATOME_TITLE, URIUtil.encodeAll( atomeTitle ) );
-	        url.addParameter( PARAMETER_ATOME_DESCRIPTION, URIUtil.encodeAll( atomeDescription ) );
+            // url.addParameter( PARAMETER_ATOME_DESCRIPTION, URIUtil.encodeAll(
+            // atomeDescription ) );
 	    }
 	    catch ( URIException e )
 	    {
 			throw new AppException( "An error occured while parsing request parameters" );
 		}
+
+        // save description into session because it's too large for url
+        request.getSession( ).setAttribute( PARAMETER_ATOME_DESCRIPTION, atomeDescription );
 
         for ( int j = 0; j < check.length; ++j )
         {
@@ -3631,13 +3656,17 @@ public class PluJspBean extends PluginAdminPageJspBean
         try
         {
         	url.addParameter( PARAMETER_ATOME_TITLE, URIUtil.encodeAll( atomeTitle ) );
-	        url.addParameter( PARAMETER_ATOME_DESCRIPTION, URIUtil.encodeAll( atomeDescription ) );
+            // url.addParameter( PARAMETER_ATOME_DESCRIPTION, URIUtil.encodeAll(
+            // atomeDescription ) );
 	        url.addParameter( PARAMETER_HISTORY_DESCRIPTION, URIUtil.encodeAll( strDescription ) );
 	    }
 	    catch ( URIException e )
 	    {
 			throw new AppException( "An error occured while parsing request parameters" );
 		}
+
+        // save description into session because it's too large for url
+        request.getSession( ).setAttribute( PARAMETER_ATOME_DESCRIPTION, atomeDescription );
 
         for ( int j = 0; j < check.length; ++j )
         {
@@ -4365,7 +4394,18 @@ public class PluJspBean extends PluginAdminPageJspBean
         Map<String, Object> listeChamps = new HashMap<String, Object>( LISTE_NOM_CHAMP.length );
         for ( String nomChamp : LISTE_NOM_CHAMP )
         {
-            listeChamps.put( nomChamp, request.getParameter( nomChamp ) );
+            // get big data fields from session
+            Object champSession = request.getSession( ).getAttribute( nomChamp );
+            if ( champSession != null )
+            {
+                listeChamps.put( nomChamp, champSession );
+                // remove big data field from session
+                request.getSession( ).removeAttribute( nomChamp );
+            }
+            else
+            {
+                listeChamps.put( nomChamp, request.getParameter( nomChamp ) );
+            }
         }
         model.put( "listeChamps", listeChamps );
         
@@ -4442,7 +4482,15 @@ public class PluJspBean extends PluginAdminPageJspBean
             String paramValue = request.getParameter( pName );
             try
             {
-                parameters.append( pName ).append( "=" ).append( StringUtil.URLEnc( paramValue, "UTF-8" ) );
+                if ( paramValue.length( ) > BIG_DATA_FIELD_LENGTH )
+                {
+                    request.getSession( ).setAttribute( pName, paramValue );
+                }
+                else
+                {
+                    parameters.append( pName ).append( "=" ).append( StringUtil.URLEnc( paramValue, "UTF-8" ) );
+                }
+
             }
             catch ( UnsupportedEncodingException e )
             {

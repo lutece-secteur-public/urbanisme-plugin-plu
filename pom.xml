@@ -8,8 +8,8 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>plugin-plu</artifactId>
-	<packaging>${packaging}</packaging>
-	<version>1.0.3-SNAPSHOT</version>
+	<packaging>lutece-plugin</packaging>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>Lutece PLU plugin</name>
 
 	<repositories>
