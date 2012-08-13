@@ -2169,7 +2169,16 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
         folder.setTitle( request.getParameter( PARAMETER_FOLDER_TITLE ) );
-        folder.setDescription( request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
+        String strFolderDescription = (String) request.getSession( ).getAttribute( PARAMETER_FOLDER_DESCRIPTION );
+        if ( StringUtils.isNotBlank( strFolderDescription ) )
+        {
+            folder.setDescription( strFolderDescription );
+            request.getSession( ).removeAttribute( PARAMETER_FOLDER_DESCRIPTION );
+        }
+        else
+        {
+            folder.setDescription( "" );
+        }
         folder.setParentFolder( idParentFolder );
 
         if ( !"true".equals( request.getParameter( PARAMETER_FOLDER_IMAGE_CHECK ) ) )
