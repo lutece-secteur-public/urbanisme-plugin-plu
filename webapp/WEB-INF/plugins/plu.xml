@@ -3,7 +3,7 @@
    <!-- Plugin Informations -->
    <name>plu</name>
    <class>fr.paris.lutece.plugins.plu.services.PluPlugin</class>
-   <version>1.0.2</version>
+   <version>1.0.3</version>
    <documentation/>
    <installation/>
    <changes/>
