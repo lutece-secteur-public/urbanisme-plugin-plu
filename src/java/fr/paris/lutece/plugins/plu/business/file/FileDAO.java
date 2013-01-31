@@ -122,7 +122,7 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
             listStrFilter.add( SQL_FILTER_FILE_NAME );
         }
 
-        if ( fileFilter.containsMimeType(  ) )
+        if ( fileFilter.containsMimeType( ) && !fileFilter.getMimeType( ).equals( "0" ) )
         {
             listStrFilter.add( SQL_FILTER_FILE_TYPE );
         }
@@ -148,7 +148,7 @@ public class FileDAO extends JPALuteceDAO<Integer, File> implements IFileDAO
             q.setParameter( "nameFile", fileFilter.getName(  ) );
         }
 
-        if ( fileFilter.containsMimeType(  ) )
+        if ( fileFilter.containsMimeType( ) && !fileFilter.getMimeType( ).equals( "0" ) )
         {
             q.setParameter( "typeFile", fileFilter.getMimeType(  ) );
         }

@@ -133,6 +133,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PROPERTY_PAGE_TITLE_JOIN_FILE = "plu.join_file.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_HTML = "plu.create_html.pageTitle";
     private static final String PROPERTY_DEFAULT_RESULT_PER_PAGE = "plu.resultList.itemsPerPage";
+    private static final String PROPERTY_SEARCH_ATOME_BUTTONSEARCH = "plu.search_atome.buttonSearch";
 
     /** Templates */
     private static final String TEMPLATE_MANAGE_PLU = "/admin/plugins/plu/manage_plu.html";
@@ -175,6 +176,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String MARK_PLU_WORK = "one_plu_work";
     private static final String MARK_TYPE = "one_type";
     private static final String MARK_FOLDER = "one_folder";
+    private static final String MARK_FOLDER_ATOME = "one_folder_atome";
     private static final String MARK_FOLDER_PARENT = "one_folder_parent";
     private static final String MARK_HTML = "folder_html";
     private static final String MARK_HTML_IMPRESSION = "folder_html_impression";
@@ -290,6 +292,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_REINIT = "reinit";
     private static final String PARAMETER_CLEAR = "clear";
     private static final String PARAMETER_CANCEL_CREATE_FOLDER = "cancel_create_folder";
+    private static final String PARAMETER_BACK = "back";
 
     /** Jsp Definition */
     private static final String JSP_REDIRECT_TO_MANAGE_PLU = "../plu/ManagePlu.jsp";
@@ -1129,14 +1132,18 @@ public class PluJspBean extends PluginAdminPageJspBean
                 model.put( PARAMETER_FOLDER_TITLE, request.getParameter( PARAMETER_FOLDER_TITLE ) );
             }
 
-            if ( ( request.getParameter( PARAMETER_ATOME_NAME ) != null )
-                    || ( request.getParameter( PARAMETER_ATOME_TITLE ) != null )
-                    || ( request.getParameter( PARAMETER_ATOME_ID ) != null )
-                    || ( request.getParameter( PARAMETER_VERSION_NUM ) != null )
-                    || ( request.getParameter( PARAMETER_VERSION_D1 ) != null )
-                    || ( request.getParameter( PARAMETER_VERSION_D2 ) != null )
-                    || ( request.getParameter( PARAMETER_VERSION_D3 ) != null )
-                    || ( request.getParameter( PARAMETER_VERSION_D4 ) != null ) )
+            String searchButtonName = I18nService.getLocalizedString( PROPERTY_SEARCH_ATOME_BUTTONSEARCH,
+                    I18nService.getDefaultLocale( ) );
+            if ( StringUtils.isBlank( request.getParameter( PARAMETER_BACK ) )
+                    && ( ( StringUtils.isNotBlank( request.getParameter( PARAMETER_ATOME_NAME ) ) )
+                    || ( StringUtils.isNotBlank( request.getParameter( PARAMETER_ATOME_TITLE ) ) )
+                    || ( StringUtils.isNotBlank( request.getParameter( PARAMETER_ATOME_ID ) ) )
+                    || ( StringUtils.isNotBlank( request.getParameter( PARAMETER_VERSION_NUM ) ) )
+                    || ( StringUtils.isNotBlank( request.getParameter( PARAMETER_VERSION_D1 ) ) )
+                    || ( StringUtils.isNotBlank( request.getParameter( PARAMETER_VERSION_D2 ) ) )
+                    || ( StringUtils.isNotBlank( request.getParameter( PARAMETER_VERSION_D3 ) ) )
+                            || ( StringUtils.isNotBlank( request.getParameter( PARAMETER_VERSION_D4 ) ) ) || ( StringUtils
+                            .isNotBlank( request.getParameter( searchButtonName ) ) ) ) )
             {
                 String atomeName = request.getParameter( PARAMETER_ATOME_NAME );
                 String atomeTitle = request.getParameter( PARAMETER_ATOME_TITLE );
@@ -1286,39 +1293,26 @@ public class PluJspBean extends PluginAdminPageJspBean
             }
             else
             {
-                if ( request.getParameter( PARAMETER_ATOME_ALL ) != null )
+                List<Version> versionList = new ArrayList<Version>( );
+                if ( nIdFolder > 0 )
                 {
-                    List<Version> versionList = _versionServices.findAll( );
-
-                    //Set the version list to indicate if contain an atome with a single version
-                    this.setAtomeVersionHaveSingleVersion( listVersionWithAtomeWithSingleVersion, versionList );
-
-                    Paginator<Version> paginatorAtomeAll = new Paginator<Version>( (List<Version>) versionList,
-                            _nItemsPerPage,
- JSP_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder="
-                                    + folder.getId( ) + "&atome_all=1",
-                            PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-
-                    model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-                    model.put( MARK_PAGINATOR_ATOME, paginatorAtomeAll );
-                    model.put( MARK_LIST_VERSION_LIST, paginatorAtomeAll.getPageItems( ) );
+                    versionList = _versionServices.findByPluAndFolder( folder.getPlu( ), nIdFolder );
                 }
                 else
                 {
-                    List<Version> versionList = _versionServices.findByPluAndFolder( folder.getPlu( ), nIdFolder );
-
-                    //Set the version list to indicate if contain an atome with a single version
-                    this.setAtomeVersionHaveSingleVersion( listVersionWithAtomeWithSingleVersion, versionList );
-
-                    Paginator<Version> paginatorAtomeFind = new Paginator<Version>( (List<Version>) versionList,
-                            _nItemsPerPage, JSP_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder="
-                                    + folder.getId( ) + "&atome_all=1", PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-
-                    model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-                    model.put( MARK_PAGINATOR_ATOME, paginatorAtomeFind );
-                    model.put( MARK_LIST_VERSION_LIST, paginatorAtomeFind.getPageItems( ) );
+                    versionList = _versionServices.findAll( );
                 }
 
+                //Set the version list to indicate if contain an atome with a single version
+                this.setAtomeVersionHaveSingleVersion( listVersionWithAtomeWithSingleVersion, versionList );
+
+                Paginator<Version> paginatorAtomeFind = new Paginator<Version>( (List<Version>) versionList,
+                        _nItemsPerPage, JSP_TREE_PLU_ATOME + "?id_plu=" + plu.getId( ) + "&id_folder=" + folder.getId( )
+                                + "&atome_all=1", PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+
+                model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+                model.put( MARK_PAGINATOR_ATOME, paginatorAtomeFind );
+                model.put( MARK_LIST_VERSION_LIST, paginatorAtomeFind.getPageItems( ) );
             }
         }
 
@@ -2458,7 +2452,14 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdAtome = Integer.parseInt( request.getParameter( PARAMETER_ATOME_ID ) );
         Atome atome = _atomeServices.findByPrimaryKey( nIdAtome );
-        Folder folder = _folderServices.findByAtome( nIdAtome );
+        Folder folderAtome = _folderServices.findByAtome( nIdAtome );
+
+        int nIdFolder = 0;
+        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_FOLDER_ID ) ) )
+        {
+            nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
+        }
+        Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
 
         int numVersion = _versionServices.findMaxVersion( nIdAtome );
         Version version = _versionServices.findByAtomeAndNumVersion( nIdAtome, numVersion );
@@ -2477,7 +2478,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
         else
         {
-            model.put( PARAMETER_FOLDER_ID_ATOME, folder.getId( ) );
+            model.put( PARAMETER_FOLDER_ID_ATOME, folderAtome.getId( ) );
         }
         model.put( PARAMETER_ATOME_NAME, request.getParameter( PARAMETER_ATOME_NAME ) );
         model.put( PARAMETER_ATOME_TITLE, request.getParameter( PARAMETER_ATOME_TITLE ) );
@@ -2490,6 +2491,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         model.put( PARAMETER_VERSION_NUM, versionNum );
         model.put( PARAMETER_ATOME_DESCRIPTION, request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
         model.put( MARK_FOLDER, folder );
+        model.put( MARK_FOLDER_ATOME, folderAtome );
         model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_ATOME, atome );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
@@ -2534,9 +2536,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
 
-        UrlItem url = new UrlItem( JSP_CHOICE_CREATE_ATOME );
+        UrlItem url = new UrlItem( JSP_TREE_PLU_ATOME );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         url.addParameter( PARAMETER_FOLDER_ID, nIdFolder );
+        url.addParameter( PARAMETER_BACK, "true" );
 
         return this.getMessageJsp( request, MESSAGE_CONFIRM_CANCEL_CREATE_ATOME, null, JSP_CREATE_ATOME, url.getUrl( ) ); 
     }
@@ -3820,15 +3823,21 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
 
-        if ( folder == null )
-        {
-            folder = new Folder( );
-        }
-
         Collection<Folder> folderList = _folderServices.findByPluId( plu.getId( ) );
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
+
+        if ( folder == null )
+        {
+            folder = new Folder( );
+            Folder folderParent = this._folderServices.findByAtome( version.getAtome( ).getId( ) );
+            if ( folderParent != null )
+            {
+                folder.setId( folderParent.getId( ) );
+                folder.setTitle( folderParent.getTitle( ) );
+            }
+        }
 
         if ( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) != null )
         {

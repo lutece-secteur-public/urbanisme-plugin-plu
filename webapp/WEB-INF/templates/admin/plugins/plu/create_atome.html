@@ -16,7 +16,7 @@
 			</#if>
 			<select name="id_folder_atome" style="width:331px;">
 				<#list folder_list as folder>
-     			<option value="${folder.id}" <#if folder.id?number==one_folder.id?number>selected="selected"</#if>>${folder.title}</option>
+     			<option value="${folder.id}" <#if ( folder_atome?exists && folder_atome?number>0 && folder_atome?number==folder.id?number ) || ( !folder_atome?exists && one_folder_atome?exists && folder.id?number==one_folder_atome.id?number ) || ( !folder_atome?exists && !one_folder_atome?exists && folder.id?number==one_folder.id?number )>selected="selected"</#if>>${folder.title}</option>
      			</#list>
 			</select>
 		</p>

@@ -19,6 +19,7 @@
 			   		<form enctype="multipart/form-data"  method="post" action="jsp/admin/plugins/plu/atome/CreateAtomeWithOld.jsp">
 			   			<input type="hidden" name="id_plu" value="${one_plu.id}"/>
 						<input type="hidden" name="reinit" value="true" />
+	            		<input type="hidden" name="id_folder" value="${one_folder.id}"/>
 			        	<input class="button" value="Ancien Atome" type="submit" />
 			        	<select name="id_atome" style="width: 400px;">
 							<#list atome_list as atome>
@@ -31,7 +32,7 @@
 	</table>
 	
 	<p>
-		<A id="button" href="jsp/admin/plugins/plu/plu/TreePluAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}+atome_all=1" style="text-decoration:none">
+		<A id="button" href="jsp/admin/plugins/plu/plu/TreePluAtome.jsp?id_plu=${one_plu.id}&id_folder=${one_folder.id}&atome_all=1" style="text-decoration:none">
    			#i18n{plu.create_atome.buttonReturn}
 		</A>
 	</p>

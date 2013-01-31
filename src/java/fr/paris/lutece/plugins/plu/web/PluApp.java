@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.plu.web;
 
+import fr.paris.lutece.plugins.plu.business.plu.Plu;
 import fr.paris.lutece.plugins.plu.business.plu.PluServices;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -70,13 +71,14 @@ public class PluApp implements XPageApplication
     private static final String PROPERTY_PAGE_TITLE = "plu.search.title";
     private static final String PROPERTY_PAGE_PATH = "plu.search.title";
     private static final String PROPERTY_ERROR_DATE_FORMAT = "plu.error.date.format";
+    private static final String PROPERTY_ERROR_DATE_NO_RESULT = "plu.error.date.no_result";
 
     /** Templates */
     private static final String TEMPLATE_XPAGE_PLU_SEARCH = "skin/plugins/plu/plu_search.html";
 
     /**
      * renvoie la page.
-     * @param request le requête http
+     * @param request le requï¿½te http
      * @param nMode le mode
      * @param plugin le Plugin actif
      * @return la page
@@ -135,21 +137,35 @@ public class PluApp implements XPageApplication
         {
         	sDateFin = "01/01/2100";
         }
+        Date dateDebut = null;
+        Date dateFin = null;
         try
         {
-            Date dateDebut;
             SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy" );
             dateDebut = formatter.parse( sDateDebut );
-
-            Date dateFin;
             dateFin = formatter.parse( sDateFin );
-
-            model.put( PARAMETER_LIST_PLU, PluServices.getInstance( ).findWithFilters( dateDebut, dateFin ) );
         }
         catch ( ParseException e )
         {
             errors.add( I18nService.getLocalizedString( PROPERTY_ERROR_DATE_FORMAT, I18nService.getDefaultLocale( ) ) );
         }
+
+        List<Plu> listPlu = new ArrayList<Plu>( );
+
+        //If no errors, get plu list
+        if ( errors.isEmpty( ) )
+        {
+            listPlu = PluServices.getInstance( ).findWithFilters( dateDebut, dateFin );
+            //If research return an empty list, add error message in the model
+            if ( listPlu.isEmpty( ) )
+            {
+                String[] argsDates = { sDateDebut, sDateFin };
+                errors.add( I18nService.getLocalizedString( PROPERTY_ERROR_DATE_NO_RESULT, argsDates,
+                        I18nService.getDefaultLocale( ) ) );
+            }
+        }
+
+        model.put( PARAMETER_LIST_PLU, listPlu );
         model.put( PARAMETER_ERRORS, errors );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_XPAGE_PLU_SEARCH, request.getLocale( ), model );

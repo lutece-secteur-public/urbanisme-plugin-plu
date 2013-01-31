@@ -10,13 +10,8 @@
 		<p>
 			<label for="id_folder" >#i18n{plu.evolve_atome.rowTitleParentFolder} : </label>
 			<select name="id_folder" style="width:331px;">
-				<#if one_folder?has_content && one_folder.id != 0>
-					<option value="${one_folder.id}">${one_folder.title}</option>
-				</#if>
 				<#list folder_list as folder>
-					<#if folder.id != one_folder.id>
-     				<option value="${folder.id}">${folder.title}</option>
-     				</#if>
+     				<option value="${folder.id}" <#if folder.id == one_folder.id >selected="selected"</#if>>${folder.title}</option>
      			</#list>
 			</select>
 		</p>
