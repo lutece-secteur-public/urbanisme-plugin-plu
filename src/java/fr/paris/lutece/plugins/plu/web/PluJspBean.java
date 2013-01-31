@@ -690,7 +690,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         for ( Version version : versionList )
         {
-            version.setD4( dj );
+            version.setD4( da );
             version.setArchive( 'N' );
             _versionServices.update( version );
         }
