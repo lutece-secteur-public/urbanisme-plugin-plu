@@ -26,7 +26,7 @@
         	<label for="folder_image" >#i18n{plu.correct_folder.rowTitleImage} : </label> 
         	<input type="file" id="folder_image" name="folder_image" />
         	<#if one_folder.img?exists>
-        		<input type="checkbox" name="image_check" value="true" checked/>${one_folder.nomImage}
+        		<input type="checkbox" name="image_check" value="true" checked/>${one_folder.nomImage!}
         	</#if>
         </p>
         
