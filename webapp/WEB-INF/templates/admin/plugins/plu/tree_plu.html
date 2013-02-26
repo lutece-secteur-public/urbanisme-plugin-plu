@@ -11,7 +11,7 @@
 		<form method="post" name="" action="jsp/admin/plugins/plu/plu/TreePlu.jsp"  >
 			<p>
   			   	<label for="folder_title" >#i18n{plu.search_folder.rowTitleFolder} : </label> 
-        		<input type="text" id="folder_title" name="folder_title" <#if folder_title?exists>value="${folder_title}"</#if> size="60" maxlength="60" tabindex="1" />
+        		<input type="text" id="folder_title" name="folder_title" <#if folder_title?exists>value="${folder_title}"</#if> size="60" maxlength="255" tabindex="1" />
         	</p>
         	<p>
         		<label for="id_plu" >#i18n{plu.search_folder.rowTitlePlu} : </label>

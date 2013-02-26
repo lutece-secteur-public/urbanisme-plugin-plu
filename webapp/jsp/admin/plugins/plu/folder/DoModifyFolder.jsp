@@ -4,5 +4,5 @@
 
 <%
 	plu.init( request, plu.RIGHT_MANAGE_PLU );
-    response.sendRedirect(plu.doModifyFolder(request));
+    response.sendRedirect(plu.doModifyFolder(request,false));
 %>

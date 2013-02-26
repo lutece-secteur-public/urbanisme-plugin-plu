@@ -3,10 +3,10 @@
 
 <jsp:useBean id="plu" scope="session" class="fr.paris.lutece.plugins.plu.web.PluJspBean" />
 
-<% plu.init( request, plu.RIGHT_MANAGE_PLU ); %>
+<%  plu.init( request, plu.RIGHT_MANAGE_PLU ); %>
 <%
 	if ( request.getParameter( "action" ).equals( "Valider" ) )
-		response.sendRedirect(plu.getConfirmModifyFolder(request));
+		response.sendRedirect(plu.getConfirmModifyFolder(request,false));
 	else if ( request.getParameter( "action" ).equals( I18nService.getLocalizedString( "plu.modify_folder.buttonReturn", request.getLocale( ) ) ) )
 	{
 		response.sendRedirect(plu.getConfirmCancelModifyFolder(request));

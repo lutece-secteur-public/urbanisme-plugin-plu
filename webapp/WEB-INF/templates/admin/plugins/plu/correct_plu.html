@@ -33,17 +33,17 @@
 			
         <p>
         	<label for="cause" >#i18n{plu.correct_plu.rowTitleCause} :</label>
-        	<textarea id="cause" name="cause" rows="3" style="width: 329px; border: 1px solid rgb(85, 180, 229);" value="${one_plu.cause}">${one_plu.cause}</textarea>
+        	<textarea id="cause" name="cause" rows="3" style="width: 329px; border: 1px solid rgb(85, 180, 229);" maxlength="2048" value="${one_plu.cause}">${one_plu.cause}</textarea>
         </p>
         
         <p>
         	<label for="reference" >#i18n{plu.correct_plu.rowTitleReference} :</label>  
-        	<input type="text" id="reference" name="reference" size="60" maxlength="101" value="${one_plu.reference}" />
+        	<input type="text" id="reference" name="reference" size="60" value="${one_plu.reference}" />
         </p>
         
         <p>
         	<label for="description" >#i18n{plu.correct_plu.rowTitleDescription} :</label>
-        	<textarea id="description" name="description" rows="3" style="border: 1px solid rgb(85, 180, 229); width: 329px;"></textarea>
+        	<textarea id="description" name="description" rows="3" style="border: 1px solid rgb(85, 180, 229); maxlength="255" width: 329px;"></textarea>
         </p>
         
         <p>

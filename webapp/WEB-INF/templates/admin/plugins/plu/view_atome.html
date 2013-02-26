@@ -15,11 +15,11 @@
 		<form method="post" name="" action="jsp/admin/plugins/plu/atome/ViewAtome.jsp"  >
 			<p>
   			   	<label for="file_title" >#i18n{plu.search_file.rowTitleFile} : </label> 
-        		<input type="text" id="file_title" name="file_title" <#if file_title?exists>value="${file_title}"</#if> size="60" maxlength="51" tabindex="1" />
+        		<input type="text" id="file_title" name="file_title" <#if file_title?exists>value="${file_title}"</#if> size="60" maxlength="255" tabindex="1" />
         	</p>
         	<p>
   			   	<label for="file_name" >#i18n{plu.search_file.rowTitleName} : </label> 
-        		<input type="text" id="file_name" name="file_name" <#if file_name?exists>value="${file_name}"</#if> size="60" maxlength="51" tabindex="1" />
+        		<input type="text" id="file_name" name="file_name" <#if file_name?exists>value="${file_name}"</#if> size="60" maxlength="255" tabindex="1" />
         	</p>
         	<p>
 	        	<label for="file_format" >#i18n{plu.search_file.rowTitleFormat} : </label>
