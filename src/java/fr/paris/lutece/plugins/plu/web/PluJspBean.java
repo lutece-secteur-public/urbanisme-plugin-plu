@@ -1653,7 +1653,7 @@ public class PluJspBean extends PluginAdminPageJspBean
     }
 
     /**
-     * Generates a HTML form for modify a folder
+     * Generates a HTML form for modify or correct a folder
      * @param request the Http request
      * @param correct true if it's a correction (archive state), false if it's a
      *            modification (work state)
@@ -4219,52 +4219,7 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getCreateHtml( HttpServletRequest request )
     {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_HTML );
-
-        int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
-        Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
-
-        String page = request.getParameter( "page" );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( "page", page );
-        model.put( MARK_PLU, plu );
-        model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_LOCALE, getLocale( ) );
-        model.put( PARAMETER_FOLDER_PARENT_ID, request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
-        model.put( PARAMETER_FOLDER_TITLE, request.getParameter( PARAMETER_FOLDER_TITLE ) );
-        model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
-        model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
-        model.put( PARAMETER_FOLDER_ID, request.getParameter( PARAMETER_FOLDER_ID ) );
-        model.put( PARAMETER_FOLDER_HTML_UTILISATION, request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION ) );
-
-        if ( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) != null )
-        {
-            int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) );
-            Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
-            model.put( MARK_FOLDER, folder );
-        }
-
-        //if the page exist and must be modify (instead of create new page)
-        if ( _folderHtml != null && request.getParameter( "action" ).equals( "Modifier" ) )
-        {
-            model.put( MARK_HTML, _folderHtml );
-        }
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_HTML, getLocale( ), model );
-
-        String adminPage = getAdminPage( template.getHtml( ) );
-
-        return adminPage;
-    }
-
-    /**
-     * Generates a HTML form for import a html page
-     * @param request the Http request
-     * @return HTML
-     */
-    public String getImportHtml( HttpServletRequest request )
-    {
+        String request_action = request.getParameter( "action" );
         setPageTitleProperty( PROPERTY_PAGE_TITLE_HTML );
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -4289,49 +4244,41 @@ public class PluJspBean extends PluginAdminPageJspBean
             model.put( MARK_FOLDER, folder );
         }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_IMPORT_HTML, getLocale( ), model );
+        String template_action = "";
+        if ( request_action.equals( "Créer" ) )
+        {
+            template_action = TEMPLATE_CREATE_HTML;
+            model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+            model.put( MARK_LOCALE, getLocale( ) );
+        }
+        if ( request_action.equals( "Importer" ) )
+        {
+            // case of import
+            template_action = TEMPLATE_IMPORT_HTML;
+        }
+        else if ( request_action.equals( "Dupliquer" ) )
+        {
+            //in case of duplication
+            template_action = TEMPLATE_DUPLICATE_HTML;
+            List<Folder> folderList = _folderServices.findByPluId( nIdPlu );
+            model.put( MARK_LIST_FOLDER_LIST, folderList );
+        }
+        else if ( request_action.equals( "Modifier" ) )
+        {
+            template_action = TEMPLATE_CREATE_HTML;//same template to edit the html page. TEMPLATE_MODIFY_HTML is use for modify the folder, not the html page C/I
+            model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+            model.put( MARK_LOCALE, getLocale( ) );
+            if ( _folderHtml != null )
+            {
+                //if the page exist and must be modify (instead of create new page)
+                model.put( MARK_HTML, _folderHtml );
+            }
+        }
+
+        HtmlTemplate template = AppTemplateService.getTemplate( template_action, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
-
-    /**
-     * Generates a HTML form for duplicate a html page
-     * @param request the Http request
-     * @return HTML
-     */
-    public String getDuplicateHtml( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_HTML );
-
-        int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
-        Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
-
-        List<Folder> folderList = _folderServices.findByPluId( nIdPlu );
-        String page = request.getParameter( "page" );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( "page", page );
-        model.put( MARK_PLU, plu );
-        model.put( MARK_LIST_FOLDER_LIST, folderList );
-        model.put( PARAMETER_FOLDER_PARENT_ID, request.getParameter( PARAMETER_FOLDER_PARENT_ID ) );
-        model.put( PARAMETER_FOLDER_TITLE, request.getParameter( PARAMETER_FOLDER_TITLE ) );
-        model.put( PARAMETER_FOLDER_IMAGE, request.getParameter( PARAMETER_FOLDER_IMAGE ) );
-        model.put( PARAMETER_FOLDER_DESCRIPTION, request.getParameter( PARAMETER_FOLDER_DESCRIPTION ) );
-        model.put( PARAMETER_FOLDER_ID, request.getParameter( PARAMETER_FOLDER_ID ) );
-        model.put( PARAMETER_FOLDER_HTML_UTILISATION, request.getParameter( PARAMETER_FOLDER_HTML_UTILISATION ) );
-
-        if ( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) != null )
-        {
-            int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID_RETURN ) );
-            Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
-            model.put( MARK_FOLDER, folder );
-        }
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_DUPLICATE_HTML, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
-
 
     /**
      * @param request the request

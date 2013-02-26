@@ -1,0 +1,11 @@
+<FindBugsFilter>
+	<Match>
+		<Bug code="EI,EI2" /> <!-- ,SnVI,PZLA,Nm -->
+	</Match>     
+	
+	<!-- Exclusion des classes de test jUnit -->
+	<Match>
+		<Class name="~.*Test$"/>
+	</Match>	
+</FindBugsFilter>
+     
