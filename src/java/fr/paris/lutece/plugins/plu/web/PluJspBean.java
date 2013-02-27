@@ -1846,6 +1846,9 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         String folderTitle = request.getParameter( PARAMETER_FOLDER_TITLE );
 
+        int nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
+        Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
+
         UrlItem url = new UrlItem( JSP_DO_MODIFY_FOLDER );
         url.addParameter( PARAMETER_PLU_ID, nIdPlu );
         try
@@ -1899,7 +1902,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
 
         Object[] args = { folderTitle };
-        Folder folder = _folderServices.findForTestTitle( folderTitle );
 
         if ( ( folder != null ) && !folder.getTitle( ).equals( request.getParameter( PARAMETER_FOLDER_TITLE_OLD ) ) )
         {
@@ -4270,6 +4272,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             model.put( MARK_LOCALE, getLocale( ) );
             if ( _folderHtml != null )
             {
+                System.err.println(_folderHtml.getHtml( ));
                 //if the page exist and must be modify (instead of create new page)
                 model.put( MARK_HTML, _folderHtml );
             }

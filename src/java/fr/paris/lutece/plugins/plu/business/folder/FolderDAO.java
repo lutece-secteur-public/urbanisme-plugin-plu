@@ -194,7 +194,6 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     public List<Folder> findByPluId( int pluId )
     {
         EntityManager em = getEM(  );
-        System.out.println( SQL_QUERY_SELECT_BY_PLU_ID );
         TypedQuery<Folder> q = em.createQuery( SQL_QUERY_SELECT_BY_PLU_ID, Folder.class );
         q.setParameter( "idPlu", pluId );
 
