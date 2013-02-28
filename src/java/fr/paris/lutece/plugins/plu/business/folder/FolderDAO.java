@@ -59,7 +59,7 @@ public class FolderDAO extends JPALuteceDAO<Integer, Folder> implements IFolderD
     private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.version.id = :idVersion";
     private static final String SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_PARENT = "SELECT f FROM Folder f WHERE f.parentFolder = :idParentFolder";
     private static final String SQL_QUERY_SELECT_FOR_DELETE_WITHOUT_ATOME = "SELECT f FROM FolderVersion fv JOIN fv.folder f WHERE fv.folder.id = :idFolder";
-    private static final String SQL_QUERY_SELECT_BY_PLU_ID = "SELECT f FROM Folder f WHERE f.plu = :idPlu ORDER BY f.plu, f.title";
+    private static final String SQL_QUERY_SELECT_BY_PLU_ID = "SELECT f FROM Folder f WHERE f.plu = :idPlu ORDER BY f.plu, f.id ASC";
     private static final String SQL_QUERY_SELECT_BY_PARENT = "SELECT f FROM Folder f WHERE f.parentFolder = :idParentFolder";
     private static final String SQL_QUERY_SELECT_ALL = "SELECT f FROM Folder f";
     private static final String SQL_FILTER_ID_PLU = "f.plu = :idPlu";

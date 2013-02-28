@@ -690,7 +690,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         for ( Version version : versionList )
         {
-            version.setD4( dateApplicationPlu );
+            version.setD4( calendar.getTime( ) );
             version.setArchive( 'N' );
             _versionServices.update( version );
         }
@@ -719,8 +719,11 @@ public class PluJspBean extends PluginAdminPageJspBean
 
             folder2.setTitle( folder.getTitle( ) );
             folder2.setDescription( folder.getDescription( ) );
+            folder2.setNomImage( folder.getNomImage( ) );
             folder2.setImg( folder.getImg( ) );
             folder2.setHtml( folder.getHtml( ) );
+            folder2.setHtmlImpression( folder.getHtmlImpression( ) );
+
             _folderServices.create( folder2 );
 
             folder2 = _folderServices.findLastFolder( );
