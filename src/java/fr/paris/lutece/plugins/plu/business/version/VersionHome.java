@@ -96,6 +96,16 @@ public class VersionHome extends AbstractLuteceHome<Integer, Version, IVersionDA
     }
 
     /**
+     * Return the id of the oldest Plu with this version atome
+     * @param nIdVersion the id of the version atome
+     * @return id of the plu
+     */
+    public int findOldestPluWithVersion( int nIdVersion )
+    {
+        return getDao( ).findOldestPluWithVersion( nIdVersion );
+    }
+
+    /**
      * Returns a list of version objects
      * @param nIdAtome The atome identifier
      * @param numVersion The number version

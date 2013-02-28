@@ -115,4 +115,11 @@ public interface IVersionDAO extends IGenericDAO<Integer, Version>
      * @return list of version
      */
     public List<Version> findVersionWithAtomeWithSingleVersion( );
+
+    /**
+     * Return the id of the oldest Plu with this version atome
+     * @param nIdAtome the id of the version atome
+     * @return id of the plu
+     */
+    int findOldestPluWithVersion( int nIdVersion );
 }

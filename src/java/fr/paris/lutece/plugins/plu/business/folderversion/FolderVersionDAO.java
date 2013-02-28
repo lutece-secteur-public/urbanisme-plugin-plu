@@ -52,6 +52,7 @@ import javax.persistence.TypedQuery;
 public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> implements IFolderVersionDAO
 {
     private static final String SQL_QUERY_SELECT_BY_FOLDER = "SELECT fv FROM FolderVersion fv WHERE fv.folder.id = :idFolder";
+    private static final String SQL_QUERY_SELECT_BY_VERSION = "SELECT fv FROM FolderVersion fv WHERE fv.version.id = :idVersion";
     private static final String SQL_QUERY_SELECT_BY_FOLDER_AND_VERSION = "SELECT fv FROM FolderVersion fv WHERE fv.version.id = :idVersion AND fv.folder.id = (SELECT MAX(fv.folder.id) FROM FolderVersion fv WHERE fv.version.id = :idVersion)";
 
     /**
@@ -93,5 +94,21 @@ public class FolderVersionDAO extends JPALuteceDAO<Integer, FolderVersion> imple
         FolderVersion folderVersion = (FolderVersion) q.getSingleResult(  );
 
         return folderVersion;
+    }
+
+    /**
+     * Returns a list of folderVersion objects
+     * @param version the version associated
+     * @return A list of folderVersion associated with the versioon
+     */
+    public List<FolderVersion> findByVersion( Version version )
+    {
+        EntityManager em = getEM( );
+        TypedQuery<FolderVersion> q = em.createQuery( SQL_QUERY_SELECT_BY_VERSION, FolderVersion.class );
+        q.setParameter( "idVersion", version.getId( ) );
+
+        List<FolderVersion> folderVersionList = q.getResultList( );
+
+        return folderVersionList;
     }
 }

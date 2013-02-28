@@ -193,4 +193,14 @@ public class VersionServices implements IVersionServices
     {
         return _home.findVersionWithAtomeWithSingleVersion( );
     }
+
+    /**
+     * Return the id of the oldest Plu with this version atome
+     * @param nIdVersion the id of the version atome
+     * @return id of the plu
+     */
+    public int findOldestPluWithVersion( int nIdVersion )
+    {
+        return _home.findOldestPluWithVersion( nIdVersion );
+    }
 }

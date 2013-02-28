@@ -66,4 +66,9 @@ public class FolderVersionHome extends AbstractLuteceHome<Integer, FolderVersion
     {
         return getDao(  ).findByMaxFolderAndVersion( version );
     }
+
+    public List<FolderVersion> findByVersion( Version version )
+    {
+        return getDao( ).findByVersion( version );
+    }
 }

@@ -59,4 +59,6 @@ public interface IFolderVersionDAO extends IGenericDAO<Integer, FolderVersion>
      * @return A folderVersion object associated with the last folder of the version
      */
     FolderVersion findByMaxFolderAndVersion( Version version );
+
+    List<FolderVersion> findByVersion( Version version );
 }

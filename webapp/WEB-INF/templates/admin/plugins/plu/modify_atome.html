@@ -31,12 +31,12 @@
               
         <p>
         	<label for="num_atome" >#i18n{plu.modify_atome.rowTitleId} :</label>
-        	<input type="text" id="num_atome" name="num_atome" value="${one_version.atome.id}" size="30" maxlength="20" tabindex="1" />
+        	<input type="text" id="num_atome" name="num_atome" value="${one_version.atome.id}" size="30" maxlength="20" tabindex="1" READONLY/>
         </p>
         
         <p>
         	<label for="num_version" >#i18n{plu.modify_version.rowTitleVersion} : </label> 
-        	<input type="text" id="num_version" name="num_version" value="${one_version.version}" size="30" maxlength="20" tabindex="1"/>
+        	<input type="text" id="num_version" name="num_version" value="${one_version.version}" size="30" maxlength="20" tabindex="1" READONLY/>
         </p>
         <#if one_version.d1?exists>
 		<p>

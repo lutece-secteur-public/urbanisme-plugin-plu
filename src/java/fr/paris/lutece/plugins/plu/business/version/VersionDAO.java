@@ -72,6 +72,7 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     private static final String SQL_FILTER_VERSION_D3 = "v.d3 = :d3";
     private static final String SQL_FILTER_VERSION_D4 = "v.d4 = :d4";
     private static final String SQL_QUERY_SELECT_ATOME_WITH_SINGLE_VERSION = "SELECT v FROM Version v GROUP BY v.atome.id HAVING count(v.atome.id) = 1";
+    private static final String SQL_QUERY_SELECT_OLDEST_PLU_WITH_VERSION = "SELECT MIN(folder.plu) From Folder folder WHERE folder.id IN (SELECT fv.folder.id FROM FolderVersion fv WHERE fv.version.id = :idVersion)";
 
     /**
      * @return the plugin name
@@ -156,6 +157,23 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
         int version = (Integer) q.getSingleResult( );
 
         return version;
+    }
+
+    /**
+     * Return the id of the oldest Plu with this version atome
+     * @param nIdAtome the id of the version atome
+     * @return id of the plu
+     */
+    public int findOldestPluWithVersion( int nIdVersion )
+    {
+        int idPlu = 0;
+        EntityManager em = getEM( );
+        Query q = em
+.createQuery( SQL_QUERY_SELECT_OLDEST_PLU_WITH_VERSION );
+        q.setParameter( "idVersion", nIdVersion );
+        idPlu = (Integer) q.getSingleResult( );
+
+        return idPlu;
     }
 
     /**

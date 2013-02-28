@@ -650,24 +650,24 @@ public class PluJspBean extends PluginAdminPageJspBean
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
-        Date dj = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
-        Date da = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
+        Date dateJuridiquePlu = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
+        Date dateApplicationPlu = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
 
         Etat etat = _etatServices.findByPrimaryKey( 1 );
 
         plu.setEtat( etat );
-        plu.setDa( da );
+        plu.setDa( dateApplicationPlu );
         _pluServices.update( plu );
 
         // Iso iso = new Iso( );
         // iso.setPlu( plu );
         // _isoServices.create( iso );
 
-        List<Version> versionList = _versionServices.selectApplication( nIdPlu, da );
+        List<Version> versionList = _versionServices.selectApplication( nIdPlu, dateApplicationPlu );
 
         for ( Version version : versionList )
         {
-            version.setD2( da );
+            version.setD2( dateApplicationPlu );
             _versionServices.update( version );
         }
 
@@ -677,12 +677,12 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         for ( Version version : versionList )
         {
-            version.setD3( dj );
+            version.setD3( dateJuridiquePlu );
             _versionServices.update( version );
         }
 
         GregorianCalendar calendar = new GregorianCalendar( );
-        calendar.setTime( da );
+        calendar.setTime( dateApplicationPlu );
         calendar.add( Calendar.DATE, -1 );
 
         versionList.clear( );
@@ -690,7 +690,7 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         for ( Version version : versionList )
         {
-            version.setD4( da );
+            version.setD4( dateApplicationPlu );
             version.setArchive( 'N' );
             _versionServices.update( version );
         }
@@ -981,7 +981,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         plu.setEtat( etat );
         _pluServices.update( plu );
 
-        // FIXME pourquoi cr�er l'iso en base maintenant ?? plutot dans le batch
+        // FIXME pourquoi créer l'iso en base maintenant ?? plutot dans le batch
         // ?
         // Iso iso = new Iso( );
         // iso.setPlu( plu.getId( ) );
@@ -2391,7 +2391,7 @@ public class PluJspBean extends PluginAdminPageJspBean
         {
             nIdFolder = Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID ) );
         }
-        Folder folder = _folderServices.findByPrimaryKey( nIdFolder );
+        Folder folder = nIdFolder == 0 ? folderAtome : _folderServices.findByPrimaryKey( nIdFolder );
 
         int numVersion = _versionServices.findMaxVersion( nIdAtome );
         Version version = _versionServices.findByAtomeAndNumVersion( nIdAtome, numVersion );
@@ -2732,6 +2732,10 @@ public class PluJspBean extends PluginAdminPageJspBean
         Version version = new Version( );
         version.setAtome( atome );
         version.setVersion( numVersion );
+        // if the plu is approved, set the same value to the atome
+        version.setD1( plu.getDj( ) );
+        version.setD2( plu.getDa( ) );
+
 
         _versionServices.create( version );
 
@@ -3014,17 +3018,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
 
-        if ( request.getParameter( PARAMETER_ATOME_NUM ) != null )
-        {
-        	try
-        	{
-        		version.getAtome( ).setId( Integer.parseInt( request.getParameter( PARAMETER_ATOME_NUM ) ) );
-        	}
-        	catch( NumberFormatException n )
-        	{
-        		//If request.getParameter( PARAMETER_ATOME_NUM ) isn't Integer, keep the original id
-        	}
-        }
         if ( request.getParameter( PARAMETER_ATOME_NAME ) != null )
         {
             version.getAtome( ).setName( request.getParameter( PARAMETER_ATOME_NAME ) );
@@ -3032,17 +3025,6 @@ public class PluJspBean extends PluginAdminPageJspBean
         if ( request.getParameter( PARAMETER_ATOME_TITLE ) != null )
         {
             version.getAtome( ).setTitle( request.getParameter( PARAMETER_ATOME_TITLE ) );
-        }
-        if ( request.getParameter( PARAMETER_VERSION_NUM ) != null )
-        {
-        	try
-        	{
-        		version.setVersion( Integer.parseInt( request.getParameter( PARAMETER_VERSION_NUM ) ) );
-	    	}
-	    	catch( NumberFormatException n )
-	    	{
-	    		//If request.getParameter( PARAMETER_VERSION_NUM ) isn't Integer, keep the original version
-	    	}
         }
         if ( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) != null )
         {
@@ -3957,23 +3939,25 @@ public class PluJspBean extends PluginAdminPageJspBean
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version versionOld = _versionServices.findByPrimaryKey( nIdVersion );
 
-        Date d3 = stringToDate( "01/01/0001", "dd/MM/yyyy" );
-        versionOld.setD3( d3 );
+        versionOld.setD3( new Date( ) );
+        versionOld.setD4( new Date( ) );
         versionOld.setArchive( 'O' );
         _versionServices.update( versionOld );
 
         FolderVersion folderVersion = _folderVersionServices.findByMaxFolderAndVersion( versionOld );
         _folderVersionServices.remove( folderVersion );
 
-        Version version = new Version( );
-        version.setAtome( atome );
-        version.setVersion( numVersion );
-        _versionServices.create( version );
+        Version versionNew = new Version( );
+        versionNew.setD1( plu.getDj( ) );
+        versionNew.setAtome( atome );
+        versionNew.setVersion( numVersion );
 
-        version = _versionServices.findByAtomeAndNumVersion( nIdAtome, numVersion );
+        _versionServices.create( versionNew );
+
+        //versionNew = _versionServices.findByAtomeAndNumVersion( nIdAtome, numVersion );
 
         folderVersion = new FolderVersion( );
-        folderVersion.setVersion( version );
+        folderVersion.setVersion( versionNew );
         folderVersion.setFolder( folder );
         _folderVersionServices.create( folderVersion );
 
@@ -3983,13 +3967,13 @@ public class PluJspBean extends PluginAdminPageJspBean
         int order = 1;
         String strNumVersion;
 
-        if ( version.getVersion( ) < 10 )
+        if ( versionNew.getVersion( ) < 10 )
         {
-            strNumVersion = "-V0" + version.getVersion( );
+            strNumVersion = "-V0" + versionNew.getVersion( );
         }
         else
         {
-            strNumVersion = "-V" + version.getVersion( );
+            strNumVersion = "-V" + versionNew.getVersion( );
         }
 
         boolean toDelete = true;
@@ -4005,7 +3989,7 @@ public class PluJspBean extends PluginAdminPageJspBean
                 	toDelete = false;
 
                     file.setId( 0 );
-                    updateFile( nIdAtome, atome, version, fileTitle, i, order, strNumVersion, file, nIdVersion );
+                    updateFile( nIdAtome, atome, versionNew, fileTitle, i, order, strNumVersion, file, nIdVersion );
 
                     order++;
                 }
@@ -4086,8 +4070,20 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
+        int nIdOldestPlu = _versionServices.findOldestPluWithVersion( nIdVersion );
+        //we must take the first plu where the version aren't, before the oldest plu
+        Plu pluOldest = _pluServices.findByPrimaryKey( nIdOldestPlu - 1 );
+
+        //the archive date must be the day before the application day of the pluOldest
+        Calendar dateArchivage = Calendar.getInstance( );
+        dateArchivage.setTime( pluOldest.getDa( ) );
+        dateArchivage.add( Calendar.DATE, -1 );
+        //the evolution date must be the day of the approves day of the pluOldest
+        Date dateEvolution = pluOldest.getDj( );
 
         version.setArchive( 'O' );
+        version.setD3( dateEvolution );
+        version.setD4( dateArchivage.getTime( ) );
         _versionServices.update( version );
 
         FolderVersion folderVersion = _folderVersionServices.findByMaxFolderAndVersion( version );

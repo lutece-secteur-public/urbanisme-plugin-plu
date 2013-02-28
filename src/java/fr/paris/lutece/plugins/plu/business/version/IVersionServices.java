@@ -133,4 +133,11 @@ public interface IVersionServices
      * @return list of version
      */
     public List<Version> findVersionWithAtomeWithSingleVersion( );
+
+    /**
+     * Return the id of the oldest Plu with this version atome
+     * @param nIdAtome the id of the version atome
+     * @return id of the plu
+     */
+    public int findOldestPluWithVersion( int nIdVersion );
 }
