@@ -1026,45 +1026,35 @@ public class PluJspBean extends PluginAdminPageJspBean
 
         String isCancelCreateFolder = request.getParameter( PARAMETER_CANCEL_CREATE_FOLDER );
 
+        FolderFilter folderFilter = new FolderFilter( );
+        Paginator<Folder> paginatorDossier;
+        if ( nIdPlu != 0 )
+        {
+            folderFilter.setPlu( nIdPlu );
+        }
+        String strBaseUrl = JSP_TREE_PLU + "?id_plu=" + nIdPlu;
+
         //Si on vient de l'annulation de la creation d'un dossier on ne renseigner pas le crière
         // titre du dossier dans le champ de recherche.
         if ( ( StringUtils.isBlank( isCancelCreateFolder ) || !isCancelCreateFolder.equals( "true" ) )
                 && request.getParameter( PARAMETER_FOLDER_TITLE ) != null )
         {
             String folderTitle = request.getParameter( PARAMETER_FOLDER_TITLE );
-
-            FolderFilter folderFilter = new FolderFilter( );
-
-            if ( nIdPlu != 0 )
-            {
-                folderFilter.setPlu( nIdPlu );
-            }
-
-            if ( !folderTitle.equals( "" ) )
+            if ( !StringUtils.isEmpty( folderTitle ) )
             {
                 folderFilter.setTitle( folderTitle );
             }
-
-            List<Folder> folderList = _folderServices.findByFilter( folderFilter );
-
-            Paginator<Folder> paginatorDossier = new Paginator<Folder>( (List<Folder>) folderList, _nItemsPerPage,
-                    JSP_TREE_PLU + "?id_plu=" + nIdPlu + "&folder_title=" + folderTitle, PARAMETER_PAGE_INDEX,
-                    _strCurrentPageIndex );
-
-            model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-            model.put( MARK_PAGINATOR_DOSSER, paginatorDossier );
-            model.put( MARK_LIST_FOLDER_LIST, paginatorDossier.getPageItems( ) );
+            strBaseUrl += "&folder_title=" + folderTitle;
             model.put( PARAMETER_FOLDER_TITLE, folderTitle );
         }
-        else
-        {
-            List<Folder> folderList = _folderServices.findByPluId( nIdPlu );
-            Paginator<Folder> paginator = new Paginator<Folder>( (List<Folder>) folderList, _nItemsPerPage,
-                    JSP_TREE_PLU + "?id_plu=" + nIdPlu, PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-            model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-            model.put( MARK_PAGINATOR_DOSSER, paginator );
-            model.put( MARK_LIST_FOLDER_LIST, paginator.getPageItems( ) );
-        }
+
+        List<Folder> folderList = _folderServices.findByFilter( folderFilter );
+        paginatorDossier = new Paginator<Folder>( (List<Folder>) folderList, _nItemsPerPage, strBaseUrl,
+                PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+
+        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
+        model.put( MARK_PAGINATOR_DOSSER, paginatorDossier );
+        model.put( MARK_LIST_FOLDER_LIST, paginatorDossier.getPageItems( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TREE_PLU, getLocale( ), model );
 
@@ -3006,108 +2996,112 @@ public class PluJspBean extends PluginAdminPageJspBean
     }
 
     /**
-     * Generates a HTML form for modify an atome
+     * Generates a HTML form for modify or correct an atome
      * @param request the Http request
+     * @param correct true if it's not a simple modification but a correction
      * @return HTML
      * @throws IOException IOException
      */
-    public String getModifyAtome( HttpServletRequest request ) throws IOException
+    public String getModifyAtome( HttpServletRequest request, boolean correct ) throws IOException
     {
-    	//Clean _listFile
-    	this.reinitListFile( request );
-    	
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_ATOME );
+        //Clean _listFile
+        this.reinitListFile( request );
+
+        setPageTitleProperty( PROPERTY_PAGE_TITLE_CORRECT_ATOME );
 
         int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
         Version version = _versionServices.findByPrimaryKey( nIdVersion );
 
-        if ( request.getParameter( PARAMETER_ATOME_NAME ) != null )
-        {
-            version.getAtome( ).setName( request.getParameter( PARAMETER_ATOME_NAME ) );
-        }
-        if ( request.getParameter( PARAMETER_ATOME_TITLE ) != null )
-        {
-            version.getAtome( ).setTitle( request.getParameter( PARAMETER_ATOME_TITLE ) );
-        }
-        if ( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) != null )
-        {
-            version.getAtome( ).setDescription( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
-        }
-
         Folder folder = _folderServices.findByVersion( nIdVersion );
-        if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) != null )
-        {
-            folder.setId( Integer.parseInt( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) ) );
-        }
-
-        Collection<Folder> folderList = _folderServices.findByPluId( folder.getPlu( ) );
-
         Plu plu = _pluServices.findByPrimaryKey( folder.getPlu( ) );
 
         Map<String, Object> model = new HashMap<String, Object>( );
-        
+
+        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_ATOME_TITLE ) ) )
+        {
+            version.getAtome( ).setTitle( request.getParameter( PARAMETER_ATOME_TITLE ) );
+        }
+        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) ) )
+        {
+            version.getAtome( ).setDescription( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
+        }
+        if ( correct )
+        {
+            if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) ) )
+            {
+                model.put( PARAMETER_HISTORY_DESCRIPTION, request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
+            }
+        }
+        else
+        {
+            if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_ATOME_NAME ) ) )
+            {
+                version.getAtome( ).setName( request.getParameter( PARAMETER_ATOME_NAME ) );
+            }
+            model.put( MARK_LIST_FOLDER_LIST, _folderServices.findByPluId( folder.getPlu( ) ) );
+        }
+
         if ( _fileList.isEmpty( ) )
         {
-        	setFileList( nIdVersion, model, request, false );
+            setFileList( nIdVersion, model, request, false );
         }
 
         model.put( MARK_PLU, plu );
         model.put( MARK_VERSION, version );
         model.put( MARK_FOLDER, folder );
-        model.put( MARK_LIST_FOLDER_LIST, folderList );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
         if ( request.getParameter( PARAMETER_REINIT ) != null )
         {
-        	model.put( PARAMETER_REINIT, request.getParameter( PARAMETER_REINIT ) );
+            model.put( PARAMETER_REINIT, request.getParameter( PARAMETER_REINIT ) );
         }
 
         if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
         {
-        	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
+            model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
         }
-        
+
         if ( request instanceof MultipartHttpServletRequest )
         {
-        	String ret = addFileToFileList( request );
-        	if ( StringUtils.isNotEmpty( ret ) )
-        	{
-        		return ret;
-        	}
+            String ret = addFileToFileList( request );
+            if ( StringUtils.isNotEmpty( ret ) )
+            {
+                return ret;
+            }
         }
-    	getFileCheck( request, model );
+        getFileCheck( request, model );
 
         if ( !_fileList.isEmpty( ) )
         {
             model.put( MARK_LIST_FILE_LIST, _fileList );
         }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_ATOME, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( correct ? TEMPLATE_CORRECT_ATOME
+                : TEMPLATE_MODIFY_ATOME, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
 
-	/**
-	 * Get file check
-	 * @param request HttpServletRequest
-	 * @param model model
-	 */
-	@SuppressWarnings("unchecked")
-	private void getFileCheck( HttpServletRequest request,
-			Map<String, Object> model )
-	{
-		List<String> tmp = new ArrayList<String>( );
-		// if PARAMETER_FILE_CHECK exists, set tmp
-		if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
-		{
-			tmp = new ArrayList<String>( Arrays.asList( request.getParameterValues( PARAMETER_FILE_CHECK ) ) );
+    /**
+     * Get file check
+     * @param request HttpServletRequest
+     * @param model model
+     */
+    @SuppressWarnings( "unchecked" )
+    private void getFileCheck( HttpServletRequest request, Map<String, Object> model )
+    {
+        List<String> tmp = new ArrayList<String>( );
+        // if PARAMETER_FILE_CHECK exists, set tmp
+        if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
+        {
+            tmp = new ArrayList<String>( Arrays.asList( request.getParameterValues( PARAMETER_FILE_CHECK ) ) );
         }
         else
         {
             tmp = new ArrayList<String>( );
         }
-		// if a new file is add, add new entry in tmp, else restore tmp
-		if ( request.getParameter( "joinFile" ) != null )
+        // if a new file is add, add new entry in tmp, else restore tmp
+        if ( request.getParameter( "joinFile" ) != null )
 		{
 			if ( request.getParameter( "joinFile" ).equals( "true" )  )
 			{
@@ -3178,12 +3172,12 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getConfirmModifyAtome( HttpServletRequest request )
     {
-        if ( request.getParameter( PARAMETER_FOLDER_ID_ATOME ).equals( "" )
-                || request.getParameter( PARAMETER_ATOME_NUM ).equals( "" )
-                || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" )
-                || request.getParameter( PARAMETER_ATOME_NAME ).equals( "" )
-                || request.getParameter( PARAMETER_ATOME_TITLE ).equals( "" )
-                || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" )
+        if ( StringUtils.isEmpty( request.getParameter( PARAMETER_FOLDER_ID_ATOME ) )
+                || StringUtils.isEmpty( request.getParameter( PARAMETER_ATOME_NUM ) )
+                || StringUtils.isEmpty( request.getParameter( PARAMETER_VERSION_NUM ) )
+                || StringUtils.isEmpty( request.getParameter( PARAMETER_ATOME_NAME ) )
+                || StringUtils.isEmpty( request.getParameter( PARAMETER_ATOME_TITLE ) )
+                || StringUtils.isEmpty( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) )
                 || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
         {
             return this.getMessageJsp( request, MESSAGE_ERROR_REQUIRED_FIELD, null, JSP_MODIFY_ATOME, null );
@@ -3452,82 +3446,6 @@ public class PluJspBean extends PluginAdminPageJspBean
             FileUtils.writeByteArrayToFile( fileDest, file.getFile( ) );
 		}
 	}
-
-    /**
-     * Generates a HTML form for correct an atome
-     * @param request the Http request
-     * @return HTML
-     * @throws IOException IOException
-     */
-    public String getCorrectAtome( HttpServletRequest request ) throws IOException
-    {
-    	//Clean _listFile
-    	this.reinitListFile( request );
-    	
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_CORRECT_ATOME );
-
-        int nIdVersion = Integer.parseInt( request.getParameter( PARAMETER_VERSION_ID ) );
-        Version version = _versionServices.findByPrimaryKey( nIdVersion );
-        
-        Map<String, Object> model = new HashMap<String, Object>( );
-        
-        // Restore correct description and atome title
-        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) ) )
-        {
-        	model.put( PARAMETER_HISTORY_DESCRIPTION, request.getParameter( PARAMETER_HISTORY_DESCRIPTION ) );
-        }
-        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_ATOME_TITLE ) ) )
-        {
-        	version.getAtome( ).setTitle( request.getParameter( PARAMETER_ATOME_TITLE ) );
-        }
-        if ( StringUtils.isNotEmpty( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) ) )
-        {
-        	version.getAtome( ).setDescription( request.getParameter( PARAMETER_ATOME_DESCRIPTION ) );
-        }
-
-        Folder folder = _folderServices.findByVersion( nIdVersion );
-        
-        Plu plu = _pluServices.findByPrimaryKey( folder.getPlu( ) );
-        
-        if ( _fileList.isEmpty( ) )
-        {
-        	setFileList( nIdVersion, model, request, false );
-        }
-
-        model.put( MARK_PLU, plu );
-        model.put( MARK_VERSION, version );
-        model.put( MARK_FOLDER, folder );
-        model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_LOCALE, getLocale( ) );
-        if ( request.getParameter( PARAMETER_REINIT ) != null )
-        {
-        	model.put( PARAMETER_REINIT, request.getParameter( PARAMETER_REINIT ) );
-        }
-
-        if ( request.getParameterValues( PARAMETER_FILE_CHECK ) != null )
-        {
-        	model.put( PARAMETER_FILE_CHECK, request.getParameterValues( PARAMETER_FILE_CHECK ) );
-        }
-        
-        if ( request instanceof MultipartHttpServletRequest )
-        {
-        	String ret = addFileToFileList( request );
-        	if ( StringUtils.isNotEmpty( ret ) )
-        	{
-        		return ret;
-        	}
-        }
-    	getFileCheck( request, model );
-
-        if ( !_fileList.isEmpty( ) )
-        {
-            model.put( MARK_LIST_FILE_LIST, _fileList );
-        }
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CORRECT_ATOME, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
 
     /**
      * Generates a message of confirmation of cancel for correct atome
