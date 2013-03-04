@@ -74,6 +74,17 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
     private static final String SQL_QUERY_SELECT_ATOME_WITH_SINGLE_VERSION = "SELECT v FROM Version v GROUP BY v.atome.id HAVING count(v.atome.id) = 1";
     private static final String SQL_QUERY_SELECT_OLDEST_PLU_WITH_VERSION = "SELECT MIN(folder.plu) From Folder folder WHERE folder.id IN (SELECT fv.folder.id FROM FolderVersion fv WHERE fv.version.id = :idVersion)";
 
+    private static final String ALL_VERSION_LINK_PLUWORK = "SELECT fv.version.id FROM FolderVersion fv where fv.folder.plu = :idPluWork";
+    private static final String ALL_VERSION_LINK_PLUAPP = "SELECT fv.version.id FROM FolderVersion fv where fv.folder.plu = :idPluApp";
+
+    private static final String SQL_QUERY_SELECT_VERSION_STATE1 = "SELECT v FROM Version v WHERE v.d2=NULL AND v.d3=NULL AND v.d4=NULL";
+    private static final String SQL_QUERY_SELECT_VERSION_STATE2 = "SELECT fv.version FROM FolderVersion fv WHERE fv.version.id IN ("
+        + ALL_VERSION_LINK_PLUWORK + ") AND fv.version.id IN (" + ALL_VERSION_LINK_PLUAPP + ")";
+    private static final String SQL_QUERY_SELECT_VERSION_STATE3 = "SELECT v FROM Version v  WHERE v.archive = 'O'";
+    private static final String SQL_QUERY_SELECT_VERSION_STATE4 = "SELECT v FROM Version v WHERE v.d1!=NULL AND v.d2!=NULL AND v.d3!=NULL AND v.d4!=NULL";
+    private static final String[] SQL_QUERY_SELECT_VERSION_STATE = { SQL_QUERY_SELECT_VERSION_STATE1,
+            SQL_QUERY_SELECT_VERSION_STATE2, SQL_QUERY_SELECT_VERSION_STATE3, SQL_QUERY_SELECT_VERSION_STATE4 };
+
     /**
      * @return the plugin name
      */
@@ -348,9 +359,29 @@ public class VersionDAO extends JPALuteceDAO<Integer, Version> implements IVersi
      */
     public List<Version> findVersionWithAtomeWithSingleVersion( )
     {
-
         EntityManager em = getEM( );
         TypedQuery<Version> q = em.createQuery( SQL_QUERY_SELECT_ATOME_WITH_SINGLE_VERSION, Version.class );
+
+        List<Version> listAtomeWithSingleVersion = q.getResultList( );
+
+        return listAtomeWithSingleVersion;
+    }
+
+    /**
+     * Return the version in the state given
+     * @param state 1,2,3 or 4, state of the version needed
+     * @param pluWork id of the working plu
+     * @return list of the version in the state given
+     */
+    public List<Version> findVersionState( int state, int pluWork )
+    {
+        EntityManager em = getEM( );
+        TypedQuery<Version> q = em.createQuery( SQL_QUERY_SELECT_VERSION_STATE[state - 1], Version.class );
+        if ( state == 2 )
+        {
+            q.setParameter( "idPluWork", pluWork );
+            q.setParameter( "idPluApp", pluWork - 1 );
+        }
 
         List<Version> listAtomeWithSingleVersion = q.getResultList( );
 

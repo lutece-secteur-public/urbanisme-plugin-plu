@@ -7,6 +7,6 @@
 <jsp:useBean id="plu" scope="session" class="fr.paris.lutece.plugins.plu.web.PluJspBean" />
 
 <% plu.init( request, plu.RIGHT_MANAGE_PLU ); %>
-<%= plu.getModifyFolder ( request, true ) %>
+<%= plu.getCorrectFolder ( request ) %>
 
 <%@ include file="../../../AdminFooter.jsp" %>

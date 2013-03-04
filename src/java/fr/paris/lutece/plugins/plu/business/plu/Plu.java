@@ -164,8 +164,8 @@ public class Plu
     }
 
     /**
-     * Returns the dj of this plu
-     * @return the plu dj
+     * Returns the date juridique (approves) of this plu
+     * @return the plu date juridique (approves)
      */
     @Column( name = "dj" )
     public Date getDj( )
@@ -174,8 +174,8 @@ public class Plu
     }
 
     /**
-     * Sets the dj of the plu to the specified date
-     * @param dj the new dj
+     * Sets the date juridique (approves) of the plu to the specified date
+     * @param dj the new date juridique (approves)
      */
     public void setDj( Date dj )
     {
@@ -183,8 +183,8 @@ public class Plu
     }
 
     /**
-     * Returns the da of this plu
-     * @return the plu da
+     * Returns the date application of this plu
+     * @return the plu date application
      */
     @Column( name = "da" )
     public Date getDa( )
@@ -193,8 +193,8 @@ public class Plu
     }
 
     /**
-     * Sets the da of the plu to the specified date
-     * @param da the new da
+     * Sets the date application of the plu to the specified date
+     * @param da the new date application
      */
     public void setDa( Date da )
     {

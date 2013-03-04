@@ -122,4 +122,13 @@ public interface IVersionDAO extends IGenericDAO<Integer, Version>
      * @return id of the plu
      */
     int findOldestPluWithVersion( int nIdVersion );
+
+    /**
+     * Return the version in the state given
+     * @param state 1,2,3 or 4, state of the version needed
+     * @param pluWork id of the working plu
+     * @return list of the version in the state given
+     */
+    List<Version> findVersionState( int state, int pluWork );
+
 }

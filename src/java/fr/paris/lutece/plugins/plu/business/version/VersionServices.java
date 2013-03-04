@@ -203,4 +203,16 @@ public class VersionServices implements IVersionServices
     {
         return _home.findOldestPluWithVersion( nIdVersion );
     }
+
+    /**
+     * Return the version in the state given
+     * @param state 1,2,3 or 4, state of the version needed
+     * @param pluWork id of the working plu
+     * @return list of the version in the state given
+     */
+    public List<Version> findVersionState( int state, int pluWork )
+    {
+
+        return _home.findVersionState( state, pluWork );
+    }
 }

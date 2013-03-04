@@ -3,7 +3,7 @@
 <jsp:useBean id="plu" scope="session" class="fr.paris.lutece.plugins.plu.web.PluJspBean" />
 
 <% plu.init( request, plu.RIGHT_MANAGE_PLU ); %>
-<% String ret = plu.getModifyAtome ( request, false );
+<% String ret = plu.getModifyAtome ( request );
 if ( ret.contains( "/jsp/admin/plugins/plu/Message.jsp" ) )
 {
 	response.sendRedirect( ret );

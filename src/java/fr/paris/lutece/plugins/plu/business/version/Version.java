@@ -140,8 +140,8 @@ public class Version implements Comparable
     }
 
     /**
-     * Returns the d1 of this version
-     * @return the version d1
+     * Returns the date approbation of this version
+     * @return the version date approbation
      */
     @Column( name = "date_approbation" )
     public Date getD1(  )
@@ -150,8 +150,8 @@ public class Version implements Comparable
     }
 
     /**
-     * Sets the d1 of the version to the specified date
-     * @param d1 the new d1
+     * Sets the date approbation of the version to the specified date
+     * @param d1 the new date approbation
      */
     public void setD1( Date d1 )
     {
@@ -159,8 +159,8 @@ public class Version implements Comparable
     }
 
     /**
-     * Returns the d2 of this version
-     * @return the version d2
+     * Returns the date application of this version
+     * @return the version date application
      */
     @Column( name = "date_application" )
     public Date getD2(  )
@@ -169,8 +169,8 @@ public class Version implements Comparable
     }
 
     /**
-     * Sets the d2 of the version to the specified date
-     * @param d2 the new d2
+     * Sets the date application of the version to the specified date
+     * @param d2 the new date application
      */
     public void setD2( Date d2 )
     {
@@ -178,8 +178,8 @@ public class Version implements Comparable
     }
 
     /**
-     * Returns the d3 of this version
-     * @return the version d3
+     * Returns the date evolution of this version
+     * @return the version date evolution
      */
     @Column( name = "date_evolution" )
     public Date getD3(  )
@@ -188,8 +188,8 @@ public class Version implements Comparable
     }
 
     /**
-     * Sets the d3 of the version to the specified date
-     * @param d3 the new d3
+     * Sets the date evolution of the version to the specified date
+     * @param d3 the new date evolution
      */
     public void setD3( Date d3 )
     {
@@ -197,8 +197,8 @@ public class Version implements Comparable
     }
 
     /**
-     * Returns the d4 of this version
-     * @return the version d4
+     * Returns the date archivage of this version
+     * @return the version date archivage
      */
     @Column( name = "date_archivage" )
     public Date getD4(  )
@@ -207,8 +207,8 @@ public class Version implements Comparable
     }
 
     /**
-     * Sets the d4 of the version to the specified date
-     * @param d4 the new d4
+     * Sets the date archivage of the version to the specified date
+     * @param d4 the new date archivage
      */
     public void setD4( Date d4 )
     {
