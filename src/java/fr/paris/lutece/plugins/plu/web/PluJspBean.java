@@ -640,7 +640,6 @@ public class PluJspBean extends PluginAdminPageJspBean
     {
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
         Plu plu = _pluServices.findByPrimaryKey( nIdPlu );
-        Date dateJuridiquePlu = stringToDate( request.getParameter( PARAMETER_DATE_JURIDIQUE ), "dd/MM/yyyy" );
         Date dateApplicationPlu = stringToDate( request.getParameter( PARAMETER_DATE_APPLICATION ), "dd/MM/yyyy" );
 
         Etat etat = _etatServices.findByPrimaryKey( 1 );
@@ -657,23 +656,15 @@ public class PluJspBean extends PluginAdminPageJspBean
             _versionServices.update( version );
         }
 
-        // Set the date evolution of the VA
-        List<Version> versionList = _versionServices.selectEvolution( );
-        for ( Version version : versionList )
-        {
-            version.setD3( dateJuridiquePlu );
-            _versionServices.update( version );
-        }
-
-        GregorianCalendar calendar = new GregorianCalendar( );
-        calendar.setTime( dateApplicationPlu );
-        calendar.add( Calendar.DATE, -1 );
+        GregorianCalendar dayBeforeApplication = new GregorianCalendar( );
+        dayBeforeApplication.setTime( dateApplicationPlu );
+        dayBeforeApplication.add( Calendar.DATE, -1 );
 
         // Set the date archive of the VA in state 3
         List<Version> versionState3 = _versionServices.selectArchive( );
         for ( Version version : versionState3 )
         {
-            version.setD4( calendar.getTime( ) );
+            version.setD4( dayBeforeApplication.getTime( ) );
             version.setArchive( 'N' );
             _versionServices.update( version );
         }
