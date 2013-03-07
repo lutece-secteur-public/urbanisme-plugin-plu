@@ -81,7 +81,7 @@ public interface IPluServices
     Plu findPluApplied( );
 
     /**
-     * @param dateDebut date de début
+     * @param dateDebut date de debut
      * @param dateFin date de fin
      * @return la liste de plu correspondant
      */

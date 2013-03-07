@@ -33,11 +33,6 @@
  */
 package fr.paris.lutece.plugins.plu.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.paris.lutece.plugins.plu.business.iso.IIsoServices;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -46,6 +41,11 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -72,7 +72,7 @@ public class IsoListApp implements XPageApplication
 
     /**
      * renvoie la page.
-     * @param request le requête http
+     * @param request le requï¿½te http
      * @param nMode le mode
      * @param plugin le Plugin actif
      * @return la page
@@ -90,7 +90,7 @@ public class IsoListApp implements XPageApplication
     }
 
     /**
-     * Renvoie le code html de la page listant les iso à télécharger
+     * Renvoie le code html de la page listant les iso a telecharger
      * @param request the request
      * @return the iso list
      */
