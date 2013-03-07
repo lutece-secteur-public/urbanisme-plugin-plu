@@ -150,7 +150,7 @@ public class IsoServices implements IIsoServices
         {
             if ( i < listPlu.size( ) )
             {
-                // La date de fin d'application du plu courant et celle de début
+                // La date de fin d'application du plu courant et celle de debut
                 // du plu suivant
                 listDateFinApplication.put( plu.getId( ), listPlu.get( i ).getDa( ) );
             }
