@@ -1,0 +1,2 @@
+ALTER TABLE `plu_dossier` CHANGE `html_specifique_c` `html_specifique_c` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;
+ALTER TABLE `plu_dossier` CHANGE `html_specifique_i` `html_specifique_i` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL
