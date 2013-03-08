@@ -2519,7 +2519,6 @@ public class PluJspBean extends PluginAdminPageJspBean
                 || request.getParameter( PARAMETER_VERSION_NUM ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_NAME ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_TITLE ).equals( "" )
-                || request.getParameter( PARAMETER_ATOME_DESCRIPTION ).equals( "" )
                 || request.getParameter( PARAMETER_ATOME_NAME ).matches( "[ \']+?" )
                 || request.getParameter( PARAMETER_ATOME_TITLE ).matches( "[ \']+?" )
                 || request.getParameterValues( PARAMETER_FILE_CHECK ) == null )
@@ -4179,7 +4178,11 @@ public class PluJspBean extends PluginAdminPageJspBean
      */
     public String getCreateHtml( HttpServletRequest request )
     {
-        String request_action = request.getParameter( "action" );
+        String actionCreate = request.getParameter( "actionCreate" );
+        String actionModify = request.getParameter( "actionModify" );
+        String actionImport = request.getParameter( "actionImport" );
+        String actionDuplicate = request.getParameter( "actionDuplicate" );
+
         setPageTitleProperty( PROPERTY_PAGE_TITLE_HTML );
 
         int nIdPlu = Integer.parseInt( request.getParameter( PARAMETER_PLU_ID ) );
@@ -4205,18 +4208,18 @@ public class PluJspBean extends PluginAdminPageJspBean
         }
 
         String template_action = "";
-        if ( request_action.equals( "Créer" ) )
+        if ( actionCreate != null )
         {
             template_action = TEMPLATE_CREATE_HTML;
             model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
             model.put( MARK_LOCALE, getLocale( ) );
         }
-        if ( request_action.equals( "Importer" ) )
+        if ( actionImport != null )
         {
             // case of import
             template_action = TEMPLATE_IMPORT_HTML;
         }
-        else if ( request_action.equals( "Dupliquer" ) )
+        else if ( actionDuplicate != null )
         {
             //in case of duplication
             template_action = TEMPLATE_DUPLICATE_HTML;
@@ -4225,7 +4228,7 @@ public class PluJspBean extends PluginAdminPageJspBean
             List<Folder> folderList = _folderServices.findByFilter( folderFilter );
             model.put( MARK_LIST_FOLDER_LIST, folderList );
         }
-        else if ( request_action.equals( "Modifier" ) )
+        else if ( actionModify != null )
         {
             template_action = TEMPLATE_CREATE_HTML;//same template to edit the html page. TEMPLATE_MODIFY_HTML is use for modify the folder, not the html page C/I
             model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );

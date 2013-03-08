@@ -70,10 +70,10 @@
 			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage}</legend>
 			
 			<p>
-   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleCreateHtml}" class="button" />
-   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleModifyHtml}" class="button" />
-   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleImportHtml}" class="button" />
-   		  		<input type="submit" name="action" value="#i18n{plu.create_folder.rowTitleDuplicateHtml}" class="button" />
+   		  		<input type="submit" name="actionCreate" value="#i18n{plu.create_folder.rowTitleCreateHtml}" class="button" />
+   		  		<input type="submit" name="actionModify" value="#i18n{plu.create_folder.rowTitleModifyHtml}" class="button" />
+   		  		<input type="submit" name="actionImport" value="#i18n{plu.create_folder.rowTitleImportHtml}" class="button" />
+   		  		<input type="submit" name="actionDuplicate" value="#i18n{plu.create_folder.rowTitleDuplicateHtml}" class="button" />
 	        </p>
 			<#if folder_html?exists>
 		        <p>
@@ -86,10 +86,10 @@
 			<legend style="font-weight:bold; margin-left:50px">#i18n{plu.create_folder.rowTitleHtmlPage_impression}</legend>
 			
 			<p>
-   		  		<input type="submit" id="creerImpression" name="action" value="#i18n{plu.create_folder.rowTitleCreateHtml}" class="button" />
-   		  		<input type="submit" id="ModifierImpression" name="action" value="#i18n{plu.create_folder.rowTitleModifyHtml}" class="button" />
-   		  		<input type="submit" id="ImporterImpression" name="action" value="#i18n{plu.create_folder.rowTitleImportHtml}" class="button" />
-   		  		<input type="submit" id="DupliquerImpression" name="action" value="#i18n{plu.create_folder.rowTitleDuplicateHtml}" class="button" />
+   		  		<input type="submit" id="creerImpression" name="actionCreate" value="#i18n{plu.create_folder.rowTitleCreateHtml}" class="button" />
+   		  		<input type="submit" id="ModifierImpression" name="actionModify" value="#i18n{plu.create_folder.rowTitleModifyHtml}" class="button" />
+   		  		<input type="submit" id="ImporterImpression" name="actionImport" value="#i18n{plu.create_folder.rowTitleImportHtml}" class="button" />
+   		  		<input type="submit" id="DupliquerImpression" name="actionDuplicate" value="#i18n{plu.create_folder.rowTitleDuplicateHtml}" class="button" />
 	        </p>
 			<#if folder_html_impression?exists>
 		        <p>
@@ -117,7 +117,7 @@
         		<input type="hidden" name="folder_html_impression" value="${folder_html!}"/>
         	</#if>
 	        <input type="hidden" name="folder_title_old" value="${one_folder.title}"/>
-   		  	<input name="action" type="submit" value="#i18n{plu.correct_folder.buttonValidate}" class="button" />
+   		  	<input name="actionValidate" type="submit" value="#i18n{plu.correct_folder.buttonValidate}" class="button" />
         </p>
         
  	</form>

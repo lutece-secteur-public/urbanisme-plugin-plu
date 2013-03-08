@@ -5,9 +5,9 @@
 
 <%  plu.init( request, plu.RIGHT_MANAGE_PLU ); %>
 <%
-	if ( request.getParameter( "action" ).equals( "Valider" ) )
+	if ( request.getParameter( "actionValidate" )!=null )
 		response.sendRedirect(plu.getConfirmModifyFolder(request,false));
-	else if ( request.getParameter( "action" ).equals( I18nService.getLocalizedString( "plu.modify_folder.buttonReturn", request.getLocale( ) ) ) )
+	else if ( request.getParameter( "actionCancel")!=null )
 	{
 		response.sendRedirect(plu.getConfirmCancelModifyFolder(request));
 	}

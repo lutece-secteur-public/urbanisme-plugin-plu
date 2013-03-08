@@ -5,7 +5,7 @@
 
 <%	plu.init( request, plu.RIGHT_MANAGE_PLU );%>
 <%
-	if ( request.getParameter( "action" ).equals( "Valider" ) )
+	if ( request.getParameter( "actionValidate" )!=null )
 	    response.sendRedirect(plu.getConfirmModifyFolder(request,true));
 	else{
 	    %>
