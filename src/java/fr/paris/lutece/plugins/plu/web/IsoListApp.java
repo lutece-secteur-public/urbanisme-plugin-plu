@@ -72,7 +72,7 @@ public class IsoListApp implements XPageApplication
 
     /**
      * renvoie la page.
-     * @param request le requ�te http
+     * @param request le requete http
      * @param nMode le mode
      * @param plugin le Plugin actif
      * @return la page
