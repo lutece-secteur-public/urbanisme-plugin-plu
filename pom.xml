@@ -9,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>plugin-plu</artifactId>
 	<packaging>lutece-plugin</packaging>
-	<version>1.0.4-SNAPSHOT</version>
+	<version>1.0.4</version>
 	<name>Lutece PLU plugin</name>
 
 	<repositories>
