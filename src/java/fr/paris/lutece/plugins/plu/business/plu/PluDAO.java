@@ -94,6 +94,14 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
         List<Plu> listRetournee = new ArrayList<Plu>( );
         Plu plu = new Plu( );
         Plu pluSuivant = new Plu( );
+
+        /*
+         * La durée d'application d'un PLU n°X est l'intervalle entre sa date
+         * d'application (que j'appelle D1) et la date d'application du PLU
+         * n°X+1 (que j'appelle D2). Pour le PLU en vigueur, D2 = max du domaine
+         * de datation.
+         * Il faut donc afficher les PLU tels que D1<=T2 et D2>=T1.
+         */
         for ( int index = 0; index < listPlu.size( ) - 1; index++ )
         {
             plu = listPlu.get( index );
@@ -103,15 +111,16 @@ public class PluDAO extends JPALuteceDAO<Integer, Plu> implements IPluDAO
                 
             }
             if ( pluSuivant.getDa( ) == null
-                    && ( plu.getDa( ).compareTo( dateApplicationDebut ) < 0 && plu.getDa( ).compareTo(
-                            dateApplicationFin ) < 0 ) )
+                    && ( !plu.getDa( ).after( dateApplicationDebut ) && !plu.getDa( ).after( dateApplicationFin ) ) )
             {
                 listRetournee.add( plu );
             }
             else if ( plu.getId( ) != pluSuivant.getId( ) && pluSuivant.getDa( ) != null )
             {
-                //Si la date d'application du PLU est comprise entre les deux dates renseignées
-                //OU si la date de début est entre deux dates d'application de PLU
+                // Si la date d'application du PLU est comprise entre les deux
+                // dates renseignées
+                // OU si la date de début est entre deux dates d'application de
+                // PLU
                 if ( ( plu.getDa( ).compareTo( dateApplicationDebut ) >= 0 && plu.getDa( ).compareTo(
                         dateApplicationFin ) <= 0 )
                         || ( plu.getDa( ).compareTo( dateApplicationDebut ) < 0 && pluSuivant.getDa( ).compareTo(
