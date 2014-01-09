@@ -3963,26 +3963,6 @@ public class PluJspBean extends PluginAdminPageJspBean
                     order++;
                 }
             }
-            if ( toDelete )
-            {
-                java.io.File fileDest = new java.io.File( new java.io.File(
-                        AppPropertiesService.getProperty( "plu.docs.path" ) ), file.getId( ) + "_" + file.getName( ) );
-                if ( fileDest.exists( ) )
-                {
-                    if ( !fileDest.delete( ) )
-                    {
-                        throw new AppException( "An error occured when trying to delete file" );
-                    }
-                }
-                if ( file.getId( ) != 0 )
-                {
-                    _fileServices.remove( file );
-                }
-            }
-            else
-            {
-                toDelete = true;
-            }
             i++;
         }
 
